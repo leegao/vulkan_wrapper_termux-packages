@@ -40,3 +40,10 @@ checksum*
 
 # Temp .git directories for packages built from local sources "file://"
 /*.git
+
+*.apk
+pkg
+wrapper.tar
+wrapper.tzst
+wrapper/original
+libvulkan_wrapper.so
