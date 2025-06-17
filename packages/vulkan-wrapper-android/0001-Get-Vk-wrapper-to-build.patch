@@ -1,3 +1,17 @@
+From 36d1f4575dcdc5d3c474ff6f82ef23193b82f16a Mon Sep 17 00:00:00 2001
+From: leegao <lg342@cornell.edu>
+Date: Sat, 14 Jun 2025 20:29:49 +1200
+Subject: [PATCH] Get Vk wrapper to build
+
+---
+ src/vulkan/wrapper/wrapper_device.c          |  1 +
+ src/vulkan/wrapper/wrapper_device_memory.c   |  8 ++++----
+ src/vulkan/wrapper/wrapper_instance.c        |  2 ++
+ src/vulkan/wrapper/wrapper_physical_device.c |  8 ++++++++
+ src/vulkan/wrapper/wrapper_private.h         | 17 +++++++++++++++++
+ src/vulkan/wsi/wsi_common_x11.c              | 14 +++++++-------
+ 6 files changed, 39 insertions(+), 11 deletions(-)
+
 diff --git a/src/vulkan/wrapper/wrapper_device.c b/src/vulkan/wrapper/wrapper_device.c
 index 2ea37d1b392..dd4a877e42e 100644
 --- a/src/vulkan/wrapper/wrapper_device.c
@@ -116,3 +130,6 @@ index 51a11b875ad..39b1faa18b7 100644
  
  const native_handle_t* _Nullable AHardwareBuffer_getNativeHandle(
          const AHardwareBuffer* _Nonnull buffer);
+-- 
+2.48.1
+

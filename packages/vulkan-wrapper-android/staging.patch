@@ -1,0 +1,9 @@
+diff --git a/include/android_stub/cutils/log.h b/include/android_stub/cutils/log.h
+index 0e0248e50fa..51a000e1f79 100644
+--- a/include/android_stub/cutils/log.h
++++ b/include/android_stub/cutils/log.h
+@@ -1 +1,3 @@
+ #include <log/log.h>
++
++// Hello
+\ No newline at end of file

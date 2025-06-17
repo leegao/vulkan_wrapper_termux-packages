@@ -56,8 +56,12 @@ termux_step_pre_configure() {
 		termux_setup_wayland_cross_pkg_config_wrapper
 	fi
 	export PATH=$_WRAPPER_BIN:$PATH
+	which cmake
 }
 
 termux_step_post_configure() {
 	rm -f $_WRAPPER_BIN/cmake
+	echo "Postconfigure"
+	which ninja
+	echo "PATH='$PATH'"
 }
