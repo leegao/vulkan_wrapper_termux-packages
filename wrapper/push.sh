@@ -9,3 +9,5 @@ push() {
 # push libhook_impl.so
 # push libmain_hook.so
 push libvulkan_wrapper.so
+
+adb shell rm /sdcard/Documents/Wrapper/wrapper.txt

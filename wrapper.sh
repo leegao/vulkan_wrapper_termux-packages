@@ -2,7 +2,7 @@ rm packages/vulkan-wrapper-android/*.patch
 
 cd mesa_bionic
 rm ../packages/vulkan-wrapper-android/*.patch
-git format-patch 8c8e0079152a247dc37f1d81bb0162afcdba9e60..HEAD --no-binary -o ../packages/vulkan-wrapper-android/
+git diff 8c8e0079152a247dc37f1d81bb0162afcdba9e60 HEAD  > ../packages/vulkan-wrapper-android/leegao.patch
 git diff -p > ../packages/vulkan-wrapper-android/staging.patch
 cd -
 

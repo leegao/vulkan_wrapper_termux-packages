@@ -1,0 +1,7 @@
+{
+    "ICD": {
+        "api_version": "1.3.289",
+        "library_path": "/data/data/com.termux/files/usr/lib/libvulkan_wrapper.so"
+    },
+    "file_format_version": "1.0.0"
+}
