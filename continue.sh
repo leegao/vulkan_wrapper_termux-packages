@@ -24,6 +24,7 @@ cd -
 echo Moving files
 cp /root/.termux-build/vulkan-wrapper-android/build/src/vulkan/wrapper/libvulkan_wrapper.so wrapper/usr/lib/libvulkan_wrapper.so"
 sudo ./scripts/run-docker.sh sudo bash -c "cp /root/.termux-build/vulkan-wrapper-android/build/src/vulkan/wrapper/* tmp/"
+sudo ./scripts/run-docker.sh sudo bash -c "cp /root/.termux-build/vulkan-wrapper-android/build/src/vulkan/wsi/* tmp_wsi/"
 
 cd wrapper
 sh push.sh

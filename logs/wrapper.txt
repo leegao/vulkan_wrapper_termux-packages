@@ -1,0 +1,15 @@
+Calling CreateImage wwrapper_CreateDevice
+Calling CreateImage with bcn texture: 137
+Calling CreateImage with bcn texture: 137
+Calling CreateImage with bcn texture: 137
+Calling CreateImage with bcn texture: 137
+Calling CreateImage with bcn texture: 137
+Calling CreateImage with bcn texture: 137
+Calling CreateImage with bcn texture: 137
+Calling CreateImage with bcn texture: 133
+Calling CreateImage with bcn texture: 137
+Calling CreateImage with bcn texture: 137
+Calling CreateImage with bcn texture: 137
+Calling CreateImage with bcn texture: 133
+Calling CreateImage with bcn texture: 133
+Calling CreateImage with bcn texture: 133
