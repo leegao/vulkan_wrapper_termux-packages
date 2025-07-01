@@ -9074,15 +9074,98 @@ unwrap_VkDeviceCreateInfo(struct wrapper_device *device,
                           VkDeviceCreateInfo *out_info,
                           const VkDeviceCreateInfo *in_info);
 
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkAccelerationStructureGeometryTrianglesDataKHR
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkAndroidHardwareBufferFormatProperties2ANDROID
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkAndroidHardwareBufferFormatPropertiesANDROID
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkAndroidHardwareBufferFormatResolvePropertiesANDROID
+// uses = ['VkAndroidHardwareBufferFormatProperties2ANDROID', 'VkAndroidHardwareBufferFormatPropertiesANDROID', 'VkAndroidHardwareBufferFormatResolvePropertiesANDROID']
+#define NEEDS_UNWRAPPING_VkAndroidHardwareBufferPropertiesANDROID
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkAttachmentDescription2
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkBufferViewCreateInfo
+// uses = ['VkCommandBuffer']
 #define NEEDS_UNWRAPPING_VkCommandBuffer
-#define NEEDS_UNWRAPPING_VkDevice
-#define NEEDS_UNWRAPPING_VkInstance
-#define NEEDS_UNWRAPPING_VkPhysicalDevice
-#define NEEDS_UNWRAPPING_VkQueue
+// uses = ['VkCommandBufferInheritanceInfo']
+#define NEEDS_UNWRAPPING_VkCommandBufferBeginInfo
+// uses = ['VkCommandBufferInheritanceRenderingInfo']
+#define NEEDS_UNWRAPPING_VkCommandBufferInheritanceInfo
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkCommandBufferInheritanceRenderingInfo
+// uses = ['VkCommandBuffer']
 #define NEEDS_UNWRAPPING_VkCommandBufferSubmitInfo
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkDescriptorAddressInfoEXT
+// uses = ['VkDevice']
+#define NEEDS_UNWRAPPING_VkDevice
+// uses = ['VkPhysicalDevice']
 #define NEEDS_UNWRAPPING_VkDeviceGroupDeviceCreateInfo
+// uses = ['VkImageCreateInfo']
+#define NEEDS_UNWRAPPING_VkDeviceImageMemoryRequirements
+// uses = ['VkImageCreateInfo']
+#define NEEDS_UNWRAPPING_VkDeviceImageSubresourceInfoKHR
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkFormat
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkFramebufferAttachmentImageInfo
+// uses = ['VkFramebufferAttachmentImageInfo']
+#define NEEDS_UNWRAPPING_VkFramebufferAttachmentsCreateInfo
+// uses = ['VkFramebufferAttachmentsCreateInfo']
+#define NEEDS_UNWRAPPING_VkFramebufferCreateInfo
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkGeometryTrianglesNV
+// uses = ['VkPipelineRenderingCreateInfo']
+#define NEEDS_UNWRAPPING_VkGraphicsPipelineCreateInfo
+// uses = ['VkFormat', 'VkImageFormatListCreateInfo']
+#define NEEDS_UNWRAPPING_VkImageCreateInfo
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkImageFormatListCreateInfo
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkImageViewASTCDecodeModeEXT
+// uses = ['VkFormat', 'VkImageViewASTCDecodeModeEXT']
+#define NEEDS_UNWRAPPING_VkImageViewCreateInfo
+// uses = ['VkInstance']
+#define NEEDS_UNWRAPPING_VkInstance
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkOpticalFlowImageFormatPropertiesNV
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkOpticalFlowSessionCreateInfoNV
+// uses = ['VkPhysicalDevice']
+#define NEEDS_UNWRAPPING_VkPhysicalDevice
+// uses = ['VkFormat', 'VkImageFormatListCreateInfo']
+#define NEEDS_UNWRAPPING_VkPhysicalDeviceImageFormatInfo2
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkPhysicalDeviceSparseImageFormatInfo2
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkPipelineRenderingCreateInfo
+// uses = ['VkQueue']
+#define NEEDS_UNWRAPPING_VkQueue
+// uses = ['VkAttachmentDescription2']
+#define NEEDS_UNWRAPPING_VkRenderPassCreateInfo2
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkRenderingAreaInfoKHR
+// uses = ['VkSamplerCustomBorderColorCreateInfoEXT']
+#define NEEDS_UNWRAPPING_VkSamplerCreateInfo
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkSamplerCustomBorderColorCreateInfoEXT
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkSamplerYcbcrConversionCreateInfo
+// uses = ['VkCommandBuffer']
 #define NEEDS_UNWRAPPING_VkSubmitInfo
+// uses = ['VkCommandBufferSubmitInfo']
 #define NEEDS_UNWRAPPING_VkSubmitInfo2
+// uses = ['VkFormat', 'VkImageFormatListCreateInfo']
+#define NEEDS_UNWRAPPING_VkSwapchainCreateInfoKHR
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkVertexInputAttributeDescription2EXT
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkVideoFormatPropertiesKHR
+// uses = ['VkFormat']
+#define NEEDS_UNWRAPPING_VkVideoSessionCreateInfoKHR
 
 #ifdef __cplusplus
 }
