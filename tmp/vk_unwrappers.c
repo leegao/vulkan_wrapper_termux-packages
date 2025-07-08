@@ -33,7 +33,7 @@
         void** x: x
         cstr[n]* x: x
 
-    Tainted: {'VkInstance': ['VkInstance'], 'VkQueue': ['VkQueue'], 'VkDevice': ['VkDevice'], 'VkCommandBuffer': ['VkCommandBuffer'], 'VkFormat': ['VkFormat'], 'VkPhysicalDevice': ['VkPhysicalDevice'], 'VkBufferViewCreateInfo': ['VkFormat'], 'VkImageCreateInfo': ['VkFormat', 'VkImageFormatListCreateInfo'], 'VkImageViewCreateInfo': ['VkFormat', 'VkImageViewASTCDecodeModeEXT'], 'VkSubmitInfo': ['VkCommandBuffer'], 'VkSwapchainCreateInfoKHR': ['VkFormat', 'VkImageFormatListCreateInfo'], 'VkPhysicalDeviceImageFormatInfo2': ['VkFormat', 'VkImageFormatListCreateInfo'], 'VkPhysicalDeviceSparseImageFormatInfo2': ['VkFormat'], 'VkDeviceGroupDeviceCreateInfo': ['VkPhysicalDevice'], 'VkDeviceImageMemoryRequirements': ['VkImageCreateInfo'], 'VkSamplerYcbcrConversionCreateInfo': ['VkFormat'], 'VkImageFormatListCreateInfo': ['VkFormat'], 'VkRenderingAreaInfoKHR': ['VkFormat'], 'VkAttachmentDescription2': ['VkFormat'], 'VkRenderPassCreateInfo2': ['VkAttachmentDescription2'], 'VkAndroidHardwareBufferFormatPropertiesANDROID': ['VkFormat'], 'VkImageViewASTCDecodeModeEXT': ['VkFormat'], 'VkGeometryTrianglesNV': ['VkFormat'], 'VkFramebufferAttachmentImageInfo': ['VkFormat'], 'VkSamplerCustomBorderColorCreateInfoEXT': ['VkFormat'], 'VkAccelerationStructureGeometryTrianglesDataKHR': ['VkFormat'], 'VkVertexInputAttributeDescription2EXT': ['VkFormat'], 'VkCommandBufferSubmitInfo': ['VkCommandBuffer'], 'VkSubmitInfo2': ['VkCommandBufferSubmitInfo'], 'VkVideoFormatPropertiesKHR': ['VkFormat'], 'VkVideoSessionCreateInfoKHR': ['VkFormat'], 'VkDescriptorAddressInfoEXT': ['VkFormat'], 'VkAndroidHardwareBufferFormatProperties2ANDROID': ['VkFormat'], 'VkPipelineRenderingCreateInfo': ['VkFormat'], 'VkCommandBufferInheritanceRenderingInfo': ['VkFormat'], 'VkOpticalFlowImageFormatPropertiesNV': ['VkFormat'], 'VkOpticalFlowSessionCreateInfoNV': ['VkFormat'], 'VkDeviceImageSubresourceInfoKHR': ['VkImageCreateInfo'], 'VkAndroidHardwareBufferFormatResolvePropertiesANDROID': ['VkFormat'], 'VkGraphicsPipelineCreateInfo': ['VkPipelineRenderingCreateInfo'], 'VkSamplerCreateInfo': ['VkSamplerCustomBorderColorCreateInfoEXT'], 'VkCommandBufferInheritanceInfo': ['VkCommandBufferInheritanceRenderingInfo'], 'VkCommandBufferBeginInfo': ['VkCommandBufferInheritanceInfo'], 'VkAndroidHardwareBufferPropertiesANDROID': ['VkAndroidHardwareBufferFormatProperties2ANDROID', 'VkAndroidHardwareBufferFormatPropertiesANDROID', 'VkAndroidHardwareBufferFormatResolvePropertiesANDROID'], 'VkFramebufferAttachmentsCreateInfo': ['VkFramebufferAttachmentImageInfo'], 'VkFramebufferCreateInfo': ['VkFramebufferAttachmentsCreateInfo']}
+    Tainted: {'VkDevice': ['VkDevice'], 'VkPhysicalDevice': ['VkPhysicalDevice'], 'VkCommandBuffer': ['VkCommandBuffer'], 'VkQueue': ['VkQueue'], 'VkInstance': ['VkInstance'], 'VkSubmitInfo': ['VkCommandBuffer'], 'VkDeviceGroupDeviceCreateInfo': ['VkPhysicalDevice'], 'VkCommandBufferSubmitInfo': ['VkCommandBuffer'], 'VkSubmitInfo2': ['VkCommandBufferSubmitInfo'], 'VkDeviceCreateInfo': ['VkDeviceGroupDeviceCreateInfo']}
 */
 
 
@@ -66,6 +66,8 @@ void unwrap_VkAccelerationStructureBuildSizesInfoKHR(struct wrapper_device *devi
         return;
 
     unwrap_VkAccelerationStructureBuildSizesInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -97,6 +99,8 @@ void unwrap_VkAccelerationStructureCaptureDescriptorDataInfoEXT(struct wrapper_d
         return;
 
     unwrap_VkAccelerationStructureCaptureDescriptorDataInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -132,6 +136,7 @@ void unwrap_VkAccelerationStructureCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkAccelerationStructureCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkOpaqueCaptureDescriptorDataCreateInfoEXT, VkAccelerationStructureMotionInfoNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -161,6 +166,7 @@ void unwrap_VkAccelerationStructureCreateInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -192,6 +198,7 @@ void unwrap_VkAccelerationStructureCreateInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkAccelerationStructureCreateInfoNV_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkOpaqueCaptureDescriptorDataCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -221,6 +228,7 @@ void unwrap_VkAccelerationStructureCreateInfoNV(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -251,6 +259,8 @@ void unwrap_VkAccelerationStructureDeviceAddressInfoKHR(struct wrapper_device *d
         return;
 
     unwrap_VkAccelerationStructureDeviceAddressInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -282,6 +292,8 @@ void unwrap_VkAccelerationStructureGeometryAabbsDataKHR(struct wrapper_device *d
         return;
 
     unwrap_VkAccelerationStructureGeometryAabbsDataKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -313,6 +325,8 @@ void unwrap_VkAccelerationStructureGeometryInstancesDataKHR(struct wrapper_devic
         return;
 
     unwrap_VkAccelerationStructureGeometryInstancesDataKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -345,6 +359,8 @@ void unwrap_VkAccelerationStructureGeometryKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkAccelerationStructureGeometryKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -375,12 +391,15 @@ void unwrap_VkAccelerationStructureGeometryMotionTrianglesDataNV(struct wrapper_
         return;
 
     unwrap_VkAccelerationStructureGeometryMotionTrianglesDataNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkAccelerationStructureGeometryTrianglesDataKHR - Not tainted, unwrapping is just a copy
 void
 unwrap_VkAccelerationStructureGeometryTrianglesDataKHR_members_only(struct wrapper_device *device,
                           VkAccelerationStructureGeometryTrianglesDataKHR *out_info,
@@ -394,10 +413,6 @@ unwrap_VkAccelerationStructureGeometryTrianglesDataKHR_members_only(struct wrapp
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_ACCELERATION_STRUCTURE_GEOMETRY_TRIANGLES_DATA_KHR', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*                   pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat vertexFormat = member{'name': 'vertexFormat', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                      vertexFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->vertexFormat = unwrap_vk_format(device, in_info->vertexFormat);
-
     // VkDeviceOrHostAddressConstKHR vertexData = member{'name': 'vertexData', 'type': 'VkDeviceOrHostAddressConstKHR', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkDeviceOrHostAddressConstKHR', 'api': 'vulkan', 'text': 'VkDeviceOrHostAddressConstKHR                 vertexData', 'resolved_type': VkDeviceOrHostAddressConstKHR, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
     // VkDeviceSize vertexStride = member{'name': 'vertexStride', 'type': 'VkDeviceSize', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkDeviceSize', 'api': 'vulkan', 'text': 'VkDeviceSize                                  vertexStride', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t maxVertex = member{'name': 'maxVertex', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                      maxVertex', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
@@ -414,6 +429,7 @@ void unwrap_VkAccelerationStructureGeometryTrianglesDataKHR(struct wrapper_devic
         return;
 
     unwrap_VkAccelerationStructureGeometryTrianglesDataKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkAccelerationStructureGeometryMotionTrianglesDataNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -443,6 +459,7 @@ void unwrap_VkAccelerationStructureGeometryTrianglesDataKHR(struct wrapper_devic
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -477,6 +494,8 @@ void unwrap_VkAccelerationStructureInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkAccelerationStructureInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -508,6 +527,8 @@ void unwrap_VkAccelerationStructureMemoryRequirementsInfoNV(struct wrapper_devic
         return;
 
     unwrap_VkAccelerationStructureMemoryRequirementsInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -539,6 +560,8 @@ void unwrap_VkAccelerationStructureMotionInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkAccelerationStructureMotionInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -573,6 +596,8 @@ void unwrap_VkAcquireNextImageInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkAcquireNextImageInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -604,6 +629,8 @@ void unwrap_VkAcquireProfilingLockInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkAcquireProfilingLockInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -635,12 +662,15 @@ void unwrap_VkAmigoProfilingSubmitInfoSEC(struct wrapper_device *device,
         return;
 
     unwrap_VkAmigoProfilingSubmitInfoSEC_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkAndroidHardwareBufferFormatProperties2ANDROID - Not tainted, unwrapping is just a copy
 void
 unwrap_VkAndroidHardwareBufferFormatProperties2ANDROID_members_only(struct wrapper_device *device,
                           VkAndroidHardwareBufferFormatProperties2ANDROID *out_info,
@@ -654,10 +684,6 @@ unwrap_VkAndroidHardwareBufferFormatProperties2ANDROID_members_only(struct wrapp
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_ANDROID_HARDWARE_BUFFER_FORMAT_PROPERTIES_2_ANDROID', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': False, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'void*                              pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat format = member{'name': 'format', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                           format', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->format = unwrap_vk_format(device, in_info->format);
-
     // uint64_t externalFormat = member{'name': 'externalFormat', 'type': 'uint64_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint64_t', 'api': 'vulkan', 'text': 'uint64_t                           externalFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormatFeatureFlags2 formatFeatures = member{'name': 'formatFeatures', 'type': 'VkFormatFeatureFlags2', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormatFeatureFlags2', 'api': 'vulkan', 'text': 'VkFormatFeatureFlags2              formatFeatures', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkComponentMapping samplerYcbcrConversionComponents = member{'name': 'samplerYcbcrConversionComponents', 'type': 'VkComponentMapping', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkComponentMapping', 'api': 'vulkan', 'text': 'VkComponentMapping                 samplerYcbcrConversionComponents', 'resolved_type': VkComponentMapping, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
@@ -675,12 +701,15 @@ void unwrap_VkAndroidHardwareBufferFormatProperties2ANDROID(struct wrapper_devic
         return;
 
     unwrap_VkAndroidHardwareBufferFormatProperties2ANDROID_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkAndroidHardwareBufferFormatPropertiesANDROID - Not tainted, unwrapping is just a copy
 void
 unwrap_VkAndroidHardwareBufferFormatPropertiesANDROID_members_only(struct wrapper_device *device,
                           VkAndroidHardwareBufferFormatPropertiesANDROID *out_info,
@@ -694,10 +723,6 @@ unwrap_VkAndroidHardwareBufferFormatPropertiesANDROID_members_only(struct wrappe
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_ANDROID_HARDWARE_BUFFER_FORMAT_PROPERTIES_ANDROID', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': False, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'void*                              pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat format = member{'name': 'format', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                           format', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->format = unwrap_vk_format(device, in_info->format);
-
     // uint64_t externalFormat = member{'name': 'externalFormat', 'type': 'uint64_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint64_t', 'api': 'vulkan', 'text': 'uint64_t                           externalFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormatFeatureFlags formatFeatures = member{'name': 'formatFeatures', 'type': 'VkFormatFeatureFlags', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormatFeatureFlags', 'api': 'vulkan', 'text': 'VkFormatFeatureFlags               formatFeatures', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkComponentMapping samplerYcbcrConversionComponents = member{'name': 'samplerYcbcrConversionComponents', 'type': 'VkComponentMapping', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkComponentMapping', 'api': 'vulkan', 'text': 'VkComponentMapping                 samplerYcbcrConversionComponents', 'resolved_type': VkComponentMapping, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
@@ -715,12 +740,15 @@ void unwrap_VkAndroidHardwareBufferFormatPropertiesANDROID(struct wrapper_device
         return;
 
     unwrap_VkAndroidHardwareBufferFormatPropertiesANDROID_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkAndroidHardwareBufferFormatResolvePropertiesANDROID - Not tainted, unwrapping is just a copy
 void
 unwrap_VkAndroidHardwareBufferFormatResolvePropertiesANDROID_members_only(struct wrapper_device *device,
                           VkAndroidHardwareBufferFormatResolvePropertiesANDROID *out_info,
@@ -734,10 +762,6 @@ unwrap_VkAndroidHardwareBufferFormatResolvePropertiesANDROID_members_only(struct
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_ANDROID_HARDWARE_BUFFER_FORMAT_RESOLVE_PROPERTIES_ANDROID', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': False, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'void*        pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat colorAttachmentFormat = member{'name': 'colorAttachmentFormat', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                     colorAttachmentFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->colorAttachmentFormat = unwrap_vk_format(device, in_info->colorAttachmentFormat);
-
 }
 
 void unwrap_VkAndroidHardwareBufferFormatResolvePropertiesANDROID(struct wrapper_device *device,
@@ -748,12 +772,15 @@ void unwrap_VkAndroidHardwareBufferFormatResolvePropertiesANDROID(struct wrapper
         return;
 
     unwrap_VkAndroidHardwareBufferFormatResolvePropertiesANDROID_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkAndroidHardwareBufferPropertiesANDROID - Not tainted, unwrapping is just a copy
 void
 unwrap_VkAndroidHardwareBufferPropertiesANDROID_members_only(struct wrapper_device *device,
                           VkAndroidHardwareBufferPropertiesANDROID *out_info,
@@ -778,6 +805,7 @@ void unwrap_VkAndroidHardwareBufferPropertiesANDROID(struct wrapper_device *devi
         return;
 
     unwrap_VkAndroidHardwareBufferPropertiesANDROID_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkAndroidHardwareBufferFormatPropertiesANDROID, VkAndroidHardwareBufferFormatProperties2ANDROID, VkAndroidHardwareBufferFormatResolvePropertiesANDROID]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -793,18 +821,6 @@ void unwrap_VkAndroidHardwareBufferPropertiesANDROID(struct wrapper_device *devi
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
-        // "VkAndroidHardwareBufferPropertiesANDROID: pNext extension VkAndroidHardwareBufferFormatPropertiesANDROID contains a wrapped handle (['VkFormat']) and must be unwrapped"
-        case VK_STRUCTURE_TYPE_ANDROID_HARDWARE_BUFFER_FORMAT_PROPERTIES_ANDROID:
-            unwrap_VkAndroidHardwareBufferFormatPropertiesANDROID_members_only(device, (VkAndroidHardwareBufferFormatPropertiesANDROID *)new_item, (const VkAndroidHardwareBufferFormatPropertiesANDROID *)item);
-            break;
-        // "VkAndroidHardwareBufferPropertiesANDROID: pNext extension VkAndroidHardwareBufferFormatProperties2ANDROID contains a wrapped handle (['VkFormat']) and must be unwrapped"
-        case VK_STRUCTURE_TYPE_ANDROID_HARDWARE_BUFFER_FORMAT_PROPERTIES_2_ANDROID:
-            unwrap_VkAndroidHardwareBufferFormatProperties2ANDROID_members_only(device, (VkAndroidHardwareBufferFormatProperties2ANDROID *)new_item, (const VkAndroidHardwareBufferFormatProperties2ANDROID *)item);
-            break;
-        // "VkAndroidHardwareBufferPropertiesANDROID: pNext extension VkAndroidHardwareBufferFormatResolvePropertiesANDROID contains a wrapped handle (['VkFormat']) and must be unwrapped"
-        case VK_STRUCTURE_TYPE_ANDROID_HARDWARE_BUFFER_FORMAT_RESOLVE_PROPERTIES_ANDROID:
-            unwrap_VkAndroidHardwareBufferFormatResolvePropertiesANDROID_members_only(device, (VkAndroidHardwareBufferFormatResolvePropertiesANDROID *)new_item, (const VkAndroidHardwareBufferFormatResolvePropertiesANDROID *)item);
-            break;
         default:
             break;
         }
@@ -819,6 +835,7 @@ void unwrap_VkAndroidHardwareBufferPropertiesANDROID(struct wrapper_device *devi
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -849,6 +866,8 @@ void unwrap_VkAndroidHardwareBufferUsageANDROID(struct wrapper_device *device,
         return;
 
     unwrap_VkAndroidHardwareBufferUsageANDROID_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -880,6 +899,8 @@ void unwrap_VkAndroidSurfaceCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkAndroidSurfaceCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -914,12 +935,15 @@ void unwrap_VkApplicationInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkApplicationInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkAttachmentDescription2 - Not tainted, unwrapping is just a copy
 void
 unwrap_VkAttachmentDescription2_members_only(struct wrapper_device *device,
                           VkAttachmentDescription2 *out_info,
@@ -934,10 +958,6 @@ unwrap_VkAttachmentDescription2_members_only(struct wrapper_device *device,
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*            pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkAttachmentDescriptionFlags flags = member{'name': 'flags', 'type': 'VkAttachmentDescriptionFlags', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkAttachmentDescriptionFlags', 'api': 'vulkan', 'text': 'VkAttachmentDescriptionFlags flags', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat format = member{'name': 'format', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                     format', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->format = unwrap_vk_format(device, in_info->format);
-
     // VkSampleCountFlagBits samples = member{'name': 'samples', 'type': 'VkSampleCountFlagBits', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkSampleCountFlagBits', 'api': 'vulkan', 'text': 'VkSampleCountFlagBits                        samples', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkAttachmentLoadOp loadOp = member{'name': 'loadOp', 'type': 'VkAttachmentLoadOp', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkAttachmentLoadOp', 'api': 'vulkan', 'text': 'VkAttachmentLoadOp                           loadOpLoad operation for color or depth data', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkAttachmentStoreOp storeOp = member{'name': 'storeOp', 'type': 'VkAttachmentStoreOp', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkAttachmentStoreOp', 'api': 'vulkan', 'text': 'VkAttachmentStoreOp                          storeOpStore operation for color or depth data', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
@@ -955,6 +975,7 @@ void unwrap_VkAttachmentDescription2(struct wrapper_device *device,
         return;
 
     unwrap_VkAttachmentDescription2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkExternalFormatANDROID, VkAttachmentDescriptionStencilLayout]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -984,6 +1005,7 @@ void unwrap_VkAttachmentDescription2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -1015,6 +1037,8 @@ void unwrap_VkAttachmentDescriptionStencilLayout(struct wrapper_device *device,
         return;
 
     unwrap_VkAttachmentDescriptionStencilLayout_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -1047,6 +1071,7 @@ void unwrap_VkAttachmentReference2(struct wrapper_device *device,
         return;
 
     unwrap_VkAttachmentReference2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkAttachmentReferenceStencilLayout]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -1076,6 +1101,7 @@ void unwrap_VkAttachmentReference2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -1106,6 +1132,8 @@ void unwrap_VkAttachmentReferenceStencilLayout(struct wrapper_device *device,
         return;
 
     unwrap_VkAttachmentReferenceStencilLayout_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -1138,6 +1166,8 @@ void unwrap_VkAttachmentSampleCountInfoAMD(struct wrapper_device *device,
         return;
 
     unwrap_VkAttachmentSampleCountInfoAMD_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -1172,6 +1202,8 @@ void unwrap_VkBindAccelerationStructureMemoryInfoNV(struct wrapper_device *devic
         return;
 
     unwrap_VkBindAccelerationStructureMemoryInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -1203,6 +1235,8 @@ void unwrap_VkBindBufferMemoryDeviceGroupInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkBindBufferMemoryDeviceGroupInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -1235,6 +1269,7 @@ void unwrap_VkBindBufferMemoryInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkBindBufferMemoryInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkBindBufferMemoryDeviceGroupInfo, VkBindMemoryStatusKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -1264,6 +1299,7 @@ void unwrap_VkBindBufferMemoryInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -1296,6 +1332,7 @@ void unwrap_VkBindDescriptorBufferEmbeddedSamplersInfoEXT(struct wrapper_device 
         return;
 
     unwrap_VkBindDescriptorBufferEmbeddedSamplersInfoEXT_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPipelineLayoutCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -1325,6 +1362,7 @@ void unwrap_VkBindDescriptorBufferEmbeddedSamplersInfoEXT(struct wrapper_device 
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -1361,6 +1399,7 @@ void unwrap_VkBindDescriptorSetsInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkBindDescriptorSetsInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPipelineLayoutCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -1390,6 +1429,7 @@ void unwrap_VkBindDescriptorSetsInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -1423,6 +1463,8 @@ void unwrap_VkBindImageMemoryDeviceGroupInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkBindImageMemoryDeviceGroupInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -1455,6 +1497,7 @@ void unwrap_VkBindImageMemoryInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkBindImageMemoryInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkBindImageMemoryDeviceGroupInfo, VkBindImageMemorySwapchainInfoKHR, VkBindImagePlaneMemoryInfo, VkBindMemoryStatusKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -1484,6 +1527,7 @@ void unwrap_VkBindImageMemoryInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -1515,6 +1559,8 @@ void unwrap_VkBindImageMemorySwapchainInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkBindImageMemorySwapchainInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -1545,6 +1591,8 @@ void unwrap_VkBindImagePlaneMemoryInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkBindImagePlaneMemoryInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -1575,6 +1623,8 @@ void unwrap_VkBindMemoryStatusKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkBindMemoryStatusKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -1614,6 +1664,7 @@ void unwrap_VkBindSparseInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkBindSparseInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDeviceGroupBindSparseInfo, VkTimelineSemaphoreSubmitInfo, VkFrameBoundaryEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -1643,6 +1694,7 @@ void unwrap_VkBindSparseInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -1676,6 +1728,8 @@ void unwrap_VkBindVideoSessionMemoryInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkBindVideoSessionMemoryInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -1706,6 +1760,8 @@ void unwrap_VkBlitImageCubicWeightsInfoQCOM(struct wrapper_device *device,
         return;
 
     unwrap_VkBlitImageCubicWeightsInfoQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -1742,6 +1798,7 @@ void unwrap_VkBlitImageInfo2(struct wrapper_device *device,
         return;
 
     unwrap_VkBlitImageInfo2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkBlitImageCubicWeightsInfoQCOM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -1771,6 +1828,7 @@ void unwrap_VkBlitImageInfo2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -1801,6 +1859,8 @@ void unwrap_VkBufferCaptureDescriptorDataInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkBufferCaptureDescriptorDataInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -1833,6 +1893,8 @@ void unwrap_VkBufferCopy2(struct wrapper_device *device,
         return;
 
     unwrap_VkBufferCopy2_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -1868,6 +1930,7 @@ void unwrap_VkBufferCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkBufferCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkBufferUsageFlags2CreateInfoKHR, VkDedicatedAllocationBufferCreateInfoNV, VkExternalMemoryBufferCreateInfo, VkBufferOpaqueCaptureAddressCreateInfo, VkBufferDeviceAddressCreateInfoEXT, VkVideoProfileListInfoKHR, VkOpaqueCaptureDescriptorDataCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -1897,6 +1960,7 @@ void unwrap_VkBufferCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -1927,6 +1991,8 @@ void unwrap_VkBufferDeviceAddressCreateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkBufferDeviceAddressCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -1957,6 +2023,8 @@ void unwrap_VkBufferDeviceAddressInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkBufferDeviceAddressInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -1992,6 +2060,7 @@ void unwrap_VkBufferImageCopy2(struct wrapper_device *device,
         return;
 
     unwrap_VkBufferImageCopy2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkCopyCommandTransformInfoQCOM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -2021,6 +2090,7 @@ void unwrap_VkBufferImageCopy2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -2057,6 +2127,7 @@ void unwrap_VkBufferMemoryBarrier(struct wrapper_device *device,
         return;
 
     unwrap_VkBufferMemoryBarrier_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkExternalMemoryAcquireUnmodifiedEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -2086,6 +2157,7 @@ void unwrap_VkBufferMemoryBarrier(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -2124,6 +2196,7 @@ void unwrap_VkBufferMemoryBarrier2(struct wrapper_device *device,
         return;
 
     unwrap_VkBufferMemoryBarrier2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkExternalMemoryAcquireUnmodifiedEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -2153,6 +2226,7 @@ void unwrap_VkBufferMemoryBarrier2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -2183,6 +2257,8 @@ void unwrap_VkBufferMemoryRequirementsInfo2(struct wrapper_device *device,
         return;
 
     unwrap_VkBufferMemoryRequirementsInfo2_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -2213,6 +2289,8 @@ void unwrap_VkBufferOpaqueCaptureAddressCreateInfo(struct wrapper_device *device
         return;
 
     unwrap_VkBufferOpaqueCaptureAddressCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -2243,12 +2321,15 @@ void unwrap_VkBufferUsageFlags2CreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkBufferUsageFlags2CreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkBufferViewCreateInfo - Not tainted, unwrapping is just a copy
 void
 unwrap_VkBufferViewCreateInfo_members_only(struct wrapper_device *device,
                           VkBufferViewCreateInfo *out_info,
@@ -2264,10 +2345,6 @@ unwrap_VkBufferViewCreateInfo_members_only(struct wrapper_device *device,
     // VkBufferViewCreateFlags flags = member{'name': 'flags', 'type': 'VkBufferViewCreateFlags', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkBufferViewCreateFlags', 'api': 'vulkan', 'text': 'VkBufferViewCreateFlags flags', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkBuffer buffer = member{'name': 'buffer', 'type': 'VkBuffer', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': True, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkBuffer', 'api': 'vulkan', 'text': 'VkBuffer               buffer', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat format = member{'name': 'format', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat               formatOptionally specifies format of elements', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->format = unwrap_vk_format(device, in_info->format);
-
     // VkDeviceSize offset = member{'name': 'offset', 'type': 'VkDeviceSize', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkDeviceSize', 'api': 'vulkan', 'text': 'VkDeviceSize           offsetSpecified in bytes', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkDeviceSize range = member{'name': 'range', 'type': 'VkDeviceSize', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkDeviceSize', 'api': 'vulkan', 'text': 'VkDeviceSize           rangeView size specified in bytes', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
 }
@@ -2280,6 +2357,7 @@ void unwrap_VkBufferViewCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkBufferViewCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkBufferUsageFlags2CreateInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -2309,6 +2387,7 @@ void unwrap_VkBufferViewCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -2339,6 +2418,8 @@ void unwrap_VkCalibratedTimestampInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkCalibratedTimestampInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -2370,6 +2451,8 @@ void unwrap_VkCheckpointData2NV(struct wrapper_device *device,
         return;
 
     unwrap_VkCheckpointData2NV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -2401,6 +2484,8 @@ void unwrap_VkCheckpointDataNV(struct wrapper_device *device,
         return;
 
     unwrap_VkCheckpointDataNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -2433,12 +2518,15 @@ void unwrap_VkCommandBufferAllocateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkCommandBufferAllocateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkCommandBufferBeginInfo - Not tainted, unwrapping is just a copy
 void
 unwrap_VkCommandBufferBeginInfo_members_only(struct wrapper_device *device,
                           VkCommandBufferBeginInfo *out_info,
@@ -2453,13 +2541,6 @@ unwrap_VkCommandBufferBeginInfo_members_only(struct wrapper_device *device,
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*            pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkCommandBufferUsageFlags flags = member{'name': 'flags', 'type': 'VkCommandBufferUsageFlags', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkCommandBufferUsageFlags', 'api': 'vulkan', 'text': 'VkCommandBufferUsageFlags  flagsCommand buffer usage flags', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkCommandBufferInheritanceInfo* pInheritanceInfo = member{'name': 'pInheritanceInfo', 'type': 'VkCommandBufferInheritanceInfo', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': True, 'is_union': False, 'values': None, 'typep': 'VkCommandBufferInheritanceInfo*', 'api': 'vulkan', 'text': 'const VkCommandBufferInheritanceInfo*       pInheritanceInfoPointer to inheritance info for secondary command buffers', 'resolved_type': VkCommandBufferInheritanceInfo, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkCommandBufferInheritanceRenderingInfo']
-
-    if (in_info->pInheritanceInfo) {
-        out_info->pInheritanceInfo = VK_ALLOC(VkCommandBufferInheritanceInfo);
-        unwrap_VkCommandBufferInheritanceInfo(device, (VkCommandBufferInheritanceInfo*) out_info->pInheritanceInfo, in_info->pInheritanceInfo);
-    }
-
 }
 
 void unwrap_VkCommandBufferBeginInfo(struct wrapper_device *device,
@@ -2470,6 +2551,7 @@ void unwrap_VkCommandBufferBeginInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkCommandBufferBeginInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDeviceGroupCommandBufferBeginInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -2499,6 +2581,7 @@ void unwrap_VkCommandBufferBeginInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -2529,12 +2612,15 @@ void unwrap_VkCommandBufferInheritanceConditionalRenderingInfoEXT(struct wrapper
         return;
 
     unwrap_VkCommandBufferInheritanceConditionalRenderingInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkCommandBufferInheritanceInfo - Not tainted, unwrapping is just a copy
 void
 unwrap_VkCommandBufferInheritanceInfo_members_only(struct wrapper_device *device,
                           VkCommandBufferInheritanceInfo *out_info,
@@ -2563,6 +2649,7 @@ void unwrap_VkCommandBufferInheritanceInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkCommandBufferInheritanceInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkCommandBufferInheritanceConditionalRenderingInfoEXT, VkExternalFormatANDROID, VkCommandBufferInheritanceRenderPassTransformInfoQCOM, VkCommandBufferInheritanceViewportScissorInfoNV, VkCommandBufferInheritanceRenderingInfo, VkAttachmentSampleCountInfoAMD, VkMultiviewPerViewAttributesInfoNVX, VkRenderingAttachmentLocationInfoKHR, VkRenderingInputAttachmentIndexInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -2578,10 +2665,6 @@ void unwrap_VkCommandBufferInheritanceInfo(struct wrapper_device *device,
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
-        // "VkCommandBufferInheritanceInfo: pNext extension VkCommandBufferInheritanceRenderingInfo contains a wrapped handle (['VkFormat']) and must be unwrapped"
-        case VK_STRUCTURE_TYPE_COMMAND_BUFFER_INHERITANCE_RENDERING_INFO:
-            unwrap_VkCommandBufferInheritanceRenderingInfo_members_only(device, (VkCommandBufferInheritanceRenderingInfo *)new_item, (const VkCommandBufferInheritanceRenderingInfo *)item);
-            break;
         default:
             break;
         }
@@ -2596,6 +2679,7 @@ void unwrap_VkCommandBufferInheritanceInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -2627,12 +2711,15 @@ void unwrap_VkCommandBufferInheritanceRenderPassTransformInfoQCOM(struct wrapper
         return;
 
     unwrap_VkCommandBufferInheritanceRenderPassTransformInfoQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkCommandBufferInheritanceRenderingInfo - Not tainted, unwrapping is just a copy
 void
 unwrap_VkCommandBufferInheritanceRenderingInfo_members_only(struct wrapper_device *device,
                           VkCommandBufferInheritanceRenderingInfo *out_info,
@@ -2649,25 +2736,8 @@ unwrap_VkCommandBufferInheritanceRenderingInfo_members_only(struct wrapper_devic
     // uint32_t viewMask = member{'name': 'viewMask', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                                                   viewMask', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t colorAttachmentCount = member{'name': 'colorAttachmentCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                      colorAttachmentCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat* pColorAttachmentFormats = member{'name': 'pColorAttachmentFormats', 'type': 'VkFormat', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'colorAttachmentCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat*', 'api': 'vulkan', 'text': 'const VkFormat*                                 pColorAttachmentFormats', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    if (in_info->pColorAttachmentFormats) {
-        out_info->pColorAttachmentFormats = VK_ALLOC2(VkFormat, in_info->colorAttachmentCount * sizeof(VkFormat));
-        for (uint32_t i = 0; i < in_info->colorAttachmentCount; i++) {
-            ((VkFormat*)out_info->pColorAttachmentFormats)[i] = unwrap_vk_format(device, in_info->pColorAttachmentFormats[i]);
-        }
-    }
-
     // VkFormat depthAttachmentFormat = member{'name': 'depthAttachmentFormat', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                                                   depthAttachmentFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->depthAttachmentFormat = unwrap_vk_format(device, in_info->depthAttachmentFormat);
-
     // VkFormat stencilAttachmentFormat = member{'name': 'stencilAttachmentFormat', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                                                   stencilAttachmentFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->stencilAttachmentFormat = unwrap_vk_format(device, in_info->stencilAttachmentFormat);
-
     // VkSampleCountFlagBits rasterizationSamples = member{'name': 'rasterizationSamples', 'type': 'VkSampleCountFlagBits', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkSampleCountFlagBits', 'api': 'vulkan', 'text': 'VkSampleCountFlagBits                                      rasterizationSamples', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
 }
 
@@ -2679,6 +2749,8 @@ void unwrap_VkCommandBufferInheritanceRenderingInfo(struct wrapper_device *devic
         return;
 
     unwrap_VkCommandBufferInheritanceRenderingInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -2711,6 +2783,8 @@ void unwrap_VkCommandBufferInheritanceViewportScissorInfoNV(struct wrapper_devic
         return;
 
     unwrap_VkCommandBufferInheritanceViewportScissorInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -2748,6 +2822,7 @@ void unwrap_VkCommandBufferSubmitInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkCommandBufferSubmitInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkRenderPassStripeSubmitInfoARM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -2777,6 +2852,7 @@ void unwrap_VkCommandBufferSubmitInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -2808,6 +2884,8 @@ void unwrap_VkCommandPoolCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkCommandPoolCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -2842,6 +2920,7 @@ void unwrap_VkComputePipelineCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkComputePipelineCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkComputePipelineIndirectBufferInfoNV, VkPipelineCreateFlags2CreateInfoKHR, VkSubpassShadingPipelineCreateInfoHUAWEI, VkPipelineCompilerControlCreateInfoAMD, VkPipelineRobustnessCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -2871,6 +2950,7 @@ void unwrap_VkComputePipelineCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -2903,6 +2983,8 @@ void unwrap_VkComputePipelineIndirectBufferInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkComputePipelineIndirectBufferInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -2935,6 +3017,8 @@ void unwrap_VkConditionalRenderingBeginInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkConditionalRenderingBeginInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -2973,6 +3057,8 @@ void unwrap_VkCooperativeMatrixPropertiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkCooperativeMatrixPropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3010,6 +3096,8 @@ void unwrap_VkCooperativeMatrixPropertiesNV(struct wrapper_device *device,
         return;
 
     unwrap_VkCooperativeMatrixPropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3042,6 +3130,8 @@ void unwrap_VkCopyAccelerationStructureInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkCopyAccelerationStructureInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3074,6 +3164,8 @@ void unwrap_VkCopyAccelerationStructureToMemoryInfoKHR(struct wrapper_device *de
         return;
 
     unwrap_VkCopyAccelerationStructureToMemoryInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3107,6 +3199,8 @@ void unwrap_VkCopyBufferInfo2(struct wrapper_device *device,
         return;
 
     unwrap_VkCopyBufferInfo2_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3141,6 +3235,8 @@ void unwrap_VkCopyBufferToImageInfo2(struct wrapper_device *device,
         return;
 
     unwrap_VkCopyBufferToImageInfo2_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3171,6 +3267,8 @@ void unwrap_VkCopyCommandTransformInfoQCOM(struct wrapper_device *device,
         return;
 
     unwrap_VkCopyCommandTransformInfoQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3207,6 +3305,8 @@ void unwrap_VkCopyDescriptorSet(struct wrapper_device *device,
         return;
 
     unwrap_VkCopyDescriptorSet_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3242,6 +3342,8 @@ void unwrap_VkCopyImageInfo2(struct wrapper_device *device,
         return;
 
     unwrap_VkCopyImageInfo2_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3276,6 +3378,8 @@ void unwrap_VkCopyImageToBufferInfo2(struct wrapper_device *device,
         return;
 
     unwrap_VkCopyImageToBufferInfo2_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3312,6 +3416,8 @@ void unwrap_VkCopyImageToImageInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkCopyImageToImageInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3346,6 +3452,8 @@ void unwrap_VkCopyImageToMemoryInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkCopyImageToMemoryInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3378,6 +3486,8 @@ void unwrap_VkCopyMemoryToAccelerationStructureInfoKHR(struct wrapper_device *de
         return;
 
     unwrap_VkCopyMemoryToAccelerationStructureInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3412,6 +3522,8 @@ void unwrap_VkCopyMemoryToImageInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkCopyMemoryToImageInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3444,6 +3556,8 @@ void unwrap_VkCopyMemoryToMicromapInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkCopyMemoryToMicromapInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3476,6 +3590,8 @@ void unwrap_VkCopyMicromapInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkCopyMicromapInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3508,6 +3624,8 @@ void unwrap_VkCopyMicromapToMemoryInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkCopyMicromapToMemoryInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3539,6 +3657,8 @@ void unwrap_VkCuFunctionCreateInfoNVX(struct wrapper_device *device,
         return;
 
     unwrap_VkCuFunctionCreateInfoNVX_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3570,6 +3690,8 @@ void unwrap_VkCuModuleCreateInfoNVX(struct wrapper_device *device,
         return;
 
     unwrap_VkCuModuleCreateInfoNVX_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3601,6 +3723,8 @@ void unwrap_VkCudaFunctionCreateInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkCudaFunctionCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3632,6 +3756,8 @@ void unwrap_VkCudaModuleCreateInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkCudaModuleCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3663,6 +3789,8 @@ void unwrap_VkDebugMarkerMarkerInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDebugMarkerMarkerInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3695,6 +3823,8 @@ void unwrap_VkDebugMarkerObjectNameInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDebugMarkerObjectNameInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3729,6 +3859,8 @@ void unwrap_VkDebugMarkerObjectTagInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDebugMarkerObjectTagInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3761,6 +3893,8 @@ void unwrap_VkDebugReportCallbackCreateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDebugReportCallbackCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3792,6 +3926,8 @@ void unwrap_VkDebugUtilsLabelEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDebugUtilsLabelEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3831,6 +3967,7 @@ void unwrap_VkDebugUtilsMessengerCallbackDataEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDebugUtilsMessengerCallbackDataEXT_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDeviceAddressBindingCallbackDataEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -3860,6 +3997,7 @@ void unwrap_VkDebugUtilsMessengerCallbackDataEXT(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -3894,6 +4032,8 @@ void unwrap_VkDebugUtilsMessengerCreateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDebugUtilsMessengerCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3926,6 +4066,8 @@ void unwrap_VkDebugUtilsObjectNameInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDebugUtilsObjectNameInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3960,6 +4102,8 @@ void unwrap_VkDebugUtilsObjectTagInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDebugUtilsObjectTagInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -3990,6 +4134,8 @@ void unwrap_VkDedicatedAllocationBufferCreateInfoNV(struct wrapper_device *devic
         return;
 
     unwrap_VkDedicatedAllocationBufferCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4020,6 +4166,8 @@ void unwrap_VkDedicatedAllocationImageCreateInfoNV(struct wrapper_device *device
         return;
 
     unwrap_VkDedicatedAllocationImageCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4051,6 +4199,8 @@ void unwrap_VkDedicatedAllocationMemoryAllocateInfoNV(struct wrapper_device *dev
         return;
 
     unwrap_VkDedicatedAllocationMemoryAllocateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4087,6 +4237,8 @@ void unwrap_VkDependencyInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkDependencyInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4119,6 +4271,7 @@ void unwrap_VkDepthBiasInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDepthBiasInfoEXT_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDepthBiasRepresentationInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -4148,6 +4301,7 @@ void unwrap_VkDepthBiasInfoEXT(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -4179,12 +4333,15 @@ void unwrap_VkDepthBiasRepresentationInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDepthBiasRepresentationInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkDescriptorAddressInfoEXT - Not tainted, unwrapping is just a copy
 void
 unwrap_VkDescriptorAddressInfoEXT_members_only(struct wrapper_device *device,
                           VkDescriptorAddressInfoEXT *out_info,
@@ -4200,10 +4357,6 @@ unwrap_VkDescriptorAddressInfoEXT_members_only(struct wrapper_device *device,
     // VkDeviceAddress address = member{'name': 'address', 'type': 'VkDeviceAddress', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkDeviceAddress', 'api': 'vulkan', 'text': 'VkDeviceAddress                         address', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkDeviceSize range = member{'name': 'range', 'type': 'VkDeviceSize', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkDeviceSize', 'api': 'vulkan', 'text': 'VkDeviceSize                            range', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat format = member{'name': 'format', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                format', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->format = unwrap_vk_format(device, in_info->format);
-
 }
 
 void unwrap_VkDescriptorAddressInfoEXT(struct wrapper_device *device,
@@ -4214,6 +4367,8 @@ void unwrap_VkDescriptorAddressInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDescriptorAddressInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4245,6 +4400,7 @@ void unwrap_VkDescriptorBufferBindingInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDescriptorBufferBindingInfoEXT_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkBufferUsageFlags2CreateInfoKHR, VkDescriptorBufferBindingPushDescriptorBufferHandleEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -4274,6 +4430,7 @@ void unwrap_VkDescriptorBufferBindingInfoEXT(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -4304,6 +4461,8 @@ void unwrap_VkDescriptorBufferBindingPushDescriptorBufferHandleEXT(struct wrappe
         return;
 
     unwrap_VkDescriptorBufferBindingPushDescriptorBufferHandleEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4335,6 +4494,8 @@ void unwrap_VkDescriptorGetInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDescriptorGetInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4368,6 +4529,7 @@ void unwrap_VkDescriptorPoolCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkDescriptorPoolCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDescriptorPoolInlineUniformBlockCreateInfo, VkMutableDescriptorTypeCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -4397,6 +4559,7 @@ void unwrap_VkDescriptorPoolCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -4427,6 +4590,8 @@ void unwrap_VkDescriptorPoolInlineUniformBlockCreateInfo(struct wrapper_device *
         return;
 
     unwrap_VkDescriptorPoolInlineUniformBlockCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4459,6 +4624,7 @@ void unwrap_VkDescriptorSetAllocateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkDescriptorSetAllocateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDescriptorSetVariableDescriptorCountAllocateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -4488,6 +4654,7 @@ void unwrap_VkDescriptorSetAllocateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -4519,6 +4686,8 @@ void unwrap_VkDescriptorSetBindingReferenceVALVE(struct wrapper_device *device,
         return;
 
     unwrap_VkDescriptorSetBindingReferenceVALVE_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4550,6 +4719,8 @@ void unwrap_VkDescriptorSetLayoutBindingFlagsCreateInfo(struct wrapper_device *d
         return;
 
     unwrap_VkDescriptorSetLayoutBindingFlagsCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4582,6 +4753,7 @@ void unwrap_VkDescriptorSetLayoutCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkDescriptorSetLayoutCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDescriptorSetLayoutBindingFlagsCreateInfo, VkMutableDescriptorTypeCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -4611,6 +4783,7 @@ void unwrap_VkDescriptorSetLayoutCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -4642,6 +4815,8 @@ void unwrap_VkDescriptorSetLayoutHostMappingInfoVALVE(struct wrapper_device *dev
         return;
 
     unwrap_VkDescriptorSetLayoutHostMappingInfoVALVE_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4672,6 +4847,7 @@ void unwrap_VkDescriptorSetLayoutSupport(struct wrapper_device *device,
         return;
 
     unwrap_VkDescriptorSetLayoutSupport_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDescriptorSetVariableDescriptorCountLayoutSupport]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -4701,6 +4877,7 @@ void unwrap_VkDescriptorSetLayoutSupport(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -4732,6 +4909,8 @@ void unwrap_VkDescriptorSetVariableDescriptorCountAllocateInfo(struct wrapper_de
         return;
 
     unwrap_VkDescriptorSetVariableDescriptorCountAllocateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4762,6 +4941,8 @@ void unwrap_VkDescriptorSetVariableDescriptorCountLayoutSupport(struct wrapper_d
         return;
 
     unwrap_VkDescriptorSetVariableDescriptorCountLayoutSupport_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4799,6 +4980,8 @@ void unwrap_VkDescriptorUpdateTemplateCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkDescriptorUpdateTemplateCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4832,6 +5015,8 @@ void unwrap_VkDeviceAddressBindingCallbackDataEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceAddressBindingCallbackDataEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4862,6 +5047,79 @@ void unwrap_VkDeviceBufferMemoryRequirements(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceBufferMemoryRequirements_members_only(device, out_info, in_info);
+    /*
+    */
+}
+
+
+
+
+
+void
+unwrap_VkDeviceCreateInfo_members_only(struct wrapper_device *device,
+                          VkDeviceCreateInfo *out_info,
+                          const VkDeviceCreateInfo *in_info)
+{
+    if (!in_info)
+        return;
+
+    *out_info = *in_info;
+
+    // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*     pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // VkDeviceCreateFlags flags = member{'name': 'flags', 'type': 'VkDeviceCreateFlags', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkDeviceCreateFlags', 'api': 'vulkan', 'text': 'VkDeviceCreateFlags    flags', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // uint32_t queueCreateInfoCount = member{'name': 'queueCreateInfoCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t        queueCreateInfoCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // VkDeviceQueueCreateInfo* pQueueCreateInfos = member{'name': 'pQueueCreateInfos', 'type': 'VkDeviceQueueCreateInfo', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'queueCreateInfoCount', 'is_handle': False, 'is_struct': True, 'is_union': False, 'values': None, 'typep': 'VkDeviceQueueCreateInfo*', 'api': 'vulkan', 'text': 'const VkDeviceQueueCreateInfo* pQueueCreateInfos', 'resolved_type': VkDeviceQueueCreateInfo, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
+    // uint32_t enabledLayerCount = member{'name': 'enabledLayerCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t               enabledLayerCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // char** ppEnabledLayerNames = member{'name': 'ppEnabledLayerNames', 'type': 'char', 'is_const': True, 'num_pointers': 2, 'array_count_member': 'enabledLayerCount,null-terminated', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'char**', 'api': 'vulkan', 'text': 'const char* const*      ppEnabledLayerNamesOrdered list of layer names to be enabled', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // uint32_t enabledExtensionCount = member{'name': 'enabledExtensionCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t               enabledExtensionCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // char** ppEnabledExtensionNames = member{'name': 'ppEnabledExtensionNames', 'type': 'char', 'is_const': True, 'num_pointers': 2, 'array_count_member': 'enabledExtensionCount,null-terminated', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'char**', 'api': 'vulkan', 'text': 'const char* const*      ppEnabledExtensionNames', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // VkPhysicalDeviceFeatures* pEnabledFeatures = member{'name': 'pEnabledFeatures', 'type': 'VkPhysicalDeviceFeatures', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkPhysicalDeviceFeatures*', 'api': 'vulkan', 'text': 'const VkPhysicalDeviceFeatures* pEnabledFeatures', 'resolved_type': VkPhysicalDeviceFeatures, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
+}
+
+void unwrap_VkDeviceCreateInfo(struct wrapper_device *device,
+                          VkDeviceCreateInfo *out_info,
+                          const VkDeviceCreateInfo *in_info)
+{
+    if (!in_info)
+        return;
+
+    unwrap_VkDeviceCreateInfo_members_only(device, out_info, in_info);
+    /*
+    // Has pNexts: [VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV, VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV, VkDevicePrivateDataCreateInfo, VkPhysicalDevicePrivateDataFeatures, VkPhysicalDeviceFeatures2, VkPhysicalDeviceVariablePointersFeatures, VkPhysicalDeviceMultiviewFeatures, VkDeviceGroupDeviceCreateInfo, VkPhysicalDevicePresentIdFeaturesKHR, VkPhysicalDevicePresentWaitFeaturesKHR, VkPhysicalDevice16BitStorageFeatures, VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures, VkPhysicalDeviceSamplerYcbcrConversionFeatures, VkPhysicalDeviceProtectedMemoryFeatures, VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT, VkPhysicalDeviceMultiDrawFeaturesEXT, VkPhysicalDeviceInlineUniformBlockFeatures, VkPhysicalDeviceMaintenance4Features, VkPhysicalDeviceMaintenance5FeaturesKHR, VkPhysicalDeviceMaintenance6FeaturesKHR, VkPhysicalDeviceMaintenance7FeaturesKHR, VkPhysicalDeviceShaderDrawParametersFeatures, VkPhysicalDeviceShaderFloat16Int8Features, VkPhysicalDeviceHostQueryResetFeatures, VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR, VkPhysicalDeviceDeviceMemoryReportFeaturesEXT, VkDeviceDeviceMemoryReportCreateInfoEXT, VkPhysicalDeviceDescriptorIndexingFeatures, VkPhysicalDeviceTimelineSemaphoreFeatures, VkPhysicalDevice8BitStorageFeatures, VkPhysicalDeviceConditionalRenderingFeaturesEXT, VkPhysicalDeviceVulkanMemoryModelFeatures, VkPhysicalDeviceShaderAtomicInt64Features, VkPhysicalDeviceShaderAtomicFloatFeaturesEXT, VkPhysicalDeviceShaderAtomicFloat2FeaturesEXT, VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR, VkPhysicalDeviceASTCDecodeFeaturesEXT, VkPhysicalDeviceTransformFeedbackFeaturesEXT, VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV, VkPhysicalDeviceExclusiveScissorFeaturesNV, VkPhysicalDeviceCornerSampledImageFeaturesNV, VkPhysicalDeviceComputeShaderDerivativesFeaturesNV, VkPhysicalDeviceShaderImageFootprintFeaturesNV, VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV, VkPhysicalDeviceCopyMemoryIndirectFeaturesNV, VkPhysicalDeviceMemoryDecompressionFeaturesNV, VkPhysicalDeviceShadingRateImageFeaturesNV, VkPhysicalDeviceInvocationMaskFeaturesHUAWEI, VkPhysicalDeviceMeshShaderFeaturesNV, VkPhysicalDeviceMeshShaderFeaturesEXT, VkPhysicalDeviceAccelerationStructureFeaturesKHR, VkPhysicalDeviceRayTracingPipelineFeaturesKHR, VkPhysicalDeviceRayQueryFeaturesKHR, VkPhysicalDeviceRayTracingMaintenance1FeaturesKHR, VkDeviceMemoryOverallocationCreateInfoAMD, VkPhysicalDeviceFragmentDensityMapFeaturesEXT, VkPhysicalDeviceFragmentDensityMap2FeaturesEXT, VkPhysicalDeviceFragmentDensityMapOffsetFeaturesQCOM, VkPhysicalDeviceScalarBlockLayoutFeatures, VkPhysicalDeviceUniformBufferStandardLayoutFeatures, VkPhysicalDeviceDepthClipEnableFeaturesEXT, VkPhysicalDeviceMemoryPriorityFeaturesEXT, VkPhysicalDevicePageableDeviceLocalMemoryFeaturesEXT, VkPhysicalDeviceBufferDeviceAddressFeatures, VkPhysicalDeviceBufferDeviceAddressFeaturesEXT, VkPhysicalDeviceImagelessFramebufferFeatures, VkPhysicalDeviceTextureCompressionASTCHDRFeatures, VkPhysicalDeviceCooperativeMatrixFeaturesNV, VkPhysicalDeviceYcbcrImageArraysFeaturesEXT, VkPhysicalDevicePresentBarrierFeaturesNV, VkPhysicalDevicePerformanceQueryFeaturesKHR, VkPhysicalDeviceCoverageReductionModeFeaturesNV, VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL, VkPhysicalDeviceShaderClockFeaturesKHR, VkPhysicalDeviceIndexTypeUint8FeaturesKHR, VkPhysicalDeviceShaderSMBuiltinsFeaturesNV, VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT, VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures, VkPhysicalDevicePrimitiveTopologyListRestartFeaturesEXT, VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR, VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures, VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT, VkPhysicalDeviceSubgroupSizeControlFeatures, VkPhysicalDeviceLineRasterizationFeaturesKHR, VkPhysicalDevicePipelineCreationCacheControlFeatures, VkPhysicalDeviceVulkan11Features, VkPhysicalDeviceVulkan12Features, VkPhysicalDeviceVulkan13Features, VkPhysicalDeviceCoherentMemoryFeaturesAMD, VkPhysicalDeviceCustomBorderColorFeaturesEXT, VkPhysicalDeviceBorderColorSwizzleFeaturesEXT, VkPhysicalDeviceExtendedDynamicStateFeaturesEXT, VkPhysicalDeviceExtendedDynamicState2FeaturesEXT, VkPhysicalDeviceExtendedDynamicState3FeaturesEXT, VkPhysicalDeviceDiagnosticsConfigFeaturesNV, VkDeviceDiagnosticsConfigCreateInfoNV, VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures, VkPhysicalDeviceShaderSubgroupUniformControlFlowFeaturesKHR, VkPhysicalDeviceRobustness2FeaturesEXT, VkPhysicalDeviceImageRobustnessFeatures, VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR, VkPhysicalDevice4444FormatsFeaturesEXT, VkPhysicalDeviceSubpassShadingFeaturesHUAWEI, VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI, VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT, VkPhysicalDeviceFragmentShadingRateFeaturesKHR, VkPhysicalDeviceShaderTerminateInvocationFeatures, VkPhysicalDeviceFragmentShadingRateEnumsFeaturesNV, VkPhysicalDeviceImage2DViewOf3DFeaturesEXT, VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT, VkPhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT, VkPhysicalDeviceLegacyVertexAttributesFeaturesEXT, VkPhysicalDeviceMutableDescriptorTypeFeaturesEXT, VkPhysicalDeviceDepthClipControlFeaturesEXT, VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT, VkPhysicalDeviceExternalMemoryRDMAFeaturesNV, VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR, VkPhysicalDeviceColorWriteEnableFeaturesEXT, VkPhysicalDeviceSynchronization2Features, VkPhysicalDeviceHostImageCopyFeaturesEXT, VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT, VkPhysicalDeviceLegacyDitheringFeaturesEXT, VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT, VkPhysicalDevicePipelineProtectedAccessFeaturesEXT, VkPhysicalDeviceVideoMaintenance1FeaturesKHR, VkPhysicalDeviceInheritedViewportScissorFeaturesNV, VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT, VkPhysicalDeviceProvokingVertexFeaturesEXT, VkPhysicalDeviceDescriptorBufferFeaturesEXT, VkPhysicalDeviceShaderIntegerDotProductFeatures, VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR, VkPhysicalDeviceRayTracingMotionBlurFeaturesNV, VkPhysicalDeviceRayTracingValidationFeaturesNV, VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT, VkPhysicalDeviceDynamicRenderingFeatures, VkPhysicalDeviceImageViewMinLodFeaturesEXT, VkPhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT, VkPhysicalDeviceLinearColorAttachmentFeaturesNV, VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT, VkPhysicalDeviceDescriptorSetHostMappingFeaturesVALVE, VkPhysicalDeviceNestedCommandBufferFeaturesEXT, VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT, VkPhysicalDeviceImageCompressionControlFeaturesEXT, VkPhysicalDeviceImageCompressionControlSwapchainFeaturesEXT, VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT, VkPhysicalDeviceOpacityMicromapFeaturesEXT, VkPhysicalDevicePipelinePropertiesFeaturesEXT, VkPhysicalDeviceShaderEarlyAndLateFragmentTestsFeaturesAMD, VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT, VkPhysicalDevicePipelineRobustnessFeaturesEXT, VkPhysicalDeviceImageProcessingFeaturesQCOM, VkPhysicalDeviceTilePropertiesFeaturesQCOM, VkPhysicalDeviceAmigoProfilingFeaturesSEC, VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT, VkPhysicalDeviceDepthClampZeroOneFeaturesEXT, VkPhysicalDeviceAddressBindingReportFeaturesEXT, VkPhysicalDeviceOpticalFlowFeaturesNV, VkPhysicalDeviceFaultFeaturesEXT, VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT, VkPhysicalDeviceShaderCoreBuiltinsFeaturesARM, VkPhysicalDeviceFrameBoundaryFeaturesEXT, VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT, VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT, VkPhysicalDeviceDepthBiasControlFeaturesEXT, VkPhysicalDeviceRayTracingInvocationReorderFeaturesNV, VkPhysicalDeviceExtendedSparseAddressSpaceFeaturesNV, VkPhysicalDeviceMultiviewPerViewViewportsFeaturesQCOM, VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR, VkPhysicalDeviceMultiviewPerViewRenderAreasFeaturesQCOM, VkPhysicalDeviceShaderObjectFeaturesEXT, VkPhysicalDeviceShaderTileImageFeaturesEXT, VkPhysicalDeviceCooperativeMatrixFeaturesKHR, VkPhysicalDeviceCubicClampFeaturesQCOM, VkPhysicalDeviceYcbcrDegammaFeaturesQCOM, VkPhysicalDeviceCubicWeightsFeaturesQCOM, VkPhysicalDeviceImageProcessing2FeaturesQCOM, VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV, VkPhysicalDevicePerStageDescriptorSetFeaturesNV, VkPhysicalDeviceExternalFormatResolveFeaturesANDROID, VkPhysicalDeviceCudaKernelLaunchFeaturesNV, VkDeviceQueueShaderCoreControlCreateInfoARM, VkPhysicalDeviceSchedulingControlsFeaturesARM, VkPhysicalDeviceRelaxedLineRasterizationFeaturesIMG, VkPhysicalDeviceRenderPassStripedFeaturesARM, VkPhysicalDeviceShaderMaximalReconvergenceFeaturesKHR, VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR, VkPhysicalDeviceShaderExpectAssumeFeaturesKHR, VkPhysicalDeviceShaderFloatControls2FeaturesKHR, VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR, VkPhysicalDeviceShaderQuadControlFeaturesKHR, VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV, VkPhysicalDeviceMapMemoryPlacedFeaturesEXT, VkPhysicalDeviceRawAccessChainsFeaturesNV, VkPhysicalDeviceImageAlignmentControlFeaturesMESA, VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT]
+    struct VkBaseOutStructure *head = NULL, *tail = NULL;
+    vk_foreach_struct_const(item, in_info->pNext) {
+        size_t item_size = vk_structure_type_size(item);
+        if (item_size == 0) {
+            // Invalid structure, skip it.
+            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            continue;
+        }
+
+
+        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        memcpy(new_item, item, item_size);
+
+        switch ((int32_t)item->sType) {
+        // "VkDeviceCreateInfo: pNext extension VkDeviceGroupDeviceCreateInfo contains a wrapped handle (['VkPhysicalDevice']) and must be unwrapped"
+        case VK_STRUCTURE_TYPE_DEVICE_GROUP_DEVICE_CREATE_INFO:
+            unwrap_VkDeviceGroupDeviceCreateInfo_members_only(device, (VkDeviceGroupDeviceCreateInfo *)new_item, (const VkDeviceGroupDeviceCreateInfo *)item);
+            break;
+        default:
+            break;
+        }
+
+
+        if (!head)
+            head = new_item;
+        if (tail)
+            tail->pNext = new_item;
+        tail = new_item;
+    }
+
+    out_info->pNext = head;
+
+    */
 }
 
 
@@ -4894,6 +5152,8 @@ void unwrap_VkDeviceDeviceMemoryReportCreateInfoEXT(struct wrapper_device *devic
         return;
 
     unwrap_VkDeviceDeviceMemoryReportCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4924,6 +5184,8 @@ void unwrap_VkDeviceDiagnosticsConfigCreateInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceDiagnosticsConfigCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4954,6 +5216,8 @@ void unwrap_VkDeviceEventInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceEventInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -4986,6 +5250,8 @@ void unwrap_VkDeviceFaultCountsEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceFaultCountsEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5019,6 +5285,8 @@ void unwrap_VkDeviceFaultInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceFaultInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5050,6 +5318,8 @@ void unwrap_VkDeviceGroupBindSparseInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceGroupBindSparseInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5080,6 +5350,8 @@ void unwrap_VkDeviceGroupCommandBufferBeginInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceGroupCommandBufferBeginInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5120,6 +5392,8 @@ void unwrap_VkDeviceGroupDeviceCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceGroupDeviceCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5151,6 +5425,8 @@ void unwrap_VkDeviceGroupPresentCapabilitiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceGroupPresentCapabilitiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5183,6 +5459,8 @@ void unwrap_VkDeviceGroupPresentInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceGroupPresentInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5215,6 +5493,8 @@ void unwrap_VkDeviceGroupRenderPassBeginInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceGroupRenderPassBeginInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5250,6 +5530,8 @@ void unwrap_VkDeviceGroupSubmitInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceGroupSubmitInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5280,12 +5562,15 @@ void unwrap_VkDeviceGroupSwapchainCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceGroupSwapchainCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkDeviceImageMemoryRequirements - Not tainted, unwrapping is just a copy
 void
 unwrap_VkDeviceImageMemoryRequirements_members_only(struct wrapper_device *device,
                           VkDeviceImageMemoryRequirements *out_info,
@@ -5299,13 +5584,6 @@ unwrap_VkDeviceImageMemoryRequirements_members_only(struct wrapper_device *devic
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_DEVICE_IMAGE_MEMORY_REQUIREMENTS', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*                                                          pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkImageCreateInfo* pCreateInfo = member{'name': 'pCreateInfo', 'type': 'VkImageCreateInfo', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': True, 'is_union': False, 'values': None, 'typep': 'VkImageCreateInfo*', 'api': 'vulkan', 'text': 'const VkImageCreateInfo*                                                             pCreateInfo', 'resolved_type': VkImageCreateInfo, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat', 'VkImageFormatListCreateInfo']
-
-    if (in_info->pCreateInfo) {
-        out_info->pCreateInfo = VK_ALLOC(VkImageCreateInfo);
-        unwrap_VkImageCreateInfo(device, (VkImageCreateInfo*) out_info->pCreateInfo, in_info->pCreateInfo);
-    }
-
     // VkImageAspectFlagBits planeAspect = member{'name': 'planeAspect', 'type': 'VkImageAspectFlagBits', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkImageAspectFlagBits', 'api': 'vulkan', 'text': 'VkImageAspectFlagBits                                                planeAspect', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
 }
 
@@ -5317,12 +5595,15 @@ void unwrap_VkDeviceImageMemoryRequirements(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceImageMemoryRequirements_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkDeviceImageSubresourceInfoKHR - Not tainted, unwrapping is just a copy
 void
 unwrap_VkDeviceImageSubresourceInfoKHR_members_only(struct wrapper_device *device,
                           VkDeviceImageSubresourceInfoKHR *out_info,
@@ -5336,13 +5617,6 @@ unwrap_VkDeviceImageSubresourceInfoKHR_members_only(struct wrapper_device *devic
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_DEVICE_IMAGE_SUBRESOURCE_INFO_KHR', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*                                              pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkImageCreateInfo* pCreateInfo = member{'name': 'pCreateInfo', 'type': 'VkImageCreateInfo', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': True, 'is_union': False, 'values': None, 'typep': 'VkImageCreateInfo*', 'api': 'vulkan', 'text': 'const VkImageCreateInfo*                                                 pCreateInfo', 'resolved_type': VkImageCreateInfo, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat', 'VkImageFormatListCreateInfo']
-
-    if (in_info->pCreateInfo) {
-        out_info->pCreateInfo = VK_ALLOC(VkImageCreateInfo);
-        unwrap_VkImageCreateInfo(device, (VkImageCreateInfo*) out_info->pCreateInfo, in_info->pCreateInfo);
-    }
-
     // VkImageSubresource2KHR* pSubresource = member{'name': 'pSubresource', 'type': 'VkImageSubresource2KHR', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': True, 'is_union': False, 'values': None, 'typep': 'VkImageSubresource2KHR*', 'api': 'vulkan', 'text': 'const VkImageSubresource2KHR*                                            pSubresource', 'resolved_type': VkImageSubresource2KHR, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
 }
 
@@ -5354,6 +5628,8 @@ void unwrap_VkDeviceImageSubresourceInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceImageSubresourceInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5384,6 +5660,8 @@ void unwrap_VkDeviceMemoryOpaqueCaptureAddressInfo(struct wrapper_device *device
         return;
 
     unwrap_VkDeviceMemoryOpaqueCaptureAddressInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5414,6 +5692,8 @@ void unwrap_VkDeviceMemoryOverallocationCreateInfoAMD(struct wrapper_device *dev
         return;
 
     unwrap_VkDeviceMemoryOverallocationCreateInfoAMD_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5450,6 +5730,8 @@ void unwrap_VkDeviceMemoryReportCallbackDataEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceMemoryReportCallbackDataEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5480,6 +5762,8 @@ void unwrap_VkDevicePrivateDataCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkDevicePrivateDataCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5513,6 +5797,7 @@ void unwrap_VkDeviceQueueCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceQueueCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDeviceQueueGlobalPriorityCreateInfoKHR, VkDeviceQueueShaderCoreControlCreateInfoARM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -5542,6 +5827,7 @@ void unwrap_VkDeviceQueueCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -5572,6 +5858,8 @@ void unwrap_VkDeviceQueueGlobalPriorityCreateInfoKHR(struct wrapper_device *devi
         return;
 
     unwrap_VkDeviceQueueGlobalPriorityCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5604,6 +5892,8 @@ void unwrap_VkDeviceQueueInfo2(struct wrapper_device *device,
         return;
 
     unwrap_VkDeviceQueueInfo2_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5634,6 +5924,8 @@ void unwrap_VkDeviceQueueShaderCoreControlCreateInfoARM(struct wrapper_device *d
         return;
 
     unwrap_VkDeviceQueueShaderCoreControlCreateInfoARM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5665,6 +5957,8 @@ void unwrap_VkDirectDriverLoadingInfoLUNARG(struct wrapper_device *device,
         return;
 
     unwrap_VkDirectDriverLoadingInfoLUNARG_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5697,6 +5991,8 @@ void unwrap_VkDirectDriverLoadingListLUNARG(struct wrapper_device *device,
         return;
 
     unwrap_VkDirectDriverLoadingListLUNARG_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5727,6 +6023,8 @@ void unwrap_VkDisplayEventInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDisplayEventInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5758,6 +6056,8 @@ void unwrap_VkDisplayModeCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkDisplayModeCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5788,6 +6088,8 @@ void unwrap_VkDisplayModeProperties2KHR(struct wrapper_device *device,
         return;
 
     unwrap_VkDisplayModeProperties2KHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5818,6 +6120,8 @@ void unwrap_VkDisplayNativeHdrSurfaceCapabilitiesAMD(struct wrapper_device *devi
         return;
 
     unwrap_VkDisplayNativeHdrSurfaceCapabilitiesAMD_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5848,6 +6152,8 @@ void unwrap_VkDisplayPlaneCapabilities2KHR(struct wrapper_device *device,
         return;
 
     unwrap_VkDisplayPlaneCapabilities2KHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5879,6 +6185,8 @@ void unwrap_VkDisplayPlaneInfo2KHR(struct wrapper_device *device,
         return;
 
     unwrap_VkDisplayPlaneInfo2KHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5909,6 +6217,8 @@ void unwrap_VkDisplayPlaneProperties2KHR(struct wrapper_device *device,
         return;
 
     unwrap_VkDisplayPlaneProperties2KHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5939,6 +6249,8 @@ void unwrap_VkDisplayPowerInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDisplayPowerInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -5971,6 +6283,8 @@ void unwrap_VkDisplayPresentInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkDisplayPresentInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6001,6 +6315,8 @@ void unwrap_VkDisplayProperties2KHR(struct wrapper_device *device,
         return;
 
     unwrap_VkDisplayProperties2KHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6038,6 +6354,8 @@ void unwrap_VkDisplaySurfaceCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkDisplaySurfaceCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6069,6 +6387,8 @@ void unwrap_VkDrmFormatModifierPropertiesList2EXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDrmFormatModifierPropertiesList2EXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6100,6 +6420,8 @@ void unwrap_VkDrmFormatModifierPropertiesListEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkDrmFormatModifierPropertiesListEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6130,6 +6452,8 @@ void unwrap_VkEventCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkEventCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6160,6 +6484,8 @@ void unwrap_VkExportFenceCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkExportFenceCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6190,6 +6516,8 @@ void unwrap_VkExportMemoryAllocateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkExportMemoryAllocateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6220,6 +6548,8 @@ void unwrap_VkExportMemoryAllocateInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkExportMemoryAllocateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6250,6 +6580,8 @@ void unwrap_VkExportSemaphoreCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkExportSemaphoreCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6280,6 +6612,8 @@ void unwrap_VkExternalBufferProperties(struct wrapper_device *device,
         return;
 
     unwrap_VkExternalBufferProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6312,6 +6646,8 @@ void unwrap_VkExternalFenceProperties(struct wrapper_device *device,
         return;
 
     unwrap_VkExternalFenceProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6342,6 +6678,8 @@ void unwrap_VkExternalFormatANDROID(struct wrapper_device *device,
         return;
 
     unwrap_VkExternalFormatANDROID_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6372,6 +6710,8 @@ void unwrap_VkExternalImageFormatProperties(struct wrapper_device *device,
         return;
 
     unwrap_VkExternalImageFormatProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6402,6 +6742,8 @@ void unwrap_VkExternalMemoryAcquireUnmodifiedEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkExternalMemoryAcquireUnmodifiedEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6432,6 +6774,8 @@ void unwrap_VkExternalMemoryBufferCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkExternalMemoryBufferCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6462,6 +6806,8 @@ void unwrap_VkExternalMemoryImageCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkExternalMemoryImageCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6492,6 +6838,8 @@ void unwrap_VkExternalMemoryImageCreateInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkExternalMemoryImageCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6524,6 +6872,8 @@ void unwrap_VkExternalSemaphoreProperties(struct wrapper_device *device,
         return;
 
     unwrap_VkExternalSemaphoreProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6554,6 +6904,7 @@ void unwrap_VkFenceCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkFenceCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkExportFenceCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -6583,6 +6934,7 @@ void unwrap_VkFenceCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -6614,6 +6966,8 @@ void unwrap_VkFenceGetFdInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkFenceGetFdInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6645,6 +6999,8 @@ void unwrap_VkFilterCubicImageViewImageFormatPropertiesEXT(struct wrapper_device
         return;
 
     unwrap_VkFilterCubicImageViewImageFormatPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6675,6 +7031,7 @@ void unwrap_VkFormatProperties2(struct wrapper_device *device,
         return;
 
     unwrap_VkFormatProperties2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDrmFormatModifierPropertiesListEXT, VkSubpassResolvePerformanceQueryEXT, VkFormatProperties3, VkDrmFormatModifierPropertiesList2EXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -6704,6 +7061,7 @@ void unwrap_VkFormatProperties2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -6736,6 +7094,8 @@ void unwrap_VkFormatProperties3(struct wrapper_device *device,
         return;
 
     unwrap_VkFormatProperties3_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6767,6 +7127,8 @@ void unwrap_VkFragmentShadingRateAttachmentInfoKHR(struct wrapper_device *device
         return;
 
     unwrap_VkFragmentShadingRateAttachmentInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -6805,12 +7167,15 @@ void unwrap_VkFrameBoundaryEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkFrameBoundaryEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkFramebufferAttachmentImageInfo - Not tainted, unwrapping is just a copy
 void
 unwrap_VkFramebufferAttachmentImageInfo_members_only(struct wrapper_device *device,
                           VkFramebufferAttachmentImageInfo *out_info,
@@ -6830,15 +7195,6 @@ unwrap_VkFramebufferAttachmentImageInfo_members_only(struct wrapper_device *devi
     // uint32_t layerCount = member{'name': 'layerCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                 layerCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t viewFormatCount = member{'name': 'viewFormatCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                 viewFormatCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat* pViewFormats = member{'name': 'pViewFormats', 'type': 'VkFormat', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'viewFormatCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat*', 'api': 'vulkan', 'text': 'const VkFormat*    pViewFormats', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    if (in_info->pViewFormats) {
-        out_info->pViewFormats = VK_ALLOC2(VkFormat, in_info->viewFormatCount * sizeof(VkFormat));
-        for (uint32_t i = 0; i < in_info->viewFormatCount; i++) {
-            ((VkFormat*)out_info->pViewFormats)[i] = unwrap_vk_format(device, in_info->pViewFormats[i]);
-        }
-    }
-
 }
 
 void unwrap_VkFramebufferAttachmentImageInfo(struct wrapper_device *device,
@@ -6849,12 +7205,15 @@ void unwrap_VkFramebufferAttachmentImageInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkFramebufferAttachmentImageInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkFramebufferAttachmentsCreateInfo - Not tainted, unwrapping is just a copy
 void
 unwrap_VkFramebufferAttachmentsCreateInfo_members_only(struct wrapper_device *device,
                           VkFramebufferAttachmentsCreateInfo *out_info,
@@ -6869,18 +7228,6 @@ unwrap_VkFramebufferAttachmentsCreateInfo_members_only(struct wrapper_device *de
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*                              pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t attachmentImageInfoCount = member{'name': 'attachmentImageInfoCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                 attachmentImageInfoCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFramebufferAttachmentImageInfo* pAttachmentImageInfos = member{'name': 'pAttachmentImageInfos', 'type': 'VkFramebufferAttachmentImageInfo', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'attachmentImageInfoCount', 'is_handle': False, 'is_struct': True, 'is_union': False, 'values': None, 'typep': 'VkFramebufferAttachmentImageInfo*', 'api': 'vulkan', 'text': 'const VkFramebufferAttachmentImageInfo* pAttachmentImageInfos', 'resolved_type': VkFramebufferAttachmentImageInfo, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    if (in_info->pAttachmentImageInfos) {
-        out_info->pAttachmentImageInfos = VK_ALLOC2(VkFramebufferAttachmentImageInfo, in_info->attachmentImageInfoCount * sizeof(VkFramebufferAttachmentImageInfo));
-        for (uint32_t i = 0; i < in_info->attachmentImageInfoCount; i++) {
-            unwrap_VkFramebufferAttachmentImageInfo(
-                device, 
-                &(((VkFramebufferAttachmentImageInfo*)out_info->pAttachmentImageInfos)[i]), 
-                &(((const VkFramebufferAttachmentImageInfo*)in_info->pAttachmentImageInfos)[i]));
-        }
-    }
-
 }
 
 void unwrap_VkFramebufferAttachmentsCreateInfo(struct wrapper_device *device,
@@ -6891,12 +7238,15 @@ void unwrap_VkFramebufferAttachmentsCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkFramebufferAttachmentsCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkFramebufferCreateInfo - Not tainted, unwrapping is just a copy
 void
 unwrap_VkFramebufferCreateInfo_members_only(struct wrapper_device *device,
                           VkFramebufferCreateInfo *out_info,
@@ -6926,6 +7276,7 @@ void unwrap_VkFramebufferCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkFramebufferCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkFramebufferAttachmentsCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -6941,10 +7292,6 @@ void unwrap_VkFramebufferCreateInfo(struct wrapper_device *device,
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
-        // "VkFramebufferCreateInfo: pNext extension VkFramebufferAttachmentsCreateInfo contains a wrapped handle (['VkFramebufferAttachmentImageInfo']) and must be unwrapped"
-        case VK_STRUCTURE_TYPE_FRAMEBUFFER_ATTACHMENTS_CREATE_INFO:
-            unwrap_VkFramebufferAttachmentsCreateInfo_members_only(device, (VkFramebufferAttachmentsCreateInfo *)new_item, (const VkFramebufferAttachmentsCreateInfo *)item);
-            break;
         default:
             break;
         }
@@ -6959,6 +7306,7 @@ void unwrap_VkFramebufferCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -6992,6 +7340,8 @@ void unwrap_VkFramebufferMixedSamplesCombinationNV(struct wrapper_device *device
         return;
 
     unwrap_VkFramebufferMixedSamplesCombinationNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7034,6 +7384,8 @@ void unwrap_VkGeneratedCommandsInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkGeneratedCommandsInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7067,6 +7419,8 @@ void unwrap_VkGeneratedCommandsMemoryRequirementsInfoNV(struct wrapper_device *d
         return;
 
     unwrap_VkGeneratedCommandsMemoryRequirementsInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7100,6 +7454,8 @@ void unwrap_VkGeometryAABBNV(struct wrapper_device *device,
         return;
 
     unwrap_VkGeometryAABBNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7132,12 +7488,15 @@ void unwrap_VkGeometryNV(struct wrapper_device *device,
         return;
 
     unwrap_VkGeometryNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkGeometryTrianglesNV - Not tainted, unwrapping is just a copy
 void
 unwrap_VkGeometryTrianglesNV_members_only(struct wrapper_device *device,
                           VkGeometryTrianglesNV *out_info,
@@ -7155,10 +7514,6 @@ unwrap_VkGeometryTrianglesNV_members_only(struct wrapper_device *device,
     // uint32_t vertexCount = member{'name': 'vertexCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                   vertexCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkDeviceSize vertexStride = member{'name': 'vertexStride', 'type': 'VkDeviceSize', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkDeviceSize', 'api': 'vulkan', 'text': 'VkDeviceSize               vertexStride', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat vertexFormat = member{'name': 'vertexFormat', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                   vertexFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->vertexFormat = unwrap_vk_format(device, in_info->vertexFormat);
-
     // VkBuffer indexData = member{'name': 'indexData', 'type': 'VkBuffer', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': True, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkBuffer', 'api': 'vulkan', 'text': 'VkBuffer   indexData', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkDeviceSize indexOffset = member{'name': 'indexOffset', 'type': 'VkDeviceSize', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkDeviceSize', 'api': 'vulkan', 'text': 'VkDeviceSize               indexOffset', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t indexCount = member{'name': 'indexCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                   indexCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
@@ -7175,6 +7530,8 @@ void unwrap_VkGeometryTrianglesNV(struct wrapper_device *device,
         return;
 
     unwrap_VkGeometryTrianglesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7206,12 +7563,15 @@ void unwrap_VkGetLatencyMarkerInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkGetLatencyMarkerInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkGraphicsPipelineCreateInfo - Not tainted, unwrapping is just a copy
 void
 unwrap_VkGraphicsPipelineCreateInfo_members_only(struct wrapper_device *device,
                           VkGraphicsPipelineCreateInfo *out_info,
@@ -7251,6 +7611,7 @@ void unwrap_VkGraphicsPipelineCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkGraphicsPipelineCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPipelineCreateFlags2CreateInfoKHR, VkGraphicsPipelineShaderGroupsCreateInfoNV, VkPipelineDiscardRectangleStateCreateInfoEXT, VkExternalFormatANDROID, VkPipelineRepresentativeFragmentTestStateCreateInfoNV, VkPipelineCompilerControlCreateInfoAMD, VkPipelineLibraryCreateInfoKHR, VkPipelineFragmentShadingRateStateCreateInfoKHR, VkPipelineFragmentShadingRateEnumStateCreateInfoNV, VkPipelineRenderingCreateInfo, VkAttachmentSampleCountInfoAMD, VkMultiviewPerViewAttributesInfoNVX, VkGraphicsPipelineLibraryCreateInfoEXT, VkPipelineRobustnessCreateInfoEXT, VkRenderingAttachmentLocationInfoKHR, VkRenderingInputAttachmentIndexInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -7266,10 +7627,6 @@ void unwrap_VkGraphicsPipelineCreateInfo(struct wrapper_device *device,
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
-        // "VkGraphicsPipelineCreateInfo: pNext extension VkPipelineRenderingCreateInfo contains a wrapped handle (['VkFormat']) and must be unwrapped"
-        case VK_STRUCTURE_TYPE_PIPELINE_RENDERING_CREATE_INFO:
-            unwrap_VkPipelineRenderingCreateInfo_members_only(device, (VkPipelineRenderingCreateInfo *)new_item, (const VkPipelineRenderingCreateInfo *)item);
-            break;
         default:
             break;
         }
@@ -7284,6 +7641,7 @@ void unwrap_VkGraphicsPipelineCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -7314,6 +7672,8 @@ void unwrap_VkGraphicsPipelineLibraryCreateInfoEXT(struct wrapper_device *device
         return;
 
     unwrap_VkGraphicsPipelineLibraryCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7347,6 +7707,8 @@ void unwrap_VkGraphicsPipelineShaderGroupsCreateInfoNV(struct wrapper_device *de
         return;
 
     unwrap_VkGraphicsPipelineShaderGroupsCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7380,6 +7742,8 @@ void unwrap_VkGraphicsShaderGroupCreateInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkGraphicsShaderGroupCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7417,6 +7781,8 @@ void unwrap_VkHdrMetadataEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkHdrMetadataEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7447,6 +7813,8 @@ void unwrap_VkHeadlessSurfaceCreateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkHeadlessSurfaceCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7478,6 +7846,8 @@ void unwrap_VkHostImageCopyDevicePerformanceQueryEXT(struct wrapper_device *devi
         return;
 
     unwrap_VkHostImageCopyDevicePerformanceQueryEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7511,6 +7881,8 @@ void unwrap_VkHostImageLayoutTransitionInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkHostImageLayoutTransitionInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7541,6 +7913,8 @@ void unwrap_VkImageAlignmentControlCreateInfoMESA(struct wrapper_device *device,
         return;
 
     unwrap_VkImageAlignmentControlCreateInfoMESA_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7574,6 +7948,7 @@ void unwrap_VkImageBlit2(struct wrapper_device *device,
         return;
 
     unwrap_VkImageBlit2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkCopyCommandTransformInfoQCOM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -7603,6 +7978,7 @@ void unwrap_VkImageBlit2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -7633,6 +8009,8 @@ void unwrap_VkImageCaptureDescriptorDataInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkImageCaptureDescriptorDataInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7665,6 +8043,8 @@ void unwrap_VkImageCompressionControlEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkImageCompressionControlEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7696,6 +8076,8 @@ void unwrap_VkImageCompressionPropertiesEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkImageCompressionPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7730,12 +8112,15 @@ void unwrap_VkImageCopy2(struct wrapper_device *device,
         return;
 
     unwrap_VkImageCopy2_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkImageCreateInfo - Not tainted, unwrapping is just a copy
 void
 unwrap_VkImageCreateInfo_members_only(struct wrapper_device *device,
                           VkImageCreateInfo *out_info,
@@ -7751,10 +8136,6 @@ unwrap_VkImageCreateInfo_members_only(struct wrapper_device *device,
     // VkImageCreateFlags flags = member{'name': 'flags', 'type': 'VkImageCreateFlags', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkImageCreateFlags', 'api': 'vulkan', 'text': 'VkImageCreateFlags     flagsImage creation flags', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkImageType imageType = member{'name': 'imageType', 'type': 'VkImageType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkImageType', 'api': 'vulkan', 'text': 'VkImageType            imageType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat format = member{'name': 'format', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat               format', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->format = unwrap_vk_format(device, in_info->format);
-
     // VkExtent3D extent = member{'name': 'extent', 'type': 'VkExtent3D', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkExtent3D', 'api': 'vulkan', 'text': 'VkExtent3D             extent', 'resolved_type': VkExtent3D, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
     // uint32_t mipLevels = member{'name': 'mipLevels', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t               mipLevels', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t arrayLayers = member{'name': 'arrayLayers', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t               arrayLayers', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
@@ -7775,6 +8156,7 @@ void unwrap_VkImageCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkImageCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDedicatedAllocationImageCreateInfoNV, VkExternalMemoryImageCreateInfoNV, VkExternalMemoryImageCreateInfo, VkImageSwapchainCreateInfoKHR, VkImageFormatListCreateInfo, VkExternalFormatANDROID, VkImageDrmFormatModifierListCreateInfoEXT, VkImageDrmFormatModifierExplicitCreateInfoEXT, VkImageStencilUsageCreateInfo, VkVideoProfileListInfoKHR, VkOpaqueCaptureDescriptorDataCreateInfoEXT, VkImageCompressionControlEXT, VkOpticalFlowImageFormatInfoNV, VkImageAlignmentControlCreateInfoMESA]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -7790,10 +8172,6 @@ void unwrap_VkImageCreateInfo(struct wrapper_device *device,
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
-        // "VkImageCreateInfo: pNext extension VkImageFormatListCreateInfo contains a wrapped handle (['VkFormat']) and must be unwrapped"
-        case VK_STRUCTURE_TYPE_IMAGE_FORMAT_LIST_CREATE_INFO:
-            unwrap_VkImageFormatListCreateInfo_members_only(device, (VkImageFormatListCreateInfo *)new_item, (const VkImageFormatListCreateInfo *)item);
-            break;
         default:
             break;
         }
@@ -7808,6 +8186,7 @@ void unwrap_VkImageCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -7840,6 +8219,8 @@ void unwrap_VkImageDrmFormatModifierExplicitCreateInfoEXT(struct wrapper_device 
         return;
 
     unwrap_VkImageDrmFormatModifierExplicitCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7871,6 +8252,8 @@ void unwrap_VkImageDrmFormatModifierListCreateInfoEXT(struct wrapper_device *dev
         return;
 
     unwrap_VkImageDrmFormatModifierListCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7901,12 +8284,15 @@ void unwrap_VkImageDrmFormatModifierPropertiesEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkImageDrmFormatModifierPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkImageFormatListCreateInfo - Not tainted, unwrapping is just a copy
 void
 unwrap_VkImageFormatListCreateInfo_members_only(struct wrapper_device *device,
                           VkImageFormatListCreateInfo *out_info,
@@ -7921,15 +8307,6 @@ unwrap_VkImageFormatListCreateInfo_members_only(struct wrapper_device *device,
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*                            pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t viewFormatCount = member{'name': 'viewFormatCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t               viewFormatCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat* pViewFormats = member{'name': 'pViewFormats', 'type': 'VkFormat', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'viewFormatCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat*', 'api': 'vulkan', 'text': 'const VkFormat*  pViewFormats', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    if (in_info->pViewFormats) {
-        out_info->pViewFormats = VK_ALLOC2(VkFormat, in_info->viewFormatCount * sizeof(VkFormat));
-        for (uint32_t i = 0; i < in_info->viewFormatCount; i++) {
-            ((VkFormat*)out_info->pViewFormats)[i] = unwrap_vk_format(device, in_info->pViewFormats[i]);
-        }
-    }
-
 }
 
 void unwrap_VkImageFormatListCreateInfo(struct wrapper_device *device,
@@ -7940,6 +8317,8 @@ void unwrap_VkImageFormatListCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkImageFormatListCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -7970,6 +8349,7 @@ void unwrap_VkImageFormatProperties2(struct wrapper_device *device,
         return;
 
     unwrap_VkImageFormatProperties2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkExternalImageFormatProperties, VkSamplerYcbcrConversionImageFormatProperties, VkTextureLODGatherFormatPropertiesAMD, VkAndroidHardwareBufferUsageANDROID, VkFilterCubicImageViewImageFormatPropertiesEXT, VkHostImageCopyDevicePerformanceQueryEXT, VkImageCompressionPropertiesEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -7999,6 +8379,7 @@ void unwrap_VkImageFormatProperties2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -8036,6 +8417,7 @@ void unwrap_VkImageMemoryBarrier(struct wrapper_device *device,
         return;
 
     unwrap_VkImageMemoryBarrier_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkSampleLocationsInfoEXT, VkExternalMemoryAcquireUnmodifiedEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -8065,6 +8447,7 @@ void unwrap_VkImageMemoryBarrier(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -8104,6 +8487,7 @@ void unwrap_VkImageMemoryBarrier2(struct wrapper_device *device,
         return;
 
     unwrap_VkImageMemoryBarrier2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkSampleLocationsInfoEXT, VkExternalMemoryAcquireUnmodifiedEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -8133,6 +8517,7 @@ void unwrap_VkImageMemoryBarrier2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -8163,6 +8548,7 @@ void unwrap_VkImageMemoryRequirementsInfo2(struct wrapper_device *device,
         return;
 
     unwrap_VkImageMemoryRequirementsInfo2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkImagePlaneMemoryRequirementsInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -8192,6 +8578,7 @@ void unwrap_VkImageMemoryRequirementsInfo2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -8222,6 +8609,8 @@ void unwrap_VkImagePlaneMemoryRequirementsInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkImagePlaneMemoryRequirementsInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8256,6 +8645,8 @@ void unwrap_VkImageResolve2(struct wrapper_device *device,
         return;
 
     unwrap_VkImageResolve2_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8286,6 +8677,8 @@ void unwrap_VkImageSparseMemoryRequirementsInfo2(struct wrapper_device *device,
         return;
 
     unwrap_VkImageSparseMemoryRequirementsInfo2_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8316,6 +8709,8 @@ void unwrap_VkImageStencilUsageCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkImageStencilUsageCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8346,6 +8741,8 @@ void unwrap_VkImageSubresource2KHR(struct wrapper_device *device,
         return;
 
     unwrap_VkImageSubresource2KHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8376,6 +8773,8 @@ void unwrap_VkImageSwapchainCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkImageSwapchainCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8411,12 +8810,15 @@ void unwrap_VkImageToMemoryCopyEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkImageToMemoryCopyEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkImageViewASTCDecodeModeEXT - Not tainted, unwrapping is just a copy
 void
 unwrap_VkImageViewASTCDecodeModeEXT_members_only(struct wrapper_device *device,
                           VkImageViewASTCDecodeModeEXT *out_info,
@@ -8430,10 +8832,6 @@ unwrap_VkImageViewASTCDecodeModeEXT_members_only(struct wrapper_device *device,
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_IMAGE_VIEW_ASTC_DECODE_MODE_EXT', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*                      pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat decodeMode = member{'name': 'decodeMode', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                         decodeMode', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->decodeMode = unwrap_vk_format(device, in_info->decodeMode);
-
 }
 
 void unwrap_VkImageViewASTCDecodeModeEXT(struct wrapper_device *device,
@@ -8444,6 +8842,8 @@ void unwrap_VkImageViewASTCDecodeModeEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkImageViewASTCDecodeModeEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8475,6 +8875,8 @@ void unwrap_VkImageViewAddressPropertiesNVX(struct wrapper_device *device,
         return;
 
     unwrap_VkImageViewAddressPropertiesNVX_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8505,12 +8907,15 @@ void unwrap_VkImageViewCaptureDescriptorDataInfoEXT(struct wrapper_device *devic
         return;
 
     unwrap_VkImageViewCaptureDescriptorDataInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkImageViewCreateInfo - Not tainted, unwrapping is just a copy
 void
 unwrap_VkImageViewCreateInfo_members_only(struct wrapper_device *device,
                           VkImageViewCreateInfo *out_info,
@@ -8527,10 +8932,6 @@ unwrap_VkImageViewCreateInfo_members_only(struct wrapper_device *device,
     // VkImage image = member{'name': 'image', 'type': 'VkImage', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': True, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkImage', 'api': 'vulkan', 'text': 'VkImage                image', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkImageViewType viewType = member{'name': 'viewType', 'type': 'VkImageViewType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkImageViewType', 'api': 'vulkan', 'text': 'VkImageViewType        viewType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat format = member{'name': 'format', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat               format', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->format = unwrap_vk_format(device, in_info->format);
-
     // VkComponentMapping components = member{'name': 'components', 'type': 'VkComponentMapping', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkComponentMapping', 'api': 'vulkan', 'text': 'VkComponentMapping     components', 'resolved_type': VkComponentMapping, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
     // VkImageSubresourceRange subresourceRange = member{'name': 'subresourceRange', 'type': 'VkImageSubresourceRange', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkImageSubresourceRange', 'api': 'vulkan', 'text': 'VkImageSubresourceRange subresourceRange', 'resolved_type': VkImageSubresourceRange, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
 }
@@ -8543,6 +8944,7 @@ void unwrap_VkImageViewCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkImageViewCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkImageViewUsageCreateInfo, VkImageViewSlicedCreateInfoEXT, VkSamplerYcbcrConversionInfo, VkImageViewASTCDecodeModeEXT, VkOpaqueCaptureDescriptorDataCreateInfoEXT, VkImageViewMinLodCreateInfoEXT, VkImageViewSampleWeightCreateInfoQCOM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -8558,10 +8960,6 @@ void unwrap_VkImageViewCreateInfo(struct wrapper_device *device,
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
-        // "VkImageViewCreateInfo: pNext extension VkImageViewASTCDecodeModeEXT contains a wrapped handle (['VkFormat']) and must be unwrapped"
-        case VK_STRUCTURE_TYPE_IMAGE_VIEW_ASTC_DECODE_MODE_EXT:
-            unwrap_VkImageViewASTCDecodeModeEXT_members_only(device, (VkImageViewASTCDecodeModeEXT *)new_item, (const VkImageViewASTCDecodeModeEXT *)item);
-            break;
         default:
             break;
         }
@@ -8576,6 +8974,7 @@ void unwrap_VkImageViewCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -8608,6 +9007,8 @@ void unwrap_VkImageViewHandleInfoNVX(struct wrapper_device *device,
         return;
 
     unwrap_VkImageViewHandleInfoNVX_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8638,6 +9039,8 @@ void unwrap_VkImageViewMinLodCreateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkImageViewMinLodCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8670,6 +9073,8 @@ void unwrap_VkImageViewSampleWeightCreateInfoQCOM(struct wrapper_device *device,
         return;
 
     unwrap_VkImageViewSampleWeightCreateInfoQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8701,6 +9106,8 @@ void unwrap_VkImageViewSlicedCreateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkImageViewSlicedCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8731,6 +9138,8 @@ void unwrap_VkImageViewUsageCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkImageViewUsageCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8761,6 +9170,8 @@ void unwrap_VkImportAndroidHardwareBufferInfoANDROID(struct wrapper_device *devi
         return;
 
     unwrap_VkImportAndroidHardwareBufferInfoANDROID_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8794,6 +9205,8 @@ void unwrap_VkImportFenceFdInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkImportFenceFdInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8825,6 +9238,8 @@ void unwrap_VkImportMemoryFdInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkImportMemoryFdInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8856,6 +9271,8 @@ void unwrap_VkImportMemoryHostPointerInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkImportMemoryHostPointerInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8889,6 +9306,8 @@ void unwrap_VkImportSemaphoreFdInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkImportSemaphoreFdInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8924,6 +9343,8 @@ void unwrap_VkIndirectCommandsLayoutCreateInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkIndirectCommandsLayoutCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8966,6 +9387,8 @@ void unwrap_VkIndirectCommandsLayoutTokenNV(struct wrapper_device *device,
         return;
 
     unwrap_VkIndirectCommandsLayoutTokenNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -8996,6 +9419,8 @@ void unwrap_VkInitializePerformanceApiInfoINTEL(struct wrapper_device *device,
         return;
 
     unwrap_VkInitializePerformanceApiInfoINTEL_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9027,6 +9452,8 @@ void unwrap_VkLatencySleepInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkLatencySleepInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9059,6 +9486,8 @@ void unwrap_VkLatencySleepModeInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkLatencySleepModeInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9089,6 +9518,8 @@ void unwrap_VkLatencySubmissionPresentIdNV(struct wrapper_device *device,
         return;
 
     unwrap_VkLatencySubmissionPresentIdNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9120,6 +9551,8 @@ void unwrap_VkLatencySurfaceCapabilitiesNV(struct wrapper_device *device,
         return;
 
     unwrap_VkLatencySurfaceCapabilitiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9163,6 +9596,8 @@ void unwrap_VkLatencyTimingsFrameReportNV(struct wrapper_device *device,
         return;
 
     unwrap_VkLatencyTimingsFrameReportNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9194,6 +9629,8 @@ void unwrap_VkLayerSettingsCreateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkLayerSettingsCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9226,6 +9663,8 @@ void unwrap_VkMappedMemoryRange(struct wrapper_device *device,
         return;
 
     unwrap_VkMappedMemoryRange_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9257,6 +9696,8 @@ void unwrap_VkMemoryAllocateFlagsInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryAllocateFlagsInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9288,6 +9729,7 @@ void unwrap_VkMemoryAllocateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryAllocateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDedicatedAllocationMemoryAllocateInfoNV, VkExportMemoryAllocateInfoNV, VkExportMemoryAllocateInfo, VkImportMemoryFdInfoKHR, VkMemoryAllocateFlagsInfo, VkMemoryDedicatedAllocateInfo, VkImportMemoryHostPointerInfoEXT, VkImportAndroidHardwareBufferInfoANDROID, VkMemoryPriorityAllocateInfoEXT, VkMemoryOpaqueCaptureAddressAllocateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -9317,6 +9759,7 @@ void unwrap_VkMemoryAllocateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -9348,6 +9791,8 @@ void unwrap_VkMemoryBarrier(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryBarrier_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9381,6 +9826,8 @@ void unwrap_VkMemoryBarrier2(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryBarrier2_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9412,6 +9859,8 @@ void unwrap_VkMemoryDedicatedAllocateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryDedicatedAllocateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9443,6 +9892,8 @@ void unwrap_VkMemoryDedicatedRequirements(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryDedicatedRequirements_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9473,6 +9924,8 @@ void unwrap_VkMemoryFdPropertiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryFdPropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9503,6 +9956,8 @@ void unwrap_VkMemoryGetAndroidHardwareBufferInfoANDROID(struct wrapper_device *d
         return;
 
     unwrap_VkMemoryGetAndroidHardwareBufferInfoANDROID_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9534,6 +9989,8 @@ void unwrap_VkMemoryGetFdInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryGetFdInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9565,6 +10022,8 @@ void unwrap_VkMemoryGetRemoteAddressInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryGetRemoteAddressInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9595,6 +10054,8 @@ void unwrap_VkMemoryHostPointerPropertiesEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryHostPointerPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9628,6 +10089,7 @@ void unwrap_VkMemoryMapInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryMapInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkMemoryMapPlacedInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -9657,6 +10119,7 @@ void unwrap_VkMemoryMapInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -9687,6 +10150,8 @@ void unwrap_VkMemoryMapPlacedInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryMapPlacedInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9717,6 +10182,8 @@ void unwrap_VkMemoryOpaqueCaptureAddressAllocateInfo(struct wrapper_device *devi
         return;
 
     unwrap_VkMemoryOpaqueCaptureAddressAllocateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9747,6 +10214,8 @@ void unwrap_VkMemoryPriorityAllocateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryPriorityAllocateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9777,6 +10246,7 @@ void unwrap_VkMemoryRequirements2(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryRequirements2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkMemoryDedicatedRequirements]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -9806,6 +10276,7 @@ void unwrap_VkMemoryRequirements2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -9841,6 +10312,8 @@ void unwrap_VkMemoryToImageCopyEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryToImageCopyEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9872,6 +10345,8 @@ void unwrap_VkMemoryUnmapInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkMemoryUnmapInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9904,6 +10379,8 @@ void unwrap_VkMicromapBuildSizesInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkMicromapBuildSizesInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9939,6 +10416,8 @@ void unwrap_VkMicromapCreateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkMicromapCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -9969,6 +10448,8 @@ void unwrap_VkMultisamplePropertiesEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkMultisamplePropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10000,6 +10481,8 @@ void unwrap_VkMultisampledRenderToSingleSampledInfoEXT(struct wrapper_device *de
         return;
 
     unwrap_VkMultisampledRenderToSingleSampledInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10031,6 +10514,8 @@ void unwrap_VkMultiviewPerViewAttributesInfoNVX(struct wrapper_device *device,
         return;
 
     unwrap_VkMultiviewPerViewAttributesInfoNVX_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10062,6 +10547,8 @@ void unwrap_VkMultiviewPerViewRenderAreasRenderPassBeginInfoQCOM(struct wrapper_
         return;
 
     unwrap_VkMultiviewPerViewRenderAreasRenderPassBeginInfoQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10093,6 +10580,8 @@ void unwrap_VkMutableDescriptorTypeCreateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkMutableDescriptorTypeCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10127,6 +10616,8 @@ void unwrap_VkNativeBufferANDROID(struct wrapper_device *device,
         return;
 
     unwrap_VkNativeBufferANDROID_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10157,6 +10648,8 @@ void unwrap_VkOpaqueCaptureDescriptorDataCreateInfoEXT(struct wrapper_device *de
         return;
 
     unwrap_VkOpaqueCaptureDescriptorDataCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10189,6 +10682,8 @@ void unwrap_VkOpticalFlowExecuteInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkOpticalFlowExecuteInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10219,12 +10714,15 @@ void unwrap_VkOpticalFlowImageFormatInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkOpticalFlowImageFormatInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkOpticalFlowImageFormatPropertiesNV - Not tainted, unwrapping is just a copy
 void
 unwrap_VkOpticalFlowImageFormatPropertiesNV_members_only(struct wrapper_device *device,
                           VkOpticalFlowImageFormatPropertiesNV *out_info,
@@ -10238,10 +10736,6 @@ unwrap_VkOpticalFlowImageFormatPropertiesNV_members_only(struct wrapper_device *
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_OPTICAL_FLOW_IMAGE_FORMAT_PROPERTIES_NV', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*  pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat format = member{'name': 'format', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat format', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->format = unwrap_vk_format(device, in_info->format);
-
 }
 
 void unwrap_VkOpticalFlowImageFormatPropertiesNV(struct wrapper_device *device,
@@ -10252,12 +10746,15 @@ void unwrap_VkOpticalFlowImageFormatPropertiesNV(struct wrapper_device *device,
         return;
 
     unwrap_VkOpticalFlowImageFormatPropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkOpticalFlowSessionCreateInfoNV - Not tainted, unwrapping is just a copy
 void
 unwrap_VkOpticalFlowSessionCreateInfoNV_members_only(struct wrapper_device *device,
                           VkOpticalFlowSessionCreateInfoNV *out_info,
@@ -10273,20 +10770,8 @@ unwrap_VkOpticalFlowSessionCreateInfoNV_members_only(struct wrapper_device *devi
     // uint32_t width = member{'name': 'width', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                                           width', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t height = member{'name': 'height', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                                           height', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat imageFormat = member{'name': 'imageFormat', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                                           imageFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->imageFormat = unwrap_vk_format(device, in_info->imageFormat);
-
     // VkFormat flowVectorFormat = member{'name': 'flowVectorFormat', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                                           flowVectorFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->flowVectorFormat = unwrap_vk_format(device, in_info->flowVectorFormat);
-
     // VkFormat costFormat = member{'name': 'costFormat', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                           costFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->costFormat = unwrap_vk_format(device, in_info->costFormat);
-
     // VkOpticalFlowGridSizeFlagsNV outputGridSize = member{'name': 'outputGridSize', 'type': 'VkOpticalFlowGridSizeFlagsNV', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkOpticalFlowGridSizeFlagsNV', 'api': 'vulkan', 'text': 'VkOpticalFlowGridSizeFlagsNV                                       outputGridSize', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkOpticalFlowGridSizeFlagsNV hintGridSize = member{'name': 'hintGridSize', 'type': 'VkOpticalFlowGridSizeFlagsNV', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkOpticalFlowGridSizeFlagsNV', 'api': 'vulkan', 'text': 'VkOpticalFlowGridSizeFlagsNV                       hintGridSize', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkOpticalFlowPerformanceLevelNV performanceLevel = member{'name': 'performanceLevel', 'type': 'VkOpticalFlowPerformanceLevelNV', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkOpticalFlowPerformanceLevelNV', 'api': 'vulkan', 'text': 'VkOpticalFlowPerformanceLevelNV                    performanceLevel', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
@@ -10301,6 +10786,7 @@ void unwrap_VkOpticalFlowSessionCreateInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkOpticalFlowSessionCreateInfoNV_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkOpticalFlowSessionCreatePrivateDataInfoNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -10330,6 +10816,7 @@ void unwrap_VkOpticalFlowSessionCreateInfoNV(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -10362,6 +10849,8 @@ void unwrap_VkOpticalFlowSessionCreatePrivateDataInfoNV(struct wrapper_device *d
         return;
 
     unwrap_VkOpticalFlowSessionCreatePrivateDataInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10392,6 +10881,8 @@ void unwrap_VkOutOfBandQueueTypeInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkOutOfBandQueueTypeInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10422,6 +10913,8 @@ void unwrap_VkPerformanceConfigurationAcquireInfoINTEL(struct wrapper_device *de
         return;
 
     unwrap_VkPerformanceConfigurationAcquireInfoINTEL_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10455,6 +10948,8 @@ void unwrap_VkPerformanceCounterDescriptionKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPerformanceCounterDescriptionKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10488,6 +10983,8 @@ void unwrap_VkPerformanceCounterKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPerformanceCounterKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10518,6 +11015,8 @@ void unwrap_VkPerformanceMarkerInfoINTEL(struct wrapper_device *device,
         return;
 
     unwrap_VkPerformanceMarkerInfoINTEL_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10550,6 +11049,8 @@ void unwrap_VkPerformanceOverrideInfoINTEL(struct wrapper_device *device,
         return;
 
     unwrap_VkPerformanceOverrideInfoINTEL_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10580,6 +11081,8 @@ void unwrap_VkPerformanceQuerySubmitInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPerformanceQuerySubmitInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10610,6 +11113,8 @@ void unwrap_VkPerformanceStreamMarkerInfoINTEL(struct wrapper_device *device,
         return;
 
     unwrap_VkPerformanceStreamMarkerInfoINTEL_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10643,6 +11148,8 @@ void unwrap_VkPhysicalDevice16BitStorageFeatures(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDevice16BitStorageFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10674,6 +11181,8 @@ void unwrap_VkPhysicalDevice4444FormatsFeaturesEXT(struct wrapper_device *device
         return;
 
     unwrap_VkPhysicalDevice4444FormatsFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10706,6 +11215,8 @@ void unwrap_VkPhysicalDevice8BitStorageFeatures(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDevice8BitStorageFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10736,6 +11247,8 @@ void unwrap_VkPhysicalDeviceASTCDecodeFeaturesEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceASTCDecodeFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10770,6 +11283,8 @@ void unwrap_VkPhysicalDeviceAccelerationStructureFeaturesKHR(struct wrapper_devi
         return;
 
     unwrap_VkPhysicalDeviceAccelerationStructureFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10807,6 +11322,8 @@ void unwrap_VkPhysicalDeviceAccelerationStructurePropertiesKHR(struct wrapper_de
         return;
 
     unwrap_VkPhysicalDeviceAccelerationStructurePropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10837,6 +11354,8 @@ void unwrap_VkPhysicalDeviceAddressBindingReportFeaturesEXT(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceAddressBindingReportFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10867,6 +11386,8 @@ void unwrap_VkPhysicalDeviceAmigoProfilingFeaturesSEC(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceAmigoProfilingFeaturesSEC_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10897,6 +11418,8 @@ void unwrap_VkPhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT(struct
         return;
 
     unwrap_VkPhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10927,6 +11450,8 @@ void unwrap_VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT(struct wrapp
         return;
 
     unwrap_VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10957,6 +11482,8 @@ void unwrap_VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT(struct wrapper_dev
         return;
 
     unwrap_VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -10992,6 +11519,8 @@ void unwrap_VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT(struct wrapper_d
         return;
 
     unwrap_VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11023,6 +11552,8 @@ void unwrap_VkPhysicalDeviceBorderColorSwizzleFeaturesEXT(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceBorderColorSwizzleFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11055,6 +11586,8 @@ void unwrap_VkPhysicalDeviceBufferDeviceAddressFeatures(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDeviceBufferDeviceAddressFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11087,6 +11620,8 @@ void unwrap_VkPhysicalDeviceBufferDeviceAddressFeaturesEXT(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceBufferDeviceAddressFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11118,6 +11653,7 @@ void unwrap_VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI(struct wrapper_de
         return;
 
     unwrap_VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPhysicalDeviceClusterCullingShaderVrsFeaturesHUAWEI]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -11147,6 +11683,7 @@ void unwrap_VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI(struct wrapper_de
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -11180,6 +11717,8 @@ void unwrap_VkPhysicalDeviceClusterCullingShaderPropertiesHUAWEI(struct wrapper_
         return;
 
     unwrap_VkPhysicalDeviceClusterCullingShaderPropertiesHUAWEI_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11210,6 +11749,8 @@ void unwrap_VkPhysicalDeviceClusterCullingShaderVrsFeaturesHUAWEI(struct wrapper
         return;
 
     unwrap_VkPhysicalDeviceClusterCullingShaderVrsFeaturesHUAWEI_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11240,6 +11781,8 @@ void unwrap_VkPhysicalDeviceCoherentMemoryFeaturesAMD(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceCoherentMemoryFeaturesAMD_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11270,6 +11813,8 @@ void unwrap_VkPhysicalDeviceColorWriteEnableFeaturesEXT(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDeviceColorWriteEnableFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11301,6 +11846,8 @@ void unwrap_VkPhysicalDeviceComputeShaderDerivativesFeaturesNV(struct wrapper_de
         return;
 
     unwrap_VkPhysicalDeviceComputeShaderDerivativesFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11332,6 +11879,8 @@ void unwrap_VkPhysicalDeviceConditionalRenderingFeaturesEXT(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceConditionalRenderingFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11370,6 +11919,8 @@ void unwrap_VkPhysicalDeviceConservativeRasterizationPropertiesEXT(struct wrappe
         return;
 
     unwrap_VkPhysicalDeviceConservativeRasterizationPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11401,6 +11952,8 @@ void unwrap_VkPhysicalDeviceCooperativeMatrixFeaturesKHR(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceCooperativeMatrixFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11432,6 +11985,8 @@ void unwrap_VkPhysicalDeviceCooperativeMatrixFeaturesNV(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDeviceCooperativeMatrixFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11462,6 +12017,8 @@ void unwrap_VkPhysicalDeviceCooperativeMatrixPropertiesKHR(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceCooperativeMatrixPropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11492,6 +12049,8 @@ void unwrap_VkPhysicalDeviceCooperativeMatrixPropertiesNV(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceCooperativeMatrixPropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11522,6 +12081,8 @@ void unwrap_VkPhysicalDeviceCopyMemoryIndirectFeaturesNV(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceCopyMemoryIndirectFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11552,6 +12113,8 @@ void unwrap_VkPhysicalDeviceCopyMemoryIndirectPropertiesNV(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceCopyMemoryIndirectPropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11582,6 +12145,8 @@ void unwrap_VkPhysicalDeviceCornerSampledImageFeaturesNV(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceCornerSampledImageFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11612,6 +12177,8 @@ void unwrap_VkPhysicalDeviceCoverageReductionModeFeaturesNV(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceCoverageReductionModeFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11642,6 +12209,8 @@ void unwrap_VkPhysicalDeviceCubicClampFeaturesQCOM(struct wrapper_device *device
         return;
 
     unwrap_VkPhysicalDeviceCubicClampFeaturesQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11672,6 +12241,8 @@ void unwrap_VkPhysicalDeviceCubicWeightsFeaturesQCOM(struct wrapper_device *devi
         return;
 
     unwrap_VkPhysicalDeviceCubicWeightsFeaturesQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11702,6 +12273,8 @@ void unwrap_VkPhysicalDeviceCudaKernelLaunchFeaturesNV(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceCudaKernelLaunchFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11733,6 +12306,8 @@ void unwrap_VkPhysicalDeviceCudaKernelLaunchPropertiesNV(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceCudaKernelLaunchPropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11764,6 +12339,8 @@ void unwrap_VkPhysicalDeviceCustomBorderColorFeaturesEXT(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceCustomBorderColorFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11794,6 +12371,8 @@ void unwrap_VkPhysicalDeviceCustomBorderColorPropertiesEXT(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceCustomBorderColorPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11824,6 +12403,8 @@ void unwrap_VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV(struct wr
         return;
 
     unwrap_VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11857,6 +12438,8 @@ void unwrap_VkPhysicalDeviceDepthBiasControlFeaturesEXT(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDeviceDepthBiasControlFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11887,6 +12470,8 @@ void unwrap_VkPhysicalDeviceDepthClampZeroOneFeaturesEXT(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceDepthClampZeroOneFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11917,6 +12502,8 @@ void unwrap_VkPhysicalDeviceDepthClipControlFeaturesEXT(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDeviceDepthClipControlFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11947,6 +12534,8 @@ void unwrap_VkPhysicalDeviceDepthClipEnableFeaturesEXT(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceDepthClipEnableFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -11980,6 +12569,8 @@ void unwrap_VkPhysicalDeviceDepthStencilResolveProperties(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceDepthStencilResolveProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12010,6 +12601,8 @@ void unwrap_VkPhysicalDeviceDescriptorBufferDensityMapPropertiesEXT(struct wrapp
         return;
 
     unwrap_VkPhysicalDeviceDescriptorBufferDensityMapPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12043,6 +12636,8 @@ void unwrap_VkPhysicalDeviceDescriptorBufferFeaturesEXT(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDeviceDescriptorBufferFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12105,6 +12700,8 @@ void unwrap_VkPhysicalDeviceDescriptorBufferPropertiesEXT(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceDescriptorBufferPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12154,6 +12751,8 @@ void unwrap_VkPhysicalDeviceDescriptorIndexingFeatures(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceDescriptorIndexingFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12206,6 +12805,8 @@ void unwrap_VkPhysicalDeviceDescriptorIndexingProperties(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceDescriptorIndexingProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12236,6 +12837,8 @@ void unwrap_VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV(struct wrappe
         return;
 
     unwrap_VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12266,6 +12869,8 @@ void unwrap_VkPhysicalDeviceDescriptorSetHostMappingFeaturesVALVE(struct wrapper
         return;
 
     unwrap_VkPhysicalDeviceDescriptorSetHostMappingFeaturesVALVE_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12298,6 +12903,8 @@ void unwrap_VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV(struct wrap
         return;
 
     unwrap_VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12328,6 +12935,8 @@ void unwrap_VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV(struct wrapper_dev
         return;
 
     unwrap_VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12366,6 +12975,8 @@ void unwrap_VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV(struct wrapper_d
         return;
 
     unwrap_VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12396,6 +13007,8 @@ void unwrap_VkPhysicalDeviceDeviceMemoryReportFeaturesEXT(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceDeviceMemoryReportFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12426,6 +13039,8 @@ void unwrap_VkPhysicalDeviceDiagnosticsConfigFeaturesNV(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDeviceDiagnosticsConfigFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12456,6 +13071,8 @@ void unwrap_VkPhysicalDeviceDiscardRectanglePropertiesEXT(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceDiscardRectanglePropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12489,6 +13106,8 @@ void unwrap_VkPhysicalDeviceDriverProperties(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceDriverProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12524,6 +13143,8 @@ void unwrap_VkPhysicalDeviceDrmPropertiesEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceDrmPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12554,6 +13175,8 @@ void unwrap_VkPhysicalDeviceDynamicRenderingFeatures(struct wrapper_device *devi
         return;
 
     unwrap_VkPhysicalDeviceDynamicRenderingFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12584,6 +13207,8 @@ void unwrap_VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR(struct wrapper_
         return;
 
     unwrap_VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12614,6 +13239,8 @@ void unwrap_VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT(struct 
         return;
 
     unwrap_VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12644,6 +13271,8 @@ void unwrap_VkPhysicalDeviceExclusiveScissorFeaturesNV(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceExclusiveScissorFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12676,6 +13305,8 @@ void unwrap_VkPhysicalDeviceExtendedDynamicState2FeaturesEXT(struct wrapper_devi
         return;
 
     unwrap_VkPhysicalDeviceExtendedDynamicState2FeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12736,6 +13367,8 @@ void unwrap_VkPhysicalDeviceExtendedDynamicState3FeaturesEXT(struct wrapper_devi
         return;
 
     unwrap_VkPhysicalDeviceExtendedDynamicState3FeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12766,6 +13399,8 @@ void unwrap_VkPhysicalDeviceExtendedDynamicState3PropertiesEXT(struct wrapper_de
         return;
 
     unwrap_VkPhysicalDeviceExtendedDynamicState3PropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12796,6 +13431,8 @@ void unwrap_VkPhysicalDeviceExtendedDynamicStateFeaturesEXT(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceExtendedDynamicStateFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12826,6 +13463,8 @@ void unwrap_VkPhysicalDeviceExtendedSparseAddressSpaceFeaturesNV(struct wrapper_
         return;
 
     unwrap_VkPhysicalDeviceExtendedSparseAddressSpaceFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12858,6 +13497,8 @@ void unwrap_VkPhysicalDeviceExtendedSparseAddressSpacePropertiesNV(struct wrappe
         return;
 
     unwrap_VkPhysicalDeviceExtendedSparseAddressSpacePropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12890,6 +13531,7 @@ void unwrap_VkPhysicalDeviceExternalBufferInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceExternalBufferInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkBufferUsageFlags2CreateInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -12919,6 +13561,7 @@ void unwrap_VkPhysicalDeviceExternalBufferInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -12949,6 +13592,8 @@ void unwrap_VkPhysicalDeviceExternalFenceInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceExternalFenceInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -12979,6 +13624,8 @@ void unwrap_VkPhysicalDeviceExternalFormatResolveFeaturesANDROID(struct wrapper_
         return;
 
     unwrap_VkPhysicalDeviceExternalFormatResolveFeaturesANDROID_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13011,6 +13658,8 @@ void unwrap_VkPhysicalDeviceExternalFormatResolvePropertiesANDROID(struct wrappe
         return;
 
     unwrap_VkPhysicalDeviceExternalFormatResolvePropertiesANDROID_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13041,6 +13690,8 @@ void unwrap_VkPhysicalDeviceExternalImageFormatInfo(struct wrapper_device *devic
         return;
 
     unwrap_VkPhysicalDeviceExternalImageFormatInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13071,6 +13722,8 @@ void unwrap_VkPhysicalDeviceExternalMemoryHostPropertiesEXT(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceExternalMemoryHostPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13101,6 +13754,8 @@ void unwrap_VkPhysicalDeviceExternalMemoryRDMAFeaturesNV(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceExternalMemoryRDMAFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13131,6 +13786,7 @@ void unwrap_VkPhysicalDeviceExternalSemaphoreInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceExternalSemaphoreInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkSemaphoreTypeCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -13160,6 +13816,7 @@ void unwrap_VkPhysicalDeviceExternalSemaphoreInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -13191,6 +13848,8 @@ void unwrap_VkPhysicalDeviceFaultFeaturesEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceFaultFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13221,6 +13880,7 @@ void unwrap_VkPhysicalDeviceFeatures2(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceFeatures2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV, VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV, VkPhysicalDevicePrivateDataFeatures, VkPhysicalDeviceVariablePointersFeatures, VkPhysicalDeviceMultiviewFeatures, VkPhysicalDevicePresentIdFeaturesKHR, VkPhysicalDevicePresentWaitFeaturesKHR, VkPhysicalDevice16BitStorageFeatures, VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures, VkPhysicalDeviceSamplerYcbcrConversionFeatures, VkPhysicalDeviceProtectedMemoryFeatures, VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT, VkPhysicalDeviceMultiDrawFeaturesEXT, VkPhysicalDeviceInlineUniformBlockFeatures, VkPhysicalDeviceMaintenance4Features, VkPhysicalDeviceMaintenance5FeaturesKHR, VkPhysicalDeviceMaintenance6FeaturesKHR, VkPhysicalDeviceMaintenance7FeaturesKHR, VkPhysicalDeviceShaderDrawParametersFeatures, VkPhysicalDeviceShaderFloat16Int8Features, VkPhysicalDeviceHostQueryResetFeatures, VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR, VkPhysicalDeviceDeviceMemoryReportFeaturesEXT, VkPhysicalDeviceDescriptorIndexingFeatures, VkPhysicalDeviceTimelineSemaphoreFeatures, VkPhysicalDevice8BitStorageFeatures, VkPhysicalDeviceConditionalRenderingFeaturesEXT, VkPhysicalDeviceVulkanMemoryModelFeatures, VkPhysicalDeviceShaderAtomicInt64Features, VkPhysicalDeviceShaderAtomicFloatFeaturesEXT, VkPhysicalDeviceShaderAtomicFloat2FeaturesEXT, VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR, VkPhysicalDeviceASTCDecodeFeaturesEXT, VkPhysicalDeviceTransformFeedbackFeaturesEXT, VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV, VkPhysicalDeviceExclusiveScissorFeaturesNV, VkPhysicalDeviceCornerSampledImageFeaturesNV, VkPhysicalDeviceComputeShaderDerivativesFeaturesNV, VkPhysicalDeviceShaderImageFootprintFeaturesNV, VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV, VkPhysicalDeviceCopyMemoryIndirectFeaturesNV, VkPhysicalDeviceMemoryDecompressionFeaturesNV, VkPhysicalDeviceShadingRateImageFeaturesNV, VkPhysicalDeviceInvocationMaskFeaturesHUAWEI, VkPhysicalDeviceMeshShaderFeaturesNV, VkPhysicalDeviceMeshShaderFeaturesEXT, VkPhysicalDeviceAccelerationStructureFeaturesKHR, VkPhysicalDeviceRayTracingPipelineFeaturesKHR, VkPhysicalDeviceRayQueryFeaturesKHR, VkPhysicalDeviceRayTracingMaintenance1FeaturesKHR, VkPhysicalDeviceFragmentDensityMapFeaturesEXT, VkPhysicalDeviceFragmentDensityMap2FeaturesEXT, VkPhysicalDeviceFragmentDensityMapOffsetFeaturesQCOM, VkPhysicalDeviceScalarBlockLayoutFeatures, VkPhysicalDeviceUniformBufferStandardLayoutFeatures, VkPhysicalDeviceDepthClipEnableFeaturesEXT, VkPhysicalDeviceMemoryPriorityFeaturesEXT, VkPhysicalDevicePageableDeviceLocalMemoryFeaturesEXT, VkPhysicalDeviceBufferDeviceAddressFeatures, VkPhysicalDeviceBufferDeviceAddressFeaturesEXT, VkPhysicalDeviceImagelessFramebufferFeatures, VkPhysicalDeviceTextureCompressionASTCHDRFeatures, VkPhysicalDeviceCooperativeMatrixFeaturesNV, VkPhysicalDeviceYcbcrImageArraysFeaturesEXT, VkPhysicalDevicePresentBarrierFeaturesNV, VkPhysicalDevicePerformanceQueryFeaturesKHR, VkPhysicalDeviceCoverageReductionModeFeaturesNV, VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL, VkPhysicalDeviceShaderClockFeaturesKHR, VkPhysicalDeviceIndexTypeUint8FeaturesKHR, VkPhysicalDeviceShaderSMBuiltinsFeaturesNV, VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT, VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures, VkPhysicalDevicePrimitiveTopologyListRestartFeaturesEXT, VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR, VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures, VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT, VkPhysicalDeviceSubgroupSizeControlFeatures, VkPhysicalDeviceLineRasterizationFeaturesKHR, VkPhysicalDevicePipelineCreationCacheControlFeatures, VkPhysicalDeviceVulkan11Features, VkPhysicalDeviceVulkan12Features, VkPhysicalDeviceVulkan13Features, VkPhysicalDeviceCoherentMemoryFeaturesAMD, VkPhysicalDeviceCustomBorderColorFeaturesEXT, VkPhysicalDeviceBorderColorSwizzleFeaturesEXT, VkPhysicalDeviceExtendedDynamicStateFeaturesEXT, VkPhysicalDeviceExtendedDynamicState2FeaturesEXT, VkPhysicalDeviceExtendedDynamicState3FeaturesEXT, VkPhysicalDeviceDiagnosticsConfigFeaturesNV, VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures, VkPhysicalDeviceShaderSubgroupUniformControlFlowFeaturesKHR, VkPhysicalDeviceRobustness2FeaturesEXT, VkPhysicalDeviceImageRobustnessFeatures, VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR, VkPhysicalDevice4444FormatsFeaturesEXT, VkPhysicalDeviceSubpassShadingFeaturesHUAWEI, VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI, VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT, VkPhysicalDeviceFragmentShadingRateFeaturesKHR, VkPhysicalDeviceShaderTerminateInvocationFeatures, VkPhysicalDeviceFragmentShadingRateEnumsFeaturesNV, VkPhysicalDeviceImage2DViewOf3DFeaturesEXT, VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT, VkPhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT, VkPhysicalDeviceLegacyVertexAttributesFeaturesEXT, VkPhysicalDeviceMutableDescriptorTypeFeaturesEXT, VkPhysicalDeviceDepthClipControlFeaturesEXT, VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT, VkPhysicalDeviceExternalMemoryRDMAFeaturesNV, VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR, VkPhysicalDeviceColorWriteEnableFeaturesEXT, VkPhysicalDeviceSynchronization2Features, VkPhysicalDeviceHostImageCopyFeaturesEXT, VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT, VkPhysicalDeviceLegacyDitheringFeaturesEXT, VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT, VkPhysicalDevicePipelineProtectedAccessFeaturesEXT, VkPhysicalDeviceVideoMaintenance1FeaturesKHR, VkPhysicalDeviceInheritedViewportScissorFeaturesNV, VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT, VkPhysicalDeviceProvokingVertexFeaturesEXT, VkPhysicalDeviceDescriptorBufferFeaturesEXT, VkPhysicalDeviceShaderIntegerDotProductFeatures, VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR, VkPhysicalDeviceRayTracingMotionBlurFeaturesNV, VkPhysicalDeviceRayTracingValidationFeaturesNV, VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT, VkPhysicalDeviceDynamicRenderingFeatures, VkPhysicalDeviceImageViewMinLodFeaturesEXT, VkPhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT, VkPhysicalDeviceLinearColorAttachmentFeaturesNV, VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT, VkPhysicalDeviceDescriptorSetHostMappingFeaturesVALVE, VkPhysicalDeviceNestedCommandBufferFeaturesEXT, VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT, VkPhysicalDeviceImageCompressionControlFeaturesEXT, VkPhysicalDeviceImageCompressionControlSwapchainFeaturesEXT, VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT, VkPhysicalDeviceOpacityMicromapFeaturesEXT, VkPhysicalDevicePipelinePropertiesFeaturesEXT, VkPhysicalDeviceShaderEarlyAndLateFragmentTestsFeaturesAMD, VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT, VkPhysicalDevicePipelineRobustnessFeaturesEXT, VkPhysicalDeviceImageProcessingFeaturesQCOM, VkPhysicalDeviceTilePropertiesFeaturesQCOM, VkPhysicalDeviceAmigoProfilingFeaturesSEC, VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT, VkPhysicalDeviceDepthClampZeroOneFeaturesEXT, VkPhysicalDeviceAddressBindingReportFeaturesEXT, VkPhysicalDeviceOpticalFlowFeaturesNV, VkPhysicalDeviceFaultFeaturesEXT, VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT, VkPhysicalDeviceShaderCoreBuiltinsFeaturesARM, VkPhysicalDeviceFrameBoundaryFeaturesEXT, VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT, VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT, VkPhysicalDeviceDepthBiasControlFeaturesEXT, VkPhysicalDeviceRayTracingInvocationReorderFeaturesNV, VkPhysicalDeviceExtendedSparseAddressSpaceFeaturesNV, VkPhysicalDeviceMultiviewPerViewViewportsFeaturesQCOM, VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR, VkPhysicalDeviceMultiviewPerViewRenderAreasFeaturesQCOM, VkPhysicalDeviceShaderObjectFeaturesEXT, VkPhysicalDeviceShaderTileImageFeaturesEXT, VkPhysicalDeviceCooperativeMatrixFeaturesKHR, VkPhysicalDeviceCubicClampFeaturesQCOM, VkPhysicalDeviceYcbcrDegammaFeaturesQCOM, VkPhysicalDeviceCubicWeightsFeaturesQCOM, VkPhysicalDeviceImageProcessing2FeaturesQCOM, VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV, VkPhysicalDevicePerStageDescriptorSetFeaturesNV, VkPhysicalDeviceExternalFormatResolveFeaturesANDROID, VkPhysicalDeviceCudaKernelLaunchFeaturesNV, VkPhysicalDeviceSchedulingControlsFeaturesARM, VkPhysicalDeviceRelaxedLineRasterizationFeaturesIMG, VkPhysicalDeviceRenderPassStripedFeaturesARM, VkPhysicalDeviceShaderMaximalReconvergenceFeaturesKHR, VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR, VkPhysicalDeviceShaderExpectAssumeFeaturesKHR, VkPhysicalDeviceShaderFloatControls2FeaturesKHR, VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR, VkPhysicalDeviceShaderQuadControlFeaturesKHR, VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV, VkPhysicalDeviceMapMemoryPlacedFeaturesEXT, VkPhysicalDeviceRawAccessChainsFeaturesNV, VkPhysicalDeviceImageAlignmentControlFeaturesMESA, VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -13250,6 +13910,7 @@ void unwrap_VkPhysicalDeviceFeatures2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -13296,6 +13957,8 @@ void unwrap_VkPhysicalDeviceFloatControlsProperties(struct wrapper_device *devic
         return;
 
     unwrap_VkPhysicalDeviceFloatControlsProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13326,6 +13989,8 @@ void unwrap_VkPhysicalDeviceFragmentDensityMap2FeaturesEXT(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceFragmentDensityMap2FeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13359,6 +14024,8 @@ void unwrap_VkPhysicalDeviceFragmentDensityMap2PropertiesEXT(struct wrapper_devi
         return;
 
     unwrap_VkPhysicalDeviceFragmentDensityMap2PropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13391,6 +14058,8 @@ void unwrap_VkPhysicalDeviceFragmentDensityMapFeaturesEXT(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceFragmentDensityMapFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13421,6 +14090,8 @@ void unwrap_VkPhysicalDeviceFragmentDensityMapOffsetFeaturesQCOM(struct wrapper_
         return;
 
     unwrap_VkPhysicalDeviceFragmentDensityMapOffsetFeaturesQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13451,6 +14122,8 @@ void unwrap_VkPhysicalDeviceFragmentDensityMapOffsetPropertiesQCOM(struct wrappe
         return;
 
     unwrap_VkPhysicalDeviceFragmentDensityMapOffsetPropertiesQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13483,6 +14156,8 @@ void unwrap_VkPhysicalDeviceFragmentDensityMapPropertiesEXT(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceFragmentDensityMapPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13513,6 +14188,8 @@ void unwrap_VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR(struct wrapper_
         return;
 
     unwrap_VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13543,6 +14220,8 @@ void unwrap_VkPhysicalDeviceFragmentShaderBarycentricPropertiesKHR(struct wrappe
         return;
 
     unwrap_VkPhysicalDeviceFragmentShaderBarycentricPropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13575,6 +14254,8 @@ void unwrap_VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT(struct wrapper_de
         return;
 
     unwrap_VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13607,6 +14288,8 @@ void unwrap_VkPhysicalDeviceFragmentShadingRateEnumsFeaturesNV(struct wrapper_de
         return;
 
     unwrap_VkPhysicalDeviceFragmentShadingRateEnumsFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13637,6 +14320,8 @@ void unwrap_VkPhysicalDeviceFragmentShadingRateEnumsPropertiesNV(struct wrapper_
         return;
 
     unwrap_VkPhysicalDeviceFragmentShadingRateEnumsPropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13669,6 +14354,8 @@ void unwrap_VkPhysicalDeviceFragmentShadingRateFeaturesKHR(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceFragmentShadingRateFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13700,6 +14387,8 @@ void unwrap_VkPhysicalDeviceFragmentShadingRateKHR(struct wrapper_device *device
         return;
 
     unwrap_VkPhysicalDeviceFragmentShadingRateKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13746,6 +14435,8 @@ void unwrap_VkPhysicalDeviceFragmentShadingRatePropertiesKHR(struct wrapper_devi
         return;
 
     unwrap_VkPhysicalDeviceFragmentShadingRatePropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13776,6 +14467,8 @@ void unwrap_VkPhysicalDeviceFrameBoundaryFeaturesEXT(struct wrapper_device *devi
         return;
 
     unwrap_VkPhysicalDeviceFrameBoundaryFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13806,6 +14499,8 @@ void unwrap_VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13836,6 +14531,8 @@ void unwrap_VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT(struct wrapper_de
         return;
 
     unwrap_VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13867,6 +14564,8 @@ void unwrap_VkPhysicalDeviceGraphicsPipelineLibraryPropertiesEXT(struct wrapper_
         return;
 
     unwrap_VkPhysicalDeviceGraphicsPipelineLibraryPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13897,6 +14596,8 @@ void unwrap_VkPhysicalDeviceHostImageCopyFeaturesEXT(struct wrapper_device *devi
         return;
 
     unwrap_VkPhysicalDeviceHostImageCopyFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13932,6 +14633,8 @@ void unwrap_VkPhysicalDeviceHostImageCopyPropertiesEXT(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceHostImageCopyPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13962,6 +14665,8 @@ void unwrap_VkPhysicalDeviceHostQueryResetFeatures(struct wrapper_device *device
         return;
 
     unwrap_VkPhysicalDeviceHostQueryResetFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -13996,6 +14701,8 @@ void unwrap_VkPhysicalDeviceIDProperties(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceIDProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14027,6 +14734,8 @@ void unwrap_VkPhysicalDeviceImage2DViewOf3DFeaturesEXT(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceImage2DViewOf3DFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14057,6 +14766,8 @@ void unwrap_VkPhysicalDeviceImageAlignmentControlFeaturesMESA(struct wrapper_dev
         return;
 
     unwrap_VkPhysicalDeviceImageAlignmentControlFeaturesMESA_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14087,6 +14798,8 @@ void unwrap_VkPhysicalDeviceImageAlignmentControlPropertiesMESA(struct wrapper_d
         return;
 
     unwrap_VkPhysicalDeviceImageAlignmentControlPropertiesMESA_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14117,6 +14830,8 @@ void unwrap_VkPhysicalDeviceImageCompressionControlFeaturesEXT(struct wrapper_de
         return;
 
     unwrap_VkPhysicalDeviceImageCompressionControlFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14147,6 +14862,8 @@ void unwrap_VkPhysicalDeviceImageCompressionControlSwapchainFeaturesEXT(struct w
         return;
 
     unwrap_VkPhysicalDeviceImageCompressionControlSwapchainFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14180,12 +14897,15 @@ void unwrap_VkPhysicalDeviceImageDrmFormatModifierInfoEXT(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceImageDrmFormatModifierInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkPhysicalDeviceImageFormatInfo2 - Not tainted, unwrapping is just a copy
 void
 unwrap_VkPhysicalDeviceImageFormatInfo2_members_only(struct wrapper_device *device,
                           VkPhysicalDeviceImageFormatInfo2 *out_info,
@@ -14199,10 +14919,6 @@ unwrap_VkPhysicalDeviceImageFormatInfo2_members_only(struct wrapper_device *devi
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_IMAGE_FORMAT_INFO_2', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void* pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat format = member{'name': 'format', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                         format', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->format = unwrap_vk_format(device, in_info->format);
-
     // VkImageType type = member{'name': 'type', 'type': 'VkImageType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkImageType', 'api': 'vulkan', 'text': 'VkImageType                      type', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkImageTiling tiling = member{'name': 'tiling', 'type': 'VkImageTiling', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkImageTiling', 'api': 'vulkan', 'text': 'VkImageTiling                    tiling', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkImageUsageFlags usage = member{'name': 'usage', 'type': 'VkImageUsageFlags', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkImageUsageFlags', 'api': 'vulkan', 'text': 'VkImageUsageFlags                usage', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
@@ -14217,6 +14933,7 @@ void unwrap_VkPhysicalDeviceImageFormatInfo2(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceImageFormatInfo2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPhysicalDeviceExternalImageFormatInfo, VkImageFormatListCreateInfo, VkPhysicalDeviceImageDrmFormatModifierInfoEXT, VkImageStencilUsageCreateInfo, VkPhysicalDeviceImageViewImageFormatInfoEXT, VkVideoProfileListInfoKHR, VkImageCompressionControlEXT, VkOpticalFlowImageFormatInfoNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -14232,10 +14949,6 @@ void unwrap_VkPhysicalDeviceImageFormatInfo2(struct wrapper_device *device,
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
-        // "VkPhysicalDeviceImageFormatInfo2: pNext extension VkImageFormatListCreateInfo contains a wrapped handle (['VkFormat']) and must be unwrapped"
-        case VK_STRUCTURE_TYPE_IMAGE_FORMAT_LIST_CREATE_INFO:
-            unwrap_VkImageFormatListCreateInfo_members_only(device, (VkImageFormatListCreateInfo *)new_item, (const VkImageFormatListCreateInfo *)item);
-            break;
         default:
             break;
         }
@@ -14250,6 +14963,7 @@ void unwrap_VkPhysicalDeviceImageFormatInfo2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -14280,6 +14994,8 @@ void unwrap_VkPhysicalDeviceImageProcessing2FeaturesQCOM(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceImageProcessing2FeaturesQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14310,6 +15026,8 @@ void unwrap_VkPhysicalDeviceImageProcessing2PropertiesQCOM(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceImageProcessing2PropertiesQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14342,6 +15060,8 @@ void unwrap_VkPhysicalDeviceImageProcessingFeaturesQCOM(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDeviceImageProcessingFeaturesQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14375,6 +15095,8 @@ void unwrap_VkPhysicalDeviceImageProcessingPropertiesQCOM(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceImageProcessingPropertiesQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14405,6 +15127,8 @@ void unwrap_VkPhysicalDeviceImageRobustnessFeatures(struct wrapper_device *devic
         return;
 
     unwrap_VkPhysicalDeviceImageRobustnessFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14435,6 +15159,8 @@ void unwrap_VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14465,6 +15191,8 @@ void unwrap_VkPhysicalDeviceImageViewImageFormatInfoEXT(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDeviceImageViewImageFormatInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14495,6 +15223,8 @@ void unwrap_VkPhysicalDeviceImageViewMinLodFeaturesEXT(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceImageViewMinLodFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14525,6 +15255,8 @@ void unwrap_VkPhysicalDeviceImagelessFramebufferFeatures(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceImagelessFramebufferFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14555,6 +15287,8 @@ void unwrap_VkPhysicalDeviceIndexTypeUint8FeaturesKHR(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceIndexTypeUint8FeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14585,6 +15319,8 @@ void unwrap_VkPhysicalDeviceInheritedViewportScissorFeaturesNV(struct wrapper_de
         return;
 
     unwrap_VkPhysicalDeviceInheritedViewportScissorFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14616,6 +15352,8 @@ void unwrap_VkPhysicalDeviceInlineUniformBlockFeatures(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceInlineUniformBlockFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14650,6 +15388,8 @@ void unwrap_VkPhysicalDeviceInlineUniformBlockProperties(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceInlineUniformBlockProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14680,6 +15420,8 @@ void unwrap_VkPhysicalDeviceInvocationMaskFeaturesHUAWEI(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceInvocationMaskFeaturesHUAWEI_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14713,6 +15455,7 @@ void unwrap_VkPhysicalDeviceLayeredApiPropertiesKHR(struct wrapper_device *devic
         return;
 
     unwrap_VkPhysicalDeviceLayeredApiPropertiesKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPhysicalDeviceLayeredApiVulkanPropertiesKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -14742,6 +15485,7 @@ void unwrap_VkPhysicalDeviceLayeredApiPropertiesKHR(struct wrapper_device *devic
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -14773,6 +15517,8 @@ void unwrap_VkPhysicalDeviceLayeredApiPropertiesListKHR(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDeviceLayeredApiPropertiesListKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14803,6 +15549,8 @@ void unwrap_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14833,6 +15581,8 @@ void unwrap_VkPhysicalDeviceLayeredDriverPropertiesMSFT(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDeviceLayeredDriverPropertiesMSFT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14863,6 +15613,8 @@ void unwrap_VkPhysicalDeviceLegacyDitheringFeaturesEXT(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceLegacyDitheringFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14893,6 +15645,8 @@ void unwrap_VkPhysicalDeviceLegacyVertexAttributesFeaturesEXT(struct wrapper_dev
         return;
 
     unwrap_VkPhysicalDeviceLegacyVertexAttributesFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14923,6 +15677,8 @@ void unwrap_VkPhysicalDeviceLegacyVertexAttributesPropertiesEXT(struct wrapper_d
         return;
 
     unwrap_VkPhysicalDeviceLegacyVertexAttributesPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14958,6 +15714,8 @@ void unwrap_VkPhysicalDeviceLineRasterizationFeaturesKHR(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceLineRasterizationFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -14988,6 +15746,8 @@ void unwrap_VkPhysicalDeviceLineRasterizationPropertiesKHR(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceLineRasterizationPropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15018,6 +15778,8 @@ void unwrap_VkPhysicalDeviceLinearColorAttachmentFeaturesNV(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceLinearColorAttachmentFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15049,6 +15811,8 @@ void unwrap_VkPhysicalDeviceMaintenance3Properties(struct wrapper_device *device
         return;
 
     unwrap_VkPhysicalDeviceMaintenance3Properties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15079,6 +15843,8 @@ void unwrap_VkPhysicalDeviceMaintenance4Features(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceMaintenance4Features_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15109,6 +15875,8 @@ void unwrap_VkPhysicalDeviceMaintenance4Properties(struct wrapper_device *device
         return;
 
     unwrap_VkPhysicalDeviceMaintenance4Properties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15139,6 +15907,8 @@ void unwrap_VkPhysicalDeviceMaintenance5FeaturesKHR(struct wrapper_device *devic
         return;
 
     unwrap_VkPhysicalDeviceMaintenance5FeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15174,6 +15944,8 @@ void unwrap_VkPhysicalDeviceMaintenance5PropertiesKHR(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceMaintenance5PropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15204,6 +15976,8 @@ void unwrap_VkPhysicalDeviceMaintenance6FeaturesKHR(struct wrapper_device *devic
         return;
 
     unwrap_VkPhysicalDeviceMaintenance6FeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15236,6 +16010,8 @@ void unwrap_VkPhysicalDeviceMaintenance6PropertiesKHR(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceMaintenance6PropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15266,6 +16042,8 @@ void unwrap_VkPhysicalDeviceMaintenance7FeaturesKHR(struct wrapper_device *devic
         return;
 
     unwrap_VkPhysicalDeviceMaintenance7FeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15303,6 +16081,8 @@ void unwrap_VkPhysicalDeviceMaintenance7PropertiesKHR(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceMaintenance7PropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15335,6 +16115,8 @@ void unwrap_VkPhysicalDeviceMapMemoryPlacedFeaturesEXT(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceMapMemoryPlacedFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15365,6 +16147,8 @@ void unwrap_VkPhysicalDeviceMapMemoryPlacedPropertiesEXT(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceMapMemoryPlacedPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15396,6 +16180,8 @@ void unwrap_VkPhysicalDeviceMemoryBudgetPropertiesEXT(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceMemoryBudgetPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15426,6 +16212,8 @@ void unwrap_VkPhysicalDeviceMemoryDecompressionFeaturesNV(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceMemoryDecompressionFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15457,6 +16245,8 @@ void unwrap_VkPhysicalDeviceMemoryDecompressionPropertiesNV(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceMemoryDecompressionPropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15487,6 +16277,8 @@ void unwrap_VkPhysicalDeviceMemoryPriorityFeaturesEXT(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceMemoryPriorityFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15517,6 +16309,7 @@ void unwrap_VkPhysicalDeviceMemoryProperties2(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceMemoryProperties2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPhysicalDeviceMemoryBudgetPropertiesEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -15546,6 +16339,7 @@ void unwrap_VkPhysicalDeviceMemoryProperties2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -15580,6 +16374,8 @@ void unwrap_VkPhysicalDeviceMeshShaderFeaturesEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceMeshShaderFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15611,6 +16407,8 @@ void unwrap_VkPhysicalDeviceMeshShaderFeaturesNV(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceMeshShaderFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15668,6 +16466,8 @@ void unwrap_VkPhysicalDeviceMeshShaderPropertiesEXT(struct wrapper_device *devic
         return;
 
     unwrap_VkPhysicalDeviceMeshShaderPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15710,6 +16510,8 @@ void unwrap_VkPhysicalDeviceMeshShaderPropertiesNV(struct wrapper_device *device
         return;
 
     unwrap_VkPhysicalDeviceMeshShaderPropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15740,6 +16542,8 @@ void unwrap_VkPhysicalDeviceMultiDrawFeaturesEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceMultiDrawFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15770,6 +16574,8 @@ void unwrap_VkPhysicalDeviceMultiDrawPropertiesEXT(struct wrapper_device *device
         return;
 
     unwrap_VkPhysicalDeviceMultiDrawPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15800,6 +16606,8 @@ void unwrap_VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT(struct 
         return;
 
     unwrap_VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15832,6 +16640,8 @@ void unwrap_VkPhysicalDeviceMultiviewFeatures(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceMultiviewFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15862,6 +16672,8 @@ void unwrap_VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX(struct wrapp
         return;
 
     unwrap_VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15892,6 +16704,8 @@ void unwrap_VkPhysicalDeviceMultiviewPerViewRenderAreasFeaturesQCOM(struct wrapp
         return;
 
     unwrap_VkPhysicalDeviceMultiviewPerViewRenderAreasFeaturesQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15922,6 +16736,8 @@ void unwrap_VkPhysicalDeviceMultiviewPerViewViewportsFeaturesQCOM(struct wrapper
         return;
 
     unwrap_VkPhysicalDeviceMultiviewPerViewViewportsFeaturesQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15953,6 +16769,8 @@ void unwrap_VkPhysicalDeviceMultiviewProperties(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceMultiviewProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -15983,6 +16801,8 @@ void unwrap_VkPhysicalDeviceMutableDescriptorTypeFeaturesEXT(struct wrapper_devi
         return;
 
     unwrap_VkPhysicalDeviceMutableDescriptorTypeFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16015,6 +16835,8 @@ void unwrap_VkPhysicalDeviceNestedCommandBufferFeaturesEXT(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceNestedCommandBufferFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16045,6 +16867,8 @@ void unwrap_VkPhysicalDeviceNestedCommandBufferPropertiesEXT(struct wrapper_devi
         return;
 
     unwrap_VkPhysicalDeviceNestedCommandBufferPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16075,6 +16899,8 @@ void unwrap_VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16107,6 +16933,8 @@ void unwrap_VkPhysicalDeviceOpacityMicromapFeaturesEXT(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceOpacityMicromapFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16138,6 +16966,8 @@ void unwrap_VkPhysicalDeviceOpacityMicromapPropertiesEXT(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceOpacityMicromapPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16168,6 +16998,8 @@ void unwrap_VkPhysicalDeviceOpticalFlowFeaturesNV(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceOpticalFlowFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16208,6 +17040,8 @@ void unwrap_VkPhysicalDeviceOpticalFlowPropertiesNV(struct wrapper_device *devic
         return;
 
     unwrap_VkPhysicalDeviceOpticalFlowPropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16241,6 +17075,8 @@ void unwrap_VkPhysicalDevicePCIBusInfoPropertiesEXT(struct wrapper_device *devic
         return;
 
     unwrap_VkPhysicalDevicePCIBusInfoPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16271,6 +17107,8 @@ void unwrap_VkPhysicalDevicePageableDeviceLocalMemoryFeaturesEXT(struct wrapper_
         return;
 
     unwrap_VkPhysicalDevicePageableDeviceLocalMemoryFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16302,6 +17140,8 @@ void unwrap_VkPhysicalDevicePerStageDescriptorSetFeaturesNV(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDevicePerStageDescriptorSetFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16333,6 +17173,8 @@ void unwrap_VkPhysicalDevicePerformanceQueryFeaturesKHR(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDevicePerformanceQueryFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16363,6 +17205,8 @@ void unwrap_VkPhysicalDevicePerformanceQueryPropertiesKHR(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDevicePerformanceQueryPropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16393,6 +17237,8 @@ void unwrap_VkPhysicalDevicePipelineCreationCacheControlFeatures(struct wrapper_
         return;
 
     unwrap_VkPhysicalDevicePipelineCreationCacheControlFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16423,6 +17269,8 @@ void unwrap_VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR(struct wrapp
         return;
 
     unwrap_VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16453,6 +17301,8 @@ void unwrap_VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT(struct wrappe
         return;
 
     unwrap_VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16483,6 +17333,8 @@ void unwrap_VkPhysicalDevicePipelinePropertiesFeaturesEXT(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDevicePipelinePropertiesFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16513,6 +17365,8 @@ void unwrap_VkPhysicalDevicePipelineProtectedAccessFeaturesEXT(struct wrapper_de
         return;
 
     unwrap_VkPhysicalDevicePipelineProtectedAccessFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16543,6 +17397,8 @@ void unwrap_VkPhysicalDevicePipelineRobustnessFeaturesEXT(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDevicePipelineRobustnessFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16576,6 +17432,8 @@ void unwrap_VkPhysicalDevicePipelineRobustnessPropertiesEXT(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDevicePipelineRobustnessPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16606,6 +17464,8 @@ void unwrap_VkPhysicalDevicePointClippingProperties(struct wrapper_device *devic
         return;
 
     unwrap_VkPhysicalDevicePointClippingProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16636,6 +17496,8 @@ void unwrap_VkPhysicalDevicePresentBarrierFeaturesNV(struct wrapper_device *devi
         return;
 
     unwrap_VkPhysicalDevicePresentBarrierFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16666,6 +17528,8 @@ void unwrap_VkPhysicalDevicePresentIdFeaturesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDevicePresentIdFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16696,6 +17560,8 @@ void unwrap_VkPhysicalDevicePresentWaitFeaturesKHR(struct wrapper_device *device
         return;
 
     unwrap_VkPhysicalDevicePresentWaitFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16726,6 +17592,8 @@ void unwrap_VkPhysicalDevicePresentationPropertiesANDROID(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDevicePresentationPropertiesANDROID_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16757,6 +17625,8 @@ void unwrap_VkPhysicalDevicePrimitiveTopologyListRestartFeaturesEXT(struct wrapp
         return;
 
     unwrap_VkPhysicalDevicePrimitiveTopologyListRestartFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16789,6 +17659,8 @@ void unwrap_VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT(struct wrapper_d
         return;
 
     unwrap_VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16819,6 +17691,8 @@ void unwrap_VkPhysicalDevicePrivateDataFeatures(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDevicePrivateDataFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16849,6 +17723,7 @@ void unwrap_VkPhysicalDeviceProperties2(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceProperties2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV, VkPhysicalDeviceMultiDrawPropertiesEXT, VkPhysicalDevicePushDescriptorPropertiesKHR, VkPhysicalDeviceDriverProperties, VkPhysicalDeviceIDProperties, VkPhysicalDeviceMultiviewProperties, VkPhysicalDeviceDiscardRectanglePropertiesEXT, VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX, VkPhysicalDeviceSubgroupProperties, VkPhysicalDevicePointClippingProperties, VkPhysicalDeviceProtectedMemoryProperties, VkPhysicalDeviceSamplerFilterMinmaxProperties, VkPhysicalDeviceSampleLocationsPropertiesEXT, VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT, VkPhysicalDeviceInlineUniformBlockProperties, VkPhysicalDeviceMaintenance3Properties, VkPhysicalDeviceMaintenance4Properties, VkPhysicalDeviceMaintenance5PropertiesKHR, VkPhysicalDeviceMaintenance6PropertiesKHR, VkPhysicalDeviceMaintenance7PropertiesKHR, VkPhysicalDeviceLayeredApiPropertiesListKHR, VkPhysicalDeviceFloatControlsProperties, VkPhysicalDeviceExternalMemoryHostPropertiesEXT, VkPhysicalDeviceConservativeRasterizationPropertiesEXT, VkPhysicalDeviceShaderCorePropertiesAMD, VkPhysicalDeviceShaderCoreProperties2AMD, VkPhysicalDeviceDescriptorIndexingProperties, VkPhysicalDeviceTimelineSemaphoreProperties, VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT, VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR, VkPhysicalDevicePCIBusInfoPropertiesEXT, VkPhysicalDeviceDepthStencilResolveProperties, VkPhysicalDeviceTransformFeedbackPropertiesEXT, VkPhysicalDeviceCopyMemoryIndirectPropertiesNV, VkPhysicalDeviceMemoryDecompressionPropertiesNV, VkPhysicalDeviceShadingRateImagePropertiesNV, VkPhysicalDeviceMeshShaderPropertiesNV, VkPhysicalDeviceMeshShaderPropertiesEXT, VkPhysicalDeviceAccelerationStructurePropertiesKHR, VkPhysicalDeviceRayTracingPipelinePropertiesKHR, VkPhysicalDeviceRayTracingPropertiesNV, VkPhysicalDeviceFragmentDensityMapPropertiesEXT, VkPhysicalDeviceFragmentDensityMap2PropertiesEXT, VkPhysicalDeviceFragmentDensityMapOffsetPropertiesQCOM, VkPhysicalDeviceCooperativeMatrixPropertiesNV, VkPhysicalDevicePerformanceQueryPropertiesKHR, VkPhysicalDeviceShaderSMBuiltinsPropertiesNV, VkPhysicalDeviceTexelBufferAlignmentProperties, VkPhysicalDeviceSubgroupSizeControlProperties, VkPhysicalDeviceSubpassShadingPropertiesHUAWEI, VkPhysicalDeviceClusterCullingShaderPropertiesHUAWEI, VkPhysicalDeviceLineRasterizationPropertiesKHR, VkPhysicalDeviceVulkan11Properties, VkPhysicalDeviceVulkan12Properties, VkPhysicalDeviceVulkan13Properties, VkPhysicalDeviceCustomBorderColorPropertiesEXT, VkPhysicalDeviceExtendedDynamicState3PropertiesEXT, VkPhysicalDeviceRobustness2PropertiesEXT, VkPhysicalDeviceFragmentShadingRatePropertiesKHR, VkPhysicalDeviceFragmentShadingRateEnumsPropertiesNV, VkPhysicalDeviceLegacyVertexAttributesPropertiesEXT, VkPhysicalDeviceHostImageCopyPropertiesEXT, VkPhysicalDeviceProvokingVertexPropertiesEXT, VkPhysicalDeviceDescriptorBufferPropertiesEXT, VkPhysicalDeviceDescriptorBufferDensityMapPropertiesEXT, VkPhysicalDeviceShaderIntegerDotProductProperties, VkPhysicalDeviceDrmPropertiesEXT, VkPhysicalDeviceFragmentShaderBarycentricPropertiesKHR, VkPhysicalDeviceGraphicsPipelineLibraryPropertiesEXT, VkPhysicalDeviceNestedCommandBufferPropertiesEXT, VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT, VkPhysicalDeviceOpacityMicromapPropertiesEXT, VkPhysicalDevicePipelineRobustnessPropertiesEXT, VkPhysicalDeviceImageProcessingPropertiesQCOM, VkPhysicalDeviceOpticalFlowPropertiesNV, VkPhysicalDeviceShaderCoreBuiltinsPropertiesARM, VkPhysicalDeviceRayTracingInvocationReorderPropertiesNV, VkPhysicalDeviceExtendedSparseAddressSpacePropertiesNV, VkPhysicalDeviceShaderCorePropertiesARM, VkPhysicalDeviceShaderObjectPropertiesEXT, VkPhysicalDeviceShaderTileImagePropertiesEXT, VkPhysicalDeviceCooperativeMatrixPropertiesKHR, VkPhysicalDeviceImageProcessing2PropertiesQCOM, VkPhysicalDeviceLayeredDriverPropertiesMSFT, VkPhysicalDeviceExternalFormatResolvePropertiesANDROID, VkPhysicalDeviceCudaKernelLaunchPropertiesNV, VkPhysicalDeviceSchedulingControlsPropertiesARM, VkPhysicalDeviceRenderPassStripedPropertiesARM, VkPhysicalDeviceMapMemoryPlacedPropertiesEXT, VkPhysicalDeviceImageAlignmentControlPropertiesMESA]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -16878,6 +17753,7 @@ void unwrap_VkPhysicalDeviceProperties2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -16908,6 +17784,8 @@ void unwrap_VkPhysicalDeviceProtectedMemoryFeatures(struct wrapper_device *devic
         return;
 
     unwrap_VkPhysicalDeviceProtectedMemoryFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16938,6 +17816,8 @@ void unwrap_VkPhysicalDeviceProtectedMemoryProperties(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceProtectedMemoryProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -16969,6 +17849,8 @@ void unwrap_VkPhysicalDeviceProvokingVertexFeaturesEXT(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceProvokingVertexFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17000,6 +17882,8 @@ void unwrap_VkPhysicalDeviceProvokingVertexPropertiesEXT(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceProvokingVertexPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17030,6 +17914,8 @@ void unwrap_VkPhysicalDevicePushDescriptorPropertiesKHR(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDevicePushDescriptorPropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17060,6 +17946,8 @@ void unwrap_VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17092,6 +17980,8 @@ void unwrap_VkPhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT(struct
         return;
 
     unwrap_VkPhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17122,6 +18012,8 @@ void unwrap_VkPhysicalDeviceRawAccessChainsFeaturesNV(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceRawAccessChainsFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17152,6 +18044,8 @@ void unwrap_VkPhysicalDeviceRayQueryFeaturesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceRayQueryFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17182,6 +18076,8 @@ void unwrap_VkPhysicalDeviceRayTracingInvocationReorderFeaturesNV(struct wrapper
         return;
 
     unwrap_VkPhysicalDeviceRayTracingInvocationReorderFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17212,6 +18108,8 @@ void unwrap_VkPhysicalDeviceRayTracingInvocationReorderPropertiesNV(struct wrapp
         return;
 
     unwrap_VkPhysicalDeviceRayTracingInvocationReorderPropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17243,6 +18141,8 @@ void unwrap_VkPhysicalDeviceRayTracingMaintenance1FeaturesKHR(struct wrapper_dev
         return;
 
     unwrap_VkPhysicalDeviceRayTracingMaintenance1FeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17274,6 +18174,8 @@ void unwrap_VkPhysicalDeviceRayTracingMotionBlurFeaturesNV(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceRayTracingMotionBlurFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17308,6 +18210,8 @@ void unwrap_VkPhysicalDeviceRayTracingPipelineFeaturesKHR(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceRayTracingPipelineFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17345,6 +18249,8 @@ void unwrap_VkPhysicalDeviceRayTracingPipelinePropertiesKHR(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceRayTracingPipelinePropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17375,6 +18281,8 @@ void unwrap_VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR(struct wrapper_de
         return;
 
     unwrap_VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17412,6 +18320,8 @@ void unwrap_VkPhysicalDeviceRayTracingPropertiesNV(struct wrapper_device *device
         return;
 
     unwrap_VkPhysicalDeviceRayTracingPropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17442,6 +18352,8 @@ void unwrap_VkPhysicalDeviceRayTracingValidationFeaturesNV(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceRayTracingValidationFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17472,6 +18384,8 @@ void unwrap_VkPhysicalDeviceRelaxedLineRasterizationFeaturesIMG(struct wrapper_d
         return;
 
     unwrap_VkPhysicalDeviceRelaxedLineRasterizationFeaturesIMG_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17502,6 +18416,8 @@ void unwrap_VkPhysicalDeviceRenderPassStripedFeaturesARM(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceRenderPassStripedFeaturesARM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17533,6 +18449,8 @@ void unwrap_VkPhysicalDeviceRenderPassStripedPropertiesARM(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceRenderPassStripedPropertiesARM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17563,6 +18481,8 @@ void unwrap_VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV(struct wrapper_
         return;
 
     unwrap_VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17595,6 +18515,8 @@ void unwrap_VkPhysicalDeviceRobustness2FeaturesEXT(struct wrapper_device *device
         return;
 
     unwrap_VkPhysicalDeviceRobustness2FeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17626,6 +18548,8 @@ void unwrap_VkPhysicalDeviceRobustness2PropertiesEXT(struct wrapper_device *devi
         return;
 
     unwrap_VkPhysicalDeviceRobustness2PropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17660,6 +18584,8 @@ void unwrap_VkPhysicalDeviceSampleLocationsPropertiesEXT(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceSampleLocationsPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17691,6 +18617,8 @@ void unwrap_VkPhysicalDeviceSamplerFilterMinmaxProperties(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceSamplerFilterMinmaxProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17721,6 +18649,8 @@ void unwrap_VkPhysicalDeviceSamplerYcbcrConversionFeatures(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceSamplerYcbcrConversionFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17751,6 +18681,8 @@ void unwrap_VkPhysicalDeviceScalarBlockLayoutFeatures(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceScalarBlockLayoutFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17781,6 +18713,8 @@ void unwrap_VkPhysicalDeviceSchedulingControlsFeaturesARM(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceSchedulingControlsFeaturesARM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17811,6 +18745,8 @@ void unwrap_VkPhysicalDeviceSchedulingControlsPropertiesARM(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceSchedulingControlsPropertiesARM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17841,6 +18777,8 @@ void unwrap_VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures(struct wrapper_d
         return;
 
     unwrap_VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17871,6 +18809,8 @@ void unwrap_VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV(struct wrapper_d
         return;
 
     unwrap_VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17912,6 +18852,8 @@ void unwrap_VkPhysicalDeviceShaderAtomicFloat2FeaturesEXT(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceShaderAtomicFloat2FeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17953,6 +18895,8 @@ void unwrap_VkPhysicalDeviceShaderAtomicFloatFeaturesEXT(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceShaderAtomicFloatFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -17984,6 +18928,8 @@ void unwrap_VkPhysicalDeviceShaderAtomicInt64Features(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceShaderAtomicInt64Features_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18015,6 +18961,8 @@ void unwrap_VkPhysicalDeviceShaderClockFeaturesKHR(struct wrapper_device *device
         return;
 
     unwrap_VkPhysicalDeviceShaderClockFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18045,6 +18993,8 @@ void unwrap_VkPhysicalDeviceShaderCoreBuiltinsFeaturesARM(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceShaderCoreBuiltinsFeaturesARM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18077,6 +19027,8 @@ void unwrap_VkPhysicalDeviceShaderCoreBuiltinsPropertiesARM(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceShaderCoreBuiltinsPropertiesARM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18108,6 +19060,8 @@ void unwrap_VkPhysicalDeviceShaderCoreProperties2AMD(struct wrapper_device *devi
         return;
 
     unwrap_VkPhysicalDeviceShaderCoreProperties2AMD_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18151,6 +19105,8 @@ void unwrap_VkPhysicalDeviceShaderCorePropertiesAMD(struct wrapper_device *devic
         return;
 
     unwrap_VkPhysicalDeviceShaderCorePropertiesAMD_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18183,6 +19139,8 @@ void unwrap_VkPhysicalDeviceShaderCorePropertiesARM(struct wrapper_device *devic
         return;
 
     unwrap_VkPhysicalDeviceShaderCorePropertiesARM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18213,6 +19171,8 @@ void unwrap_VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures(struct wrappe
         return;
 
     unwrap_VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18243,6 +19203,8 @@ void unwrap_VkPhysicalDeviceShaderDrawParametersFeatures(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceShaderDrawParametersFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18273,6 +19235,8 @@ void unwrap_VkPhysicalDeviceShaderEarlyAndLateFragmentTestsFeaturesAMD(struct wr
         return;
 
     unwrap_VkPhysicalDeviceShaderEarlyAndLateFragmentTestsFeaturesAMD_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18303,6 +19267,8 @@ void unwrap_VkPhysicalDeviceShaderExpectAssumeFeaturesKHR(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceShaderExpectAssumeFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18334,6 +19300,8 @@ void unwrap_VkPhysicalDeviceShaderFloat16Int8Features(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceShaderFloat16Int8Features_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18364,6 +19332,8 @@ void unwrap_VkPhysicalDeviceShaderFloatControls2FeaturesKHR(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceShaderFloatControls2FeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18395,6 +19365,8 @@ void unwrap_VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT(struct wrapper_dev
         return;
 
     unwrap_VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18425,6 +19397,8 @@ void unwrap_VkPhysicalDeviceShaderImageFootprintFeaturesNV(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceShaderImageFootprintFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18455,6 +19429,8 @@ void unwrap_VkPhysicalDeviceShaderIntegerDotProductFeatures(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceShaderIntegerDotProductFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18514,6 +19490,8 @@ void unwrap_VkPhysicalDeviceShaderIntegerDotProductProperties(struct wrapper_dev
         return;
 
     unwrap_VkPhysicalDeviceShaderIntegerDotProductProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18544,6 +19522,8 @@ void unwrap_VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL(struct wrapper_
         return;
 
     unwrap_VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18574,6 +19554,8 @@ void unwrap_VkPhysicalDeviceShaderMaximalReconvergenceFeaturesKHR(struct wrapper
         return;
 
     unwrap_VkPhysicalDeviceShaderMaximalReconvergenceFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18604,6 +19586,8 @@ void unwrap_VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT(struct wrapper_dev
         return;
 
     unwrap_VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18634,6 +19618,8 @@ void unwrap_VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT(struct wrapper_d
         return;
 
     unwrap_VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18664,6 +19650,8 @@ void unwrap_VkPhysicalDeviceShaderObjectFeaturesEXT(struct wrapper_device *devic
         return;
 
     unwrap_VkPhysicalDeviceShaderObjectFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18695,6 +19683,8 @@ void unwrap_VkPhysicalDeviceShaderObjectPropertiesEXT(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceShaderObjectPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18725,6 +19715,8 @@ void unwrap_VkPhysicalDeviceShaderQuadControlFeaturesKHR(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceShaderQuadControlFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18755,6 +19747,8 @@ void unwrap_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR(struct w
         return;
 
     unwrap_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18785,6 +19779,8 @@ void unwrap_VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT(struct wrapper
         return;
 
     unwrap_VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18815,6 +19811,8 @@ void unwrap_VkPhysicalDeviceShaderSMBuiltinsFeaturesNV(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceShaderSMBuiltinsFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18846,6 +19844,8 @@ void unwrap_VkPhysicalDeviceShaderSMBuiltinsPropertiesNV(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceShaderSMBuiltinsPropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18876,6 +19876,8 @@ void unwrap_VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures(struct wrapper_d
         return;
 
     unwrap_VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18907,6 +19909,8 @@ void unwrap_VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18937,6 +19941,8 @@ void unwrap_VkPhysicalDeviceShaderSubgroupUniformControlFlowFeaturesKHR(struct w
         return;
 
     unwrap_VkPhysicalDeviceShaderSubgroupUniformControlFlowFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18967,6 +19973,8 @@ void unwrap_VkPhysicalDeviceShaderTerminateInvocationFeatures(struct wrapper_dev
         return;
 
     unwrap_VkPhysicalDeviceShaderTerminateInvocationFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -18999,6 +20007,8 @@ void unwrap_VkPhysicalDeviceShaderTileImageFeaturesEXT(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceShaderTileImageFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19031,6 +20041,8 @@ void unwrap_VkPhysicalDeviceShaderTileImagePropertiesEXT(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceShaderTileImagePropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19062,6 +20074,8 @@ void unwrap_VkPhysicalDeviceShadingRateImageFeaturesNV(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceShadingRateImageFeaturesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19094,12 +20108,15 @@ void unwrap_VkPhysicalDeviceShadingRateImagePropertiesNV(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceShadingRateImagePropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkPhysicalDeviceSparseImageFormatInfo2 - Not tainted, unwrapping is just a copy
 void
 unwrap_VkPhysicalDeviceSparseImageFormatInfo2_members_only(struct wrapper_device *device,
                           VkPhysicalDeviceSparseImageFormatInfo2 *out_info,
@@ -19113,10 +20130,6 @@ unwrap_VkPhysicalDeviceSparseImageFormatInfo2_members_only(struct wrapper_device
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SPARSE_IMAGE_FORMAT_INFO_2', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*                      pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat format = member{'name': 'format', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                         format', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->format = unwrap_vk_format(device, in_info->format);
-
     // VkImageType type = member{'name': 'type', 'type': 'VkImageType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkImageType', 'api': 'vulkan', 'text': 'VkImageType                      type', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkSampleCountFlagBits samples = member{'name': 'samples', 'type': 'VkSampleCountFlagBits', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkSampleCountFlagBits', 'api': 'vulkan', 'text': 'VkSampleCountFlagBits            samples', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkImageUsageFlags usage = member{'name': 'usage', 'type': 'VkImageUsageFlags', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkImageUsageFlags', 'api': 'vulkan', 'text': 'VkImageUsageFlags                usage', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
@@ -19131,6 +20144,8 @@ void unwrap_VkPhysicalDeviceSparseImageFormatInfo2(struct wrapper_device *device
         return;
 
     unwrap_VkPhysicalDeviceSparseImageFormatInfo2_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19164,6 +20179,8 @@ void unwrap_VkPhysicalDeviceSubgroupProperties(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceSubgroupProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19195,6 +20212,8 @@ void unwrap_VkPhysicalDeviceSubgroupSizeControlFeatures(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDeviceSubgroupSizeControlFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19228,6 +20247,8 @@ void unwrap_VkPhysicalDeviceSubgroupSizeControlProperties(struct wrapper_device 
         return;
 
     unwrap_VkPhysicalDeviceSubgroupSizeControlProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19258,6 +20279,8 @@ void unwrap_VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19288,6 +20311,8 @@ void unwrap_VkPhysicalDeviceSubpassShadingFeaturesHUAWEI(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceSubpassShadingFeaturesHUAWEI_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19318,6 +20343,8 @@ void unwrap_VkPhysicalDeviceSubpassShadingPropertiesHUAWEI(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceSubpassShadingPropertiesHUAWEI_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19348,6 +20375,7 @@ void unwrap_VkPhysicalDeviceSurfaceInfo2KHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceSurfaceInfo2KHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkSurfacePresentModeEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -19377,6 +20405,7 @@ void unwrap_VkPhysicalDeviceSurfaceInfo2KHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -19407,6 +20436,8 @@ void unwrap_VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT(struct wrapper_devi
         return;
 
     unwrap_VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19437,6 +20468,8 @@ void unwrap_VkPhysicalDeviceSynchronization2Features(struct wrapper_device *devi
         return;
 
     unwrap_VkPhysicalDeviceSynchronization2Features_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19467,6 +20500,8 @@ void unwrap_VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT(struct wrapper_devic
         return;
 
     unwrap_VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19500,6 +20535,8 @@ void unwrap_VkPhysicalDeviceTexelBufferAlignmentProperties(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceTexelBufferAlignmentProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19530,6 +20567,8 @@ void unwrap_VkPhysicalDeviceTextureCompressionASTCHDRFeatures(struct wrapper_dev
         return;
 
     unwrap_VkPhysicalDeviceTextureCompressionASTCHDRFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19560,6 +20599,8 @@ void unwrap_VkPhysicalDeviceTilePropertiesFeaturesQCOM(struct wrapper_device *de
         return;
 
     unwrap_VkPhysicalDeviceTilePropertiesFeaturesQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19590,6 +20631,8 @@ void unwrap_VkPhysicalDeviceTimelineSemaphoreFeatures(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceTimelineSemaphoreFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19620,6 +20663,8 @@ void unwrap_VkPhysicalDeviceTimelineSemaphoreProperties(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDeviceTimelineSemaphoreProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19654,6 +20699,8 @@ void unwrap_VkPhysicalDeviceToolProperties(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceToolProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19685,6 +20732,8 @@ void unwrap_VkPhysicalDeviceTransformFeedbackFeaturesEXT(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceTransformFeedbackFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19724,6 +20773,8 @@ void unwrap_VkPhysicalDeviceTransformFeedbackPropertiesEXT(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceTransformFeedbackPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19754,6 +20805,8 @@ void unwrap_VkPhysicalDeviceUniformBufferStandardLayoutFeatures(struct wrapper_d
         return;
 
     unwrap_VkPhysicalDeviceUniformBufferStandardLayoutFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19785,6 +20838,8 @@ void unwrap_VkPhysicalDeviceVariablePointersFeatures(struct wrapper_device *devi
         return;
 
     unwrap_VkPhysicalDeviceVariablePointersFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19816,6 +20871,8 @@ void unwrap_VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR(struct wrapper_dev
         return;
 
     unwrap_VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19846,6 +20903,8 @@ void unwrap_VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT(struct wrapper_d
         return;
 
     unwrap_VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19877,6 +20936,8 @@ void unwrap_VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR(struct wrapper_d
         return;
 
     unwrap_VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19907,6 +20968,8 @@ void unwrap_VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT(struct wrapper_de
         return;
 
     unwrap_VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19938,6 +21001,8 @@ void unwrap_VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR(struct wrapper_device
         return;
 
     unwrap_VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -19968,6 +21033,7 @@ void unwrap_VkPhysicalDeviceVideoFormatInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceVideoFormatInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkVideoProfileListInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -19997,6 +21063,7 @@ void unwrap_VkPhysicalDeviceVideoFormatInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -20027,6 +21094,8 @@ void unwrap_VkPhysicalDeviceVideoMaintenance1FeaturesKHR(struct wrapper_device *
         return;
 
     unwrap_VkPhysicalDeviceVideoMaintenance1FeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20068,6 +21137,8 @@ void unwrap_VkPhysicalDeviceVulkan11Features(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceVulkan11Features_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20112,6 +21183,8 @@ void unwrap_VkPhysicalDeviceVulkan11Properties(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceVulkan11Properties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20188,6 +21261,8 @@ void unwrap_VkPhysicalDeviceVulkan12Features(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceVulkan12Features_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20269,6 +21344,8 @@ void unwrap_VkPhysicalDeviceVulkan12Properties(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceVulkan12Properties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20313,6 +21390,8 @@ void unwrap_VkPhysicalDeviceVulkan13Features(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceVulkan13Features_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20387,6 +21466,8 @@ void unwrap_VkPhysicalDeviceVulkan13Properties(struct wrapper_device *device,
         return;
 
     unwrap_VkPhysicalDeviceVulkan13Properties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20419,6 +21500,8 @@ void unwrap_VkPhysicalDeviceVulkanMemoryModelFeatures(struct wrapper_device *dev
         return;
 
     unwrap_VkPhysicalDeviceVulkanMemoryModelFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20452,6 +21535,8 @@ void unwrap_VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR(struct wrap
         return;
 
     unwrap_VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20482,6 +21567,8 @@ void unwrap_VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT(struct wrapper_devi
         return;
 
     unwrap_VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20512,6 +21599,8 @@ void unwrap_VkPhysicalDeviceYcbcrDegammaFeaturesQCOM(struct wrapper_device *devi
         return;
 
     unwrap_VkPhysicalDeviceYcbcrDegammaFeaturesQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20542,6 +21631,8 @@ void unwrap_VkPhysicalDeviceYcbcrImageArraysFeaturesEXT(struct wrapper_device *d
         return;
 
     unwrap_VkPhysicalDeviceYcbcrImageArraysFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20572,6 +21663,8 @@ void unwrap_VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures(struct wrapper
         return;
 
     unwrap_VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20604,6 +21697,8 @@ void unwrap_VkPipelineCacheCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineCacheCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20636,6 +21731,8 @@ void unwrap_VkPipelineColorBlendAdvancedStateCreateInfoEXT(struct wrapper_device
         return;
 
     unwrap_VkPipelineColorBlendAdvancedStateCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20671,6 +21768,7 @@ void unwrap_VkPipelineColorBlendStateCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineColorBlendStateCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPipelineColorBlendAdvancedStateCreateInfoEXT, VkPipelineColorWriteCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -20700,6 +21798,7 @@ void unwrap_VkPipelineColorBlendStateCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -20731,6 +21830,8 @@ void unwrap_VkPipelineColorWriteCreateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineColorWriteCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20761,6 +21862,8 @@ void unwrap_VkPipelineCompilerControlCreateInfoAMD(struct wrapper_device *device
         return;
 
     unwrap_VkPipelineCompilerControlCreateInfoAMD_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20795,6 +21898,8 @@ void unwrap_VkPipelineCoverageModulationStateCreateInfoNV(struct wrapper_device 
         return;
 
     unwrap_VkPipelineCoverageModulationStateCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20826,6 +21931,8 @@ void unwrap_VkPipelineCoverageReductionStateCreateInfoNV(struct wrapper_device *
         return;
 
     unwrap_VkPipelineCoverageReductionStateCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20858,6 +21965,8 @@ void unwrap_VkPipelineCoverageToColorStateCreateInfoNV(struct wrapper_device *de
         return;
 
     unwrap_VkPipelineCoverageToColorStateCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20888,6 +21997,8 @@ void unwrap_VkPipelineCreateFlags2CreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineCreateFlags2CreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20927,6 +22038,8 @@ void unwrap_VkPipelineDepthStencilStateCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineDepthStencilStateCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20960,6 +22073,8 @@ void unwrap_VkPipelineDiscardRectangleStateCreateInfoEXT(struct wrapper_device *
         return;
 
     unwrap_VkPipelineDiscardRectangleStateCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -20992,6 +22107,8 @@ void unwrap_VkPipelineDynamicStateCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineDynamicStateCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21023,6 +22140,8 @@ void unwrap_VkPipelineExecutableInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineExecutableInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21057,6 +22176,8 @@ void unwrap_VkPipelineExecutableInternalRepresentationKHR(struct wrapper_device 
         return;
 
     unwrap_VkPipelineExecutableInternalRepresentationKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21090,6 +22211,8 @@ void unwrap_VkPipelineExecutablePropertiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineExecutablePropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21123,6 +22246,8 @@ void unwrap_VkPipelineExecutableStatisticKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineExecutableStatisticKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21155,6 +22280,8 @@ void unwrap_VkPipelineFragmentShadingRateEnumStateCreateInfoNV(struct wrapper_de
         return;
 
     unwrap_VkPipelineFragmentShadingRateEnumStateCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21186,6 +22313,8 @@ void unwrap_VkPipelineFragmentShadingRateStateCreateInfoKHR(struct wrapper_devic
         return;
 
     unwrap_VkPipelineFragmentShadingRateStateCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21217,6 +22346,8 @@ void unwrap_VkPipelineIndirectDeviceAddressInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineIndirectDeviceAddressInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21247,6 +22378,8 @@ void unwrap_VkPipelineInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21279,6 +22412,8 @@ void unwrap_VkPipelineInputAssemblyStateCreateInfo(struct wrapper_device *device
         return;
 
     unwrap_VkPipelineInputAssemblyStateCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21313,6 +22448,8 @@ void unwrap_VkPipelineLayoutCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineLayoutCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21344,6 +22481,8 @@ void unwrap_VkPipelineLibraryCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineLibraryCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21374,6 +22513,8 @@ void unwrap_VkPipelinePropertiesIdentifierEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelinePropertiesIdentifierEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21406,6 +22547,8 @@ void unwrap_VkPipelineRasterizationConservativeStateCreateInfoEXT(struct wrapper
         return;
 
     unwrap_VkPipelineRasterizationConservativeStateCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21437,6 +22580,8 @@ void unwrap_VkPipelineRasterizationDepthClipStateCreateInfoEXT(struct wrapper_de
         return;
 
     unwrap_VkPipelineRasterizationDepthClipStateCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21470,6 +22615,8 @@ void unwrap_VkPipelineRasterizationLineStateCreateInfoKHR(struct wrapper_device 
         return;
 
     unwrap_VkPipelineRasterizationLineStateCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21500,6 +22647,8 @@ void unwrap_VkPipelineRasterizationProvokingVertexStateCreateInfoEXT(struct wrap
         return;
 
     unwrap_VkPipelineRasterizationProvokingVertexStateCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21540,6 +22689,7 @@ void unwrap_VkPipelineRasterizationStateCreateInfo(struct wrapper_device *device
         return;
 
     unwrap_VkPipelineRasterizationStateCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPipelineRasterizationStateRasterizationOrderAMD, VkPipelineRasterizationConservativeStateCreateInfoEXT, VkPipelineRasterizationStateStreamCreateInfoEXT, VkPipelineRasterizationDepthClipStateCreateInfoEXT, VkPipelineRasterizationLineStateCreateInfoKHR, VkPipelineRasterizationProvokingVertexStateCreateInfoEXT, VkDepthBiasRepresentationInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -21569,6 +22719,7 @@ void unwrap_VkPipelineRasterizationStateCreateInfo(struct wrapper_device *device
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -21599,6 +22750,8 @@ void unwrap_VkPipelineRasterizationStateRasterizationOrderAMD(struct wrapper_dev
         return;
 
     unwrap_VkPipelineRasterizationStateRasterizationOrderAMD_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21630,12 +22783,15 @@ void unwrap_VkPipelineRasterizationStateStreamCreateInfoEXT(struct wrapper_devic
         return;
 
     unwrap_VkPipelineRasterizationStateStreamCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkPipelineRenderingCreateInfo - Not tainted, unwrapping is just a copy
 void
 unwrap_VkPipelineRenderingCreateInfo_members_only(struct wrapper_device *device,
                           VkPipelineRenderingCreateInfo *out_info,
@@ -21651,25 +22807,8 @@ unwrap_VkPipelineRenderingCreateInfo_members_only(struct wrapper_device *device,
     // uint32_t viewMask = member{'name': 'viewMask', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                                                   viewMask', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t colorAttachmentCount = member{'name': 'colorAttachmentCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                                   colorAttachmentCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat* pColorAttachmentFormats = member{'name': 'pColorAttachmentFormats', 'type': 'VkFormat', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'colorAttachmentCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat*', 'api': 'vulkan', 'text': 'const VkFormat*           pColorAttachmentFormats', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    if (in_info->pColorAttachmentFormats) {
-        out_info->pColorAttachmentFormats = VK_ALLOC2(VkFormat, in_info->colorAttachmentCount * sizeof(VkFormat));
-        for (uint32_t i = 0; i < in_info->colorAttachmentCount; i++) {
-            ((VkFormat*)out_info->pColorAttachmentFormats)[i] = unwrap_vk_format(device, in_info->pColorAttachmentFormats[i]);
-        }
-    }
-
     // VkFormat depthAttachmentFormat = member{'name': 'depthAttachmentFormat', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                             depthAttachmentFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->depthAttachmentFormat = unwrap_vk_format(device, in_info->depthAttachmentFormat);
-
     // VkFormat stencilAttachmentFormat = member{'name': 'stencilAttachmentFormat', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                             stencilAttachmentFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->stencilAttachmentFormat = unwrap_vk_format(device, in_info->stencilAttachmentFormat);
-
 }
 
 void unwrap_VkPipelineRenderingCreateInfo(struct wrapper_device *device,
@@ -21680,6 +22819,8 @@ void unwrap_VkPipelineRenderingCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineRenderingCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21710,6 +22851,8 @@ void unwrap_VkPipelineRepresentativeFragmentTestStateCreateInfoNV(struct wrapper
         return;
 
     unwrap_VkPipelineRepresentativeFragmentTestStateCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21743,6 +22886,8 @@ void unwrap_VkPipelineRobustnessCreateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineRobustnessCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21774,6 +22919,8 @@ void unwrap_VkPipelineSampleLocationsStateCreateInfoEXT(struct wrapper_device *d
         return;
 
     unwrap_VkPipelineSampleLocationsStateCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21808,6 +22955,7 @@ void unwrap_VkPipelineShaderStageCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineShaderStageCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkShaderModuleValidationCacheCreateInfoEXT, VkDebugUtilsObjectNameInfoEXT, VkPipelineShaderStageRequiredSubgroupSizeCreateInfo, VkPipelineShaderStageModuleIdentifierCreateInfoEXT, VkPipelineRobustnessCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -21837,6 +22985,7 @@ void unwrap_VkPipelineShaderStageCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -21868,6 +23017,8 @@ void unwrap_VkPipelineShaderStageModuleIdentifierCreateInfoEXT(struct wrapper_de
         return;
 
     unwrap_VkPipelineShaderStageModuleIdentifierCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21898,6 +23049,8 @@ void unwrap_VkPipelineShaderStageRequiredSubgroupSizeCreateInfo(struct wrapper_d
         return;
 
     unwrap_VkPipelineShaderStageRequiredSubgroupSizeCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21928,6 +23081,8 @@ void unwrap_VkPipelineTessellationDomainOriginStateCreateInfo(struct wrapper_dev
         return;
 
     unwrap_VkPipelineTessellationDomainOriginStateCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -21959,6 +23114,7 @@ void unwrap_VkPipelineTessellationStateCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineTessellationStateCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPipelineTessellationDomainOriginStateCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -21988,6 +23144,7 @@ void unwrap_VkPipelineTessellationStateCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -22019,6 +23176,8 @@ void unwrap_VkPipelineVertexInputDivisorStateCreateInfoKHR(struct wrapper_device
         return;
 
     unwrap_VkPipelineVertexInputDivisorStateCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22053,6 +23212,7 @@ void unwrap_VkPipelineVertexInputStateCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineVertexInputStateCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPipelineVertexInputDivisorStateCreateInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -22082,6 +23242,7 @@ void unwrap_VkPipelineVertexInputStateCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -22114,6 +23275,8 @@ void unwrap_VkPipelineViewportCoarseSampleOrderStateCreateInfoNV(struct wrapper_
         return;
 
     unwrap_VkPipelineViewportCoarseSampleOrderStateCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22144,6 +23307,8 @@ void unwrap_VkPipelineViewportDepthClipControlCreateInfoEXT(struct wrapper_devic
         return;
 
     unwrap_VkPipelineViewportDepthClipControlCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22175,6 +23340,8 @@ void unwrap_VkPipelineViewportExclusiveScissorStateCreateInfoNV(struct wrapper_d
         return;
 
     unwrap_VkPipelineViewportExclusiveScissorStateCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22207,6 +23374,8 @@ void unwrap_VkPipelineViewportShadingRateImageStateCreateInfoNV(struct wrapper_d
         return;
 
     unwrap_VkPipelineViewportShadingRateImageStateCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22241,6 +23410,7 @@ void unwrap_VkPipelineViewportStateCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkPipelineViewportStateCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPipelineViewportWScalingStateCreateInfoNV, VkPipelineViewportSwizzleStateCreateInfoNV, VkPipelineViewportExclusiveScissorStateCreateInfoNV, VkPipelineViewportShadingRateImageStateCreateInfoNV, VkPipelineViewportCoarseSampleOrderStateCreateInfoNV, VkPipelineViewportDepthClipControlCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -22270,6 +23440,7 @@ void unwrap_VkPipelineViewportStateCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -22302,6 +23473,8 @@ void unwrap_VkPipelineViewportSwizzleStateCreateInfoNV(struct wrapper_device *de
         return;
 
     unwrap_VkPipelineViewportSwizzleStateCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22334,6 +23507,8 @@ void unwrap_VkPipelineViewportWScalingStateCreateInfoNV(struct wrapper_device *d
         return;
 
     unwrap_VkPipelineViewportWScalingStateCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22365,6 +23540,8 @@ void unwrap_VkPresentIdKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPresentIdKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22400,6 +23577,7 @@ void unwrap_VkPresentInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPresentInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDisplayPresentInfoKHR, VkPresentRegionsKHR, VkDeviceGroupPresentInfoKHR, VkPresentIdKHR, VkPresentTimesInfoGOOGLE, VkFrameBoundaryEXT, VkSwapchainPresentFenceInfoEXT, VkSwapchainPresentModeInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -22429,6 +23607,7 @@ void unwrap_VkPresentInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -22460,6 +23639,8 @@ void unwrap_VkPresentRegionsKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPresentRegionsKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22491,6 +23672,8 @@ void unwrap_VkPresentTimesInfoGOOGLE(struct wrapper_device *device,
         return;
 
     unwrap_VkPresentTimesInfoGOOGLE_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22521,6 +23704,8 @@ void unwrap_VkPrivateDataSlotCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkPrivateDataSlotCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22551,6 +23736,8 @@ void unwrap_VkProtectedSubmitInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkProtectedSubmitInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22585,6 +23772,7 @@ void unwrap_VkPushConstantsInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPushConstantsInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPipelineLayoutCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -22614,6 +23802,7 @@ void unwrap_VkPushConstantsInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -22648,6 +23837,7 @@ void unwrap_VkPushDescriptorSetInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkPushDescriptorSetInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPipelineLayoutCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -22677,6 +23867,7 @@ void unwrap_VkPushDescriptorSetInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -22710,6 +23901,7 @@ void unwrap_VkPushDescriptorSetWithTemplateInfoKHR(struct wrapper_device *device
         return;
 
     unwrap_VkPushDescriptorSetWithTemplateInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPipelineLayoutCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -22739,6 +23931,7 @@ void unwrap_VkPushDescriptorSetWithTemplateInfoKHR(struct wrapper_device *device
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -22769,6 +23962,8 @@ void unwrap_VkQueryLowLatencySupportNV(struct wrapper_device *device,
         return;
 
     unwrap_VkQueryLowLatencySupportNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22802,6 +23997,7 @@ void unwrap_VkQueryPoolCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkQueryPoolCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkQueryPoolPerformanceCreateInfoKHR, VkQueryPoolPerformanceQueryCreateInfoINTEL, VkVideoProfileInfoKHR, VkVideoDecodeUsageInfoKHR, VkVideoDecodeH264ProfileInfoKHR, VkVideoDecodeH265ProfileInfoKHR, VkVideoDecodeAV1ProfileInfoKHR, VkVideoEncodeUsageInfoKHR, VkQueryPoolVideoEncodeFeedbackCreateInfoKHR, VkVideoEncodeH264ProfileInfoKHR, VkVideoEncodeH265ProfileInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -22831,6 +24027,7 @@ void unwrap_VkQueryPoolCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -22863,6 +24060,8 @@ void unwrap_VkQueryPoolPerformanceCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkQueryPoolPerformanceCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22893,6 +24092,8 @@ void unwrap_VkQueryPoolPerformanceQueryCreateInfoINTEL(struct wrapper_device *de
         return;
 
     unwrap_VkQueryPoolPerformanceQueryCreateInfoINTEL_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22923,6 +24124,8 @@ void unwrap_VkQueryPoolVideoEncodeFeedbackCreateInfoKHR(struct wrapper_device *d
         return;
 
     unwrap_VkQueryPoolVideoEncodeFeedbackCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22953,6 +24156,8 @@ void unwrap_VkQueueFamilyCheckpointProperties2NV(struct wrapper_device *device,
         return;
 
     unwrap_VkQueueFamilyCheckpointProperties2NV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -22983,6 +24188,8 @@ void unwrap_VkQueueFamilyCheckpointPropertiesNV(struct wrapper_device *device,
         return;
 
     unwrap_VkQueueFamilyCheckpointPropertiesNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23014,6 +24221,8 @@ void unwrap_VkQueueFamilyGlobalPriorityPropertiesKHR(struct wrapper_device *devi
         return;
 
     unwrap_VkQueueFamilyGlobalPriorityPropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23044,6 +24253,7 @@ void unwrap_VkQueueFamilyProperties2(struct wrapper_device *device,
         return;
 
     unwrap_VkQueueFamilyProperties2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkQueueFamilyGlobalPriorityPropertiesKHR, VkQueueFamilyCheckpointPropertiesNV, VkQueueFamilyCheckpointProperties2NV, VkQueueFamilyVideoPropertiesKHR, VkQueueFamilyQueryResultStatusPropertiesKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -23073,6 +24283,7 @@ void unwrap_VkQueueFamilyProperties2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -23103,6 +24314,8 @@ void unwrap_VkQueueFamilyQueryResultStatusPropertiesKHR(struct wrapper_device *d
         return;
 
     unwrap_VkQueueFamilyQueryResultStatusPropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23133,6 +24346,8 @@ void unwrap_VkQueueFamilyVideoPropertiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkQueueFamilyVideoPropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23174,6 +24389,7 @@ void unwrap_VkRayTracingPipelineCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkRayTracingPipelineCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPipelineCreateFlags2CreateInfoKHR, VkPipelineRobustnessCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -23203,6 +24419,7 @@ void unwrap_VkRayTracingPipelineCreateInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -23241,6 +24458,7 @@ void unwrap_VkRayTracingPipelineCreateInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkRayTracingPipelineCreateInfoNV_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPipelineCreateFlags2CreateInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -23270,6 +24488,7 @@ void unwrap_VkRayTracingPipelineCreateInfoNV(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -23301,6 +24520,8 @@ void unwrap_VkRayTracingPipelineInterfaceCreateInfoKHR(struct wrapper_device *de
         return;
 
     unwrap_VkRayTracingPipelineInterfaceCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23336,6 +24557,8 @@ void unwrap_VkRayTracingShaderGroupCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkRayTracingShaderGroupCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23370,6 +24593,8 @@ void unwrap_VkRayTracingShaderGroupCreateInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkRayTracingShaderGroupCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23402,6 +24627,8 @@ void unwrap_VkReleaseSwapchainImagesInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkReleaseSwapchainImagesInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23433,6 +24660,8 @@ void unwrap_VkRenderPassAttachmentBeginInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkRenderPassAttachmentBeginInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23467,6 +24696,7 @@ void unwrap_VkRenderPassBeginInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkRenderPassBeginInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDeviceGroupRenderPassBeginInfo, VkRenderPassSampleLocationsBeginInfoEXT, VkRenderPassAttachmentBeginInfo, VkRenderPassTransformBeginInfoQCOM, VkMultiviewPerViewRenderAreasRenderPassBeginInfoQCOM, VkRenderPassStripeBeginInfoARM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -23496,6 +24726,7 @@ void unwrap_VkRenderPassBeginInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -23532,6 +24763,7 @@ void unwrap_VkRenderPassCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkRenderPassCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkRenderPassMultiviewCreateInfo, VkRenderPassInputAttachmentAspectCreateInfo, VkRenderPassFragmentDensityMapCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -23561,12 +24793,14 @@ void unwrap_VkRenderPassCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
 
 
 
+// VkRenderPassCreateInfo2 - Not tainted, unwrapping is just a copy
 void
 unwrap_VkRenderPassCreateInfo2_members_only(struct wrapper_device *device,
                           VkRenderPassCreateInfo2 *out_info,
@@ -23582,18 +24816,6 @@ unwrap_VkRenderPassCreateInfo2_members_only(struct wrapper_device *device,
     // VkRenderPassCreateFlags flags = member{'name': 'flags', 'type': 'VkRenderPassCreateFlags', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkRenderPassCreateFlags', 'api': 'vulkan', 'text': 'VkRenderPassCreateFlags                  flags', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t attachmentCount = member{'name': 'attachmentCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                 attachmentCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkAttachmentDescription2* pAttachments = member{'name': 'pAttachments', 'type': 'VkAttachmentDescription2', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'attachmentCount', 'is_handle': False, 'is_struct': True, 'is_union': False, 'values': None, 'typep': 'VkAttachmentDescription2*', 'api': 'vulkan', 'text': 'const VkAttachmentDescription2*    pAttachments', 'resolved_type': VkAttachmentDescription2, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    if (in_info->pAttachments) {
-        out_info->pAttachments = VK_ALLOC2(VkAttachmentDescription2, in_info->attachmentCount * sizeof(VkAttachmentDescription2));
-        for (uint32_t i = 0; i < in_info->attachmentCount; i++) {
-            unwrap_VkAttachmentDescription2(
-                device, 
-                &(((VkAttachmentDescription2*)out_info->pAttachments)[i]), 
-                &(((const VkAttachmentDescription2*)in_info->pAttachments)[i]));
-        }
-    }
-
     // uint32_t subpassCount = member{'name': 'subpassCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                                 subpassCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkSubpassDescription2* pSubpasses = member{'name': 'pSubpasses', 'type': 'VkSubpassDescription2', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'subpassCount', 'is_handle': False, 'is_struct': True, 'is_union': False, 'values': None, 'typep': 'VkSubpassDescription2*', 'api': 'vulkan', 'text': 'const VkSubpassDescription2*          pSubpasses', 'resolved_type': VkSubpassDescription2, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
     // uint32_t dependencyCount = member{'name': 'dependencyCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                 dependencyCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
@@ -23610,6 +24832,7 @@ void unwrap_VkRenderPassCreateInfo2(struct wrapper_device *device,
         return;
 
     unwrap_VkRenderPassCreateInfo2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkRenderPassFragmentDensityMapCreateInfoEXT, VkRenderPassCreationControlEXT, VkRenderPassCreationFeedbackCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -23639,6 +24862,7 @@ void unwrap_VkRenderPassCreateInfo2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -23669,6 +24893,8 @@ void unwrap_VkRenderPassCreationControlEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkRenderPassCreationControlEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23699,6 +24925,8 @@ void unwrap_VkRenderPassCreationFeedbackCreateInfoEXT(struct wrapper_device *dev
         return;
 
     unwrap_VkRenderPassCreationFeedbackCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23729,6 +24957,8 @@ void unwrap_VkRenderPassFragmentDensityMapCreateInfoEXT(struct wrapper_device *d
         return;
 
     unwrap_VkRenderPassFragmentDensityMapCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23760,6 +24990,8 @@ void unwrap_VkRenderPassInputAttachmentAspectCreateInfo(struct wrapper_device *d
         return;
 
     unwrap_VkRenderPassInputAttachmentAspectCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23795,6 +25027,8 @@ void unwrap_VkRenderPassMultiviewCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkRenderPassMultiviewCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23828,6 +25062,8 @@ void unwrap_VkRenderPassSampleLocationsBeginInfoEXT(struct wrapper_device *devic
         return;
 
     unwrap_VkRenderPassSampleLocationsBeginInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23859,6 +25095,8 @@ void unwrap_VkRenderPassStripeBeginInfoARM(struct wrapper_device *device,
         return;
 
     unwrap_VkRenderPassStripeBeginInfoARM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23889,6 +25127,8 @@ void unwrap_VkRenderPassStripeInfoARM(struct wrapper_device *device,
         return;
 
     unwrap_VkRenderPassStripeInfoARM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23920,6 +25160,8 @@ void unwrap_VkRenderPassStripeSubmitInfoARM(struct wrapper_device *device,
         return;
 
     unwrap_VkRenderPassStripeSubmitInfoARM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23950,6 +25192,8 @@ void unwrap_VkRenderPassSubpassFeedbackCreateInfoEXT(struct wrapper_device *devi
         return;
 
     unwrap_VkRenderPassSubpassFeedbackCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -23980,12 +25224,15 @@ void unwrap_VkRenderPassTransformBeginInfoQCOM(struct wrapper_device *device,
         return;
 
     unwrap_VkRenderPassTransformBeginInfoQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkRenderingAreaInfoKHR - Not tainted, unwrapping is just a copy
 void
 unwrap_VkRenderingAreaInfoKHR_members_only(struct wrapper_device *device,
                           VkRenderingAreaInfoKHR *out_info,
@@ -24001,25 +25248,8 @@ unwrap_VkRenderingAreaInfoKHR_members_only(struct wrapper_device *device,
     // uint32_t viewMask = member{'name': 'viewMask', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                                                   viewMask', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t colorAttachmentCount = member{'name': 'colorAttachmentCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                                   colorAttachmentCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat* pColorAttachmentFormats = member{'name': 'pColorAttachmentFormats', 'type': 'VkFormat', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'colorAttachmentCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat*', 'api': 'vulkan', 'text': 'const VkFormat*           pColorAttachmentFormats', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    if (in_info->pColorAttachmentFormats) {
-        out_info->pColorAttachmentFormats = VK_ALLOC2(VkFormat, in_info->colorAttachmentCount * sizeof(VkFormat));
-        for (uint32_t i = 0; i < in_info->colorAttachmentCount; i++) {
-            ((VkFormat*)out_info->pColorAttachmentFormats)[i] = unwrap_vk_format(device, in_info->pColorAttachmentFormats[i]);
-        }
-    }
-
     // VkFormat depthAttachmentFormat = member{'name': 'depthAttachmentFormat', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                             depthAttachmentFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->depthAttachmentFormat = unwrap_vk_format(device, in_info->depthAttachmentFormat);
-
     // VkFormat stencilAttachmentFormat = member{'name': 'stencilAttachmentFormat', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                             stencilAttachmentFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->stencilAttachmentFormat = unwrap_vk_format(device, in_info->stencilAttachmentFormat);
-
 }
 
 void unwrap_VkRenderingAreaInfoKHR(struct wrapper_device *device,
@@ -24030,6 +25260,8 @@ void unwrap_VkRenderingAreaInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkRenderingAreaInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24067,6 +25299,8 @@ void unwrap_VkRenderingAttachmentInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkRenderingAttachmentInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24098,6 +25332,8 @@ void unwrap_VkRenderingAttachmentLocationInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkRenderingAttachmentLocationInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24129,6 +25365,8 @@ void unwrap_VkRenderingFragmentDensityMapAttachmentInfoEXT(struct wrapper_device
         return;
 
     unwrap_VkRenderingFragmentDensityMapAttachmentInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24161,6 +25399,8 @@ void unwrap_VkRenderingFragmentShadingRateAttachmentInfoKHR(struct wrapper_devic
         return;
 
     unwrap_VkRenderingFragmentShadingRateAttachmentInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24198,6 +25438,7 @@ void unwrap_VkRenderingInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkRenderingInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDeviceGroupRenderPassBeginInfo, VkMultisampledRenderToSingleSampledInfoEXT, VkRenderingFragmentShadingRateAttachmentInfoKHR, VkRenderingFragmentDensityMapAttachmentInfoEXT, VkMultiviewPerViewAttributesInfoNVX, VkMultiviewPerViewRenderAreasRenderPassBeginInfoQCOM, VkRenderPassStripeBeginInfoARM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -24227,6 +25468,7 @@ void unwrap_VkRenderingInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -24260,6 +25502,8 @@ void unwrap_VkRenderingInputAttachmentIndexInfoKHR(struct wrapper_device *device
         return;
 
     unwrap_VkRenderingInputAttachmentIndexInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24295,6 +25539,8 @@ void unwrap_VkResolveImageInfo2(struct wrapper_device *device,
         return;
 
     unwrap_VkResolveImageInfo2_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24328,6 +25574,8 @@ void unwrap_VkSampleLocationsInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkSampleLocationsInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24359,6 +25607,8 @@ void unwrap_VkSamplerBlockMatchWindowCreateInfoQCOM(struct wrapper_device *devic
         return;
 
     unwrap_VkSamplerBlockMatchWindowCreateInfoQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24390,6 +25640,8 @@ void unwrap_VkSamplerBorderColorComponentMappingCreateInfoEXT(struct wrapper_dev
         return;
 
     unwrap_VkSamplerBorderColorComponentMappingCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24420,12 +25672,15 @@ void unwrap_VkSamplerCaptureDescriptorDataInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkSamplerCaptureDescriptorDataInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkSamplerCreateInfo - Not tainted, unwrapping is just a copy
 void
 unwrap_VkSamplerCreateInfo_members_only(struct wrapper_device *device,
                           VkSamplerCreateInfo *out_info,
@@ -24464,6 +25719,7 @@ void unwrap_VkSamplerCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkSamplerCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkSamplerYcbcrConversionInfo, VkSamplerReductionModeCreateInfo, VkSamplerCustomBorderColorCreateInfoEXT, VkSamplerBorderColorComponentMappingCreateInfoEXT, VkOpaqueCaptureDescriptorDataCreateInfoEXT, VkSamplerCubicWeightsCreateInfoQCOM, VkSamplerBlockMatchWindowCreateInfoQCOM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -24479,10 +25735,6 @@ void unwrap_VkSamplerCreateInfo(struct wrapper_device *device,
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
-        // "VkSamplerCreateInfo: pNext extension VkSamplerCustomBorderColorCreateInfoEXT contains a wrapped handle (['VkFormat']) and must be unwrapped"
-        case VK_STRUCTURE_TYPE_SAMPLER_CUSTOM_BORDER_COLOR_CREATE_INFO_EXT:
-            unwrap_VkSamplerCustomBorderColorCreateInfoEXT_members_only(device, (VkSamplerCustomBorderColorCreateInfoEXT *)new_item, (const VkSamplerCustomBorderColorCreateInfoEXT *)item);
-            break;
         default:
             break;
         }
@@ -24497,6 +25749,7 @@ void unwrap_VkSamplerCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -24527,12 +25780,15 @@ void unwrap_VkSamplerCubicWeightsCreateInfoQCOM(struct wrapper_device *device,
         return;
 
     unwrap_VkSamplerCubicWeightsCreateInfoQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkSamplerCustomBorderColorCreateInfoEXT - Not tainted, unwrapping is just a copy
 void
 unwrap_VkSamplerCustomBorderColorCreateInfoEXT_members_only(struct wrapper_device *device,
                           VkSamplerCustomBorderColorCreateInfoEXT *out_info,
@@ -24547,10 +25803,6 @@ unwrap_VkSamplerCustomBorderColorCreateInfoEXT_members_only(struct wrapper_devic
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*                                                                            pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkClearColorValue customBorderColor = member{'name': 'customBorderColor', 'type': 'VkClearColorValue', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkClearColorValue', 'api': 'vulkan', 'text': 'VkClearColorValue                                                                      customBorderColor', 'resolved_type': VkClearColorValue, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
     // VkFormat format = member{'name': 'format', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                                                               format', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->format = unwrap_vk_format(device, in_info->format);
-
 }
 
 void unwrap_VkSamplerCustomBorderColorCreateInfoEXT(struct wrapper_device *device,
@@ -24561,6 +25813,8 @@ void unwrap_VkSamplerCustomBorderColorCreateInfoEXT(struct wrapper_device *devic
         return;
 
     unwrap_VkSamplerCustomBorderColorCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24591,12 +25845,15 @@ void unwrap_VkSamplerReductionModeCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkSamplerReductionModeCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkSamplerYcbcrConversionCreateInfo - Not tainted, unwrapping is just a copy
 void
 unwrap_VkSamplerYcbcrConversionCreateInfo_members_only(struct wrapper_device *device,
                           VkSamplerYcbcrConversionCreateInfo *out_info,
@@ -24610,10 +25867,6 @@ unwrap_VkSamplerYcbcrConversionCreateInfo_members_only(struct wrapper_device *de
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_SAMPLER_YCBCR_CONVERSION_CREATE_INFO', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*                      pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat format = member{'name': 'format', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                         format', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->format = unwrap_vk_format(device, in_info->format);
-
     // VkSamplerYcbcrModelConversion ycbcrModel = member{'name': 'ycbcrModel', 'type': 'VkSamplerYcbcrModelConversion', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkSamplerYcbcrModelConversion', 'api': 'vulkan', 'text': 'VkSamplerYcbcrModelConversion ycbcrModel', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkSamplerYcbcrRange ycbcrRange = member{'name': 'ycbcrRange', 'type': 'VkSamplerYcbcrRange', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkSamplerYcbcrRange', 'api': 'vulkan', 'text': 'VkSamplerYcbcrRange           ycbcrRange', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkComponentMapping components = member{'name': 'components', 'type': 'VkComponentMapping', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkComponentMapping', 'api': 'vulkan', 'text': 'VkComponentMapping               components', 'resolved_type': VkComponentMapping, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
@@ -24631,6 +25884,7 @@ void unwrap_VkSamplerYcbcrConversionCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkSamplerYcbcrConversionCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkExternalFormatANDROID, VkSamplerYcbcrConversionYcbcrDegammaCreateInfoQCOM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -24660,6 +25914,7 @@ void unwrap_VkSamplerYcbcrConversionCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -24690,6 +25945,8 @@ void unwrap_VkSamplerYcbcrConversionImageFormatProperties(struct wrapper_device 
         return;
 
     unwrap_VkSamplerYcbcrConversionImageFormatProperties_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24720,6 +25977,8 @@ void unwrap_VkSamplerYcbcrConversionInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkSamplerYcbcrConversionInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24751,6 +26010,8 @@ void unwrap_VkSamplerYcbcrConversionYcbcrDegammaCreateInfoQCOM(struct wrapper_de
         return;
 
     unwrap_VkSamplerYcbcrConversionYcbcrDegammaCreateInfoQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24781,6 +26042,7 @@ void unwrap_VkSemaphoreCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkSemaphoreCreateInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkExportSemaphoreCreateInfo, VkSemaphoreTypeCreateInfo, VkQueryLowLatencySupportNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -24810,6 +26072,7 @@ void unwrap_VkSemaphoreCreateInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -24841,6 +26104,8 @@ void unwrap_VkSemaphoreGetFdInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkSemaphoreGetFdInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24872,6 +26137,8 @@ void unwrap_VkSemaphoreSignalInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkSemaphoreSignalInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24905,6 +26172,8 @@ void unwrap_VkSemaphoreSubmitInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkSemaphoreSubmitInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24936,6 +26205,8 @@ void unwrap_VkSemaphoreTypeCreateInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkSemaphoreTypeCreateInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -24969,6 +26240,8 @@ void unwrap_VkSemaphoreWaitInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkSemaphoreWaitInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -25004,6 +26277,7 @@ void unwrap_VkSetDescriptorBufferOffsetsInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkSetDescriptorBufferOffsetsInfoEXT_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPipelineLayoutCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -25033,6 +26307,7 @@ void unwrap_VkSetDescriptorBufferOffsetsInfoEXT(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -25064,6 +26339,8 @@ void unwrap_VkSetLatencyMarkerInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkSetLatencyMarkerInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -25105,6 +26382,7 @@ void unwrap_VkShaderCreateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkShaderCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkValidationFeaturesEXT, VkPipelineShaderStageRequiredSubgroupSizeCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -25134,6 +26412,7 @@ void unwrap_VkShaderCreateInfoEXT(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -25165,6 +26444,8 @@ void unwrap_VkShaderModuleIdentifierEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkShaderModuleIdentifierEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -25195,6 +26476,8 @@ void unwrap_VkShaderModuleValidationCacheCreateInfoEXT(struct wrapper_device *de
         return;
 
     unwrap_VkShaderModuleValidationCacheCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -25225,6 +26508,8 @@ void unwrap_VkSharedPresentSurfaceCapabilitiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkSharedPresentSurfaceCapabilitiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -25255,6 +26540,8 @@ void unwrap_VkSparseImageFormatProperties2(struct wrapper_device *device,
         return;
 
     unwrap_VkSparseImageFormatProperties2_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -25285,6 +26572,8 @@ void unwrap_VkSparseImageMemoryRequirements2(struct wrapper_device *device,
         return;
 
     unwrap_VkSparseImageMemoryRequirements2_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -25330,6 +26619,7 @@ void unwrap_VkSubmitInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkSubmitInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDeviceGroupSubmitInfo, VkProtectedSubmitInfo, VkTimelineSemaphoreSubmitInfo, VkPerformanceQuerySubmitInfoKHR, VkAmigoProfilingSubmitInfoSEC, VkFrameBoundaryEXT, VkLatencySubmissionPresentIdNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -25359,6 +26649,7 @@ void unwrap_VkSubmitInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -25406,6 +26697,7 @@ void unwrap_VkSubmitInfo2(struct wrapper_device *device,
         return;
 
     unwrap_VkSubmitInfo2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkPerformanceQuerySubmitInfoKHR, VkFrameBoundaryEXT, VkLatencySubmissionPresentIdNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -25435,6 +26727,7 @@ void unwrap_VkSubmitInfo2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -25465,6 +26758,8 @@ void unwrap_VkSubpassBeginInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkSubpassBeginInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -25502,6 +26797,7 @@ void unwrap_VkSubpassDependency2(struct wrapper_device *device,
         return;
 
     unwrap_VkSubpassDependency2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkMemoryBarrier2]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -25531,6 +26827,7 @@ void unwrap_VkSubpassDependency2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -25571,6 +26868,7 @@ void unwrap_VkSubpassDescription2(struct wrapper_device *device,
         return;
 
     unwrap_VkSubpassDescription2_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkSubpassDescriptionDepthStencilResolve, VkFragmentShadingRateAttachmentInfoKHR, VkMultisampledRenderToSingleSampledInfoEXT, VkRenderPassCreationControlEXT, VkRenderPassSubpassFeedbackCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -25600,6 +26898,7 @@ void unwrap_VkSubpassDescription2(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -25632,6 +26931,8 @@ void unwrap_VkSubpassDescriptionDepthStencilResolve(struct wrapper_device *devic
         return;
 
     unwrap_VkSubpassDescriptionDepthStencilResolve_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -25661,6 +26962,7 @@ void unwrap_VkSubpassEndInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkSubpassEndInfo_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkSubpassFragmentDensityMapOffsetEndInfoQCOM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -25690,6 +26992,7 @@ void unwrap_VkSubpassEndInfo(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -25721,6 +27024,8 @@ void unwrap_VkSubpassFragmentDensityMapOffsetEndInfoQCOM(struct wrapper_device *
         return;
 
     unwrap_VkSubpassFragmentDensityMapOffsetEndInfoQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -25751,6 +27056,8 @@ void unwrap_VkSubpassResolvePerformanceQueryEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkSubpassResolvePerformanceQueryEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -25782,6 +27089,8 @@ void unwrap_VkSubpassShadingPipelineCreateInfoHUAWEI(struct wrapper_device *devi
         return;
 
     unwrap_VkSubpassShadingPipelineCreateInfoHUAWEI_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -25812,6 +27121,8 @@ void unwrap_VkSubresourceHostMemcpySizeEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkSubresourceHostMemcpySizeEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -25842,6 +27153,7 @@ void unwrap_VkSubresourceLayout2KHR(struct wrapper_device *device,
         return;
 
     unwrap_VkSubresourceLayout2KHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkSubresourceHostMemcpySizeEXT, VkImageCompressionPropertiesEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -25871,6 +27183,7 @@ void unwrap_VkSubresourceLayout2KHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -25911,6 +27224,8 @@ void unwrap_VkSurfaceCapabilities2EXT(struct wrapper_device *device,
         return;
 
     unwrap_VkSurfaceCapabilities2EXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -25941,6 +27256,7 @@ void unwrap_VkSurfaceCapabilities2KHR(struct wrapper_device *device,
         return;
 
     unwrap_VkSurfaceCapabilities2KHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkDisplayNativeHdrSurfaceCapabilitiesAMD, VkSharedPresentSurfaceCapabilitiesKHR, VkSurfaceProtectedCapabilitiesKHR, VkSurfaceCapabilitiesPresentBarrierNV, VkSurfacePresentScalingCapabilitiesEXT, VkSurfacePresentModeCompatibilityEXT, VkLatencySurfaceCapabilitiesNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -25970,6 +27286,7 @@ void unwrap_VkSurfaceCapabilities2KHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -26000,6 +27317,8 @@ void unwrap_VkSurfaceCapabilitiesPresentBarrierNV(struct wrapper_device *device,
         return;
 
     unwrap_VkSurfaceCapabilitiesPresentBarrierNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26030,6 +27349,7 @@ void unwrap_VkSurfaceFormat2KHR(struct wrapper_device *device,
         return;
 
     unwrap_VkSurfaceFormat2KHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkImageCompressionPropertiesEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -26059,6 +27379,7 @@ void unwrap_VkSurfaceFormat2KHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -26090,6 +27411,8 @@ void unwrap_VkSurfacePresentModeCompatibilityEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkSurfacePresentModeCompatibilityEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26120,6 +27443,8 @@ void unwrap_VkSurfacePresentModeEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkSurfacePresentModeEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26154,6 +27479,8 @@ void unwrap_VkSurfacePresentScalingCapabilitiesEXT(struct wrapper_device *device
         return;
 
     unwrap_VkSurfacePresentScalingCapabilitiesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26184,6 +27511,8 @@ void unwrap_VkSurfaceProtectedCapabilitiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkSurfaceProtectedCapabilitiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26214,12 +27543,15 @@ void unwrap_VkSwapchainCounterCreateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkSwapchainCounterCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkSwapchainCreateInfoKHR - Not tainted, unwrapping is just a copy
 void
 unwrap_VkSwapchainCreateInfoKHR_members_only(struct wrapper_device *device,
                           VkSwapchainCreateInfoKHR *out_info,
@@ -26236,10 +27568,6 @@ unwrap_VkSwapchainCreateInfoKHR_members_only(struct wrapper_device *device,
     // VkSurfaceKHR surface = member{'name': 'surface', 'type': 'VkSurfaceKHR', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': True, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkSurfaceKHR', 'api': 'vulkan', 'text': "VkSurfaceKHR                     surfaceThe swapchain's target surface", 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t minImageCount = member{'name': 'minImageCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                         minImageCountMinimum number of presentation images the application needs', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat imageFormat = member{'name': 'imageFormat', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                         imageFormatFormat of the presentation images', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->imageFormat = unwrap_vk_format(device, in_info->imageFormat);
-
     // VkColorSpaceKHR imageColorSpace = member{'name': 'imageColorSpace', 'type': 'VkColorSpaceKHR', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkColorSpaceKHR', 'api': 'vulkan', 'text': 'VkColorSpaceKHR                  imageColorSpaceColorspace of the presentation images', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkExtent2D imageExtent = member{'name': 'imageExtent', 'type': 'VkExtent2D', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkExtent2D', 'api': 'vulkan', 'text': 'VkExtent2D                       imageExtentDimensions of the presentation images', 'resolved_type': VkExtent2D, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
     // uint32_t imageArrayLayers = member{'name': 'imageArrayLayers', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                         imageArrayLayersDetermines the number of views for multiview/stereo presentation', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
@@ -26262,6 +27590,7 @@ void unwrap_VkSwapchainCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkSwapchainCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkSwapchainCounterCreateInfoEXT, VkDeviceGroupSwapchainCreateInfoKHR, VkSwapchainDisplayNativeHdrCreateInfoAMD, VkImageFormatListCreateInfo, VkSwapchainPresentBarrierCreateInfoNV, VkImageCompressionControlEXT, VkSwapchainPresentModesCreateInfoEXT, VkSwapchainPresentScalingCreateInfoEXT, VkSwapchainLatencyCreateInfoNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -26277,10 +27606,6 @@ void unwrap_VkSwapchainCreateInfoKHR(struct wrapper_device *device,
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
-        // "VkSwapchainCreateInfoKHR: pNext extension VkImageFormatListCreateInfo contains a wrapped handle (['VkFormat']) and must be unwrapped"
-        case VK_STRUCTURE_TYPE_IMAGE_FORMAT_LIST_CREATE_INFO:
-            unwrap_VkImageFormatListCreateInfo_members_only(device, (VkImageFormatListCreateInfo *)new_item, (const VkImageFormatListCreateInfo *)item);
-            break;
         default:
             break;
         }
@@ -26295,6 +27620,7 @@ void unwrap_VkSwapchainCreateInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -26325,6 +27651,8 @@ void unwrap_VkSwapchainDisplayNativeHdrCreateInfoAMD(struct wrapper_device *devi
         return;
 
     unwrap_VkSwapchainDisplayNativeHdrCreateInfoAMD_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26355,6 +27683,8 @@ void unwrap_VkSwapchainImageCreateInfoANDROID(struct wrapper_device *device,
         return;
 
     unwrap_VkSwapchainImageCreateInfoANDROID_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26385,6 +27715,8 @@ void unwrap_VkSwapchainLatencyCreateInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkSwapchainLatencyCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26415,6 +27747,8 @@ void unwrap_VkSwapchainPresentBarrierCreateInfoNV(struct wrapper_device *device,
         return;
 
     unwrap_VkSwapchainPresentBarrierCreateInfoNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26446,6 +27780,8 @@ void unwrap_VkSwapchainPresentFenceInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkSwapchainPresentFenceInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26477,6 +27813,8 @@ void unwrap_VkSwapchainPresentModeInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkSwapchainPresentModeInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26508,6 +27846,8 @@ void unwrap_VkSwapchainPresentModesCreateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkSwapchainPresentModesCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26540,6 +27880,8 @@ void unwrap_VkSwapchainPresentScalingCreateInfoEXT(struct wrapper_device *device
         return;
 
     unwrap_VkSwapchainPresentScalingCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26570,6 +27912,8 @@ void unwrap_VkTextureLODGatherFormatPropertiesAMD(struct wrapper_device *device,
         return;
 
     unwrap_VkTextureLODGatherFormatPropertiesAMD_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26602,6 +27946,8 @@ void unwrap_VkTilePropertiesQCOM(struct wrapper_device *device,
         return;
 
     unwrap_VkTilePropertiesQCOM_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26635,6 +27981,8 @@ void unwrap_VkTimelineSemaphoreSubmitInfo(struct wrapper_device *device,
         return;
 
     unwrap_VkTimelineSemaphoreSubmitInfo_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26667,6 +28015,8 @@ void unwrap_VkValidationCacheCreateInfoEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkValidationCacheCreateInfoEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26700,6 +28050,8 @@ void unwrap_VkValidationFeaturesEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkValidationFeaturesEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26731,12 +28083,15 @@ void unwrap_VkValidationFlagsEXT(struct wrapper_device *device,
         return;
 
     unwrap_VkValidationFlagsEXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkVertexInputAttributeDescription2EXT - Not tainted, unwrapping is just a copy
 void
 unwrap_VkVertexInputAttributeDescription2EXT_members_only(struct wrapper_device *device,
                           VkVertexInputAttributeDescription2EXT *out_info,
@@ -26752,10 +28107,6 @@ unwrap_VkVertexInputAttributeDescription2EXT_members_only(struct wrapper_device 
     // uint32_t location = member{'name': 'location', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                       locationlocation of the shader vertex attrib', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t binding = member{'name': 'binding', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                       bindingVertex buffer binding id', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat format = member{'name': 'format', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                       formatformat of source data', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->format = unwrap_vk_format(device, in_info->format);
-
     // uint32_t offset = member{'name': 'offset', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                       offsetOffset of first element in bytes from base of vertex', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
 }
 
@@ -26767,6 +28118,8 @@ void unwrap_VkVertexInputAttributeDescription2EXT(struct wrapper_device *device,
         return;
 
     unwrap_VkVertexInputAttributeDescription2EXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26800,6 +28153,8 @@ void unwrap_VkVertexInputBindingDescription2EXT(struct wrapper_device *device,
         return;
 
     unwrap_VkVertexInputBindingDescription2EXT_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -26834,6 +28189,7 @@ void unwrap_VkVideoBeginCodingInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoBeginCodingInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkVideoEncodeRateControlInfoKHR, VkVideoEncodeH264RateControlInfoKHR, VkVideoEncodeH264GopRemainingFrameInfoKHR, VkVideoEncodeH265RateControlInfoKHR, VkVideoEncodeH265GopRemainingFrameInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -26863,6 +28219,7 @@ void unwrap_VkVideoBeginCodingInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -26901,6 +28258,7 @@ void unwrap_VkVideoCapabilitiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoCapabilitiesKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkVideoDecodeCapabilitiesKHR, VkVideoDecodeH264CapabilitiesKHR, VkVideoDecodeH265CapabilitiesKHR, VkVideoDecodeAV1CapabilitiesKHR, VkVideoEncodeCapabilitiesKHR, VkVideoEncodeH264CapabilitiesKHR, VkVideoEncodeH265CapabilitiesKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -26930,6 +28288,7 @@ void unwrap_VkVideoCapabilitiesKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -26960,6 +28319,7 @@ void unwrap_VkVideoCodingControlInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoCodingControlInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkVideoEncodeQualityLevelInfoKHR, VkVideoEncodeRateControlInfoKHR, VkVideoEncodeH264RateControlInfoKHR, VkVideoEncodeH265RateControlInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -26989,6 +28349,7 @@ void unwrap_VkVideoCodingControlInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -27019,6 +28380,8 @@ void unwrap_VkVideoDecodeAV1CapabilitiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoDecodeAV1CapabilitiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27049,6 +28412,8 @@ void unwrap_VkVideoDecodeAV1DpbSlotInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoDecodeAV1DpbSlotInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27084,6 +28449,8 @@ void unwrap_VkVideoDecodeAV1PictureInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoDecodeAV1PictureInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27115,6 +28482,8 @@ void unwrap_VkVideoDecodeAV1ProfileInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoDecodeAV1ProfileInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27145,6 +28514,8 @@ void unwrap_VkVideoDecodeAV1SessionParametersCreateInfoKHR(struct wrapper_device
         return;
 
     unwrap_VkVideoDecodeAV1SessionParametersCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27175,6 +28546,8 @@ void unwrap_VkVideoDecodeCapabilitiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoDecodeCapabilitiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27206,6 +28579,8 @@ void unwrap_VkVideoDecodeH264CapabilitiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoDecodeH264CapabilitiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27236,6 +28611,8 @@ void unwrap_VkVideoDecodeH264DpbSlotInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoDecodeH264DpbSlotInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27268,6 +28645,8 @@ void unwrap_VkVideoDecodeH264PictureInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoDecodeH264PictureInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27299,6 +28678,8 @@ void unwrap_VkVideoDecodeH264ProfileInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoDecodeH264ProfileInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27319,9 +28700,9 @@ unwrap_VkVideoDecodeH264SessionParametersAddInfoKHR_members_only(struct wrapper_
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_VIDEO_DECODE_H264_SESSION_PARAMETERS_ADD_INFO_KHR', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*                                    pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t stdSPSCount = member{'name': 'stdSPSCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                       stdSPSCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    // StdVideoH264SequenceParameterSet* pStdSPSs = member{'name': 'pStdSPSs', 'type': 'StdVideoH264SequenceParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdSPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH264SequenceParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH264SequenceParameterSet*      pStdSPSs', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // StdVideoH264SequenceParameterSet* pStdSPSs = member{'name': 'pStdSPSs', 'type': 'StdVideoH264SequenceParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdSPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH264SequenceParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH264SequenceParameterSet*      pStdSPSs', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': True}
     // uint32_t stdPPSCount = member{'name': 'stdPPSCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                       stdPPSCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    // StdVideoH264PictureParameterSet* pStdPPSs = member{'name': 'pStdPPSs', 'type': 'StdVideoH264PictureParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdPPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH264PictureParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH264PictureParameterSet*       pStdPPSsList of Picture Parameters associated with the spsStd, above', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // StdVideoH264PictureParameterSet* pStdPPSs = member{'name': 'pStdPPSs', 'type': 'StdVideoH264PictureParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdPPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH264PictureParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH264PictureParameterSet*       pStdPPSsList of Picture Parameters associated with the spsStd, above', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': True}
 }
 
 void unwrap_VkVideoDecodeH264SessionParametersAddInfoKHR(struct wrapper_device *device,
@@ -27332,6 +28713,8 @@ void unwrap_VkVideoDecodeH264SessionParametersAddInfoKHR(struct wrapper_device *
         return;
 
     unwrap_VkVideoDecodeH264SessionParametersAddInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27364,6 +28747,8 @@ void unwrap_VkVideoDecodeH264SessionParametersCreateInfoKHR(struct wrapper_devic
         return;
 
     unwrap_VkVideoDecodeH264SessionParametersCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27394,6 +28779,8 @@ void unwrap_VkVideoDecodeH265CapabilitiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoDecodeH265CapabilitiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27424,6 +28811,8 @@ void unwrap_VkVideoDecodeH265DpbSlotInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoDecodeH265DpbSlotInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27456,6 +28845,8 @@ void unwrap_VkVideoDecodeH265PictureInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoDecodeH265PictureInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27486,6 +28877,8 @@ void unwrap_VkVideoDecodeH265ProfileInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoDecodeH265ProfileInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27506,11 +28899,11 @@ unwrap_VkVideoDecodeH265SessionParametersAddInfoKHR_members_only(struct wrapper_
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_VIDEO_DECODE_H265_SESSION_PARAMETERS_ADD_INFO_KHR', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*                                pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t stdVPSCount = member{'name': 'stdVPSCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                   stdVPSCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    // StdVideoH265VideoParameterSet* pStdVPSs = member{'name': 'pStdVPSs', 'type': 'StdVideoH265VideoParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdVPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH265VideoParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH265VideoParameterSet*     pStdVPSs', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // StdVideoH265VideoParameterSet* pStdVPSs = member{'name': 'pStdVPSs', 'type': 'StdVideoH265VideoParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdVPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH265VideoParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH265VideoParameterSet*     pStdVPSs', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': True}
     // uint32_t stdSPSCount = member{'name': 'stdSPSCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                   stdSPSCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    // StdVideoH265SequenceParameterSet* pStdSPSs = member{'name': 'pStdSPSs', 'type': 'StdVideoH265SequenceParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdSPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH265SequenceParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH265SequenceParameterSet*  pStdSPSs', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // StdVideoH265SequenceParameterSet* pStdSPSs = member{'name': 'pStdSPSs', 'type': 'StdVideoH265SequenceParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdSPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH265SequenceParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH265SequenceParameterSet*  pStdSPSs', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': True}
     // uint32_t stdPPSCount = member{'name': 'stdPPSCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                   stdPPSCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    // StdVideoH265PictureParameterSet* pStdPPSs = member{'name': 'pStdPPSs', 'type': 'StdVideoH265PictureParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdPPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH265PictureParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH265PictureParameterSet*   pStdPPSsList of Picture Parameters associated with the spsStd, above', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // StdVideoH265PictureParameterSet* pStdPPSs = member{'name': 'pStdPPSs', 'type': 'StdVideoH265PictureParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdPPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH265PictureParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH265PictureParameterSet*   pStdPPSsList of Picture Parameters associated with the spsStd, above', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': True}
 }
 
 void unwrap_VkVideoDecodeH265SessionParametersAddInfoKHR(struct wrapper_device *device,
@@ -27521,6 +28914,8 @@ void unwrap_VkVideoDecodeH265SessionParametersAddInfoKHR(struct wrapper_device *
         return;
 
     unwrap_VkVideoDecodeH265SessionParametersAddInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27554,6 +28949,8 @@ void unwrap_VkVideoDecodeH265SessionParametersCreateInfoKHR(struct wrapper_devic
         return;
 
     unwrap_VkVideoDecodeH265SessionParametersCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27591,6 +28988,7 @@ void unwrap_VkVideoDecodeInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoDecodeInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkVideoInlineQueryInfoKHR, VkVideoDecodeH264PictureInfoKHR, VkVideoDecodeH265PictureInfoKHR, VkVideoDecodeAV1PictureInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -27620,6 +29018,7 @@ void unwrap_VkVideoDecodeInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -27650,6 +29049,8 @@ void unwrap_VkVideoDecodeUsageInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoDecodeUsageInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27686,6 +29087,8 @@ void unwrap_VkVideoEncodeCapabilitiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeCapabilitiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27728,6 +29131,8 @@ void unwrap_VkVideoEncodeH264CapabilitiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeH264CapabilitiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27758,6 +29163,8 @@ void unwrap_VkVideoEncodeH264DpbSlotInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeH264DpbSlotInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27791,6 +29198,8 @@ void unwrap_VkVideoEncodeH264GopRemainingFrameInfoKHR(struct wrapper_device *dev
         return;
 
     unwrap_VkVideoEncodeH264GopRemainingFrameInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27822,6 +29231,8 @@ void unwrap_VkVideoEncodeH264NaluSliceInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeH264NaluSliceInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27855,6 +29266,8 @@ void unwrap_VkVideoEncodeH264PictureInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeH264PictureInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27885,6 +29298,8 @@ void unwrap_VkVideoEncodeH264ProfileInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeH264ProfileInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27923,6 +29338,8 @@ void unwrap_VkVideoEncodeH264QualityLevelPropertiesKHR(struct wrapper_device *de
         return;
 
     unwrap_VkVideoEncodeH264QualityLevelPropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27957,6 +29374,8 @@ void unwrap_VkVideoEncodeH264RateControlInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeH264RateControlInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -27992,6 +29411,8 @@ void unwrap_VkVideoEncodeH264RateControlLayerInfoKHR(struct wrapper_device *devi
         return;
 
     unwrap_VkVideoEncodeH264RateControlLayerInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28023,6 +29444,8 @@ void unwrap_VkVideoEncodeH264SessionCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeH264SessionCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28043,9 +29466,9 @@ unwrap_VkVideoEncodeH264SessionParametersAddInfoKHR_members_only(struct wrapper_
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_H264_SESSION_PARAMETERS_ADD_INFO_KHR', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*                                               pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t stdSPSCount = member{'name': 'stdSPSCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                                  stdSPSCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    // StdVideoH264SequenceParameterSet* pStdSPSs = member{'name': 'pStdSPSs', 'type': 'StdVideoH264SequenceParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdSPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH264SequenceParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH264SequenceParameterSet* pStdSPSs', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // StdVideoH264SequenceParameterSet* pStdSPSs = member{'name': 'pStdSPSs', 'type': 'StdVideoH264SequenceParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdSPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH264SequenceParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH264SequenceParameterSet* pStdSPSs', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': True}
     // uint32_t stdPPSCount = member{'name': 'stdPPSCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                                  stdPPSCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    // StdVideoH264PictureParameterSet* pStdPPSs = member{'name': 'pStdPPSs', 'type': 'StdVideoH264PictureParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdPPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH264PictureParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH264PictureParameterSet*  pStdPPSsList of Picture Parameters associated with the spsStd, above', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // StdVideoH264PictureParameterSet* pStdPPSs = member{'name': 'pStdPPSs', 'type': 'StdVideoH264PictureParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdPPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH264PictureParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH264PictureParameterSet*  pStdPPSsList of Picture Parameters associated with the spsStd, above', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': True}
 }
 
 void unwrap_VkVideoEncodeH264SessionParametersAddInfoKHR(struct wrapper_device *device,
@@ -28056,6 +29479,8 @@ void unwrap_VkVideoEncodeH264SessionParametersAddInfoKHR(struct wrapper_device *
         return;
 
     unwrap_VkVideoEncodeH264SessionParametersAddInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28088,6 +29513,8 @@ void unwrap_VkVideoEncodeH264SessionParametersCreateInfoKHR(struct wrapper_devic
         return;
 
     unwrap_VkVideoEncodeH264SessionParametersCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28119,6 +29546,8 @@ void unwrap_VkVideoEncodeH264SessionParametersFeedbackInfoKHR(struct wrapper_dev
         return;
 
     unwrap_VkVideoEncodeH264SessionParametersFeedbackInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28152,6 +29581,8 @@ void unwrap_VkVideoEncodeH264SessionParametersGetInfoKHR(struct wrapper_device *
         return;
 
     unwrap_VkVideoEncodeH264SessionParametersGetInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28197,6 +29628,8 @@ void unwrap_VkVideoEncodeH265CapabilitiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeH265CapabilitiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28227,6 +29660,8 @@ void unwrap_VkVideoEncodeH265DpbSlotInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeH265DpbSlotInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28260,6 +29695,8 @@ void unwrap_VkVideoEncodeH265GopRemainingFrameInfoKHR(struct wrapper_device *dev
         return;
 
     unwrap_VkVideoEncodeH265GopRemainingFrameInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28291,6 +29728,8 @@ void unwrap_VkVideoEncodeH265NaluSliceSegmentInfoKHR(struct wrapper_device *devi
         return;
 
     unwrap_VkVideoEncodeH265NaluSliceSegmentInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28323,6 +29762,8 @@ void unwrap_VkVideoEncodeH265PictureInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeH265PictureInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28353,6 +29794,8 @@ void unwrap_VkVideoEncodeH265ProfileInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeH265ProfileInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28390,6 +29833,8 @@ void unwrap_VkVideoEncodeH265QualityLevelPropertiesKHR(struct wrapper_device *de
         return;
 
     unwrap_VkVideoEncodeH265QualityLevelPropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28424,6 +29869,8 @@ void unwrap_VkVideoEncodeH265RateControlInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeH265RateControlInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28459,6 +29906,8 @@ void unwrap_VkVideoEncodeH265RateControlLayerInfoKHR(struct wrapper_device *devi
         return;
 
     unwrap_VkVideoEncodeH265RateControlLayerInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28490,6 +29939,8 @@ void unwrap_VkVideoEncodeH265SessionCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeH265SessionCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28510,11 +29961,11 @@ unwrap_VkVideoEncodeH265SessionParametersAddInfoKHR_members_only(struct wrapper_
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_VIDEO_ENCODE_H265_SESSION_PARAMETERS_ADD_INFO_KHR', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*                                               pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t stdVPSCount = member{'name': 'stdVPSCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                                  stdVPSCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    // StdVideoH265VideoParameterSet* pStdVPSs = member{'name': 'pStdVPSs', 'type': 'StdVideoH265VideoParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdVPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH265VideoParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH265VideoParameterSet*    pStdVPSs', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // StdVideoH265VideoParameterSet* pStdVPSs = member{'name': 'pStdVPSs', 'type': 'StdVideoH265VideoParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdVPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH265VideoParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH265VideoParameterSet*    pStdVPSs', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': True}
     // uint32_t stdSPSCount = member{'name': 'stdSPSCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                                  stdSPSCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    // StdVideoH265SequenceParameterSet* pStdSPSs = member{'name': 'pStdSPSs', 'type': 'StdVideoH265SequenceParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdSPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH265SequenceParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH265SequenceParameterSet* pStdSPSs', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // StdVideoH265SequenceParameterSet* pStdSPSs = member{'name': 'pStdSPSs', 'type': 'StdVideoH265SequenceParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdSPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH265SequenceParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH265SequenceParameterSet* pStdSPSs', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': True}
     // uint32_t stdPPSCount = member{'name': 'stdPPSCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                                  stdPPSCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    // StdVideoH265PictureParameterSet* pStdPPSs = member{'name': 'pStdPPSs', 'type': 'StdVideoH265PictureParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdPPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH265PictureParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH265PictureParameterSet*  pStdPPSsList of Picture Parameters associated with the spsStd, above', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // StdVideoH265PictureParameterSet* pStdPPSs = member{'name': 'pStdPPSs', 'type': 'StdVideoH265PictureParameterSet', 'is_const': True, 'num_pointers': 1, 'array_count_member': 'stdPPSCount', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'StdVideoH265PictureParameterSet*', 'api': 'vulkan', 'text': 'const StdVideoH265PictureParameterSet*  pStdPPSsList of Picture Parameters associated with the spsStd, above', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': True}
 }
 
 void unwrap_VkVideoEncodeH265SessionParametersAddInfoKHR(struct wrapper_device *device,
@@ -28525,6 +29976,8 @@ void unwrap_VkVideoEncodeH265SessionParametersAddInfoKHR(struct wrapper_device *
         return;
 
     unwrap_VkVideoEncodeH265SessionParametersAddInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28558,6 +30011,8 @@ void unwrap_VkVideoEncodeH265SessionParametersCreateInfoKHR(struct wrapper_devic
         return;
 
     unwrap_VkVideoEncodeH265SessionParametersCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28590,6 +30045,8 @@ void unwrap_VkVideoEncodeH265SessionParametersFeedbackInfoKHR(struct wrapper_dev
         return;
 
     unwrap_VkVideoEncodeH265SessionParametersFeedbackInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28625,6 +30082,8 @@ void unwrap_VkVideoEncodeH265SessionParametersGetInfoKHR(struct wrapper_device *
         return;
 
     unwrap_VkVideoEncodeH265SessionParametersGetInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28663,6 +30122,7 @@ void unwrap_VkVideoEncodeInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkVideoInlineQueryInfoKHR, VkVideoEncodeH264PictureInfoKHR, VkVideoEncodeH265PictureInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -28692,6 +30152,7 @@ void unwrap_VkVideoEncodeInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -28722,6 +30183,8 @@ void unwrap_VkVideoEncodeQualityLevelInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeQualityLevelInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28753,6 +30216,7 @@ void unwrap_VkVideoEncodeQualityLevelPropertiesKHR(struct wrapper_device *device
         return;
 
     unwrap_VkVideoEncodeQualityLevelPropertiesKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkVideoEncodeH264QualityLevelPropertiesKHR, VkVideoEncodeH265QualityLevelPropertiesKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -28782,6 +30246,7 @@ void unwrap_VkVideoEncodeQualityLevelPropertiesKHR(struct wrapper_device *device
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -28817,6 +30282,8 @@ void unwrap_VkVideoEncodeRateControlInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeRateControlInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -28850,6 +30317,7 @@ void unwrap_VkVideoEncodeRateControlLayerInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeRateControlLayerInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkVideoEncodeH264RateControlLayerInfoKHR, VkVideoEncodeH265RateControlLayerInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -28879,6 +30347,7 @@ void unwrap_VkVideoEncodeRateControlLayerInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -28909,6 +30378,7 @@ void unwrap_VkVideoEncodeSessionParametersFeedbackInfoKHR(struct wrapper_device 
         return;
 
     unwrap_VkVideoEncodeSessionParametersFeedbackInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkVideoEncodeH264SessionParametersFeedbackInfoKHR, VkVideoEncodeH265SessionParametersFeedbackInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -28938,6 +30408,7 @@ void unwrap_VkVideoEncodeSessionParametersFeedbackInfoKHR(struct wrapper_device 
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -28968,6 +30439,7 @@ void unwrap_VkVideoEncodeSessionParametersGetInfoKHR(struct wrapper_device *devi
         return;
 
     unwrap_VkVideoEncodeSessionParametersGetInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkVideoEncodeH264SessionParametersGetInfoKHR, VkVideoEncodeH265SessionParametersGetInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -28997,6 +30469,7 @@ void unwrap_VkVideoEncodeSessionParametersGetInfoKHR(struct wrapper_device *devi
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -29029,6 +30502,8 @@ void unwrap_VkVideoEncodeUsageInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEncodeUsageInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -29059,12 +30534,15 @@ void unwrap_VkVideoEndCodingInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoEndCodingInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
 
 
 
+// VkVideoFormatPropertiesKHR - Not tainted, unwrapping is just a copy
 void
 unwrap_VkVideoFormatPropertiesKHR_members_only(struct wrapper_device *device,
                           VkVideoFormatPropertiesKHR *out_info,
@@ -29078,10 +30556,6 @@ unwrap_VkVideoFormatPropertiesKHR_members_only(struct wrapper_device *device,
     // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_VIDEO_FORMAT_PROPERTIES_KHR', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': False, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'void*                                                  pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkFormat format = member{'name': 'format', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                                               format', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->format = unwrap_vk_format(device, in_info->format);
-
     // VkComponentMapping componentMapping = member{'name': 'componentMapping', 'type': 'VkComponentMapping', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkComponentMapping', 'api': 'vulkan', 'text': 'VkComponentMapping                                                     componentMapping', 'resolved_type': VkComponentMapping, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
     // VkImageCreateFlags imageCreateFlags = member{'name': 'imageCreateFlags', 'type': 'VkImageCreateFlags', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkImageCreateFlags', 'api': 'vulkan', 'text': 'VkImageCreateFlags                                                     imageCreateFlags', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkImageType imageType = member{'name': 'imageType', 'type': 'VkImageType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkImageType', 'api': 'vulkan', 'text': 'VkImageType                                                            imageType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
@@ -29097,6 +30571,8 @@ void unwrap_VkVideoFormatPropertiesKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoFormatPropertiesKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -29129,6 +30605,8 @@ void unwrap_VkVideoInlineQueryInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoInlineQueryInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -29162,6 +30640,8 @@ void unwrap_VkVideoPictureResourceInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoPictureResourceInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -29195,6 +30675,7 @@ void unwrap_VkVideoProfileInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoProfileInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkVideoDecodeUsageInfoKHR, VkVideoDecodeH264ProfileInfoKHR, VkVideoDecodeH265ProfileInfoKHR, VkVideoDecodeAV1ProfileInfoKHR, VkVideoEncodeUsageInfoKHR, VkVideoEncodeH264ProfileInfoKHR, VkVideoEncodeH265ProfileInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -29224,6 +30705,7 @@ void unwrap_VkVideoProfileInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -29255,6 +30737,8 @@ void unwrap_VkVideoProfileListInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoProfileListInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -29286,6 +30770,7 @@ void unwrap_VkVideoReferenceSlotInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoReferenceSlotInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkVideoDecodeH264DpbSlotInfoKHR, VkVideoDecodeH265DpbSlotInfoKHR, VkVideoDecodeAV1DpbSlotInfoKHR, VkVideoEncodeH264DpbSlotInfoKHR, VkVideoEncodeH265DpbSlotInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -29315,12 +30800,14 @@ void unwrap_VkVideoReferenceSlotInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
 
 
 
+// VkVideoSessionCreateInfoKHR - Not tainted, unwrapping is just a copy
 void
 unwrap_VkVideoSessionCreateInfoKHR_members_only(struct wrapper_device *device,
                           VkVideoSessionCreateInfoKHR *out_info,
@@ -29337,16 +30824,8 @@ unwrap_VkVideoSessionCreateInfoKHR_members_only(struct wrapper_device *device,
     // VkVideoSessionCreateFlagsKHR flags = member{'name': 'flags', 'type': 'VkVideoSessionCreateFlagsKHR', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkVideoSessionCreateFlagsKHR', 'api': 'vulkan', 'text': 'VkVideoSessionCreateFlagsKHR  flags', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkVideoProfileInfoKHR* pVideoProfile = member{'name': 'pVideoProfile', 'type': 'VkVideoProfileInfoKHR', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': True, 'is_union': False, 'values': None, 'typep': 'VkVideoProfileInfoKHR*', 'api': 'vulkan', 'text': 'const VkVideoProfileInfoKHR*                  pVideoProfile', 'resolved_type': VkVideoProfileInfoKHR, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
     // VkFormat pictureFormat = member{'name': 'pictureFormat', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                      pictureFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->pictureFormat = unwrap_vk_format(device, in_info->pictureFormat);
-
     // VkExtent2D maxCodedExtent = member{'name': 'maxCodedExtent', 'type': 'VkExtent2D', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkExtent2D', 'api': 'vulkan', 'text': 'VkExtent2D                                    maxCodedExtent', 'resolved_type': VkExtent2D, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
     // VkFormat referencePictureFormat = member{'name': 'referencePictureFormat', 'type': 'VkFormat', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkFormat', 'api': 'vulkan', 'text': 'VkFormat                                      referencePictureFormat', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
-    //   Uses these types that must be unwrapped: ['VkFormat']
-
-    out_info->referencePictureFormat = unwrap_vk_format(device, in_info->referencePictureFormat);
-
     // uint32_t maxDpbSlots = member{'name': 'maxDpbSlots', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                      maxDpbSlots', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // uint32_t maxActiveReferencePictures = member{'name': 'maxActiveReferencePictures', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t                                      maxActiveReferencePictures', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
     // VkExtensionProperties* pStdHeaderVersion = member{'name': 'pStdHeaderVersion', 'type': 'VkExtensionProperties', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkExtensionProperties*', 'api': 'vulkan', 'text': 'const VkExtensionProperties*                  pStdHeaderVersion', 'resolved_type': VkExtensionProperties, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
@@ -29360,6 +30839,7 @@ void unwrap_VkVideoSessionCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoSessionCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkVideoEncodeH264SessionCreateInfoKHR, VkVideoEncodeH265SessionCreateInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -29389,6 +30869,7 @@ void unwrap_VkVideoSessionCreateInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -29420,6 +30901,8 @@ void unwrap_VkVideoSessionMemoryRequirementsKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoSessionMemoryRequirementsKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -29452,6 +30935,7 @@ void unwrap_VkVideoSessionParametersCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoSessionParametersCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkVideoDecodeH264SessionParametersCreateInfoKHR, VkVideoDecodeH265SessionParametersCreateInfoKHR, VkVideoDecodeAV1SessionParametersCreateInfoKHR, VkVideoEncodeQualityLevelInfoKHR, VkVideoEncodeH264SessionParametersCreateInfoKHR, VkVideoEncodeH265SessionParametersCreateInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -29481,6 +30965,7 @@ void unwrap_VkVideoSessionParametersCreateInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -29511,6 +30996,7 @@ void unwrap_VkVideoSessionParametersUpdateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkVideoSessionParametersUpdateInfoKHR_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkVideoDecodeH264SessionParametersAddInfoKHR, VkVideoDecodeH265SessionParametersAddInfoKHR, VkVideoEncodeH264SessionParametersAddInfoKHR, VkVideoEncodeH265SessionParametersAddInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -29540,6 +31026,7 @@ void unwrap_VkVideoSessionParametersUpdateInfoKHR(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -29577,6 +31064,7 @@ void unwrap_VkWriteDescriptorSet(struct wrapper_device *device,
         return;
 
     unwrap_VkWriteDescriptorSet_members_only(device, out_info, in_info);
+    /*
     // Has pNexts: [VkWriteDescriptorSetInlineUniformBlock, VkWriteDescriptorSetAccelerationStructureKHR, VkWriteDescriptorSetAccelerationStructureNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
@@ -29606,6 +31094,7 @@ void unwrap_VkWriteDescriptorSet(struct wrapper_device *device,
 
     out_info->pNext = head;
 
+    */
 }
 
 
@@ -29637,6 +31126,8 @@ void unwrap_VkWriteDescriptorSetAccelerationStructureKHR(struct wrapper_device *
         return;
 
     unwrap_VkWriteDescriptorSetAccelerationStructureKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -29668,6 +31159,8 @@ void unwrap_VkWriteDescriptorSetAccelerationStructureNV(struct wrapper_device *d
         return;
 
     unwrap_VkWriteDescriptorSetAccelerationStructureNV_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -29699,6 +31192,8 @@ void unwrap_VkWriteDescriptorSetInlineUniformBlock(struct wrapper_device *device
         return;
 
     unwrap_VkWriteDescriptorSetInlineUniformBlock_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -29731,6 +31226,8 @@ void unwrap_VkXcbSurfaceCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkXcbSurfaceCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
 
@@ -29763,30 +31260,7 @@ void unwrap_VkXlibSurfaceCreateInfoKHR(struct wrapper_device *device,
         return;
 
     unwrap_VkXlibSurfaceCreateInfoKHR_members_only(device, out_info, in_info);
+    /*
+    */
 }
 
-
-
-void
-unwrap_VkDeviceCreateInfo_members_only(struct wrapper_device *device,
-                          VkDeviceCreateInfo *out_info,
-                          const VkDeviceCreateInfo *in_info)
-{
-    if (!in_info)
-        return;
-
-    *out_info = *in_info;
-}
-
-
-
-void
-unwrap_VkDeviceCreateInfo(struct wrapper_device *device,
-                          VkDeviceCreateInfo *out_info,
-                          const VkDeviceCreateInfo *in_info)
-{
-    if (!in_info)
-        return;
-
-    unwrap_VkDeviceCreateInfo_members_only(device, out_info, in_info);
-}

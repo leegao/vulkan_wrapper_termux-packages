@@ -28,6 +28,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 -Dxmlconfig=disabled
 -Dvulkan-drivers=wrapper
 -Db_ndebug=true
+--buildtype=release
 "
 
 termux_step_post_get_source() {
@@ -45,6 +46,7 @@ termux_step_pre_configure() {
 
 	CPPFLAGS+=" -D__USE_GNU"
 	LDFLAGS+=" -landroid-sysvshm -ladrenotools"
+	# LDFLAGS+=" -landroid-shmem -ladrenotools"
 
 	_WRAPPER_BIN=$TERMUX_PKG_BUILDDIR/_wrapper/bin
 	mkdir -p $_WRAPPER_BIN
