@@ -3471,6 +3471,14 @@ index f232f7be3ef..cab411e6c21 100644
  
  c_args = []
  cpp_args = []
+diff --git a/src/freedreno/vulkan/vulkan b/src/freedreno/vulkan/vulkan
+new file mode 120000
+index 00000000000..e20e427e76f
+--- /dev/null
++++ b/src/freedreno/vulkan/vulkan
+@@ -0,0 +1 @@
++/home/leegao/meh/termux-packages/mesa_bionic/src/freedreno/vulkan
+\ No newline at end of file
 diff --git a/src/vulkan/vulkan b/src/vulkan/vulkan
 new file mode 120000
 index 00000000000..cf334d7167a
@@ -3481,10 +3489,10 @@ index 00000000000..cf334d7167a
 \ No newline at end of file
 diff --git a/src/vulkan/wrapper/bc6.comp b/src/vulkan/wrapper/bc6.comp
 new file mode 100644
-index 00000000000..f471a59d811
+index 00000000000..acb4d16fcf9
 --- /dev/null
 +++ b/src/vulkan/wrapper/bc6.comp
-@@ -0,0 +1,808 @@
+@@ -0,0 +1,796 @@
 +#version 450
 +/* Copyright (c) 2020-2024 Hans-Kristian Arntzen
 + *
@@ -3513,7 +3521,6 @@ index 00000000000..f471a59d811
 +#extension GL_GOOGLE_include_directive : require
 +
 +#include "bitextract.h"
-+#include "compute_shader_mode.h"
 +
 +// The shader will be dispatched with one invocation per pixel of the output image.
 +layout (local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
@@ -3535,6 +3542,11 @@ index 00000000000..f471a59d811
 +    int offsety;
 +    uint dst_width;
 +    uint dst_height;
++
++    uint srcBufferSize;
++
++    uint unsupportedBitsBc; // bitmask
++    uint watercoloredBitsBc;
 +} push_constants;
 +
 +// --- Buffers ---
@@ -3556,57 +3568,13 @@ index 00000000000..f471a59d811
 +} dstBuffer;
 +#endif
 +
-+const int weight_table3[8] = int[](0, 9, 18, 27, 37, 46, 55, 64);
-+const int weight_table4[16] = int[](0, 4, 9, 13, 17, 21, 26, 30, 34, 38, 43, 47, 51, 55, 60, 64);
++layout(std140, set = 0, binding = 2) uniform LUTs {
++    int weight_table3[16];
++    int weight_table4[16];
 +
-+#define P2(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) \
-+    (((a) << 0) | ((b) << 1) | ((c) << 2) | ((d) << 3) | \
-+    ((e) << 4) | ((f) << 5) | ((g) << 6) | ((h) << 7) | \
-+    ((i) << 8) | ((j) << 9) | ((k) << 10) | ((l) << 11) | \
-+    ((m) << 12) | ((n) << 13) | ((o) << 14) | ((p) << 15))
-+
-+const int partition_table2[32] = int[](
-+    P2(0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1),
-+    P2(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1),
-+    P2(0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1),
-+    P2(0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1),
-+    P2(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1),
-+    P2(0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1),
-+    P2(0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1),
-+    P2(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1),
-+
-+    P2(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1),
-+    P2(0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-+    P2(0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1),
-+    P2(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1),
-+    P2(0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-+    P2(0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1),
-+    P2(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-+    P2(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
-+
-+    P2(0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1),
-+    P2(0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
-+    P2(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0),
-+    P2(0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0),
-+    P2(0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
-+    P2(0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0),
-+    P2(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0),
-+    P2(0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1),
-+
-+    P2(0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0),
-+    P2(0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0),
-+    P2(0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0),
-+    P2(0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0),
-+    P2(0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0),
-+    P2(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0),
-+    P2(0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0),
-+    P2(0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0));
-+
-+const int anchor_table2[32] = int[](
-+    15, 15, 15, 15, 15, 15, 15, 15,
-+    15, 15, 15, 15, 15, 15, 15, 15,
-+    15, 2, 8, 2, 2, 8, 8, 15,
-+    2, 8, 2, 2, 8, 8, 2, 2);
++    int partition_table2[32];
++    int anchor_table2[32];
++} constants;
 +
 +struct DecodedInterpolation
 +{
@@ -3692,7 +3660,7 @@ index 00000000000..f471a59d811
 +        max(81 + linear_pixel * 3 - int(linear_pixel > anchor_pixel), 82),
 +        (linear_pixel == 0 || linear_pixel == anchor_pixel) ? 2 : 3);
 +
-+    int w = weight_table3[index];
++    int w = constants.weight_table3[index];
 +    return DecodedInterpolation(ep0, ep1, w);
 +}
 +
@@ -3735,7 +3703,7 @@ index 00000000000..f471a59d811
 +        max(81 + linear_pixel * 3 - int(linear_pixel > anchor_pixel), 82),
 +        (linear_pixel == 0 || linear_pixel == anchor_pixel) ? 2 : 3);
 +
-+    int w = weight_table3[index];
++    int w = constants.weight_table3[index];
 +    return DecodedInterpolation(ep0, ep1, w);
 +}
 +
@@ -3778,7 +3746,7 @@ index 00000000000..f471a59d811
 +        max(81 + linear_pixel * 3 - int(linear_pixel > anchor_pixel), 82),
 +        (linear_pixel == 0 || linear_pixel == anchor_pixel) ? 2 : 3);
 +
-+    int w = weight_table3[index];
++    int w = constants.weight_table3[index];
 +    return DecodedInterpolation(ep0, ep1, w);
 +}
 +
@@ -3801,7 +3769,7 @@ index 00000000000..f471a59d811
 +        max(64 + linear_pixel * 4, 65),
 +        linear_pixel == 0 ? 3 : 4);
 +
-+    int w = weight_table4[index];
++    int w = constants.weight_table4[index];
 +    return DecodedInterpolation(ep0, ep1, w);
 +}
 +
@@ -3844,7 +3812,7 @@ index 00000000000..f471a59d811
 +        max(81 + linear_pixel * 3 - int(linear_pixel > anchor_pixel), 82),
 +        (linear_pixel == 0 || linear_pixel == anchor_pixel) ? 2 : 3);
 +
-+    int w = weight_table3[index];
++    int w = constants.weight_table3[index];
 +    return DecodedInterpolation(ep0, ep1, w);
 +}
 +
@@ -3872,7 +3840,7 @@ index 00000000000..f471a59d811
 +        max(64 + linear_pixel * 4, 65),
 +        linear_pixel == 0 ? 3 : 4);
 +
-+    int w = weight_table4[index];
++    int w = constants.weight_table4[index];
 +    return DecodedInterpolation(ep0, ep1, w);
 +}
 +
@@ -3915,7 +3883,7 @@ index 00000000000..f471a59d811
 +        max(81 + linear_pixel * 3 - int(linear_pixel > anchor_pixel), 82),
 +        (linear_pixel == 0 || linear_pixel == anchor_pixel) ? 2 : 3);
 +
-+    int w = weight_table3[index];
++    int w = constants.weight_table3[index];
 +    return DecodedInterpolation(ep0, ep1, w);
 +}
 +
@@ -3943,7 +3911,7 @@ index 00000000000..f471a59d811
 +        max(64 + linear_pixel * 4, 65),
 +        linear_pixel == 0 ? 3 : 4);
 +
-+    int w = weight_table4[index];
++    int w = constants.weight_table4[index];
 +    return DecodedInterpolation(ep0, ep1, w);
 +}
 +
@@ -3987,7 +3955,7 @@ index 00000000000..f471a59d811
 +        max(81 + linear_pixel * 3 - int(linear_pixel > anchor_pixel), 82),
 +        (linear_pixel == 0 || linear_pixel == anchor_pixel) ? 2 : 3);
 +
-+    int w = weight_table3[index];
++    int w = constants.weight_table3[index];
 +    return DecodedInterpolation(ep0, ep1, w);
 +}
 +
@@ -4015,7 +3983,7 @@ index 00000000000..f471a59d811
 +        max(64 + linear_pixel * 4, 65),
 +        linear_pixel == 0 ? 3 : 4);
 +
-+    int w = weight_table4[index];
++    int w = constants.weight_table4[index];
 +    return DecodedInterpolation(ep0, ep1, w);
 +}
 +
@@ -4058,7 +4026,7 @@ index 00000000000..f471a59d811
 +        max(81 + linear_pixel * 3 - int(linear_pixel > anchor_pixel), 82),
 +        (linear_pixel == 0 || linear_pixel == anchor_pixel) ? 2 : 3);
 +
-+    int w = weight_table3[index];
++    int w = constants.weight_table3[index];
 +    return DecodedInterpolation(ep0, ep1, w);
 +}
 +
@@ -4102,7 +4070,7 @@ index 00000000000..f471a59d811
 +        max(81 + linear_pixel * 3 - int(linear_pixel > anchor_pixel), 82),
 +        (linear_pixel == 0 || linear_pixel == anchor_pixel) ? 2 : 3);
 +
-+    int w = weight_table3[index];
++    int w = constants.weight_table3[index];
 +    return DecodedInterpolation(ep0, ep1, w);
 +}
 +
@@ -4146,7 +4114,7 @@ index 00000000000..f471a59d811
 +        max(81 + linear_pixel * 3 - int(linear_pixel > anchor_pixel), 82),
 +        (linear_pixel == 0 || linear_pixel == anchor_pixel) ? 2 : 3);
 +
-+    int w = weight_table3[index];
++    int w = constants.weight_table3[index];
 +    return DecodedInterpolation(ep0, ep1, w);
 +}
 +
@@ -4190,7 +4158,7 @@ index 00000000000..f471a59d811
 +        max(81 + linear_pixel * 3 - int(linear_pixel > anchor_pixel), 82),
 +        (linear_pixel == 0 || linear_pixel == anchor_pixel) ? 2 : 3);
 +
-+    int w = weight_table3[index];
++    int w = constants.weight_table3[index];
 +    return DecodedInterpolation(ep0, ep1, w);
 +}
 +
@@ -4201,9 +4169,29 @@ index 00000000000..f471a59d811
 +void main() {
 +    // Calculate pixel coordinate from workgroup and local invocation IDs
 +    ivec2 coord = ivec2(gl_WorkGroupID.xy) * 8 + ivec2(gl_LocalInvocationID.xy);
++    ivec2 final_dst_coord = ivec2(push_constants.offsetx, push_constants.offsety) + coord;
 +
 +    // Check if this invocation is out of bounds for the destination image
-+    if (coord.x >= push_constants.dst_width || coord.y >= push_constants.dst_height) {
++    if (final_dst_coord.x >= push_constants.dst_width || final_dst_coord.y >= push_constants.dst_height) {
++        return;
++    }
++
++    // Check the bitmask
++    bool is_masked = (push_constants.unsupportedBitsBc & (1 << (push_constants.srcFormat - 131))) != 0;
++    bool is_watermarked = ((push_constants.watercoloredBitsBc & (1 << (push_constants.srcFormat - 131))) != 0)
++        && coord.x < 32 && coord.y < 32;
++    if (is_masked || is_watermarked) {
++#define RETURN(r,g,b) imageStore(dstImage, final_dst_coord, ivec4(r, g, b, 0x3c00)); break
++#ifdef USE_IMAGE_VIEW_OUTPUT
++        switch (push_constants.srcFormat) {
++        case 143:
++            RETURN(0x3c00, 0x3c00, 0); // Magenta
++        case 144:
++            RETURN(0x3c00, 0, 0); // Red
++        default:
++            RETURN(0xff, 0xff, 0xff); // White
++        }
++#endif
 +        return;
 +    }
 +
@@ -4213,11 +4201,21 @@ index 00000000000..f471a59d811
 +    int shared_idx = (local_coords.y / 4) * 2 + (local_coords.x / 4);
 +
 +    // Load the 128-bit block data into shared memory if this invocation is a leader
++    ivec2 block_coord = coord / 4;
++    uint block_stride = push_constants.srcRowLength > 0 ? push_constants.srcRowLength / 4 : push_constants.dst_width;
++    uint block_index = block_coord.y * block_stride + block_coord.x;
++    uint buffer_offset = block_index * 4;
++
++    // This fetch might overflow, return a magenta for now
++//     if ((buffer_offset + 3) * 4 >= push_constants.srcBufferSize) {
++// #ifdef USE_IMAGE_VIEW_OUTPUT
++//         imageStore(dstImage, final_dst_coord, ivec4(0x3c00, 0x3c00, 0, 0x3c00));
++// #endif
++//         return;
++//     }
++
++    // Load the 128-bit block data into shared memory if this invocation is a leader
 +    if (is_leader) {
-+        ivec2 block_coord = coord / 4;
-+        uint block_stride = push_constants.srcRowLength / 4;
-+        uint block_index = block_coord.y * block_stride + block_coord.x;
-+        uint buffer_offset = block_index * 4;
 +        shared_block_data[shared_idx] = uvec4(
 +            srcBuffer.data[buffer_offset + 0], srcBuffer.data[buffer_offset + 1],
 +            srcBuffer.data[buffer_offset + 2], srcBuffer.data[buffer_offset + 3]
@@ -4239,8 +4237,8 @@ index 00000000000..f471a59d811
 +
 +    int mode = extract_bits(payload, 0, 5);
 +    int part_index = extract_bits(payload, 77, 5);
-+    int part = (partition_table2[part_index] >> linear_pixel) & 1;
-+    int anchor_pixel = anchor_table2[part_index];
++    int part = (constants.partition_table2[part_index] >> linear_pixel) & 1;
++    int anchor_pixel = constants.anchor_table2[part_index];
 +
 +    // The switch statement is the same, but now passes `is_signed` to the decode functions.
 +    if ((mode & 2) == 0) {
@@ -4279,8 +4277,6 @@ index 00000000000..f471a59d811
 +        rgba_result = (rgba_result * 31) >> 6;
 +    }
 +
-+    // Calculate final destination coordinates and write to buffer
-+    ivec2 final_dst_coord = ivec2(push_constants.offsetx, push_constants.offsety) + coord;
 +#ifdef USE_IMAGE_VIEW_OUTPUT
 +    uvec4 final_rbga_color = uvec4(rgba_result, 0x3c00); // Alpha is always 1.0 for BC6.
 +    // vec4 final_rbga_color = vec4(1.0, 0.0, 1.0, 1.0); // Convert to normalized float and set alpha to 1.0
@@ -4295,10 +4291,10 @@ index 00000000000..f471a59d811
 +}
 diff --git a/src/vulkan/wrapper/bc7.comp b/src/vulkan/wrapper/bc7.comp
 new file mode 100644
-index 00000000000..919225abc74
+index 00000000000..c364fe0f209
 --- /dev/null
 +++ b/src/vulkan/wrapper/bc7.comp
-@@ -0,0 +1,762 @@
+@@ -0,0 +1,509 @@
 +#version 450
 +/* Copyright (c) 2020-2024 Hans-Kristian Arntzen
 + *
@@ -4349,6 +4345,11 @@ index 00000000000..919225abc74
 +    int offsety; // region->imageOffset.y
 +    uint dst_width; // region->imageExtent.width
 +    uint dst_height; // region->imageExtent.height
++
++    uint srcBufferSize;
++
++    uint unsupportedBitsBc; // bitmask
++    uint watercoloredBitsBc;
 +} push_constants;
 +
 +// --- Buffers ---
@@ -4370,189 +4371,16 @@ index 00000000000..919225abc74
 +} dstBuffer;
 +#endif
 +
-+// --- BC7 Tables and Helper Functions ---
++layout(std140, set = 0, binding = 2) uniform LUTs {
++    int weight_table2[16];
++    int weight_table3[16];
++    int weight_table4[16];
 +
-+const int weight_table2[16] = int[](0, 21, 43, 64, 0,0,0,0, 0,0,0,0, 0,0,0,0);
-+const int weight_table3[16] = int[](0, 9, 18, 27, 37, 46, 55, 64, 0,0,0,0, 0,0,0,0);
-+const int weight_table4[16] = int[](0, 4, 9, 13, 17, 21, 26, 30, 34, 38, 43, 47, 51, 55, 60, 64);
-+
-+#define P3(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) \
-+    (((a) << 0) | ((b) << 2) | ((c) << 4) | ((d) << 6) | \
-+    ((e) << 8) | ((f) << 10) | ((g) << 12) | ((h) << 14) | \
-+    ((i) << 16) | ((j) << 18) | ((k) << 20) | ((l) << 22) | \
-+    ((m) << 24) | ((n) << 26) | ((o) << 28) | ((p) << 30))
-+
-+const int partition_table3[64] = int[](
-+    P3(0, 0, 1, 1, 0, 0, 1, 1, 0, 2, 2, 1, 2, 2, 2, 2),
-+    P3(0, 0, 0, 1, 0, 0, 1, 1, 2, 2, 1, 1, 2, 2, 2, 1),
-+    P3(0, 0, 0, 0, 2, 0, 0, 1, 2, 2, 1, 1, 2, 2, 1, 1),
-+    P3(0, 2, 2, 2, 0, 0, 2, 2, 0, 0, 1, 1, 0, 1, 1, 1),
-+    P3(0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 1, 2, 2),
-+    P3(0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 0, 0, 2, 2),
-+    P3(0, 0, 2, 2, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1),
-+    P3(0, 0, 1, 1, 0, 0, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1),
-+
-+    P3(0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2),
-+    P3(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2),
-+    P3(0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2),
-+    P3(0, 0, 1, 2, 0, 0, 1, 2, 0, 0, 1, 2, 0, 0, 1, 2),
-+    P3(0, 1, 1, 2, 0, 1, 1, 2, 0, 1, 1, 2, 0, 1, 1, 2),
-+    P3(0, 1, 2, 2, 0, 1, 2, 2, 0, 1, 2, 2, 0, 1, 2, 2),
-+    P3(0, 0, 1, 1, 0, 1, 1, 2, 1, 1, 2, 2, 1, 2, 2, 2),
-+    P3(0, 0, 1, 1, 2, 0, 0, 1, 2, 2, 0, 0, 2, 2, 2, 0),
-+
-+    P3(0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 2, 1, 1, 2, 2),
-+    P3(0, 1, 1, 1, 0, 0, 1, 1, 2, 0, 0, 1, 2, 2, 0, 0),
-+    P3(0, 0, 0, 0, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2),
-+    P3(0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 2, 2, 1, 1, 1, 1),
-+    P3(0, 1, 1, 1, 0, 1, 1, 1, 0, 2, 2, 2, 0, 2, 2, 2),
-+    P3(0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 2, 1, 2, 2, 2, 1),
-+    P3(0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 2, 2, 0, 1, 2, 2),
-+    P3(0, 0, 0, 0, 1, 1, 0, 0, 2, 2, 1, 0, 2, 2, 1, 0),
-+
-+    P3(0, 1, 2, 2, 0, 1, 2, 2, 0, 0, 1, 1, 0, 0, 0, 0),
-+    P3(0, 0, 1, 2, 0, 0, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2),
-+    P3(0, 1, 1, 0, 1, 2, 2, 1, 1, 2, 2, 1, 0, 1, 1, 0),
-+    P3(0, 0, 0, 0, 0, 1, 1, 0, 1, 2, 2, 1, 1, 2, 2, 1),
-+    P3(0, 0, 2, 2, 1, 1, 0, 2, 1, 1, 0, 2, 0, 0, 2, 2),
-+    P3(0, 1, 1, 0, 0, 1, 1, 0, 2, 0, 0, 2, 2, 2, 2, 2),
-+    P3(0, 0, 1, 1, 0, 1, 2, 2, 0, 1, 2, 2, 0, 0, 1, 1),
-+    P3(0, 0, 0, 0, 2, 0, 0, 0, 2, 2, 1, 1, 2, 2, 2, 1),
-+
-+    P3(0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 2, 2, 1, 2, 2, 2),
-+    P3(0, 2, 2, 2, 0, 0, 2, 2, 0, 0, 1, 2, 0, 0, 1, 1),
-+    P3(0, 0, 1, 1, 0, 0, 1, 2, 0, 0, 2, 2, 0, 2, 2, 2),
-+    P3(0, 1, 2, 0, 0, 1, 2, 0, 0, 1, 2, 0, 0, 1, 2, 0),
-+    P3(0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 0, 0, 0, 0),
-+    P3(0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0),
-+    P3(0, 1, 2, 0, 2, 0, 1, 2, 1, 2, 0, 1, 0, 1, 2, 0),
-+    P3(0, 0, 1, 1, 2, 2, 0, 0, 1, 1, 2, 2, 0, 0, 1, 1),
-+
-+    P3(0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 0, 0, 0, 0, 1, 1),
-+    P3(0, 1, 0, 1, 0, 1, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2),
-+    P3(0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 2, 1, 2, 1, 2, 1),
-+    P3(0, 0, 2, 2, 1, 1, 2, 2, 0, 0, 2, 2, 1, 1, 2, 2),
-+    P3(0, 0, 2, 2, 0, 0, 1, 1, 0, 0, 2, 2, 0, 0, 1, 1),
-+    P3(0, 2, 2, 0, 1, 2, 2, 1, 0, 2, 2, 0, 1, 2, 2, 1),
-+    P3(0, 1, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 0, 1),
-+    P3(0, 0, 0, 0, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1),
-+
-+    P3(0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 2, 2, 2, 2),
-+    P3(0, 2, 2, 2, 0, 1, 1, 1, 0, 2, 2, 2, 0, 1, 1, 1),
-+    P3(0, 0, 0, 2, 1, 1, 1, 2, 0, 0, 0, 2, 1, 1, 1, 2),
-+    P3(0, 0, 0, 0, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2),
-+    P3(0, 2, 2, 2, 0, 1, 1, 1, 0, 1, 1, 1, 0, 2, 2, 2),
-+    P3(0, 0, 0, 2, 1, 1, 1, 2, 1, 1, 1, 2, 0, 0, 0, 2),
-+    P3(0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 2, 2, 2, 2),
-+    P3(0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 2, 2, 1, 1, 2),
-+
-+    P3(0, 1, 1, 0, 0, 1, 1, 0, 2, 2, 2, 2, 2, 2, 2, 2),
-+    P3(0, 0, 2, 2, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2),
-+    P3(0, 0, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 0, 0, 2, 2),
-+    P3(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 2),
-+    P3(0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 1),
-+    P3(0, 2, 2, 2, 1, 2, 2, 2, 0, 2, 2, 2, 1, 2, 2, 2),
-+    P3(0, 1, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
-+    P3(0, 1, 1, 1, 2, 0, 1, 1, 2, 2, 0, 1, 2, 2, 2, 0));
-+
-+#define P2(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) \
-+    (((a) << 0) | ((b) << 1) | ((c) << 2) | ((d) << 3) | \
-+    ((e) << 4) | ((f) << 5) | ((g) << 6) | ((h) << 7) | \
-+    ((i) << 8) | ((j) << 9) | ((k) << 10) | ((l) << 11) | \
-+    ((m) << 12) | ((n) << 13) | ((o) << 14) | ((p) << 15))
-+const int partition_table2[64] = int[](
-+    P2(0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1),
-+    P2(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1),
-+    P2(0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1),
-+    P2(0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1),
-+    P2(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1),
-+    P2(0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1),
-+    P2(0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1),
-+    P2(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1),
-+
-+    P2(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1),
-+    P2(0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-+    P2(0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1),
-+    P2(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1),
-+    P2(0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-+    P2(0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1),
-+    P2(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
-+    P2(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
-+
-+    P2(0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1),
-+    P2(0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
-+    P2(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0),
-+    P2(0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0),
-+    P2(0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
-+    P2(0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0),
-+    P2(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0),
-+    P2(0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1),
-+
-+    P2(0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0),
-+    P2(0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0),
-+    P2(0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0),
-+    P2(0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0),
-+    P2(0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0),
-+    P2(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0),
-+    P2(0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0),
-+    P2(0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0),
-+
-+    P2(0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
-+    P2(0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1),
-+    P2(0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0),
-+    P2(0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0),
-+    P2(0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0),
-+    P2(0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0),
-+    P2(0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1),
-+    P2(0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1),
-+
-+    P2(0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0),
-+    P2(0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0),
-+    P2(0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0),
-+    P2(0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0),
-+    P2(0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0),
-+    P2(0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1),
-+    P2(0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1),
-+    P2(0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0),
-+
-+    P2(0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0),
-+    P2(0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0),
-+    P2(0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0),
-+    P2(0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0),
-+    P2(0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1),
-+    P2(0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1),
-+    P2(0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0),
-+    P2(0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0),
-+
-+    P2(0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1),
-+    P2(0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1),
-+    P2(0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1),
-+    P2(0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1),
-+    P2(0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1),
-+    P2(0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0),
-+    P2(0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0),
-+    P2(0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1));
-+
-+const int anchor_table2[64] = int[](
-+    15, 15, 15, 15, 15, 15, 15, 15,
-+    15, 15, 15, 15, 15, 15, 15, 15,
-+    15, 2, 8, 2, 2, 8, 8, 15,
-+    2, 8, 2, 2, 8, 8, 2, 2,
-+    15, 15, 6, 8, 2, 8, 15, 15,
-+    2, 8, 2, 2, 2, 15, 15, 6,
-+    6, 2, 6, 8, 15, 15, 2, 2,
-+    15, 15, 15, 15, 15, 2, 2, 15);
-+
-+const ivec2 anchor_table3[64] = ivec2[](
-+    ivec2(3, 15), ivec2(3, 8), ivec2(15, 8), ivec2(15, 3), ivec2(8, 15), ivec2(3, 15), ivec2(15, 3), ivec2(15, 8),
-+    ivec2(8, 15), ivec2(8, 15), ivec2(6, 15), ivec2(6, 15), ivec2(6, 15), ivec2(5, 15), ivec2(3, 15), ivec2(3, 8),
-+    ivec2(3, 15), ivec2(3, 8), ivec2(8, 15), ivec2(15, 3), ivec2(3, 15), ivec2(3, 8), ivec2(6, 15), ivec2(10, 8),
-+    ivec2(5, 3), ivec2(8, 15), ivec2(8, 6), ivec2(6, 10), ivec2(8, 15), ivec2(5, 15), ivec2(15, 10), ivec2(15, 8),
-+    ivec2(8, 15), ivec2(15, 3), ivec2(3, 15), ivec2(5, 10), ivec2(6, 10), ivec2(10, 8), ivec2(8, 9), ivec2(15, 10),
-+    ivec2(15, 6), ivec2(3, 15), ivec2(15, 8), ivec2(5, 15), ivec2(15, 3), ivec2(15, 6), ivec2(15, 6), ivec2(15, 8),
-+    ivec2(3, 15), ivec2(15, 3), ivec2(5, 15), ivec2(5, 15), ivec2(5, 15), ivec2(8, 15), ivec2(5, 15), ivec2(10, 15),
-+    ivec2(5, 15), ivec2(10, 15), ivec2(8, 15), ivec2(13, 15), ivec2(15, 3), ivec2(12, 15), ivec2(3, 15), ivec2(3, 8)
-+);
++    int partition_table3[64];
++    int partition_table2[64];
++    int anchor_table2[64];
++    ivec2 anchor_table3[64];
++} constants;
 +
 +struct DecodedInterpolation
 +{
@@ -4567,7 +4395,7 @@ index 00000000000..919225abc74
 +DecodedInterpolation decode_bc7_mode0(uvec4 payload, int linear_pixel)
 +{
 +    int part_index = extract_bits(payload, 1, 4);
-+    int part = (partition_table3[part_index] >> (2 * linear_pixel)) & 3;
++    int part = (constants.partition_table3[part_index] >> (2 * linear_pixel)) & 3;
 +    int bit_offset = part * 8;
 +
 +    int r0 = extract_bits(payload, 5 + bit_offset, 4);
@@ -4580,7 +4408,7 @@ index 00000000000..919225abc74
 +    int sep0 = extract_bits(payload, 77 + part * 2, 1);
 +    int sep1 = extract_bits(payload, 78 + part * 2, 1);
 +
-+    ivec2 anchor_pixels = anchor_table3[part_index];
++    ivec2 anchor_pixels = constants.anchor_table3[part_index];
 +    int index = extract_bits(
 +            payload,
 +            max(82 + linear_pixel * 3 - int(linear_pixel > anchor_pixels.x) - int(linear_pixel > anchor_pixels.y), 83),
@@ -4602,14 +4430,14 @@ index 00000000000..919225abc74
 +    rgb0 = (rgb0 << 4) | (sep0 << 3) | (rgb0 >> 1);
 +    rgb1 = (rgb1 << 4) | (sep1 << 3) | (rgb1 >> 1);
 +
-+    int w = weight_table3[index];
++    int w = constants.weight_table3[index];
 +    return DecodedInterpolation(uvec4(rgb0, 0xff), uvec4(rgb1, 0xff), w, w, 0);
 +}
 +
 +DecodedInterpolation decode_bc7_mode1(uvec4 payload, int linear_pixel)
 +{
 +    int part_index = extract_bits(payload, 2, 6);
-+    int part = (partition_table2[part_index] >> linear_pixel) & 1;
++    int part = (constants.partition_table2[part_index] >> linear_pixel) & 1;
 +    int bit_offset = part * 12;
 +
 +    int r0 = extract_bits(payload, 8 + bit_offset, 6);
@@ -4620,7 +4448,7 @@ index 00000000000..919225abc74
 +    int b1 = extract_bits(payload, 62 + bit_offset, 6);
 +    int sep = extract_bits(payload, 80 + part, 1) << 1;
 +
-+    int anchor_pixel = anchor_table2[part_index];
++    int anchor_pixel = constants.anchor_table2[part_index];
 +
 +    int index = extract_bits(
 +        payload,
@@ -4632,14 +4460,14 @@ index 00000000000..919225abc74
 +    rgb0 = (rgb0 << 2) | sep | (rgb0 >> 5);
 +    rgb1 = (rgb1 << 2) | sep | (rgb1 >> 5);
 +
-+    int w = weight_table3[index];
++    int w = constants.weight_table3[index];
 +    return DecodedInterpolation(uvec4(rgb0, 0xff), uvec4(rgb1, 0xff), w, w, 0);
 +}
 +
 +DecodedInterpolation decode_bc7_mode2(uvec4 payload, int linear_pixel)
 +{
 +    int part_index = extract_bits(payload, 3, 6);
-+    int part = (partition_table3[part_index] >> (2 * linear_pixel)) & 3;
++    int part = (constants.partition_table3[part_index] >> (2 * linear_pixel)) & 3;
 +    int bit_offset = part * 10;
 +
 +    int r0 = extract_bits(payload, 9 + bit_offset, 5);
@@ -4649,7 +4477,7 @@ index 00000000000..919225abc74
 +    int b0 = extract_bits(payload, 69 + bit_offset, 5);
 +    int b1 = extract_bits(payload, 74 + bit_offset, 5);
 +
-+    ivec2 anchor_pixels = anchor_table3[part_index];
++    ivec2 anchor_pixels = constants.anchor_table3[part_index];
 +    int index = extract_bits(
 +            payload,
 +            max(98 + linear_pixel * 2 - int(linear_pixel > anchor_pixels.x) - int(linear_pixel > anchor_pixels.y), 99),
@@ -4660,14 +4488,14 @@ index 00000000000..919225abc74
 +    rgb0 = (rgb0 << 3) | (rgb0 >> 2);
 +    rgb1 = (rgb1 << 3) | (rgb1 >> 2);
 +
-+    int w = weight_table2[index];
++    int w = constants.weight_table2[index];
 +    return DecodedInterpolation(uvec4(rgb0, 0xff), uvec4(rgb1, 0xff), w, w, 0);
 +}
 +
 +DecodedInterpolation decode_bc7_mode3(uvec4 payload, int linear_pixel)
 +{
 +    int part_index = extract_bits(payload, 4, 6);
-+    int part = (partition_table2[part_index] >> linear_pixel) & 1;
++    int part = (constants.partition_table2[part_index] >> linear_pixel) & 1;
 +    int bit_offset = part * 14;
 +
 +    int r0 = extract_bits(payload, 10 + bit_offset, 7);
@@ -4680,7 +4508,7 @@ index 00000000000..919225abc74
 +    int sep0 = extract_bits(payload, 94 + part * 2, 1);
 +    int sep1 = extract_bits(payload, 95 + part * 2, 1);
 +
-+    int anchor_pixel = anchor_table2[part_index];
++    int anchor_pixel = constants.anchor_table2[part_index];
 +
 +    int index = extract_bits(
 +        payload,
@@ -4692,7 +4520,7 @@ index 00000000000..919225abc74
 +    rgb0 = (rgb0 << 1) | sep0;
 +    rgb1 = (rgb1 << 1) | sep1;
 +
-+    int w = weight_table2[index];
++    int w = constants.weight_table2[index];
 +    return DecodedInterpolation(uvec4(rgb0, 0xff), uvec4(rgb1, 0xff), w, w, 0);
 +}
 +
@@ -4718,8 +4546,8 @@ index 00000000000..919225abc74
 +            max(80 + linear_pixel * 3, 81),
 +            linear_pixel == 0 ? 2 : 3);
 +
-+    int color_weight = weight_table2[primary_index];
-+    int alpha_weight = weight_table3[secondary_index];
++    int color_weight = constants.weight_table2[primary_index];
++    int alpha_weight = constants.weight_table3[secondary_index];
 +
 +    if (isb)
 +    {
@@ -4758,8 +4586,8 @@ index 00000000000..919225abc74
 +            max(96 + linear_pixel * 2, 97),
 +            linear_pixel == 0 ? 1 : 2);
 +
-+    int color_weight = weight_table2[primary_index];
-+    int alpha_weight = weight_table2[secondary_index];
++    int color_weight = constants.weight_table2[primary_index];
++    int alpha_weight = constants.weight_table2[secondary_index];
 +
 +    ivec3 rgb0 = ivec3(r0, g0, b0);
 +    ivec3 rgb1 = ivec3(r1, g1, b1);
@@ -4789,14 +4617,14 @@ index 00000000000..919225abc74
 +            max(64 + linear_pixel * 4, 65),
 +            linear_pixel == 0 ? 3 : 4);
 +
-+    int w = weight_table4[index];
++    int w = constants.weight_table4[index];
 +    return DecodedInterpolation(ep0, ep1, w, w, 0);
 +}
 +
 +DecodedInterpolation decode_bc7_mode7(uvec4 payload, int linear_pixel)
 +{
 +    int part_index = extract_bits(payload, 8, 6);
-+    int part = (partition_table2[part_index] >> linear_pixel) & 1;
++    int part = (constants.partition_table2[part_index] >> linear_pixel) & 1;
 +    int bit_offset = part * 10;
 +
 +    int r0 = extract_bits(payload, 14 + bit_offset, 5);
@@ -4811,7 +4639,7 @@ index 00000000000..919225abc74
 +    int sep0 = extract_bits(payload, 94 + part * 2, 1);
 +    int sep1 = extract_bits(payload, 95 + part * 2, 1);
 +
-+    int anchor_pixel = anchor_table2[part_index];
++    int anchor_pixel = constants.anchor_table2[part_index];
 +
 +    int index = extract_bits(
 +        payload,
@@ -4823,7 +4651,7 @@ index 00000000000..919225abc74
 +    rgba0 = (rgba0 << 3) | (rgba0 >> 3) | (sep0 << 2);
 +    rgba1 = (rgba1 << 3) | (rgba1 >> 3) | (sep1 << 2);
 +
-+    int w = weight_table2[index];
++    int w = constants.weight_table2[index];
 +    return DecodedInterpolation(rgba0, rgba1, w, w, 0);
 +}
 +
@@ -4868,9 +4696,30 @@ index 00000000000..919225abc74
 +void main() {
 +    // Calculate pixel coordinate from workgroup and local invocation IDs
 +    ivec2 coord = ivec2(gl_WorkGroupID.xy) * 8 + ivec2(gl_LocalInvocationID.xy);
++    ivec2 final_dst_coord = ivec2(push_constants.offsetx, push_constants.offsety) + coord;
 +
 +    // Check if this invocation is out of bounds for the destination image
-+    if (coord.x >= push_constants.dst_width || coord.y >= push_constants.dst_height) {
++    if (final_dst_coord.x >= push_constants.dst_width || final_dst_coord.y >= push_constants.dst_height) {
++        return;
++    }
++
++    // Check the bitmask    
++    bool is_masked = (push_constants.unsupportedBitsBc & (1 << (push_constants.srcFormat - 131))) != 0;
++    bool is_watermarked = ((push_constants.watercoloredBitsBc & (1 << (push_constants.srcFormat - 131))) != 0)
++        && coord.x < 32 && coord.y < 32;
++    if (is_masked || is_watermarked) {
++#define RETURN(r,g,b) imageStore(dstImage, final_dst_coord, vec4(r/256.0, g/256.0, b/256.0, 1.0)); break
++#ifdef USE_IMAGE_VIEW_OUTPUT
++        switch (push_constants.srcFormat) {
++        // See https://sashamaps.net/docs/resources/20-colors/
++        case 145:
++            RETURN(0xaa, 0xff, 0xc3); // Mint
++        case 146:
++            RETURN(0xfa, 0xbe, 0xd4); // Pink
++        default:
++            RETURN(0xff, 0xff, 0xff); // White
++        }
++#endif
 +        return;
 +    }
 +
@@ -4880,11 +4729,21 @@ index 00000000000..919225abc74
 +    int shared_idx = (local_coords.y / 4) * 2 + (local_coords.x / 4);
 +
 +    // Load the 128-bit block data into shared memory if this invocation is a leader
++    ivec2 block_coord = coord / 4;
++    uint block_stride = push_constants.srcRowLength > 0 ? push_constants.srcRowLength / 4 : push_constants.dst_width;
++    uint block_index = block_coord.y * block_stride + block_coord.x;
++    uint buffer_offset = block_index * 4;
++
++    // This fetch might overflow, return a magenta for now
++//     if ((buffer_offset + 3) * 4 >= push_constants.srcBufferSize) {
++// #ifdef USE_IMAGE_VIEW_OUTPUT
++//         imageStore(dstImage, final_dst_coord, vec4(0.0, 1.0, 1.0, 1.0));
++// #endif
++//         return;
++//     }
++
++    // Load the 128-bit block data into shared memory if this invocation is a leader
 +    if (is_leader) {
-+        ivec2 block_coord = coord / 4;
-+        uint block_stride = push_constants.srcRowLength / 4;
-+        uint block_index = block_coord.y * block_stride + block_coord.x;
-+        uint buffer_offset = block_index * 4;
 +        shared_block_data[shared_idx] = uvec4(
 +            srcBuffer.data[buffer_offset + 0], srcBuffer.data[buffer_offset + 1],
 +            srcBuffer.data[buffer_offset + 2], srcBuffer.data[buffer_offset + 3]
@@ -4936,122 +4795,6 @@ index 00000000000..919225abc74
 +    }
 +
 +    uvec4 rgba_result = interpolate_endpoint(interp);
-+    // Calculate the final destination coordinate including the offset
-+    ivec2 final_dst_coord = ivec2(push_constants.offsetx, push_constants.offsety) + coord;
-+
-+    // NEW
-+
-+    // // Get the global coordinate of the pixel this invocation is responsible for.
-+    // ivec2 global_coord = ivec2(gl_GlobalInvocationID.xy);
-+
-+    // // Apply boundary checks based on the destination region's extent.
-+    // if (global_coord.x >= push_constants.dst_width || global_coord.y >= push_constants.dst_height)
-+    // {
-+    //     return;
-+    // }
-+
-+    // // Calculate the final destination coordinate by applying the offset.
-+    // ivec2 final_dst_coord = ivec2(push_constants.offsetx, push_constants.offsety) + global_coord;
-+    // // ivec2 dst_dims = imageSize(dstImage);
-+    // // if (any(lessThan(final_dst_coord, ivec2(0))) || any(greaterThanEqual(final_dst_coord, dst_dims)))
-+    // // {
-+    // //     return;
-+    // // }
-+
-+    // // --- GUARD 3: Source Stride Sanity Check ---
-+    // // A stride of 0 in blocks would cause problems for any image taller than one block.
-+    // uint blocks_per_row = push_constants.srcRowLength >> 2;
-+    // // if (blocks_per_row == 0) {
-+    // //     // This is an invalid configuration. Draw an error color and exit.
-+    // //     imageStore(dstImage, final_dst_coord, uvec4(255, 0, 0, 255)); // Red = Bad Stride
-+    // //     return;
-+    // // }
-+    // // --- Locate and fetch the BC7 block data from the source buffer ---
-+
-+    // // 1. Find the coordinate of the 4x4 pixel block (tile) this pixel belongs to.
-+    // ivec2 tile_coord = global_coord >> 2; // Equivalent to final_dst_coord / 4
-+
-+    // // 2. Calculate the linear index of this block in the source buffer.
-+    // // The source stride is given in pixels, so we convert it to blocks.
-+    // // uint blocks_per_row = push_constants.srcRowLength >> 2;
-+    // // Each block is 16 bytes (4 uints).
-+    // uint buffer_base_index = (tile_coord.y * blocks_per_row + tile_coord.x) * 4;
-+
-+    // // --- GUARD 4: Physical Source Buffer Bounds Check (MOST CRITICAL) ---
-+    // // This is the most likely source of a GPU fault.
-+    // // Check if the 16 bytes (4 uints) we *intend* to read are within the allocated buffer size.
-+    // // uint buffer_len = srcBuffer.data.length();
-+    // // if (buffer_base_index + 3 >= buffer_len) {
-+    // //     // We are about to read out of bounds. To help debug, we can write a special
-+    // //     // color to the output image to see where the error is happening.
-+    // //     imageStore(dstImage, final_dst_coord, uvec4(0, 0, 255, 255)); // Blue = Out-of-Bounds Read
-+    // //     return;
-+    // // }
-+
-+
-+
-+    // // 3. Fetch the 128-bit (16-byte) block data.
-+    // uvec4 payload = uvec4(
-+    //     srcBuffer.data[buffer_base_index + 0],
-+    //     srcBuffer.data[buffer_base_index + 1],
-+    //     srcBuffer.data[buffer_base_index + 2],
-+    //     srcBuffer.data[buffer_base_index + 3]
-+    // );
-+
-+    // // --- Decode the pixel color using the fetched block data ---
-+
-+    // // 1. Find the pixel's 2D coordinate within its 4x4 block.
-+    // ivec2 pixel_in_tile_coord = final_dst_coord & 3; // Equivalent to final_dst_coord % 4
-+
-+    // // 2. Convert the 2D coordinate to a linear index (0-15).
-+    // int linear_pixel = 4 * pixel_in_tile_coord.y + pixel_in_tile_coord.x;
-+
-+    // // 3. Decode the block using the same logic as the original shader.
-+    // DecodedInterpolation interp;
-+    // int mode = findLSB(payload.x);
-+    // switch (mode)
-+    // {
-+    // case 0:
-+    //     interp = decode_bc7_mode0(payload, linear_pixel);
-+    //     break;
-+    // case 1:
-+    //     interp = decode_bc7_mode1(payload, linear_pixel);
-+    //     break;
-+    // case 2:
-+    //     interp = decode_bc7_mode2(payload, linear_pixel);
-+    //     break;
-+    // case 3:
-+    //     interp = decode_bc7_mode3(payload, linear_pixel);
-+    //     break;
-+    // case 4:
-+    //     interp = decode_bc7_mode4(payload, linear_pixel);
-+    //     break;
-+    // case 5:
-+    //     interp = decode_bc7_mode5(payload, linear_pixel);
-+    //     break;
-+    // case 6:
-+    //     interp = decode_bc7_mode6(payload, linear_pixel);
-+    //     break;
-+    // case 7:
-+    //     interp = decode_bc7_mode7(payload, linear_pixel);
-+    //     break;
-+    // default:
-+    //     // This case handles invalid block data (mode bit not in 0-7).
-+    //     // Produces a black, transparent pixel.
-+    //     interp = DecodedInterpolation(uvec4(0), uvec4(0), 0, 0, 0);
-+    //     break;
-+    // }
-+
-+    // // Interpolate the final color and handle component rotation.
-+    // uvec4 rgba_result = interpolate_endpoint(interp);
-+    // // ivec2 offset = ivec2(push_constants.offsetx, push_constants.offsety);
-+    // // final_dst_coord = offset + global_coord;
-+
-+    // // ivec2 dst_dims = imageSize(dstImage);
-+    // // if (any(greaterThanEqual(final_dst_coord, dst_dims))) {
-+    // //     return;
-+    // // }
-+
 +#ifdef USE_IMAGE_VIEW_OUTPUT
 +    imageStore(dstImage, final_dst_coord, rgba_result / 255.0);
 +    // imageStore(dstImage, final_dst_coord, vec4(1.0,0,1.0,1.0));
@@ -6829,8 +6572,136 @@ index 00000000000..8782aa6a049
 @@ -0,0 +1 @@
 +// #define USE_IMAGE_VIEW_OUTPUT
 \ No newline at end of file
+diff --git a/src/vulkan/wrapper/debug.h b/src/vulkan/wrapper/debug.h
+new file mode 100644
+index 00000000000..64b39fa15bf
+--- /dev/null
++++ b/src/vulkan/wrapper/debug.h
+@@ -0,0 +1,122 @@
++#pragma once
++
++#include "wrapper_private.h"
++#include "wrapper_log.h"
++
++static uint32_t make_bcn_masks(const char* flag) {
++    uint32_t mask = 0;
++    const char* mask_bcn = getenv(flag);
++    if (!mask_bcn) return mask;
++
++    if (strstr(mask_bcn, "all")) return 0xffff;
++
++#define MASK_BIT(format) WLOG("Turning on BCn format " #format " for %s", flag); mask |= 1 << (format - 131)
++    if (strstr(mask_bcn, "uncommon")) {
++        // 132, 134, 135, 136, 138, 139, 140, 142, 144, 146
++        MASK_BIT(132);
++        MASK_BIT(134);
++        MASK_BIT(135);
++        MASK_BIT(136);
++        MASK_BIT(138);
++        MASK_BIT(139);
++        MASK_BIT(140);
++        MASK_BIT(142);
++        MASK_BIT(144);
++        MASK_BIT(146);
++    }
++    
++    if (strstr(mask_bcn, "srgb")) {
++        // 132, 134, 135, 136, 138, 146
++        MASK_BIT(132);
++        MASK_BIT(134);
++        MASK_BIT(135);
++        MASK_BIT(136);
++        MASK_BIT(138);
++        MASK_BIT(146);
++    }
++    if (strstr(mask_bcn, "snorm")) {
++        MASK_BIT(140);
++        MASK_BIT(142);
++    }
++
++    if (strstr(mask_bcn, "bc1")) {
++        MASK_BIT(131);
++        MASK_BIT(132);
++        MASK_BIT(133);
++        MASK_BIT(134);
++    }
++
++    if (strstr(mask_bcn, "bc2")) {
++        MASK_BIT(135);
++        MASK_BIT(136);
++    }
++    
++    if (strstr(mask_bcn, "bc3")) {
++        MASK_BIT(137);
++        MASK_BIT(138);
++    }
++    if (strstr(mask_bcn, "bc4")) {
++        MASK_BIT(139);
++        MASK_BIT(140);
++    }
++    if (strstr(mask_bcn, "bc5")) {
++        MASK_BIT(141);
++        MASK_BIT(142);
++    }
++    if (strstr(mask_bcn, "bc6")) {
++        MASK_BIT(143);
++        MASK_BIT(144);
++    }
++    if (strstr(mask_bcn, "bc7")) {
++        MASK_BIT(135);
++        MASK_BIT(136);
++    }
++#undef MASK_BIT
++
++#define MASK_BIT(format) \
++    bool mask_##format = strstr(mask_bcn, #format); \
++    if (mask_##format) { \
++        WLOG("Turning on BCn format " #format " for %s", flag); \
++        mask |= 1 << (format - 131); \
++    }
++
++    MASK_BIT(131);
++    MASK_BIT(132);
++    MASK_BIT(133);
++    MASK_BIT(134);
++    MASK_BIT(135);
++    MASK_BIT(136);
++    MASK_BIT(137);
++    MASK_BIT(138);
++    MASK_BIT(139);
++    MASK_BIT(140);
++    MASK_BIT(141);
++    MASK_BIT(142);
++    MASK_BIT(143);
++    MASK_BIT(144);
++    MASK_BIT(145);
++    MASK_BIT(146);
++    return mask;
++#undef MASK_BIT
++}
++
++#define STATIC_INIT_MASKS(mask) \
++    static bool initialized = false; \
++    static uint32_t mask = 0; \
++    if (initialized)  return mask; \
++    initialized = true
++
++static uint32_t get_unsupported_bcn_masks() {
++    STATIC_INIT_MASKS(mask);
++    return mask = make_bcn_masks("MASK_BCN");
++}
++
++static uint32_t get_watermarked_bcn_masks() {
++    STATIC_INIT_MASKS(mask);
++    return mask = make_bcn_masks("WATERMARK_BCN");
++}
++
++static uint32_t get_host_decoding_bcn_masks() {
++    STATIC_INIT_MASKS(mask);
++    return mask = make_bcn_masks("USE_CPU_BCN");
++}
 diff --git a/src/vulkan/wrapper/meson.build b/src/vulkan/wrapper/meson.build
-index 5b818b3b4bd..f327d21b73b 100644
+index 5b818b3b4bd..b478974b676 100644
 --- a/src/vulkan/wrapper/meson.build
 +++ b/src/vulkan/wrapper/meson.build
 @@ -66,32 +66,134 @@ wrapper_features = custom_target(
@@ -6909,7 +6780,7 @@ index 5b818b3b4bd..f327d21b73b 100644
 +  input : [files('s3tc.comp')],
 +  output : 's3tc.spv.h',
 +  command : [
-+      prog_glslang, '-V', '-S', 'comp', '-x', '-o', '@OUTPUT@', '@INPUT@',
++      prog_glslang, '-V', '-S', 'comp', '-x', '--nan-clamp', '-Os', '-o', '@OUTPUT@', '@INPUT@',
 +      glslang_quiet, glslang_depfile,
 +  ],
 +  depfile : 's3tc.spv.h.d',
@@ -6919,7 +6790,7 @@ index 5b818b3b4bd..f327d21b73b 100644
 +  input : [files('bc6.comp')],
 +  output : 'bc6.spv.h',
 +  command : [
-+      prog_glslang, '-V', '-S', 'comp', '-x', '-o', '@OUTPUT@', '@INPUT@',
++      prog_glslang, '-V', '-S', 'comp', '-x', '--nan-clamp', '-Os', '-o', '@OUTPUT@', '@INPUT@',
 +      glslang_quiet, glslang_depfile,
 +  ],
 +  depfile : 'bc6.spv.h.d',
@@ -6929,7 +6800,7 @@ index 5b818b3b4bd..f327d21b73b 100644
 +  input : [files('bc7.comp')],
 +  output : 'bc7.spv.h',
 +  command : [
-+      prog_glslang, '-V', '-S', 'comp', '-x', '-o', '@OUTPUT@', '@INPUT@',
++      prog_glslang, '-V', '-S', 'comp', '-x', '--nan-clamp', '-Os', '-o', '@OUTPUT@', '@INPUT@',
 +      glslang_quiet, glslang_depfile,
 +  ],
 +  depfile : 'bc7.spv.h.d',
@@ -6941,7 +6812,7 @@ index 5b818b3b4bd..f327d21b73b 100644
 +  input : [files('s3tc.comp')],
 +  output : 's3tc_iv.spv.h',
 +  command : [
-+      prog_glslang, '-V', '-S', 'comp', '-DUSE_IMAGE_VIEW_OUTPUT', '-x', '-o', '@OUTPUT@', '@INPUT@',
++      prog_glslang, '-V', '-S', 'comp', '-DUSE_IMAGE_VIEW_OUTPUT', '-x', '--nan-clamp', '-Os', '-o', '@OUTPUT@', '@INPUT@',
 +      glslang_quiet, glslang_depfile,
 +  ],
 +  depfile : 's3tc_iv.spv.h.d',
@@ -6951,7 +6822,7 @@ index 5b818b3b4bd..f327d21b73b 100644
 +  input : [files('bc6.comp')],
 +  output : 'bc6_iv.spv.h',
 +  command : [
-+      prog_glslang, '-V', '-S', 'comp', '-DUSE_IMAGE_VIEW_OUTPUT', '-x', '-o', '@OUTPUT@', '@INPUT@',
++      prog_glslang, '-V', '-S', 'comp', '-DUSE_IMAGE_VIEW_OUTPUT', '-x', '--nan-clamp', '-Os', '-o', '@OUTPUT@', '@INPUT@',
 +      glslang_quiet, glslang_depfile,
 +  ],
 +  depfile : 'bc6_iv.spv.h.d',
@@ -6961,7 +6832,7 @@ index 5b818b3b4bd..f327d21b73b 100644
 +  input : [files('bc7.comp')],
 +  output : 'bc7_iv.spv.h',
 +  command : [
-+      prog_glslang, '-V', '-S', 'comp', '-DUSE_IMAGE_VIEW_OUTPUT', '-x', '-o', '@OUTPUT@', '@INPUT@',
++      prog_glslang, '-V', '-S', 'comp', '-DUSE_IMAGE_VIEW_OUTPUT', '-x', '--nan-clamp', '-Os', '-o', '@OUTPUT@', '@INPUT@',
 +      glslang_quiet, glslang_depfile,
 +  ],
 +  depfile : 'bc7_iv.spv.h.d',
@@ -7052,10 +6923,10 @@ index 00000000000..9dd1f76859f
 +#endif
 diff --git a/src/vulkan/wrapper/s3tc.comp b/src/vulkan/wrapper/s3tc.comp
 new file mode 100644
-index 00000000000..eb32887d02c
+index 00000000000..fe28897bf76
 --- /dev/null
 +++ b/src/vulkan/wrapper/s3tc.comp
-@@ -0,0 +1,294 @@
+@@ -0,0 +1,357 @@
 +#version 450
 +/* Copyright (c) 2020-2024 Hans-Kristian Arntzen
 + *
@@ -7123,6 +6994,11 @@ index 00000000000..eb32887d02c
 +    int offsety;
 +    uint dst_width;
 +    uint dst_height;
++
++    uint srcBufferSize;
++
++    uint unsupportedBitsBc; // bitmask
++    uint watercoloredBitsBc;
 +} push_constants;
 +
 +// --- Buffers ---
@@ -7223,26 +7099,87 @@ index 00000000000..eb32887d02c
 +shared uvec4 shared_block_data[4]; // One 128-bit block for each 4x4 quad-group in the 8x8 workgroup.
 +
 +void main() {
++    // uvec4 shared_block_data[4];
++
++    bool is_bc1 = push_constants.srcFormat >= VK_FORMAT_BC1_RGB_UNORM_BLOCK && push_constants.srcFormat <= VK_FORMAT_BC1_RGBA_SRGB_BLOCK;
++    bool is_bc4 = push_constants.srcFormat == VK_FORMAT_BC4_UNORM_BLOCK || push_constants.srcFormat == VK_FORMAT_BC4_SNORM_BLOCK;
++    bool is_8bpp = is_bc1 || is_bc4;
++
 +    ivec2 pixel_coord = ivec2(gl_WorkGroupID.xy) * 8 + ivec2(gl_LocalInvocationID.xy);
-+    if (pixel_coord.x >= push_constants.dst_width || pixel_coord.y >= push_constants.dst_height) {
++    ivec2 final_dst_coord = ivec2(push_constants.offsetx, push_constants.offsety) + pixel_coord;
++    if (final_dst_coord.x >= push_constants.dst_width || final_dst_coord.y >= push_constants.dst_height) {
 +        return;
 +    }
++
++    // Check the bitmask
++    bool is_masked = (push_constants.unsupportedBitsBc & (1 << (push_constants.srcFormat - 131))) != 0;
++    bool is_watermarked = ((push_constants.watercoloredBitsBc & (1 << (push_constants.srcFormat - 131))) != 0)
++        && pixel_coord.x < 32 && pixel_coord.y < 32;
++    if (is_masked || is_watermarked) {
++#define RETURN(r,g,b) imageStore(dstImage, final_dst_coord, vec4(r/256.0, g/256.0, b/256.0, 1.0)); break
++#ifdef USE_IMAGE_VIEW_OUTPUT
++        switch (push_constants.srcFormat) {
++        // See https://sashamaps.net/docs/resources/20-colors/
++        case 131:
++            RETURN(0x80, 0, 0); // Maroon
++        case 132:
++            RETURN(0x9a, 0x63, 0x24); // Brown
++        case 133:
++            RETURN(0x80, 0x80, 0); // Olive
++        case 134:
++            RETURN(0x46, 0x99, 0x90); // Dark Teal
++        case 135:
++            RETURN(0x00, 0x00, 0x75); // Navy
++        case 136:
++            RETURN(0xff, 0xfa, 0xc8); // Beige
++        case 137:
++            RETURN(0xf5, 0x82, 0x31); // Orange
++        case 138:
++            RETURN(0xff, 0xe1, 0x19); // Yellow
++        case 139:
++            RETURN(0xbf, 0xef, 0x45); // Lime green
++        case 140:
++            RETURN(0x3c, 0xb4, 0x4b); // Green
++        case 141:
++            RETURN(0x42, 0xd4, 0xf4); // Cyan
++        case 142:
++            RETURN(0x91, 0x1e, 0xb4); // Purple
++        default:
++            RETURN(0xff, 0xff, 0xff); // White
++        }
++#endif
++        return;
++    }
++
 +    ivec2 local_coords = ivec2(gl_LocalInvocationID.xy); // on 8x8 warp grid
 +    // The first worker in the 4x4 squad is the leader who's responsible for fetching data
 +    bool is_leader = (local_coords.x % 4 == 0) && (local_coords.y % 4 == 0);
++    // 0 1
++    // 2 3
 +    int shared_idx = (local_coords.y / 4) * 2 + (local_coords.x / 4);
 +
 +    // Load the 128-bit block data into shared memory if this invocation is a leader
-+    if (is_leader) {
-+        ivec2 block_coord = pixel_coord / 4;
-+        uint block_stride = push_constants.srcRowLength / 4;
-+        uint block_index = block_coord.y * block_stride + block_coord.x;
-+        bool is_bc1 = push_constants.srcFormat >= VK_FORMAT_BC1_RGB_UNORM_BLOCK && push_constants.srcFormat <= VK_FORMAT_BC1_RGBA_SRGB_BLOCK;
-+        bool is_bc4 = push_constants.srcFormat == VK_FORMAT_BC4_UNORM_BLOCK || push_constants.srcFormat == VK_FORMAT_BC4_SNORM_BLOCK;
++    ivec2 block_coord = pixel_coord / 4;
++    uint block_stride = push_constants.srcRowLength > 0 ? push_constants.srcRowLength / 4 : push_constants.dst_width;
++    uint block_index = block_coord.y * block_stride + block_coord.x;
++    uint buffer_offset = is_8bpp ? block_index * 2 : block_index * 4;
 +
-+        if (is_bc1 || is_bc4) {
++    // This fetch might overflow, return a magenta for now
++//     if (is_8bpp && (buffer_offset + 1) * 4 > push_constants.srcBufferSize) {
++// #ifdef USE_IMAGE_VIEW_OUTPUT
++//         imageStore(dstImage, final_dst_coord, vec4(1.0, 0.0, 1.0, 1.0));
++// #endif
++//         return;
++//     } else if ((buffer_offset + 3) * 4 > push_constants.srcBufferSize) {
++// #ifdef USE_IMAGE_VIEW_OUTPUT
++//         imageStore(dstImage, final_dst_coord, vec4(1.0, 0.0, 1.0, 1.0));
++// #endif
++//         return;
++//     }
++
++    if (is_leader) {
++        if (is_8bpp) {
 +            // 2 quads per 4x4 block
-+            uint buffer_offset = block_index * 2;
 +            shared_block_data[shared_idx] = uvec4(
 +                srcBuffer.data[buffer_offset + 0], srcBuffer.data[buffer_offset + 1],
 +                // Do not use zw
@@ -7250,7 +7187,6 @@ index 00000000000..eb32887d02c
 +            );
 +        } else {
 +            // 4 quads per 4x4 block
-+            uint buffer_offset = block_index * 4;
 +            shared_block_data[shared_idx] = uvec4(
 +                srcBuffer.data[buffer_offset + 0], srcBuffer.data[buffer_offset + 1],
 +                srcBuffer.data[buffer_offset + 2], srcBuffer.data[buffer_offset + 3]
@@ -7340,8 +7276,6 @@ index 00000000000..eb32887d02c
 +        decompressed_color.rgb = srgb_to_linear(decompressed_color.rgb);
 +    }
 +
-+    // Calculate the final destination coordinate including the offset
-+    ivec2 final_dst_coord = ivec2(push_constants.offsetx, push_constants.offsety) + pixel_coord;
 +#ifdef USE_IMAGE_VIEW_OUTPUT
 +    imageStore(dstImage, final_dst_coord, decompressed_color);
 +#else
@@ -7360,10 +7294,10 @@ index bbc9deb820f..00000000000
 \ No newline at end of file
 diff --git a/src/vulkan/wrapper/vk_entrypoints.py b/src/vulkan/wrapper/vk_entrypoints.py
 new file mode 100644
-index 00000000000..102a49387c3
+index 00000000000..99fc271f7aa
 --- /dev/null
 +++ b/src/vulkan/wrapper/vk_entrypoints.py
-@@ -0,0 +1,457 @@
+@@ -0,0 +1,460 @@
 +# Copyright 2020 Intel Corporation
 +#
 +# Permission is hereby granted, free of charge, to any person obtaining a
@@ -7420,9 +7354,12 @@ index 00000000000..102a49387c3
 +wrapper_tramp_$name(
 +    $decl_params)
 +{
++    struct temporary_objects temp;
++    list_inithead(&temp.objects);
 +$handle_unwrap_logic
 +    $assign_block$dispatch_table.$name($call_params);
 +$handle_wrap_logic
++    free_temp_objects(&temp);
 +    return $return_block;
 +}""")
 +
@@ -7565,11 +7502,11 @@ index 00000000000..102a49387c3
 +                # VkObject[10]
 +                handle_unwrap_logic.append(f"    {param.name}__ = alloca({param.len} * sizeof({param.type}));")
 +                handle_unwrap_logic.append(f"    for (int i = 0; i < {param.len}; i++)")
-+                handle_unwrap_logic.append(f"        unwrap_{param.type}({device}, ({param.type} *) &{param.name}__[i], &{param.name}[i]);")
++                handle_unwrap_logic.append(f"        unwrap_{param.type}(&temp, {device}, ({param.type} *) &{param.name}__[i], &{param.name}[i]);")
 +            elif is_ptr1:
 +                handle_unwrap_logic.append(f"    {param.type} _w_{param.name} = {{ 0 }};")
 +                handle_unwrap_logic.append(f"    {param.name}__ = &_w_{param.name};")
-+                handle_unwrap_logic.append(f"    unwrap_{param.type}({device}, ({param.type} *) {param.name}__, {param.name});")
++                handle_unwrap_logic.append(f"    unwrap_{param.type}(&temp, {device}, ({param.type} *) {param.name}__, {param.name});")
 +            else:
 +                handle_unwrap_logic.append(f"#error: Unhandled struct+ptr2 {command.name} {param}")
 +                pass
@@ -8057,10 +7994,10 @@ index 00000000000..b700ac22182
 \ No newline at end of file
 diff --git a/src/vulkan/wrapper/vk_unwrapper.c.mako b/src/vulkan/wrapper/vk_unwrapper.c.mako
 new file mode 100644
-index 00000000000..b7670d37440
+index 00000000000..3456e2eb7f0
 --- /dev/null
 +++ b/src/vulkan/wrapper/vk_unwrapper.c.mako
-@@ -0,0 +1,241 @@
+@@ -0,0 +1,253 @@
 +// Copyright © 2025 Lee Gao
 +// SPDX-License-Identifier: MIT
 +
@@ -8071,9 +8008,20 @@ index 00000000000..b7670d37440
 +#include "vulkan/util/vk_util.h"
 +
 +#define VK_ALLOC(type) VK_ALLOC2(type, sizeof(type))
-+#define VK_ALLOC2(type, size) (device ? \
-+    ((type *) vk_zalloc(&device->vk.alloc, size, alignof(type), VK_SYSTEM_ALLOCATION_SCOPE_COMMAND)) : \
-+    ((type *) malloc(size)) )
++#define VK_ALLOC2(type, size) ({ \
++    type* __output = device ? \
++    ((type *) vk_zalloc(&device->vk.alloc, size, alignof(type), VK_SYSTEM_ALLOCATION_SCOPE_OBJECT)) : \
++    ((type *) malloc(size)); \
++    if (__output) { \
++        struct temp_object_node *node = device ? \
++            vk_alloc(&device->vk.alloc, sizeof(struct temp_object_node), 8, VK_SYSTEM_ALLOCATION_SCOPE_OBJECT) \
++            : malloc(sizeof(struct temp_object_node)); \
++        node->ptr = __output; \
++        node->device = device; \
++        list_addtail(&node->link, &temp->objects); \
++    } \
++    __output; \
++})
 +
 +/*
 +    Inductive logic for unwrapping objects (if tainted):
@@ -8159,6 +8107,7 @@ index 00000000000..b7670d37440
 +        out_info->${member.name} = VK_ALLOC2(${member.type}, in_info->${member.array_count_member} * sizeof(${member.type}));
 +        for (uint32_t i = 0; i < in_info->${member.array_count_member}; i++) {
 +            unwrap_${member.type}(
++                temp,
 +                device, 
 +                &(((${member.typep})out_info->${member.name})[i]), 
 +                &(((const ${member.typep})in_info->${member.name})[i]));
@@ -8167,7 +8116,7 @@ index 00000000000..b7670d37440
 +% elif member.num_pointers == 1:
 +    if (in_info->${member.name}) {
 +        out_info->${member.name} = VK_ALLOC(${member.type});
-+        unwrap_${member.type}(device, (${member.type}*) out_info->${member.name}, in_info->${member.name});
++        unwrap_${member.type}(temp, device, (${member.type}*) out_info->${member.name}, in_info->${member.name});
 +    }
 +% elif member.num_pointers == 2:
 +    #error "Not implemented: ${member.typep} with 2 pointers"
@@ -8200,7 +8149,7 @@ index 00000000000..b7670d37440
 +// ${s.name} - Not tainted, unwrapping is just a copy
 +% endif
 +void
-+unwrap_${s.name}_members_only(struct wrapper_device *device,
++unwrap_${s.name}_members_only(struct temporary_objects* temp, struct wrapper_device *device,
 +                          ${s.name} *out_info,
 +                          const ${s.name} *in_info)
 +{
@@ -8237,14 +8186,14 @@ index 00000000000..b7670d37440
 +% endfor
 +}
 +
-+void unwrap_${s.name}(struct wrapper_device *device,
++void unwrap_${s.name}(struct temporary_objects* temp, struct wrapper_device *device,
 +                          ${s.name} *out_info,
 +                          const ${s.name} *in_info)
 +{
 +    if (!in_info)
 +        return;
 +
-+    unwrap_${s.name}_members_only(device, out_info, in_info);
++    unwrap_${s.name}_members_only(temp, device, out_info, in_info);
 +    ##// Invariant: out_pnext_ptr points to the current output pnext
 +    ##VkBaseOutStructure **out_pnext_ptr = (VkBaseOutStructure **)&out_info->pNext;
 +    ##vk_foreach_struct_const(pnext, in_info->pNext) {
@@ -8272,7 +8221,7 @@ index 00000000000..b7670d37440
 +        % endif
 +        // "${s.name}: pNext extension ${ext_name} contains a wrapped handle (${tainted[ext_name.name]}) and must be unwrapped"
 +        case ${ext_name.sType}:
-+            unwrap_${ext_name}_members_only(device, (${ext_name} *)new_item, (const ${ext_name} *)item);
++            unwrap_${ext_name}_members_only(temp, device, (${ext_name} *)new_item, (const ${ext_name} *)item);
 +            break;
 +    % endfor
 +        default:
@@ -8304,10 +8253,10 @@ index 00000000000..b7670d37440
 +% endfor
 diff --git a/src/vulkan/wrapper/vk_unwrapper.h.mako b/src/vulkan/wrapper/vk_unwrapper.h.mako
 new file mode 100644
-index 00000000000..fde89a65b0a
+index 00000000000..7aadebc565e
 --- /dev/null
 +++ b/src/vulkan/wrapper/vk_unwrapper.h.mako
-@@ -0,0 +1,46 @@
+@@ -0,0 +1,73 @@
 +## Copyright © 2024 The Mesa3D Authors
 +## SPDX-License-Identifier: MIT
 +
@@ -8323,15 +8272,42 @@ index 00000000000..fde89a65b0a
 +extern "C" {
 +#endif
 +
++struct temporary_objects {
++    struct list_head objects;
++};
++
++struct temp_object_node {
++    struct list_head link;
++    void *ptr;
++    struct wrapper_device *device;
++};
++
++static void free_temp_objects(struct temporary_objects* temp) {
++    // Clean up temporary descriptor pools associated with this command buffer
++    if (!list_is_empty(&temp->objects)) {
++        list_for_each_entry_safe(struct temp_object_node, node, &temp->objects, link) {
++            if (node->device) {
++                vk_free(&node->device->vk.alloc, node->ptr);
++                list_del(&node->link);
++                vk_free(&node->device->vk.alloc, node);
++            } else {
++                free(node->ptr);
++                list_del(&node->link);
++                free(node);
++            }
++        }
++    }
++}
++
 +% for s in structs:
 +
 +void
-+unwrap_${s.name}_members_only(struct wrapper_device *device,
++unwrap_${s.name}_members_only(struct temporary_objects*, struct wrapper_device *device,
 +                          ${s.name} *out_info,
 +                          const ${s.name} *in_info);
 +
 +void
-+unwrap_${s.name}(struct wrapper_device *device,
++unwrap_${s.name}(struct temporary_objects*, struct wrapper_device *device,
 +                          ${s.name} *out_info,
 +                          const ${s.name} *in_info);
 +
@@ -8345,9 +8321,9 @@ index 00000000000..fde89a65b0a
 +#define NEEDS_UNWRAPPING_${s}
 +% endfor
 +
-+// TODO: Fix once unwrapping is completed
-+#undef NEEDS_UNWRAPPING_VkSubmitInfo
-+#undef NEEDS_UNWRAPPING_VkSubmitInfo2
++## // TODO: Fix once unwrapping is completed
++## #undef NEEDS_UNWRAPPING_VkSubmitInfo
++## #undef NEEDS_UNWRAPPING_VkSubmitInfo2
 +
 +#ifdef __cplusplus
 +}
@@ -8900,10 +8876,10 @@ index 00000000000..ed63df960ad
 +/home/leegao/meh/termux-packages/mesa_bionic/src/vulkan/wrapper
 \ No newline at end of file
 diff --git a/src/vulkan/wrapper/wrapper_device.c b/src/vulkan/wrapper/wrapper_device.c
-index 2ea37d1b392..befa6635484 100644
+index 2ea37d1b392..f5404ecb184 100644
 --- a/src/vulkan/wrapper/wrapper_device.c
 +++ b/src/vulkan/wrapper/wrapper_device.c
-@@ -8,8 +8,66 @@
+@@ -8,8 +8,69 @@
  #include "vk_extensions.h"
  #include "vk_queue.h"
  #include "vk_util.h"
@@ -8913,6 +8889,7 @@ index 2ea37d1b392..befa6635484 100644
 +#include "vk_meta.h" // For vk_meta_create_image_view
 +#include "vk_buffer.h"
 +#include "wrapper_trampolines.h"
++#include "debug.h"
 +
 +#include "bcdec.h"
 +
@@ -8952,11 +8929,13 @@ index 2ea37d1b392..befa6635484 100644
 +   VkPipeline pipeline;
 +   VkPipelineLayout pipelineLayout;
 +   VkDescriptorSetLayout descriptorSetLayout;
++   VkBuffer constantsBuffer;
++   VkDeviceMemory constantsBufferMemory;
 +} InterceptorState;
 +
 +// Initializes the Vulkan objects needed for the compute dispatch.
 +// Call this after intercepting vkCreateDevice.
-+static VkResult InterceptorState_Init(InterceptorState* state, VkDevice device, size_t spv_size, const uint32_t* spv_code, bool use_image_view);
++static VkResult InterceptorState_Init(InterceptorState* state, VkDevice device, size_t spv_size, const uint32_t* spv_code, bool use_image_view, int bc_mode);
 +
 +// Cleans up the Vulkan objects.
 +// Call this before intercepting vkDestroyDevice.
@@ -8970,7 +8949,7 @@ index 2ea37d1b392..befa6635484 100644
  
  const struct vk_device_extension_table wrapper_device_extensions =
  {
-@@ -60,13 +118,64 @@ wrapper_filter_enabled_extensions(const struct wrapper_device *device,
+@@ -60,13 +121,64 @@ wrapper_filter_enabled_extensions(const struct wrapper_device *device,
     }
  }
  
@@ -9037,7 +9016,15 @@ index 2ea37d1b392..befa6635484 100644
        exts[(*count)++] = "VK_" #name; \
     }
     REQUIRED_EXTENSION(KHR_external_fence);
-@@ -96,6 +205,10 @@ wrapper_create_device_queue(struct wrapper_device *device,
+@@ -85,6 +197,7 @@ wrapper_append_required_extensions(const struct vk_device *device,
+    REQUIRED_EXTENSION(EXT_external_memory_dma_buf);
+    REQUIRED_EXTENSION(EXT_image_drm_format_modifier);
+    REQUIRED_EXTENSION(ANDROID_external_memory_android_hardware_buffer);
++   // REQUIRED_EXTENSION(KHR_uniform_buffer_standard_layout); // for std430 UBOs
+ #undef REQUIRED_EXTENSION
+ }
+ 
+@@ -96,6 +209,10 @@ wrapper_create_device_queue(struct wrapper_device *device,
     struct wrapper_queue *queue;
     VkResult result;
  
@@ -9048,7 +9035,7 @@ index 2ea37d1b392..befa6635484 100644
     for (int i = 0; i < pCreateInfo->queueCreateInfoCount; i++) {
        create_info = &pCreateInfo->pQueueCreateInfos[i];
        for (int j = 0; j < create_info->queueCount; j++) {
-@@ -120,6 +233,7 @@ wrapper_create_device_queue(struct wrapper_device *device,
+@@ -120,12 +237,18 @@ wrapper_create_device_queue(struct wrapper_device *device,
                 j, &queue->dispatch_handle);
           }
           queue->device = device;
@@ -9056,15 +9043,18 @@ index 2ea37d1b392..befa6635484 100644
  
           result = vk_queue_init(&queue->vk, &device->vk, create_info, j);
           if (result != VK_SUCCESS) {
-@@ -138,6 +252,7 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
-                      const VkAllocationCallbacks* pAllocator,
-                      VkDevice* pDevice)
- {
-+   WLOG("wrapper_CreateDevice");
-    VK_FROM_HANDLE(wrapper_physical_device, physical_device, physicalDevice);
-    const char *wrapper_enable_extensions[VK_DEVICE_EXTENSION_COUNT];
-    uint32_t wrapper_enable_extension_count = 0;
-@@ -148,6 +263,9 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+             vk_free(&device->vk.alloc, queue);
+             return result;
+          }
++         
++         list_inithead(&queue->staging_resources);
++         simple_mtx_init(&queue->resource_mutex, mtx_plain);
++         static uint32_t obj_id = 0;
++         queue->obj_id = obj_id++;
+       }
+    }
+ 
+@@ -148,6 +271,9 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     VkPhysicalDeviceFeatures *pdf;
     VkResult result;
  
@@ -9074,41 +9064,37 @@ index 2ea37d1b392..befa6635484 100644
     device = vk_zalloc2(&physical_device->instance->vk.alloc, pAllocator,
                         sizeof(*device), 8, VK_SYSTEM_ALLOCATION_SCOPE_DEVICE);
     if (!device)
-@@ -155,6 +273,10 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -155,6 +281,12 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
  
     list_inithead(&device->command_buffer_list);
     list_inithead(&device->device_memory_list);
 +
 +   device->image_map = _mesa_hash_table_u64_create(NULL);
 +   device->buffer_map = _mesa_hash_table_u64_create(NULL);
++   device->command_pool_map = _mesa_hash_table_u64_create(NULL);
++   
 +
     simple_mtx_init(&device->resource_mutex, mtx_plain);
     device->physical = physical_device;
  
-@@ -165,10 +287,32 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -165,10 +297,26 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     vk_device_dispatch_table_from_entrypoints(
        &dispatch_table, &wrapper_device_trampolines, false);
  
-+#define DISABLE_EXT(extension, type, clear) \
-+   if (!physical_device->base_supported_extensions.extension) { \
++#define DISABLE_EXT(extension, type, feature) \
++   if (!physical_device->base_supported_features.feature) { \
 +      VK_STRUCTURE_TYPE_##type##_cast *ext = (VK_STRUCTURE_TYPE_##type##_cast *) vk_find_struct_const(pCreateInfo, type); \
 +      if (ext) { \
-+         WLOG("Faking extension support for " #extension); \
-+         clear; \
++         WLOG("Faking extension support for " #extension "->" #feature); \
++         ext->feature = ext->feature & physical_device->base_supported_features.feature; \
 +      } \
 +   }
 +
-+   DISABLE_EXT(EXT_transform_feedback, PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_FEATURES_EXT, {
-+      ext->geometryStreams = false;
-+      ext->transformFeedback = false;
-+   });
-+   DISABLE_EXT(EXT_host_query_reset, PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES_EXT, {
-+      ext->hostQueryReset = false;
-+   });
-+   DISABLE_EXT(EXT_custom_border_color, PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_FEATURES_EXT, {
-+      ext->customBorderColors = false;
-+      ext->customBorderColorWithoutFormat = false;
-+   });
++   DISABLE_EXT(EXT_transform_feedback, PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_FEATURES_EXT, geometryStreams);
++   DISABLE_EXT(EXT_transform_feedback, PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_FEATURES_EXT, transformFeedback);
++   DISABLE_EXT(EXT_host_query_reset, PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES_EXT, hostQueryReset);
++   DISABLE_EXT(EXT_custom_border_color, PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_FEATURES_EXT, customBorderColors);
++   DISABLE_EXT(EXT_custom_border_color, PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_FEATURES_EXT, customBorderColorWithoutFormat);
 +
     result = vk_device_init(&device->vk, &physical_device->vk,
                             &dispatch_table, pCreateInfo, pAllocator);
@@ -9118,7 +9104,7 @@ index 2ea37d1b392..befa6635484 100644
        vk_free2(&physical_device->instance->vk.alloc, pAllocator,
                 device);
        return vk_error(physical_device, result);
-@@ -186,64 +330,45 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -186,64 +334,29 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     pdf = (void *)pCreateInfo->pEnabledFeatures;
     pdf2 = __vk_find_struct((void *)pCreateInfo->pNext,
              VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2);
@@ -9179,10 +9165,8 @@ index 2ea37d1b392..befa6635484 100644
 -       pdf2->features.shaderCullDistance &=
 -            physical_device->base_supported_features.shaderCullDistance;
 +   
-+#define DISABLE_FEAT(feature) \
-+   if (!physical_device->base_supported_features.feature) { \
-+      WLOG("Faking feature support for " #feature); \
-+   } \
++   #define DISABLE_FEATURE(feature) \
++   if (!physical_device->base_supported_features.feature) WLOG("Faking feature support for " #feature); \
 +   if (pdf && pdf->feature) { \
 +      pdf->feature &= physical_device->base_supported_features.feature; \
 +   } \
@@ -9190,37 +9174,23 @@ index 2ea37d1b392..befa6635484 100644
 +      pdf2->features.feature &= physical_device->base_supported_features.feature; \
     }
     
-+   DISABLE_FEAT(textureCompressionBC);
-+   DISABLE_FEAT(multiViewport);
-+   DISABLE_FEAT(logicOp);
-+   DISABLE_FEAT(variableMultisampleRate);
-+   DISABLE_FEAT(fillModeNonSolid);
-+   DISABLE_FEAT(samplerAnisotropy);
-+   DISABLE_FEAT(shaderImageGatherExtended);
-+   DISABLE_FEAT(vertexPipelineStoresAndAtomics);
-+   DISABLE_FEAT(dualSrcBlend);
-+   DISABLE_FEAT(multiDrawIndirect);
-+   DISABLE_FEAT(shaderCullDistance);
-+   DISABLE_FEAT(shaderClipDistance);
-+   DISABLE_FEAT(geometryShader);
-+   DISABLE_FEAT(robustBufferAccess);
-+   DISABLE_FEAT(tessellationShader);
-+   DISABLE_FEAT(depthClamp);
-+   DISABLE_FEAT(depthBiasClamp);
-+   DISABLE_FEAT(shaderStorageImageExtendedFormats);
-+   DISABLE_FEAT(shaderStorageImageWriteWithoutFormat);
-+   DISABLE_FEAT(sampleRateShading);
-+   DISABLE_FEAT(occlusionQueryPrecise);
-+   DISABLE_FEAT(independentBlend);
-+   DISABLE_FEAT(fullDrawIndexUint32);
-+   DISABLE_FEAT(imageCubeArray);
-+   DISABLE_FEAT(drawIndirectFirstInstance);
-+   DISABLE_FEAT(fragmentStoresAndAtomics);
++   DISABLE_FEATURE(textureCompressionBC);
++   DISABLE_FEATURE(multiViewport);
++   DISABLE_FEATURE(depthClamp);
++   DISABLE_FEATURE(depthBiasClamp);
++   DISABLE_FEATURE(fillModeNonSolid);
++   DISABLE_FEATURE(shaderClipDistance);
++   DISABLE_FEATURE(shaderCullDistance);
++   DISABLE_FEATURE(dualSrcBlend);
++   DISABLE_FEATURE(multiDrawIndirect); // Missing on G57 r32p1
++   DISABLE_FEATURE(logicOp); // Missing on G57 r32p1
++   DISABLE_FEATURE(vertexPipelineStoresAndAtomics); // Missing on G57 r32p1
++   DISABLE_FEATURE(variableMultisampleRate); // Missing on G57 r32p1
 +   
     result = physical_device->dispatch_table.CreateDevice(
        physical_device->dispatch_handle, &wrapper_create_info,
           pAllocator, &device->dispatch_handle);
-@@ -259,6 +384,36 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -259,12 +372,58 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     vk_device_dispatch_table_load(&device->dispatch_table, gdpa,
                                   device->dispatch_handle);
  
@@ -9230,7 +9200,7 @@ index 2ea37d1b392..befa6635484 100644
 +      wrapper_device_to_handle(device), 
 +      use_image_view ? sizeof(s3tc_iv_spv) : sizeof(s3tc_spv), 
 +      use_image_view ? s3tc_iv_spv : s3tc_spv, 
-+      use_image_view);
++      use_image_view, 1);
 +   if (result != VK_SUCCESS) {
 +      WLOGE("Failed to initialize InterceptorState for s3tc");
 +      return vk_error(physical_device, result);
@@ -9239,7 +9209,7 @@ index 2ea37d1b392..befa6635484 100644
 +      wrapper_device_to_handle(device), 
 +      use_image_view ? sizeof(bc6_iv_spv) : sizeof(bc6_spv), 
 +      use_image_view ? bc6_iv_spv : bc6_spv, 
-+      use_image_view);
++      use_image_view, 6);
 +   if (result != VK_SUCCESS) {
 +      WLOGE("Failed to initialize InterceptorState for bc6");
 +      return vk_error(physical_device, result);
@@ -9248,7 +9218,7 @@ index 2ea37d1b392..befa6635484 100644
 +      wrapper_device_to_handle(device), 
 +      use_image_view ? sizeof(bc7_iv_spv) : sizeof(bc7_spv), 
 +      use_image_view ? bc7_iv_spv : bc7_spv, 
-+      use_image_view);
++      use_image_view, 7);
 +   if (result != VK_SUCCESS) {
 +      WLOGE("Failed to initialize InterceptorState for bc7");
 +      return vk_error(physical_device, result);
@@ -9257,31 +9227,176 @@ index 2ea37d1b392..befa6635484 100644
     result = wrapper_create_device_queue(device, pCreateInfo);
     if (result != VK_SUCCESS) {
        wrapper_DestroyDevice(wrapper_device_to_handle(device),
-@@ -322,9 +477,8 @@ wrapper_QueueSubmit(VkQueue _queue, uint32_t submitCount,
-       wrapper_submits[i] = pSubmits[i];
-       wrapper_submits[i].pCommandBuffers = command_buffers;
+                             &device->vk.alloc);
+       return vk_error(physical_device, result);
     }
--
++
++   // Allocate a dedicated pool for graphics/compute tasks
++   int graphics_queue_idx = FindGraphicsComputeQueueFamilies(physical_device);
++   if (graphics_queue_idx >= 0) {
++      device->graphics_queue = device->queues[graphics_queue_idx];
++      device->graphics_queue_idx = graphics_queue_idx;
++      VkCommandPoolCreateInfo commandPoolInfo = {
++         .sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO,
++         .flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT,
++         .queueFamilyIndex = graphics_queue_idx,
++      };
++
++      CHECK(CreateCommandPool((VkDevice) device, &commandPoolInfo, NULL, &device->computePool));
++   } else {
++      WLOGE("Could not find a graphics & compute queue");
++   }
+    
+    *pDevice = wrapper_device_to_handle(device);
+ 
+@@ -301,6 +460,44 @@ wrapper_GetDeviceProcAddr(VkDevice _device, const char* pName) {
+    return vk_device_get_proc_addr(&device->vk, pName);
+ }
+ 
++static VkResult SubmitSecondaryBcnCommandBuffer(VkQueue queue, struct wrapper_command_buffer *wcb) {
++   // TODO - string the semaphore together instead of blocking here, but this is a good approximation for now
++   // Introduced minor pipeline bubbles with each command submission
++   VkResult result;
++   
++   result = CHECK(EndCommandBuffer(wcb->bcnBuffer));
++   if (result != VK_SUCCESS) {
++      return result;
++   }
++
++   VkSubmitInfo submitInfo = { 0 };
++   submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
++   submitInfo.commandBufferCount = 1;
++   submitInfo.pCommandBuffers = &wcb->bcnBuffer;
++
++   WLOGD("Submitting secondary command buffer");
++   result = wrapper_QueueSubmit((VkQueue) queue, 1, &submitInfo, wcb->bcnBufferFinished);
++   if (result != VK_SUCCESS) {
++      return result;
++   }
++
++   CHECK(WaitForFences((VkDevice) wcb->device, 1, &wcb->bcnBufferFinished, VK_TRUE, UINT64_MAX));
++   if (result != VK_SUCCESS) {
++      return result;
++   }
++   WLOGD("+ secondary BCn commands flushed");
++
++   CHECKV(DestroyFence((VkDevice) wcb->device, wcb->bcnBufferFinished, NULL));
++   CHECKV(DestroySemaphore((VkDevice) wcb->device, wcb->bcnBufferFinishedSemaphore, NULL));
++   wrapper_FreeCommandBuffers((VkDevice) wcb->device, wcb->device->computePool, 1, &wcb->bcnBuffer);
++
++   wcb->bcnBuffer = VK_NULL_HANDLE;
++   wcb->bcnBufferFinished = VK_NULL_HANDLE;
++   wcb->bcnBufferFinishedSemaphore = VK_NULL_HANDLE;
++   wcb->bcnCommands = 0;
++   return VK_SUCCESS;
++}
++
+ VKAPI_ATTR VkResult VKAPI_CALL
+ wrapper_QueueSubmit(VkQueue _queue, uint32_t submitCount,
+                     const VkSubmitInfo* pSubmits, VkFence fence)
+@@ -311,24 +508,22 @@ wrapper_QueueSubmit(VkQueue _queue, uint32_t submitCount,
+    VkResult result;
+ 
+    for (int i = 0; i < submitCount; i++) {
+-      const VkSubmitInfo *submit_info = &pSubmits[i];
+-      command_buffers = malloc(sizeof(VkCommandBuffer) *
+-         submit_info->commandBufferCount);
+-      for (int j = 0; j < submit_info->commandBufferCount; j++) {
+-         VK_FROM_HANDLE(wrapper_command_buffer, wcb,
+-                        submit_info->pCommandBuffers[j]);
+-         command_buffers[j] = wcb->dispatch_handle;
++      for (int j = 0; j < pSubmits[i].commandBufferCount; j++) {
++         VK_FROM_HANDLE(wrapper_command_buffer, wcb, pSubmits[i].pCommandBuffers[j]);
++         if (wcb->bcnBuffer != VK_NULL_HANDLE) {
++            result = SubmitSecondaryBcnCommandBuffer(_queue, wcb);
++            if (result != VK_SUCCESS) {
++               WLOGE("Failed to submit secondary BCn command buffer.");
++               return result;
++            }
++         }
+       }
+-      wrapper_submits[i] = pSubmits[i];
+-      wrapper_submits[i].pCommandBuffers = command_buffers;
+    }
+ 
 -   result = queue->device->dispatch_table.QueueSubmit(
 -      queue->dispatch_handle, submitCount, wrapper_submits, fence);
-+   result = CHECK(QueueSubmit(
-+      _queue, submitCount, wrapper_submits, fence));
+-
+-   for (int i = 0; i < submitCount; i++)
+-      free((void *)wrapper_submits[i].pCommandBuffers);
++   result = CHECK(QueueSubmit(_queue, submitCount, pSubmits, fence));
  
-    for (int i = 0; i < submitCount; i++)
-       free((void *)wrapper_submits[i].pCommandBuffers);
-@@ -354,9 +508,8 @@ wrapper_QueueSubmit2(VkQueue _queue, uint32_t submitCount,
-       wrapper_submits[i] = pSubmits[i];
-       wrapper_submits[i].pCommandBufferInfos = command_buffers;
++   // LOG_STRUCT(VkSubmitInfo, &pSubmits[0]);
++   // result = vk_common_QueueSubmit(_queue, submitCount, pSubmits, fence); // does not work if the extension is off
+    return result;
+ }
+ 
+@@ -336,32 +531,28 @@ VKAPI_ATTR VkResult VKAPI_CALL
+ wrapper_QueueSubmit2(VkQueue _queue, uint32_t submitCount,
+                      const VkSubmitInfo2* pSubmits, VkFence fence)
+ {
++   // WLOGE("In wrapper_QueueSubmit2");
+    VK_FROM_HANDLE(wrapper_queue, queue, _queue);
+    VkSubmitInfo2 wrapper_submits[submitCount];
+    VkCommandBufferSubmitInfo *command_buffers;
+    VkResult result;
+ 
+    for (int i = 0; i < submitCount; i++) {
+-      const VkSubmitInfo2 *submit_info = &pSubmits[i];
+-      command_buffers = malloc(sizeof(VkCommandBufferSubmitInfo) *
+-         submit_info->commandBufferInfoCount);
+-      for (int j = 0; j < submit_info->commandBufferInfoCount; j++) {
+-         VK_FROM_HANDLE(wrapper_command_buffer, wcb,
+-                        submit_info->pCommandBufferInfos[j].commandBuffer);
+-         command_buffers[j] = pSubmits[i].pCommandBufferInfos[j];
+-         command_buffers[j].commandBuffer = wcb->dispatch_handle;
++      for (int j = 0; j < pSubmits[i].commandBufferInfoCount; j++) {
++         VK_FROM_HANDLE(wrapper_command_buffer, wcb, pSubmits[i].pCommandBufferInfos[j].commandBuffer);
++         if (wcb->bcnBuffer != VK_NULL_HANDLE) {
++            result = SubmitSecondaryBcnCommandBuffer(_queue, wcb);
++            if (result != VK_SUCCESS) {
++               WLOGE("Failed to submit secondary BCn command buffer.");
++               return result;
++            }
++         }
+       }
+-      wrapper_submits[i] = pSubmits[i];
+-      wrapper_submits[i].pCommandBufferInfos = command_buffers;
     }
 -
 -   result = queue->device->dispatch_table.QueueSubmit2(
 -      queue->dispatch_handle, submitCount, wrapper_submits, fence);
-+   result = CHECK(QueueSubmit2(
-+      _queue, submitCount, wrapper_submits, fence));
+-
+-   for (int i = 0; i < submitCount; i++)
+-      free((void *)wrapper_submits[i].pCommandBufferInfos);
+-
+-   return result;
++   // WLOGD("calling QueueSubmit2 = %p", wrapper_submits);
++   // LOG_STRUCT(VkSubmitInfo2, pSubmits);
++   return CHECK(QueueSubmit2(
++      _queue, submitCount, pSubmits, fence));
+ }
  
-    for (int i = 0; i < submitCount; i++)
-       free((void *)wrapper_submits[i].pCommandBufferInfos);
-@@ -410,6 +563,7 @@ wrapper_command_buffer_destroy(struct wrapper_device *device,
+ 
+@@ -396,6 +587,11 @@ wrapper_command_buffer_create(struct wrapper_device *device,
+    wcb->device = device;
+    wcb->pool = pool;
+    wcb->dispatch_handle = dispatch_handle;
++   list_inithead(&wcb->staging_resources);
++   simple_mtx_init(&wcb->resource_mutex, mtx_plain);
++
++   static uint32_t obj_id = 0;
++   wcb->obj_id = obj_id++;
+    list_add(&wcb->link, &device->command_buffer_list);
+ 
+    *pCommandBuffers = wrapper_command_buffer_to_handle(wcb);
+@@ -406,10 +602,13 @@ wrapper_command_buffer_create(struct wrapper_device *device,
+ static void
+ wrapper_command_buffer_destroy(struct wrapper_device *device,
+                                struct wrapper_command_buffer *wcb) {
++   free_staging_resources_final(device, wcb, &wcb->staging_resources);
++   simple_mtx_destroy(&wcb->resource_mutex);
+    list_del(&wcb->link);
     vk_object_free(&device->vk, &device->vk.alloc, wcb);
  }
  
@@ -9289,7 +9404,7 @@ index 2ea37d1b392..befa6635484 100644
  VKAPI_ATTR VkResult VKAPI_CALL
  wrapper_AllocateCommandBuffers(VkDevice _device,
                                 const VkCommandBufferAllocateInfo* pAllocateInfo,
-@@ -420,9 +574,7 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
+@@ -420,9 +619,7 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
     VkResult result;
     uint32_t i;
     
@@ -9300,7 +9415,7 @@ index 2ea37d1b392..befa6635484 100644
     if (result != VK_SUCCESS)
        return result;
  
-@@ -435,9 +587,12 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
+@@ -435,9 +632,12 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
                                               &pCommandBuffers[i]);
        if (result != VK_SUCCESS)
           break;
@@ -9313,7 +9428,7 @@ index 2ea37d1b392..befa6635484 100644
        device->dispatch_table.FreeCommandBuffers(device->dispatch_handle,
                                                  pAllocateInfo->commandPool,
                                                  pAllocateInfo->commandBufferCount,
-@@ -457,7 +612,6 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
+@@ -457,7 +657,6 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
     return result;
  }
  
@@ -9321,7 +9436,7 @@ index 2ea37d1b392..befa6635484 100644
  VKAPI_ATTR void VKAPI_CALL
  wrapper_FreeCommandBuffers(VkDevice _device,
                             VkCommandPool commandPool,
-@@ -465,12 +619,18 @@ wrapper_FreeCommandBuffers(VkDevice _device,
+@@ -465,12 +664,18 @@ wrapper_FreeCommandBuffers(VkDevice _device,
                             const VkCommandBuffer* pCommandBuffers)
  {
     VK_FROM_HANDLE(wrapper_device, device, _device);
@@ -9340,36 +9455,73 @@ index 2ea37d1b392..befa6635484 100644
        dispatch_handles[i] = wcb->dispatch_handle;
        wrapper_command_buffer_destroy(device, wcb);
     }
-@@ -521,6 +681,19 @@ wrapper_DestroyDevice(VkDevice _device, const VkAllocationCallbacks* pAllocator)
+@@ -482,6 +687,18 @@ wrapper_FreeCommandBuffers(VkDevice _device,
+                                              dispatch_handles);
+ }
+ 
++VKAPI_ATTR VkResult VKAPI_CALL
++wrapper_CreateCommandPool(VkDevice device,
++    const VkCommandPoolCreateInfo* pCreateInfo,
++    const VkAllocationCallbacks* pAllocator,
++    VkCommandPool* pCommandPool) {
++   VK_FROM_HANDLE(wrapper_device, _device, device);
++   VkResult result = CHECK(CreateCommandPool(device, pCreateInfo, pAllocator, pCommandPool));
++   struct wrapper_command_pool *pool = wrapper_command_pool_create(_device, pCreateInfo, pAllocator, *pCommandPool);
++   pool->queue_idx = pCreateInfo->queueFamilyIndex;
++   return result;
++}
++
+ VKAPI_ATTR void VKAPI_CALL
+ wrapper_DestroyCommandPool(VkDevice _device, VkCommandPool commandPool,
+                            const VkAllocationCallbacks* pAllocator)
+@@ -499,6 +716,11 @@ wrapper_DestroyCommandPool(VkDevice _device, VkCommandPool commandPool,
+ 
+    simple_mtx_unlock(&device->resource_mutex);
+ 
++   struct wrapper_command_pool *pool = get_wrapper_command_pool(device, commandPool);
++   if (pool) {
++      wrapper_command_pool_destroy(device, pool, pAllocator);
++   }
++
+    device->dispatch_table.DestroyCommandPool(device->dispatch_handle,
+                                              commandPool, pAllocator);
+ }
+@@ -521,6 +743,24 @@ wrapper_DestroyDevice(VkDevice _device, const VkAllocationCallbacks* pAllocator)
  
     simple_mtx_unlock(&device->resource_mutex);
  
 +   hash_table_u64_foreach(device->image_map, entry) {
 +      struct wrapper_image *obj = (struct wrapper_image *) entry.data;
-+      vk_image_destroy(&device->vk, pAllocator, &obj->vk);
++      wrapper_image_destroy(device, obj, pAllocator);
 +   }
 +   _mesa_hash_table_u64_destroy(device->image_map);
 +
-+
 +   hash_table_u64_foreach(device->buffer_map, entry) {
 +      struct wrapper_buffer *obj = (struct wrapper_buffer *) entry.data;
-+      vk_buffer_destroy(&device->vk, pAllocator, &obj->vk);
++      wrapper_buffer_destroy(device, obj, pAllocator);
 +   }
 +   _mesa_hash_table_u64_destroy(device->buffer_map);
++
++   hash_table_u64_foreach(device->command_pool_map, entry) {
++      struct wrapper_command_pool *obj = (struct wrapper_command_pool *) entry.data;
++      wrapper_command_pool_destroy(device, obj, pAllocator);
++   }
++   _mesa_hash_table_u64_destroy(device->command_pool_map);
 +
     list_for_each_entry_safe(struct vk_queue, queue, &device->vk.queues, link) {
        vk_queue_finish(queue);
        vk_free2(&device->vk.alloc, pAllocator, queue);
-@@ -573,3 +746,1005 @@ wrapper_GetPrivateData(VkDevice _device, VkObjectType objectType,
+@@ -573,3 +813,1179 @@ wrapper_GetPrivateData(VkDevice _device, VkObjectType objectType,
     return device->dispatch_table.GetPrivateData(device->dispatch_handle,
        objectType, object_handle, privateDataSlot, pData);
  }
 +
 +// Helper function to create and add a pool
 +static VkResult add_new_temp_pool_to_buffer(struct wrapper_buffer *wbuf) {
++   // TODO: move this into our gc system
 +   struct wrapper_device *device = wbuf->device;
 +   VkDescriptorPool new_pool_handle;
-+   VkDescriptorPoolSize pool_sizes[2] = {
++   VkDescriptorPoolSize pool_sizes[3] = {
 +      {
 +         .type = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
 +         .descriptorCount = 32 // Sufficient for 32 sets, each needing one
@@ -9378,13 +9530,17 @@ index 2ea37d1b392..befa6635484 100644
 +         .type = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE,
 +         .descriptorCount = 32 // Sufficient for 32 sets, each needing one
 +      },
++      {
++         .type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
++         .descriptorCount = 32 // Sufficient for 32 sets, each needing one
++      },
 +   };
 +
 +   const VkDescriptorPoolCreateInfo create_info = {
 +      .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO,
 +      .flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT,
 +      .maxSets = 32, // A reasonable number for one command buffer's temp usage
-+      .poolSizeCount = 2,
++      .poolSizeCount = 3,
 +      .pPoolSizes = pool_sizes,
 +   };
 +
@@ -9395,7 +9551,7 @@ index 2ea37d1b392..befa6635484 100644
 +                  VK_SYSTEM_ALLOCATION_SCOPE_OBJECT);
 +      new_pool_node->pool = new_pool_handle;
 +      list_addtail(&new_pool_node->link, &wbuf->temp_descriptor_pools);
-+      WLOG("Total of %d temp descriptor pools created for buffer %d (%p)", list_length(&wbuf->temp_descriptor_pools), wbuf->bcn_id, wbuf->dispatch_handle);
++      WLOG("Total of %d temp descriptor pools created for buffer %d (%p)", list_length(&wbuf->temp_descriptor_pools), wbuf->obj_id, wbuf->dispatch_handle);
 +   }
 +   return result;
 +}
@@ -9407,41 +9563,6 @@ index 2ea37d1b392..befa6635484 100644
 +         CHECKV(DestroyDescriptorPool(device, pool_node->pool, NULL));
 +         list_del(&pool_node->link);
 +         vk_free(&wbuf->device->vk.alloc, pool_node);
-+      }
-+   }
-+}
-+
-+static void add_new_staging_resource_to_buffer(
-+   struct wrapper_buffer *wbuf, 
-+   VkBuffer stagingBuffer, 
-+   VkDeviceMemory stagingBufferMemory, 
-+   VkImageView stagingImageView) {
-+   struct wrapper_buffer_staging_resources *obj =
-+         vk_alloc(&wbuf->device->vk.alloc, sizeof(struct wrapper_buffer_staging_resources), 8,
-+                  VK_SYSTEM_ALLOCATION_SCOPE_OBJECT);
-+   obj->stagingBuffer = stagingBuffer;
-+   obj->stagingBufferMemory = stagingBufferMemory;
-+   obj->stagingImageView = stagingImageView;
-+   list_addtail(&obj->link, &wbuf->staging_resources);
-+   WLOG("Total of %d staging resources tracked for buffer %d (%p)", list_length(&wbuf->staging_resources), wbuf->bcn_id, wbuf->dispatch_handle);
-+}
-+
-+static void free_staging_resources_from_buffer(VkDevice device, struct wrapper_buffer* wbuf, const VkAllocationCallbacks* pAllocator) {
-+   // // Clean up temporary descriptor pools associated with this command buffer
-+   if (!list_is_empty(&wbuf->staging_resources)) {
-+      WLOG("Releasing %d staging resources for BCn buffer %d", list_length(&wbuf->staging_resources), wbuf->bcn_id);
-+      list_for_each_entry_safe(struct wrapper_buffer_staging_resources, resource, &wbuf->staging_resources, link) {
-+         if (resource->stagingBuffer != VK_NULL_HANDLE) {
-+            CHECKV(DestroyBuffer(device, resource->stagingBuffer, pAllocator));
-+         }
-+         if (resource->stagingBufferMemory != VK_NULL_HANDLE) {
-+            CHECKV(FreeMemory(device, resource->stagingBufferMemory, pAllocator));
-+         }
-+         if (resource->stagingImageView != VK_NULL_HANDLE) {
-+            CHECKV(DestroyImageView(device, resource->stagingImageView, pAllocator));
-+         }
-+         list_del(&resource->link);
-+         vk_free(&wbuf->device->vk.alloc, resource);
 +      }
 +   }
 +}
@@ -9464,8 +9585,6 @@ index 2ea37d1b392..befa6635484 100644
 +      return vk_error(&base->vk, VK_ERROR_OUT_OF_HOST_MEMORY);
 +   }
 +   list_inithead(&wbuf->temp_descriptor_pools);
-+   list_inithead(&wbuf->staging_resources);
-+   simple_mtx_init(&wbuf->resource_mutex, mtx_plain);
 +   return result;
 +}
 +
@@ -9490,10 +9609,7 @@ index 2ea37d1b392..befa6635484 100644
 +      return;
 +   }
 +   // Destroy all staging resources
-+   free_staging_resources_from_buffer(device, wbuf, pAllocator);
 +   free_temp_pool_from_buffer(device, wbuf);
-+   simple_mtx_destroy(&wbuf->resource_mutex);
-+
 +   wrapper_buffer_destroy(_device, wbuf, pAllocator);
 +}
 +
@@ -9531,7 +9647,9 @@ index 2ea37d1b392..befa6635484 100644
 +      wrapper_buffer *_buffer = get_wrapper_buffer(_device, pBindInfos[i].buffer);
 +      if (!_buffer) {
 +         WLOGE("wrapper_BindBufferMemory2: buffer %p not tracked", pBindInfos[i].buffer);
-+         return vk_error(&_device->vk, VK_ERROR_INVALID_EXTERNAL_HANDLE);
++         // return vk_error(&_device->vk, VK_ERROR_INVALID_EXTERNAL_HANDLE);
++         // TODO(leegao): figure out what's going wrong here, but there are reports of this
++         continue;
 +      }
 +      _buffer->memory = pBindInfos[i].memory;
 +      _buffer->memoryOffset = pBindInfos[i].memoryOffset;
@@ -9543,21 +9661,63 @@ index 2ea37d1b392..befa6635484 100644
 +// device->dispatch_table.CmdCopyBufferToImage
 +#define vk_ _device->dispatch_table.
 +
-+typedef struct {
-+    uint32_t srcFormat;
-+    uint32_t srcRowLength;
-+    uint32_t srcImageHeight;
-+    int32_t imageOffsetX;
-+    int32_t imageOffsetY;
-+    uint32_t imageExtentX;
-+    uint32_t imageExtentY;
-+} PushConstantData;
++// Helper function to find a suitable memory type
++static uint32_t findMemoryType(struct wrapper_physical_device* _physicalDevice, uint32_t typeFilter, VkMemoryPropertyFlags properties) {
++   VkPhysicalDeviceMemoryProperties memProperties;
++   _physicalDevice->dispatch_table.GetPhysicalDeviceMemoryProperties(_physicalDevice->dispatch_handle, &memProperties);
 +
-+static VkResult InterceptorState_Init(InterceptorState* state, VkDevice device, size_t spv_size, const uint32_t* spv_code, bool use_image_view) {
++   for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
++      if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties) {
++         return i;
++      }
++   }
++
++   // This is a fatal error, the application should handle it appropriately
++   WLOG("Failed to find suitable memory type!\n");
++   return 0;
++}
++
++static VkResult CreateConstantsUniformBuffer(
++   struct wrapper_device* _device,
++   VkDeviceSize size,
++   VkBuffer* buffer,
++   VkDeviceMemory* bufferMemory) {
++   VkDevice device = _device->dispatch_handle;
++   struct wrapper_physical_device* _physicalDevice = _device->physical;
++   VkPhysicalDevice physicalDevice = _physicalDevice->dispatch_handle;
++
++   VkResult result;
++   VkBufferCreateInfo bufferInfo = {0};
++   bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
++   bufferInfo.size = size;
++   bufferInfo.usage = VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT;
++   bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
++
++   result = CHECK(CreateBuffer((VkDevice) _device, &bufferInfo, NULL, buffer));
++   if (result != VK_SUCCESS)
++      return result;
++
++   VkMemoryRequirements memRequirements;
++   vk_ GetBufferMemoryRequirements(device, *buffer, &memRequirements);
++
++   VkMemoryAllocateInfo allocInfo = {0};
++   allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
++   allocInfo.allocationSize = memRequirements.size;
++   allocInfo.memoryTypeIndex = findMemoryType(_physicalDevice, memRequirements.memoryTypeBits, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
++
++   result = CHECK_W(AllocateMemory((VkDevice) _device, &allocInfo, NULL, bufferMemory));
++   if (result != VK_SUCCESS) {
++      return result;
++   }
++
++   return CHECK(BindBufferMemory((VkDevice) _device, *buffer, *bufferMemory, 0));
++}
++
++static VkResult InterceptorState_Init(InterceptorState* state, VkDevice device, size_t spv_size, const uint32_t* spv_code, bool use_image_view, int bc_mode) {
 +   VkResult result;
 +   VK_FROM_HANDLE(wrapper_device, _device, device);
 +   // 1. Create Descriptor Set Layout
-+   VkDescriptorSetLayoutBinding setLayoutBinding[2] = {
++   VkDescriptorSetLayoutBinding setLayoutBinding[3] = {
 +      {
 +         .binding = 0,
 +         .descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
@@ -9569,8 +9729,68 @@ index 2ea37d1b392..befa6635484 100644
 +         .descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER,
 +         .descriptorCount = 1,
 +         .stageFlags = VK_SHADER_STAGE_COMPUTE_BIT,
++      },
++      {
++         .binding = 2,
++         .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
++         .descriptorCount = 1,
++         .stageFlags = VK_SHADER_STAGE_COMPUTE_BIT,
 +      }
 +   };
++
++   int bindingCount = 2;
++
++   if (bc_mode == 7) {
++      bindingCount = 3;
++
++      CreateConstantsUniformBuffer(
++         _device,
++         sizeof(Bc7Constants),
++         &state->constantsBuffer,      // Pass pointers to be filled
++         &state->constantsBufferMemory // Pass pointers to be filled
++      );
++
++      void* data;
++      VkMemoryMapInfoKHR mapInfoSrc = {
++         .sType = VK_STRUCTURE_TYPE_MEMORY_MAP_INFO_KHR,
++         .memory = state->constantsBufferMemory,
++         .offset = 0,
++         .size = sizeof(Bc7Constants),
++      };
++      VkResult result = CHECK_W(MapMemory2KHR(device, &mapInfoSrc, &data));
++      if (result != VK_SUCCESS) {
++         return result;
++      }
++      Bc7Constants bc7_uniform_constants;
++      populate_bc7_decoding_constants(&bc7_uniform_constants);
++      memcpy(data, &bc7_uniform_constants, sizeof(Bc7Constants));
++      wrapper_UnmapMemory(device, state->constantsBufferMemory);
++   } else if (bc_mode == 6) {
++      bindingCount = 3;
++
++      CreateConstantsUniformBuffer(
++         _device,
++         sizeof(Bc6Constants),
++         &state->constantsBuffer,      // Pass pointers to be filled
++         &state->constantsBufferMemory // Pass pointers to be filled
++      );
++
++      void* data;
++      VkMemoryMapInfoKHR mapInfoSrc = {
++         .sType = VK_STRUCTURE_TYPE_MEMORY_MAP_INFO_KHR,
++         .memory = state->constantsBufferMemory,
++         .offset = 0,
++         .size = sizeof(Bc6Constants),
++      };
++      VkResult result = CHECK_W(MapMemory2KHR(device, &mapInfoSrc, &data));
++      if (result != VK_SUCCESS) {
++         return result;
++      }
++      Bc6Constants bc6_uniform_constants;
++      populate_bc6_decoding_constants(&bc6_uniform_constants);
++      memcpy(data, &bc6_uniform_constants, sizeof(Bc6Constants));
++      wrapper_UnmapMemory(device, state->constantsBufferMemory);
++   }
 +
 +   if (use_image_view) {
 +      setLayoutBinding[1].descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_IMAGE;
@@ -9578,7 +9798,7 @@ index 2ea37d1b392..befa6635484 100644
 +
 +   VkDescriptorSetLayoutCreateInfo setLayoutCreateInfo = {
 +      .sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO,
-+      .bindingCount = 2,
++      .bindingCount = bindingCount,
 +      .pBindings = setLayoutBinding,
 +   };
 +   result = CHECK(CreateDescriptorSetLayout(device, &setLayoutCreateInfo, NULL, &state->descriptorSetLayout));
@@ -9625,22 +9845,6 @@ index 2ea37d1b392..befa6635484 100644
 +   CHECKV(DestroyShaderModule(device, computeShaderModule, NULL));
 +   if (result != VK_SUCCESS) return result;
 +   return result;
-+}
-+
-+// Helper function to find a suitable memory type
-+static uint32_t findMemoryType(struct wrapper_physical_device* _physicalDevice, uint32_t typeFilter, VkMemoryPropertyFlags properties) {
-+   VkPhysicalDeviceMemoryProperties memProperties;
-+   _physicalDevice->dispatch_table.GetPhysicalDeviceMemoryProperties(_physicalDevice->dispatch_handle, &memProperties);
-+
-+   for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
-+      if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties) {
-+         return i;
-+      }
-+   }
-+
-+   // This is a fatal error, the application should handle it appropriately
-+   WLOG("Failed to find suitable memory type!\n");
-+   return 0;
 +}
 +
 +// C implementation of the createBuffer helper function
@@ -9921,26 +10125,26 @@ index 2ea37d1b392..befa6635484 100644
 +                  // bcdec_bc6h_float(compressedData, dstPixelBlock, pitch, format_id==13);
 +                  // bcdec_bc1(compressedData, dstPixelBlock, pitch);
 +                  bcdec_bc6h_half(compressedData, temp_rgb_block, 4 * 3, format_id==13);
-+                  {
-+                     const unsigned short* src_pixel = temp_rgb_block;
-+                     unsigned char* dst_row = (unsigned char*) dstPixelBlock;
++                  // {
++                  //    const unsigned short* src_pixel = temp_rgb_block;
++                  //    unsigned char* dst_row = (unsigned char*) dstPixelBlock;
 +
-+                     for (int ii = 0; ii < 4; ++ii) { // Loop over rows within the block
-+                           unsigned short* dst_pixel = (unsigned short*)dst_row;
-+                           for (int jj = 0; jj < 4; ++jj) { // Loop over pixels within the row
-+                              // Copy R, G, B
-+                              dst_pixel[0] = src_pixel[0];
-+                              dst_pixel[1] = src_pixel[1];
-+                              dst_pixel[2] = src_pixel[2];
-+                              // Set Alpha to 1.0
-+                              dst_pixel[3] = 0x3C00;
++                  //    for (int ii = 0; ii < 4; ++ii) { // Loop over rows within the block
++                  //          unsigned short* dst_pixel = (unsigned short*)dst_row;
++                  //          for (int jj = 0; jj < 4; ++jj) { // Loop over pixels within the row
++                  //             // Copy R, G, B
++                  //             dst_pixel[0] = src_pixel[0];
++                  //             dst_pixel[1] = src_pixel[1];
++                  //             dst_pixel[2] = src_pixel[2];
++                  //             // Set Alpha to 1.0
++                  //             dst_pixel[3] = 0x3C00;
 +
-+                              src_pixel += 3; // Advance to next source RGB pixel
-+                              dst_pixel += 4; // Advance to next destination RGBA pixel
-+                           }
-+                           dst_row += pitch; // Advance to the next row in the final image buffer
-+                     }
-+                  }
++                  //             src_pixel += 3; // Advance to next source RGB pixel
++                  //             dst_pixel += 4; // Advance to next destination RGBA pixel
++                  //          }
++                  //          dst_row += pitch; // Advance to the next row in the final image buffer
++                  //    }
++                  // }
 +                  break;
 +            case 14:
 +            case 15:
@@ -10017,6 +10221,23 @@ index 2ea37d1b392..befa6635484 100644
 +   wrapper_UnmapMemory((VkDevice) _device, srcBuffer->memory);
 +}
 +
++static VkDeviceSize calculate_bc_copy_size(const VkBufferImageCopy* region, uint32_t block_size_in_bytes) {
++    // For BC1 (and other BC formats), the block dimensions are 4x4 texels.
++    uint32_t copy_extent_in_blocks_x = (region->imageExtent.width + 3) / 4;
++    uint32_t copy_extent_in_blocks_y = (region->imageExtent.height + 3) / 4;
++
++    VkDeviceSize row_pitch_in_bytes;
++    if (region->bufferRowLength == 0) {
++        row_pitch_in_bytes = copy_extent_in_blocks_x * block_size_in_bytes;
++    } else {
++        uint32_t row_length_in_blocks = region->bufferRowLength / 4;
++        row_pitch_in_bytes = row_length_in_blocks * block_size_in_bytes;
++    }
++    VkDeviceSize last_row_size_in_bytes = copy_extent_in_blocks_x * block_size_in_bytes;
++    VkDeviceSize offset_to_last_row = (copy_extent_in_blocks_y - 1) * row_pitch_in_bytes;
++
++    return offset_to_last_row + last_row_size_in_bytes;
++}
 +
 +static void CmdComputeShaderForDecompression(
 +    struct wrapper_command_buffer* _commandBuffer,
@@ -10035,11 +10256,14 @@ index 2ea37d1b392..befa6635484 100644
 +   VkResult result;
 +
 +   WLOG("CmdComputeShaderForDecompression: srcBuffer = %p, dstImage = %p", srcBuffer, dstImage);
-+
-+
 +   struct wrapper_buffer* wbuf = get_wrapper_buffer(_device, srcBuffer);
 +   if (!wbuf) {
 +      WLOGE("CmdComputeShaderForDecompression: srcBuffer not tracked");
++      return;
++   }
++
++   if (!_commandBuffer->bcnBuffer || !_commandBuffer->bcnBufferFinished) {
++      WLOGE("CmdComputeShaderForDecompression: bcnBuffer and bcnBufferFinished not set, cannot use compute shader");
 +      return;
 +   }
 +
@@ -10049,7 +10273,7 @@ index 2ea37d1b392..befa6635484 100644
 +         .sType = VK_STRUCTURE_TYPE_IMAGE_MEMORY_BARRIER,
 +         .srcAccessMask = VK_ACCESS_NONE,
 +         .dstAccessMask = VK_ACCESS_SHADER_WRITE_BIT,
-+         .oldLayout = VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL, // Assuming the image is in transfer destination layout
++         .oldLayout = VK_IMAGE_LAYOUT_UNDEFINED,
 +         .newLayout = VK_IMAGE_LAYOUT_GENERAL,
 +         .srcQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
 +         .dstQueueFamilyIndex = VK_QUEUE_FAMILY_IGNORED,
@@ -10063,7 +10287,7 @@ index 2ea37d1b392..befa6635484 100644
 +         }
 +      };
 +
-+      CHECKV(CmdPipelineBarrier((VkCommandBuffer) _commandBuffer,
++      CHECKV(CmdPipelineBarrier(_commandBuffer->bcnBuffer,
 +                           VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
 +                           VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
 +                           0, 0, NULL, 0, NULL, 1, &imageBarrier));
@@ -10076,7 +10300,7 @@ index 2ea37d1b392..befa6635484 100644
 +      // The current pool is full or fragmented, create a new one for this command buffer
 +      result = add_new_temp_pool_to_buffer(wbuf);
 +      if (result != VK_SUCCESS) {
-+         WLOGE("Failed to allocate temp descriptor pool for buffer %d: %d", wbuf->bcn_id, result);
++         WLOGE("Failed to allocate temp descriptor pool for buffer %d: %d", wbuf->obj_id, result);
 +         simple_mtx_unlock(&wbuf->resource_mutex);
 +         return;
 +      }
@@ -10093,10 +10317,10 @@ index 2ea37d1b392..befa6635484 100644
 +   result = wrapper_device_trampolines.AllocateDescriptorSets((VkDevice) _device, &allocInfo, &descriptorSet);
 +   if (result == VK_ERROR_OUT_OF_POOL_MEMORY || result == VK_ERROR_FRAGMENTED_POOL) {
 +      // The current pool is full or fragmented, create a new one for this command buffer
-+      WLOG("Descriptor pool exhausted, creating a new one for buffer %d", wbuf->bcn_id);
++      WLOG("Descriptor pool exhausted, creating a new one for buffer %d", wbuf->obj_id);
 +      result = add_new_temp_pool_to_buffer(wbuf);
 +      if (result != VK_SUCCESS) {
-+         WLOGE("Failed to allocate temp descriptor pool for buffer %d: %d", wbuf->bcn_id, result);
++         WLOGE("Failed to allocate temp descriptor pool for buffer %d: %d", wbuf->obj_id, result);
 +         simple_mtx_unlock(&wbuf->resource_mutex);
 +         return;
 +      }
@@ -10112,15 +10336,33 @@ index 2ea37d1b392..befa6635484 100644
 +      return;
 +   }
 +
++   bool is_bc1 = wimg->original_format >= VK_FORMAT_BC1_RGB_UNORM_BLOCK && wimg->original_format <= VK_FORMAT_BC1_RGBA_SRGB_BLOCK;
++   bool is_bc4 = wimg->original_format == VK_FORMAT_BC4_UNORM_BLOCK || wimg->original_format == VK_FORMAT_BC4_SNORM_BLOCK;
++   bool is_bc6 = wimg->original_format == VK_FORMAT_BC6H_UFLOAT_BLOCK || wimg->original_format == VK_FORMAT_BC6H_SFLOAT_BLOCK;
++   bool is_bc7 = wimg->original_format == VK_FORMAT_BC7_UNORM_BLOCK || wimg->original_format == VK_FORMAT_BC7_SRGB_BLOCK;
++
 +   VkDescriptorType dstDescriptorType;
++
++   // Calculate the buffer size for an image
++   // Normally 4x4 block is compressed to 16 bytes (1bpp), except for BC1 and BC4 (0.5 bpp)
++   uint32_t srcBufferSize = calculate_bc_copy_size(region, 16);
++   if (is_bc1 || is_bc4) {
++      srcBufferSize = calculate_bc_copy_size(region, 8);
++   }
 +
 +   VkDescriptorBufferInfo srcBufferInfo = {
 +      .buffer = srcBuffer,
 +      .offset = region->bufferOffset,
-+      .range = VK_WHOLE_SIZE
++      .range = srcBufferSize,
 +   };
 +
-+   VkWriteDescriptorSet writeSet[2] = {
++   VkDescriptorBufferInfo uniformConstantBufferInfo = {
++      .buffer = state->constantsBuffer,
++      .offset = 0,
++      .range = is_bc7 ? sizeof(Bc7Constants) : (is_bc6 ? sizeof(Bc6Constants) : 0),
++   };
++
++   VkWriteDescriptorSet writeSet[3] = {
 +      {
 +         .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
 +         .dstSet = descriptorSet,
@@ -10134,6 +10376,14 @@ index 2ea37d1b392..befa6635484 100644
 +         .dstSet = descriptorSet,
 +         .dstBinding = 1,
 +         .descriptorCount = 1,
++      },
++      {
++         .sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET,
++         .dstSet = descriptorSet,
++         .dstBinding = 2,
++         .descriptorCount = 1,
++         .descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER,
++         .pBufferInfo = &uniformConstantBufferInfo,
 +      }
 +   };
 +
@@ -10162,11 +10412,10 @@ index 2ea37d1b392..befa6635484 100644
 +         WLOGE("Failed to create image view for BCn decompression: %d", result);
 +         return;
 +      }
-+
 +      // Track this image view so it can be cleaned up when the cmd buffer is cleaned up
-+      // add_new_staging_image_view(_commandBuffer, dstImageView);
-+      WLOG("Tracking stagingImageView (%p) for BCn buffer %d (%p)", dstImageView, wbuf->bcn_id, srcBuffer);
-+      add_new_staging_resource_to_buffer(wbuf, VK_NULL_HANDLE, VK_NULL_HANDLE, dstImageView);
++      VK_FROM_HANDLE(wrapper_command_buffer, wcb2, _commandBuffer->bcnBuffer);
++      WLOGD("Tracking stagingImageView (%p) for secondary command buffer %d", dstImageView, wcb2->obj_id);
++      TRACK_STAGING(_device, IMAGE_VIEW, dstImageView, wcb2);
 +
 +      dstImageInfo.imageView = dstImageView;
 +      dstImageInfo.imageLayout = VK_IMAGE_LAYOUT_GENERAL;
@@ -10180,13 +10429,13 @@ index 2ea37d1b392..befa6635484 100644
 +      writeSet[1].descriptorType = VK_DESCRIPTOR_TYPE_STORAGE_BUFFER;
 +   }
 +
-+   vk_ UpdateDescriptorSets(state->device, 2, writeSet, 0, NULL);
++   int writeSetCount = is_bc6 || is_bc7 ? 3 : 2;
++   CHECKV(UpdateDescriptorSets((VkDevice) _device, writeSetCount, writeSet, 0, NULL));
 +
-+   vk_ CmdBindPipeline(commandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, state->pipeline);
++   CHECKV(CmdBindPipeline(_commandBuffer->bcnBuffer, VK_PIPELINE_BIND_POINT_COMPUTE, state->pipeline));
 +
-+   // --- 3. Bind, Push, Dispatch ---
-+   vk_ CmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_COMPUTE,
-+                           state->pipelineLayout, 0, 1, &descriptorSet, 0, NULL);        
++   CHECKV(CmdBindDescriptorSets(_commandBuffer->bcnBuffer, VK_PIPELINE_BIND_POINT_COMPUTE,
++                           state->pipelineLayout, 0, 1, &descriptorSet, 0, NULL));
 +
 +   PushConstantData pushConstants = {
 +         .srcFormat = wimg->original_format,
@@ -10195,15 +10444,18 @@ index 2ea37d1b392..befa6635484 100644
 +         .imageOffsetX = region->imageOffset.x,
 +         .imageOffsetY = region->imageOffset.y,
 +         .imageExtentX = region->imageExtent.width,
-+         .imageExtentY = region->imageExtent.height
++         .imageExtentY = region->imageExtent.height,
++         .srcBufferSize = srcBufferSize,
++         .unsupportedBitsBc = get_unsupported_bcn_masks(),
++         .watercoloredBitsBc = get_watermarked_bcn_masks(),
 +   };
 +
-+   vk_ CmdPushConstants(commandBuffer, state->pipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT,
-+                     0, sizeof(PushConstantData), &pushConstants);
++   CHECKV(CmdPushConstants(_commandBuffer->bcnBuffer, state->pipelineLayout, VK_SHADER_STAGE_COMPUTE_BIT,
++                     0, sizeof(PushConstantData), &pushConstants));
 +
 +   uint32_t groupCountX = (region->imageExtent.width + 7) / 8;
 +   uint32_t groupCountY = (region->imageExtent.height + 7) / 8;
-+   vk_ CmdDispatch(commandBuffer, groupCountX, groupCountY, 1);
++   CHECKV(CmdDispatch(_commandBuffer->bcnBuffer, groupCountX, groupCountY, 1));
 +
 +
 +   // If using image view output, we need to transition the image back to the destination layout
@@ -10226,11 +10478,48 @@ index 2ea37d1b392..befa6635484 100644
 +         }
 +      };
 +
-+      vk_ CmdPipelineBarrier(commandBuffer,
++      CHECKV(CmdPipelineBarrier(_commandBuffer->bcnBuffer,
 +                           VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
 +                           VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
-+                           0, 0, NULL, 0, NULL, 1, &imageBarrier);
++                           0, 0, NULL, 0, NULL, 1, &imageBarrier));
 +   }
++}
++
++static VkResult CreateBcnCommandBuffer(struct wrapper_device* device, struct wrapper_command_buffer* wcb) {
++   VkResult result;
++   VkCommandBufferAllocateInfo allocInfo = { 0 };
++   allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
++   allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
++   allocInfo.commandPool = device->computePool;
++   allocInfo.commandBufferCount = 1;
++
++   result = wrapper_AllocateCommandBuffers((VkDevice) device, &allocInfo, &wcb->bcnBuffer);
++   if (result != VK_SUCCESS) {
++      WLOGE("Failed to allocate bcnBuffer command buffers");
++      return result;
++   }
++
++   VkCommandBufferBeginInfo beginInfo = { 0 };
++   beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
++   beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
++
++   VkFenceCreateInfo fenceInfo = { 0 };
++   fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
++   result = CHECK(CreateFence((VkDevice) device, &fenceInfo, NULL, &wcb->bcnBufferFinished));
++   if (result != VK_SUCCESS) {
++      return result;
++   }
++
++   VkSemaphoreCreateInfo semaphoreInfo = {
++      .sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO,
++   };
++   result = CHECK(CreateSemaphore((VkDevice) device, &semaphoreInfo, NULL, &wcb->bcnBufferFinishedSemaphore));
++   if (result != VK_SUCCESS) {
++      return result;
++   }
++
++   result = CHECK(BeginCommandBuffer(wcb->bcnBuffer, &beginInfo));
++   return result;
 +}
 +
 +VKAPI_ATTR void VKAPI_CALL
@@ -10257,7 +10546,7 @@ index 2ea37d1b392..befa6635484 100644
 +      return;
 +   }
 +
-+   if (!wimg->is_bcn_emulated /**|| wimg->original_format == VK_FORMAT_BC7_UNORM_BLOCK/**/) { // Debug BC7
++   if (!wimg->is_bcn_emulated) {
 +      // If no BCn emulation needed, just fall-through
 +      wrapper_device_trampolines.CmdCopyBufferToImage(_commandBuffer, srcBuffer, dstImage,
 +                                                      dstImageLayout, 1, pRegions);
@@ -10269,16 +10558,41 @@ index 2ea37d1b392..befa6635484 100644
 +   count++;
 +   WLOG("Emulating support for format=%d, count=%d", wimg->original_format, count);
 +   
-+   bool use_compute_shader = use_compute_shader_mode();
-+   bool use_image_view = use_image_view_mode();
++   bool use_cpu_bcn = (get_host_decoding_bcn_masks() & (1 << (wimg->original_format - 131))) != 0;
++   bool use_compute_shader = use_compute_shader_mode() && !use_cpu_bcn;
++   bool use_image_view = use_image_view_mode() && !use_cpu_bcn;
++   
++   bool inline_command_buffer = false;
++   
++   // Check if the queues are the same
++   struct wrapper_command_pool *pool = get_wrapper_command_pool(_device, wcb->pool);
++   if (!pool) {
++      WLOGE("wrapper_CmdCopyBufferToImage: wcb->pool not tracked");
++   } else {
++      if (pool->queue_idx != _device->graphics_queue_idx) {
++         // TODO: do queue migration in the future
++         WLOGE("[FATAL!] Device is not using the same queue as the command buffer, cannot use compute shader");
++         inline_command_buffer = true;
++         use_compute_shader = false;
++      }
++
++      // Initialize the bcnCommandBuffer if it's not already
++      if (wcb->bcnBuffer == VK_NULL_HANDLE) {
++         result = CreateBcnCommandBuffer(_device, wcb);
++         if (result != VK_SUCCESS) {
++            WLOGE("Failed to create bcnCommandBuffer");
++            return;
++         }
++      }
++      wcb->bcnCommands++;
++   }
++
 +   WLOGD("  + use_compute_shader=%d, use_image_view=%d", use_compute_shader, use_image_view);
 +
 +   struct wrapper_buffer* wbuf = get_wrapper_buffer(_device, srcBuffer);
 +   if (!wbuf) {
-+      WLOGE("ERROR: wrapper_CmdCopyBufferToImage: srcBuffer not tracked");
++      WLOGE("wrapper_CmdCopyBufferToImage: srcBuffer not tracked");
 +   }
-+   if (!wbuf->bcn_id)
-+      wbuf->bcn_id = count;
 +
 +   for (uint32_t i = 0; i < regionCount; ++i) {
 +      const VkBufferImageCopy* region = &pRegions[i];
@@ -10297,9 +10611,16 @@ index 2ea37d1b392..befa6635484 100644
 +            return;
 +         }
 +
-+         // add_new_staging_buffer(wcb, stagingBuffer, stagingBufferMemory);
-+         WLOGD("Tracking stagingBuffer (%p / %p) for BCn buffer %d (%p)", stagingBuffer, stagingBufferMemory, count, srcBuffer);
-+         add_new_staging_resource_to_buffer(wbuf, stagingBuffer, stagingBufferMemory, VK_NULL_HANDLE);
++         if (!inline_command_buffer) {
++            VK_FROM_HANDLE(wrapper_command_buffer, wcb2, wcb->bcnBuffer);
++            WLOGD("Tracking new stagingBuffer for secondary cmdBuffer %d", wcb2->obj_id);
++            TRACK_STAGING(_device, BUFFER, stagingBuffer, wcb2);
++            TRACK_STAGING(_device, DEVICE_MEMORY, stagingBufferMemory, wcb2);
++         } else {
++            WLOGD("Tracking new stagingBuffer for image %d", wimg->obj_id);
++            TRACK_STAGING(_device, BUFFER, stagingBuffer, wimg);
++            TRACK_STAGING(_device, DEVICE_MEMORY, stagingBufferMemory, wimg);
++         }
 +      }
 +
 +      if (use_compute_shader) {
@@ -10331,11 +10652,8 @@ index 2ea37d1b392..befa6635484 100644
 +         HostSideDecompression(_device, wbuf, stagingBufferMemory, region, wimg->original_format);
 +      }
 +
-+      // struct wrapper_queue* queue;
-+      // GetQueueForCompute(_device, &queue);
-+      // SubmitOneTimeCommands(_device, wcb->pool, queue, (void(*)(struct wrapper_command_buffer*, void*)) CmdComputeShaderForDecompression, &args);
-+
 +      if (!use_image_view) {
++         VkCommandBuffer targetCommandBuffer = !inline_command_buffer ? wcb->bcnBuffer : _commandBuffer;
 +         VkBufferMemoryBarrier bufferBarrier = {
 +            .sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER,
 +            .srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT, // Source access mask for shader write
@@ -10347,22 +10665,29 @@ index 2ea37d1b392..befa6635484 100644
 +            .size = VK_WHOLE_SIZE
 +         };
 +
-+         vk_ CmdPipelineBarrier(
-+            commandBuffer,
-+            // Source stage: The compute shader stage where the buffer is written (or the host copy).
-+            VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
-+            // Destination stage: The transfer pipeline stage where copies occur.
-+            VK_PIPELINE_STAGE_TRANSFER_BIT,
++         CHECKV(CmdPipelineBarrier(
++            targetCommandBuffer,
++            VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT, VK_PIPELINE_STAGE_TRANSFER_BIT,
 +            0,
 +            0, NULL,
 +            1, &bufferBarrier,
 +            0, NULL
-+         );
++         ));
 +
 +         VkBufferImageCopy local_region = *region;
 +         // Adjust the bufferOffset to point to the start of the staging buffer
 +         local_region.bufferOffset = 0;
-+         wrapper_device_trampolines.CmdCopyBufferToImage(_commandBuffer, stagingBuffer, dstImage, dstImageLayout, 1, &local_region);
++         wrapper_device_trampolines.CmdCopyBufferToImage(targetCommandBuffer, stagingBuffer, dstImage, dstImageLayout, 1, &local_region);
++      }
++
++      // Speculatively flush the Bcn emulation commands if the buffer is full by calling 
++      if (wcb->bcnCommands >= 64) {
++         WLOGD("Preemptively flushing BCn emulation command buffer for %d images", wcb->bcnCommands);
++         result = SubmitSecondaryBcnCommandBuffer((VkQueue) _device->graphics_queue, wcb);
++         if (result != VK_SUCCESS) {
++            WLOGE("Failed to pre-emptively submit secondary BCn command buffer.");
++            return;
++         }
 +      }
 +   }
 +}
@@ -10421,10 +10746,10 @@ index 6d47a52fd18..a78198bf174 100644
  VKAPI_ATTR void VKAPI_CALL
 diff --git a/src/vulkan/wrapper/wrapper_image.c b/src/vulkan/wrapper/wrapper_image.c
 new file mode 100644
-index 00000000000..e04ae13ab83
+index 00000000000..55a883c1080
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_image.c
-@@ -0,0 +1,104 @@
+@@ -0,0 +1,101 @@
 +#include "wrapper_private.h"
 +#include "wrapper_entrypoints.h"
 +#include "vk_unwrappers.h"
@@ -10456,7 +10781,7 @@ index 00000000000..e04ae13ab83
 +   VkResult result;
 +
 +   if (emulate_bcn) {
-+      WLOGD("Calling CreateImage with bcn texture: %d", pCreateInfo->format);
++      WLOGD("Calling CreateImage (%dx%d) with bcn texture: %d", pCreateInfo->extent.width, pCreateInfo->extent.height, pCreateInfo->format);
 +      create_info.format = unwrap_vk_format(device, pCreateInfo->format); // Done within the next layer
 +      create_info.usage |=  VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_STORAGE_BIT;
 +      create_info.flags &= 0xffffff7f;
@@ -10466,9 +10791,6 @@ index 00000000000..e04ae13ab83
 +         switch ((int32_t)pnext->sType) {
 +         case VK_STRUCTURE_TYPE_IMAGE_FORMAT_LIST_CREATE_INFO:
 +            VkImageFormatListCreateInfo *ext = (VkImageFormatListCreateInfo *) pnext;
-+            for (int i = 0; i < ext->viewFormatCount; i++) {
-+               WLOGD("  Replacing %d from view formats", ext->pViewFormats[i]);
-+            }
 +            if (ext->pViewFormats) {
 +               ext->viewFormatCount = 1;
 +               ((VkFormat*)ext->pViewFormats)[0] = unwrap_vk_format(device, pCreateInfo->format);
@@ -10764,7 +11086,7 @@ index 00000000000..292f69f4318
 +}
 diff --git a/src/vulkan/wrapper/wrapper_log.h b/src/vulkan/wrapper/wrapper_log.h
 new file mode 100644
-index 00000000000..6623e7fafdc
+index 00000000000..72d8159109a
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_log.h
 @@ -0,0 +1,106 @@
@@ -10798,10 +11120,10 @@ index 00000000000..6623e7fafdc
 +   if (can_log_level >= LOG_LEVEL_DEBUG) fflush(LOG_FD); \
 +}
 +
-+#define WLOGA(...) { if (should_log() >= LOG_LEVEL_ALL)  __wlog(__VA_ARGS__); }
-+#define WLOGD(...) { if (should_log() >= LOG_LEVEL_DEBUG)  __wlog(__VA_ARGS__); }
-+#define WLOG(...) { if (should_log() >= LOG_LEVEL_VERBOSE)  __wlog(__VA_ARGS__); }
-+#define WLOGE(...) { if (should_log() >= LOG_LEVEL_ERROR)  __wlog("[ERROR] " __VA_ARGS__); LOG(__VA_ARGS__); }
++#define WLOGA(...) { if (should_log() >= LOG_LEVEL_ALL) { __wlog("! "__VA_ARGS__); LOG(__VA_ARGS__); } }
++#define WLOGD(...) { if (should_log() >= LOG_LEVEL_DEBUG) { __wlog(__VA_ARGS__); LOG(__VA_ARGS__); } }
++#define WLOG(...) { if (should_log() >= LOG_LEVEL_VERBOSE) { __wlog(__VA_ARGS__); LOG(__VA_ARGS__); } }
++#define WLOGE(...) { if (should_log() >= LOG_LEVEL_ERROR)  __wlog("[ERROR] " __VA_ARGS__); LOG("[ERROR] " __VA_ARGS__); }
 +
 +static void get_current_time_string(char* buffer, size_t bufferSize) {
 +    time_t now = time(NULL);
@@ -10875,7 +11197,7 @@ index 00000000000..6623e7fafdc
 +    const VkDebugUtilsMessengerCallbackDataEXT*      pCallbackData,
 +    void*                                            pUserData);
 diff --git a/src/vulkan/wrapper/wrapper_physical_device.c b/src/vulkan/wrapper/wrapper_physical_device.c
-index 384c45483c6..6c302650b79 100644
+index 384c45483c6..6043250c538 100644
 --- a/src/vulkan/wrapper/wrapper_physical_device.c
 +++ b/src/vulkan/wrapper/wrapper_physical_device.c
 @@ -11,9 +11,11 @@
@@ -10906,7 +11228,7 @@ index 384c45483c6..6c302650b79 100644
  
     *exts = wrapper_device_extensions;
  
-@@ -46,6 +57,12 @@ wrapper_setup_device_extensions(struct wrapper_physical_device *pdevice) {
+@@ -46,6 +57,17 @@ wrapper_setup_device_extensions(struct wrapper_physical_device *pdevice) {
     }
  
     exts->KHR_present_wait = exts->KHR_timeline_semaphore;
@@ -10916,13 +11238,33 @@ index 384c45483c6..6c302650b79 100644
 +         exts->KHR_present_wait = false;
 +      }
 +   }
++
++   // Needed by dxvk
++   exts->EXT_transform_feedback = true;
++   exts->EXT_host_query_reset = true;
++   exts->EXT_custom_border_color = true;
  
     return VK_SUCCESS;
  }
-@@ -139,6 +156,13 @@ VkResult enumerate_physical_device(struct vk_instance *_instance)
+@@ -139,6 +161,28 @@ VkResult enumerate_physical_device(struct vk_instance *_instance)
        supported_features->presentWait = supported_features->timelineSemaphore;
        supported_features->swapchainMaintenance1 = true;
        supported_features->imageCompressionControlSwapchain = false;
++
++      // dxvk extension features support
++      supported_features->geometryStreams = true;
++      supported_features->transformFeedback = true;
++      supported_features->hostQueryReset = true;
++      supported_features->customBorderColors = true;
++      supported_features->customBorderColorWithoutFormat = true;
++      supported_features->dualSrcBlend = true; // Missing on G715 r38p1
++      supported_features->logicOp = true; // Missing on G57 r32p1
++      supported_features->multiDrawIndirect = true; // Missing on G57 r32p1
++      supported_features->vertexPipelineStoresAndAtomics = true; // Missing on G57 r32p1
++      supported_features->variableMultisampleRate = true; // Missing on G57 r32p1
++
++      // DEBUG:
++      // pdevice->base_supported_features.geometryStreams = false;
 +
 +      if (check_flag("FORCE_BCN_EMULATION", false)) {
 +         if (pdevice->base_supported_features.textureCompressionBC) {
@@ -10933,7 +11275,7 @@ index 384c45483c6..6c302650b79 100644
        
        result = wsi_device_init(&pdevice->wsi_device,
                                 wrapper_physical_device_to_handle(pdevice),
-@@ -162,12 +186,23 @@ VkResult enumerate_physical_device(struct vk_instance *_instance)
+@@ -162,12 +206,23 @@ VkResult enumerate_physical_device(struct vk_instance *_instance)
           .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2,
           .pNext = &pdevice->driver_properties,
        };
@@ -10959,7 +11301,7 @@ index 384c45483c6..6c302650b79 100644
        const char *app_name = instance->vk.app_info.app_name
           ? instance->vk.app_info.app_name : "wrapper";
  
-@@ -221,6 +256,31 @@ VKAPI_ATTR void VKAPI_CALL
+@@ -221,6 +276,31 @@ VKAPI_ATTR void VKAPI_CALL
  wrapper_GetPhysicalDeviceFeatures2(VkPhysicalDevice physicalDevice,
                                     VkPhysicalDeviceFeatures2* pFeatures) {                                                              
     vk_common_GetPhysicalDeviceFeatures2(physicalDevice, pFeatures);
@@ -10991,7 +11333,7 @@ index 384c45483c6..6c302650b79 100644
  }
  
  VKAPI_ATTR void VKAPI_CALL
-@@ -264,6 +324,22 @@ wrapper_GetPhysicalDeviceProperties2(VkPhysicalDevice physicalDevice,
+@@ -264,6 +344,22 @@ wrapper_GetPhysicalDeviceProperties2(VkPhysicalDevice physicalDevice,
           float_prop->shaderSignedZeroInfNanPreserveFloat32 = false;
           break;
        }
@@ -11014,7 +11356,7 @@ index 384c45483c6..6c302650b79 100644
        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_PROPERTIES:
        {
           VkPhysicalDeviceVulkan11Properties *vk11_prop =
-@@ -320,25 +396,10 @@ wrapper_GetPhysicalDeviceImageFormatProperties(VkPhysicalDevice physicalDevice,
+@@ -320,25 +416,10 @@ wrapper_GetPhysicalDeviceImageFormatProperties(VkPhysicalDevice physicalDevice,
     VkResult result;
     VK_FROM_HANDLE(wrapper_physical_device, pdevice, physicalDevice);
  
@@ -11043,7 +11385,7 @@ index 384c45483c6..6c302650b79 100644
        if (type & VK_IMAGE_TYPE_1D) {
           pImageFormatProperties->maxExtent.width = pdevice->properties2.properties.limits.maxImageDimension1D;
           pImageFormatProperties->maxExtent.height = 1;
-@@ -378,8 +439,6 @@ wrapper_GetPhysicalDeviceImageFormatProperties(VkPhysicalDevice physicalDevice,
+@@ -378,8 +459,6 @@ wrapper_GetPhysicalDeviceImageFormatProperties(VkPhysicalDevice physicalDevice,
        pImageFormatProperties->sampleCounts = VK_SAMPLE_COUNT_1_BIT;      
        pImageFormatProperties->maxResourceSize = 562949953421312;
        return VK_SUCCESS;
@@ -11052,7 +11394,7 @@ index 384c45483c6..6c302650b79 100644
     }
  
     return result;   
-@@ -392,26 +451,9 @@ wrapper_GetPhysicalDeviceImageFormatProperties2(VkPhysicalDevice physicalDevice,
+@@ -392,26 +471,9 @@ wrapper_GetPhysicalDeviceImageFormatProperties2(VkPhysicalDevice physicalDevice,
  {
     VkResult result;
     VK_FROM_HANDLE(wrapper_physical_device, pdevice, physicalDevice);
@@ -11082,7 +11424,7 @@ index 384c45483c6..6c302650b79 100644
        if (pImageFormatInfo->type & VK_IMAGE_TYPE_1D) {
           pImageFormatProperties->imageFormatProperties.maxExtent.width = pdevice->properties2.properties.limits.maxImageDimension1D;
           pImageFormatProperties->imageFormatProperties.maxExtent.height = 1;
-@@ -453,8 +495,6 @@ wrapper_GetPhysicalDeviceImageFormatProperties2(VkPhysicalDevice physicalDevice,
+@@ -453,8 +515,6 @@ wrapper_GetPhysicalDeviceImageFormatProperties2(VkPhysicalDevice physicalDevice,
        pImageFormatProperties->imageFormatProperties.sampleCounts = VK_SAMPLE_COUNT_1_BIT;      
        pImageFormatProperties->imageFormatProperties.maxResourceSize = 562949953421312;
        return VK_SUCCESS;
@@ -11091,7 +11433,7 @@ index 384c45483c6..6c302650b79 100644
     }
  
     return result;
-@@ -466,29 +506,27 @@ wrapper_GetPhysicalDeviceFormatProperties(VkPhysicalDevice physicalDevice,
+@@ -466,29 +526,27 @@ wrapper_GetPhysicalDeviceFormatProperties(VkPhysicalDevice physicalDevice,
                                              VkFormatProperties* pFormatProperties)
  {
     VK_FROM_HANDLE(wrapper_physical_device, pdevice, physicalDevice);
@@ -11145,7 +11487,7 @@ index 384c45483c6..6c302650b79 100644
 +}
 +
 diff --git a/src/vulkan/wrapper/wrapper_private.h b/src/vulkan/wrapper/wrapper_private.h
-index 7f8cc6e8c84..51ea5bf4a51 100644
+index 7f8cc6e8c84..5f8e3372572 100644
 --- a/src/vulkan/wrapper/wrapper_private.h
 +++ b/src/vulkan/wrapper/wrapper_private.h
 @@ -1,3 +1,5 @@
@@ -11154,10 +11496,11 @@ index 7f8cc6e8c84..51ea5bf4a51 100644
  #include <sys/stat.h>
  
  #include "vulkan/runtime/vk_instance.h"
-@@ -5,11 +7,112 @@
+@@ -5,11 +7,113 @@
  #include "vulkan/runtime/vk_device.h"
  #include "vulkan/runtime/vk_queue.h"
  #include "vulkan/runtime/vk_command_buffer.h"
++#include "vulkan/runtime/vk_command_pool.h"
 +#include "vulkan/runtime/vk_buffer.h"
 +#include "vulkan/runtime/vk_image.h"
  #include "vulkan/runtime/vk_log.h"
@@ -11261,14 +11604,14 @@ index 7f8cc6e8c84..51ea5bf4a51 100644
 +// #define NEEDS_PRINTING_GetImageMemoryRequirements2 1;
 +// #define NEEDS_PRINTING_GetImageMemoryRequirements 1
 +// #define NEEDS_PRINTING_BindImageMemory 1;
-+// #define NEEDS_PRINTING_QueueSubmit2 1;
++#define NEEDS_PRINTING_QueueSubmit2 1;
 +// #define NEEDS_PRINTING_AllocateMemory 1;
 +// #define NEEDS_PRINTING_GetPhysicalDeviceImageFormatProperties2 1
 +// #define NEEDS_PRINTING_AllocateDescriptorSets 1;
  
  extern const struct vk_instance_extension_table wrapper_instance_extensions;
  extern const struct vk_device_extension_table wrapper_device_extensions;
-@@ -20,6 +123,7 @@ struct wrapper_instance {
+@@ -20,6 +124,7 @@ struct wrapper_instance {
  
     VkInstance dispatch_handle;
     struct vk_instance_dispatch_table dispatch_table;
@@ -11276,69 +11619,87 @@ index 7f8cc6e8c84..51ea5bf4a51 100644
  };
  
  VK_DEFINE_HANDLE_CASTS(wrapper_instance, vk.base, VkInstance,
-@@ -45,7 +149,6 @@ VK_DEFINE_HANDLE_CASTS(wrapper_physical_device, vk.base, VkPhysicalDevice,
+@@ -43,11 +148,16 @@ struct wrapper_physical_device {
+ VK_DEFINE_HANDLE_CASTS(wrapper_physical_device, vk.base, VkPhysicalDevice,
+                        VK_OBJECT_TYPE_PHYSICAL_DEVICE)
  
++#define COMMON_FIELDS(T) \
++   struct wrapper_device *device; \
++   T dispatch_handle; \
++   simple_mtx_t resource_mutex; \
++   struct list_head staging_resources; \
++   uint32_t obj_id
++
  struct wrapper_queue {
     struct vk_queue vk;
 -
-    struct wrapper_device *device;
-    VkQueue dispatch_handle;
+-   struct wrapper_device *device;
+-   VkQueue dispatch_handle;
++   COMMON_FIELDS(VkQueue);
  };
-@@ -60,13 +163,32 @@ struct wrapper_device {
+ 
+ VK_DEFINE_HANDLE_CASTS(wrapper_queue, vk.base, VkQueue,
+@@ -60,8 +170,20 @@ struct wrapper_device {
     simple_mtx_t resource_mutex;
     struct list_head command_buffer_list;
     struct list_head device_memory_list;
 +
 +   struct hash_table_u64* image_map;
 +   struct hash_table_u64* buffer_map;
++   struct hash_table_u64* command_pool_map;
 +
     struct wrapper_physical_device *physical;
     struct vk_device_dispatch_table dispatch_table;
 +
 +   uint32_t queueCount;
 +   struct wrapper_queue **queues;
++   struct wrapper_queue *graphics_queue;
++   uint32_t graphics_queue_idx;
++
++   VkCommandPool computePool;
  };
  
  VK_DEFINE_HANDLE_CASTS(wrapper_device, vk.base, VkDevice,
-                        VK_OBJECT_TYPE_DEVICE)
- 
-+
-+typedef struct wrapper_cmd_buffer_staging_buffer {
-+   struct list_head link;
-+   VkBuffer buffer;
-+   VkDeviceMemory memory;
-+} wrapper_cmd_buffer_staging_buffer;
-+
-+typedef struct wrapper_cmd_buffer_staging_image_view {
-+   struct list_head link;
-+   VkImageView imageView;
-+} wrapper_cmd_buffer_staging_image_view;
-+
+@@ -70,10 +192,15 @@ VK_DEFINE_HANDLE_CASTS(wrapper_device, vk.base, VkDevice,
  struct wrapper_command_buffer {
     struct vk_command_buffer vk;
  
-@@ -79,6 +201,16 @@ struct wrapper_command_buffer {
- VK_DEFINE_HANDLE_CASTS(wrapper_command_buffer, vk.base, VkCommandBuffer,
-                        VK_OBJECT_TYPE_COMMAND_BUFFER)
+-   struct wrapper_device *device;
+    struct list_head link;
++   COMMON_FIELDS(VkCommandBuffer);
++
+    VkCommandPool pool;
+-   VkCommandBuffer dispatch_handle;
++
++   VkCommandBuffer bcnBuffer;
++   VkFence bcnBufferFinished;
++   VkSemaphore bcnBufferFinishedSemaphore;
++   uint32_t bcnCommands;
+ };
  
-+struct wrapper_image {
-+   struct vk_image vk;
-+
-+   struct wrapper_device *device;
-+   VkImage dispatch_handle;
-+
-+   bool is_bcn_emulated;
-+   VkFormat original_format;
-+};
-+
- struct wrapper_device_memory {
-    struct AHardwareBuffer *ahardware_buffer;
-    struct wrapper_device *device;
-@@ -108,3 +240,251 @@ wrapper_device_memory_create(struct wrapper_device *device,
+ VK_DEFINE_HANDLE_CASTS(wrapper_command_buffer, vk.base, VkCommandBuffer,
+@@ -108,3 +235,606 @@ wrapper_device_memory_create(struct wrapper_device *device,
  
  void
  wrapper_device_memory_destroy(struct wrapper_device_memory *mem);
 +
++
++static int FindGraphicsComputeQueueFamilies(struct wrapper_physical_device* physical_device) {
++   uint32_t queueFamilyCount = 0;
++   wrapper_physical_device_trampolines.GetPhysicalDeviceQueueFamilyProperties((VkPhysicalDevice) physical_device, &queueFamilyCount, NULL);
++   VkQueueFamilyProperties queueFamilies[32];
++   wrapper_physical_device_trampolines.GetPhysicalDeviceQueueFamilyProperties((VkPhysicalDevice) physical_device, &queueFamilyCount, queueFamilies);
++
++   for (int i = 0; i < queueFamilyCount; i++) {
++      if ((queueFamilies[i].queueFlags & VK_QUEUE_COMPUTE_BIT) != 0 && (queueFamilies[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) != 0) {
++         return i;
++      }
++   }
++   return -1; // No compute queue family found
++}
++
++
++// hash_map based lookup types
 +
 +#define CREATE_FROM_HANDLE_FUNCTION(wtype, vtype, map) \
 +static struct wtype * get_##wtype(struct wrapper_device *device, vtype handle) { \
@@ -11349,8 +11710,6 @@ index 7f8cc6e8c84..51ea5bf4a51 100644
 +   return obj; \
 +}
 +
-+CREATE_FROM_HANDLE_FUNCTION(wrapper_image, VkImage, image_map)
-+
 +#define CREATE_FUNCTION_BODY(wtype, vtype, map, vk_type, init) \
 +   struct wtype *obj = vk_zalloc2(&device->vk.alloc, pAllocator, sizeof(struct wtype), 8, VK_SYSTEM_ALLOCATION_SCOPE_OBJECT); \
 +   if (!obj) \
@@ -11358,10 +11717,119 @@ index 7f8cc6e8c84..51ea5bf4a51 100644
 +   init; \
 +   obj->device = device; \
 +   obj->dispatch_handle = dispatch_handle; \
++   list_inithead(&obj->staging_resources); \
++   simple_mtx_init(&obj->resource_mutex, mtx_plain); \
 +   simple_mtx_lock(&device->resource_mutex); \
++   static uint32_t obj_id = 0; \
++   obj->obj_id = obj_id++; \
 +   _mesa_hash_table_u64_insert(device->map, (uint64_t) dispatch_handle, obj); \
 +   simple_mtx_unlock(&device->resource_mutex); \
 +   return obj;
++
++typedef struct wrapper_staging_resources {
++   struct list_head link;
++   VkObjectType type;
++   bool use_vk_object;
++   void* handle;
++   void* parent; // the parent object tracking this resource
++   // In the future, add a fence for when this object is no longer needed
++   VkFence ready;
++} wrapper_staging_resources;
++
++#define TRACK_STAGING(device, type, handle, parent) add_staging_resource_to(device, &parent->staging_resources, VK_OBJECT_TYPE_##type, handle, parent)
++
++static void add_staging_resource_to(
++   struct wrapper_device *device,
++   struct list_head *staging_resources,
++   VkObjectType type,
++   void* handle,
++   void* parent) {
++   struct wrapper_staging_resources *obj =
++         vk_alloc(&device->vk.alloc, sizeof(struct wrapper_staging_resources), 8, VK_SYSTEM_ALLOCATION_SCOPE_OBJECT);
++   obj->type = type;
++   obj->handle = handle;
++   obj->parent = parent;
++   list_addtail(&obj->link, staging_resources);
++}
++
++static void free_staging_resources_if_ready(
++   struct wrapper_device *device, 
++   void* handle, 
++   struct list_head* list,
++   bool cleanup_everything) {
++   // // Clean up temporary objects associated with this object, does not destroy the list nor objects that are not ready to be cleaned up
++   int cleaned_up = 0;
++   if (!list_is_empty(list)) {
++      list_for_each_entry_safe(struct wrapper_staging_resources, resource, list, link) {
++         if (!resource->handle) {
++            continue;
++         }
++
++         if (!cleanup_everything) {
++            if (resource->ready == VK_NULL_HANDLE) {
++               continue;
++            }
++            if (wrapper_device_trampolines.GetFenceStatus((VkDevice) device, resource->ready) != VK_SUCCESS) {
++               continue;
++            }
++         }
++
++#define FREE_STAGING_RESOURCE_(t1, t2, free) \
++         case VK_OBJECT_TYPE_##t1: \
++            CHECKV(free((VkDevice) device, (Vk##t2) resource->handle, NULL)); \
++            cleaned_up++; \
++            break;
++#define FREE_STAGING_RESOURCE(t1, t2) FREE_STAGING_RESOURCE_(t1, t2, Destroy##t2)
++
++         switch (resource->type) {
++         FREE_STAGING_RESOURCE(IMAGE_VIEW, ImageView)
++         FREE_STAGING_RESOURCE(BUFFER, Buffer)
++         FREE_STAGING_RESOURCE_(DEVICE_MEMORY, DeviceMemory, FreeMemory)
++         default:
++            WLOGE("Staging resource of type %d is not handled");
++            break;
++         }
++
++#undef FREE_STAGING_RESOURCE
++#undef FREE_STAGING_RESOURCE_
++
++         resource->handle = VK_NULL_HANDLE;
++         resource->parent = NULL;
++         list_del(&resource->link);
++         vk_free(&device->vk.alloc, resource);
++      }
++   }
++
++   if (cleaned_up)
++      WLOGD("Released %d staging resources for handle %p", cleaned_up, handle);
++}
++
++static void free_staging_resources_final(struct wrapper_device *device, 
++   void* handle, 
++   struct list_head* list) {
++   return free_staging_resources_if_ready(device, handle, list, true);
++}
++
++#define CREATE_DESTROY_FUNCTION(wtype, map, destroy) \
++static void wtype##_destroy(struct wrapper_device *device, struct wtype *obj, const VkAllocationCallbacks* pAllocator) { \
++   free_staging_resources_final(device, obj, &obj->staging_resources); \
++   simple_mtx_destroy(&obj->resource_mutex); \
++   simple_mtx_lock(&device->resource_mutex); \
++   _mesa_hash_table_u64_remove(device->map, (uint64_t) obj->dispatch_handle); \
++   simple_mtx_unlock(&device->resource_mutex); \
++   destroy; \
++}
++
++struct wrapper_image {
++   struct vk_image vk;
++
++   COMMON_FIELDS(VkImage);
++
++   bool is_bcn_emulated;
++   VkFormat original_format;
++};
++
++CREATE_FROM_HANDLE_FUNCTION(wrapper_image, VkImage, image_map)
 +
 +static struct wrapper_image *wrapper_image_create(struct wrapper_device *device,
 +                     const VkImageCreateInfo *pCreateInfo,
@@ -11371,14 +11839,6 @@ index 7f8cc6e8c84..51ea5bf4a51 100644
 +   CREATE_FUNCTION_BODY(wrapper_image, VkImage, image_map,
 +                        VK_OBJECT_TYPE_IMAGE,
 +                        vk_image_init(&device->vk, &obj->vk, pCreateInfo));
-+}
-+
-+#define CREATE_DESTROY_FUNCTION(wtype, map, destroy) \
-+static void wtype##_destroy(struct wrapper_device *device, struct wtype *obj, const VkAllocationCallbacks* pAllocator) { \
-+   simple_mtx_lock(&device->resource_mutex); \
-+   _mesa_hash_table_u64_remove(device->map, (uint64_t) obj->dispatch_handle); \
-+   simple_mtx_unlock(&device->resource_mutex); \
-+   destroy; \
 +}
 +
 +CREATE_DESTROY_FUNCTION(wrapper_image, image_map, {
@@ -11402,16 +11862,11 @@ index 7f8cc6e8c84..51ea5bf4a51 100644
 +typedef struct wrapper_buffer {
 +   struct vk_buffer vk;
 +
-+   struct wrapper_device *device;
-+   VkBuffer dispatch_handle;
++   COMMON_FIELDS(VkBuffer);
 +
++   struct list_head temp_descriptor_pools;
 +   VkDeviceMemory memory; // Pointer to the memory allocated by vkAllocateMemory
 +   VkDeviceSize memoryOffset; // Size of the memory allocated by vkAllocateMemory
-+
-+   simple_mtx_t resource_mutex;
-+   struct list_head staging_resources;
-+   struct list_head temp_descriptor_pools;
-+   int bcn_id;
 +} wrapper_buffer;
 +
 +CREATE_FROM_HANDLE_FUNCTION(wrapper_buffer, VkBuffer, buffer_map)
@@ -11429,6 +11884,31 @@ index 7f8cc6e8c84..51ea5bf4a51 100644
 +CREATE_DESTROY_FUNCTION(wrapper_buffer, buffer_map, {
 +   // vk_buffer_finish(&obj->vk);
 +   vk_buffer_destroy(&device->vk, pAllocator, &obj->vk);
++});
++
++
++struct wrapper_command_pool {
++   // struct vk_command_pool vk;
++
++   COMMON_FIELDS(VkCommandPool);
++
++   uint32_t queue_idx;
++};
++
++CREATE_FROM_HANDLE_FUNCTION(wrapper_command_pool, VkCommandPool, command_pool_map)
++
++static struct wrapper_command_pool *wrapper_command_pool_create(struct wrapper_device *device,
++                     const VkCommandPoolCreateInfo *pCreateInfo,
++                     const VkAllocationCallbacks *pAllocator,
++                     VkCommandPool dispatch_handle)
++{
++   CREATE_FUNCTION_BODY(wrapper_command_pool, VkCommandPool, command_pool_map,
++                        VK_OBJECT_TYPE_COMMAND_POOL,
++                        {});
++}
++
++CREATE_DESTROY_FUNCTION(wrapper_command_pool, command_pool_map, {
++   // vk_command_pool_destroy(&device->vk, pAllocator, &obj->vk);
 +});
 +
 +// For BCn emulation
@@ -11586,7 +12066,225 @@ index 7f8cc6e8c84..51ea5bf4a51 100644
 +      return default_value;
 +   }
 +}
-\ No newline at end of file
++
++typedef struct {
++    uint32_t srcFormat;
++    uint32_t srcRowLength;
++    uint32_t srcImageHeight;
++    int32_t imageOffsetX;
++    int32_t imageOffsetY;
++    uint32_t imageExtentX;
++    uint32_t imageExtentY;
++    uint32_t srcBufferSize;
++    uint32_t unsupportedBitsBc;
++    uint32_t watercoloredBitsBc;
++} PushConstantData;
++
++typedef struct __attribute__((aligned(16))) ivec2_t_std140 {
++    int32_t x;
++    int32_t y;
++} ivec2_t_std140;
++
++typedef struct __attribute__((aligned(16))) int32_t_std140 {
++    int32_t x;
++} int32_t_std140;
++
++// This struct will be mapped directly to the GPU buffer.
++// The `alignas(16)` on the struct itself ensures it starts on a 16-byte boundary.
++typedef struct __attribute__((aligned(16))) Bc7Constants {
++   int32_t_std140 weight_table2[16];
++   int32_t_std140 weight_table3[16];
++   int32_t_std140 weight_table4[16];
++
++   int32_t_std140 partition_table3[64];
++   int32_t_std140 partition_table2[64];
++   int32_t_std140 anchor_table2[64];
++   ivec2_t_std140 anchor_table3[64];
++} Bc7Constants;
++
++// Macro to pack 16 2-bit values into a 32-bit integer
++#define P3(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) \
++    (((a) << 0) | ((b) << 2) | ((c) << 4) | ((d) << 6) | \
++    ((e) << 8) | ((f) << 10) | ((g) << 12) | ((h) << 14) | \
++    ((i) << 16) | ((j) << 18) | ((k) << 20) | ((l) << 22) | \
++    ((m) << 24) | ((n) << 26) | ((o) << 28) | ((p) << 30))
++
++// Macro to pack 16 1-bit values into a 32-bit integer
++#define P2(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) \
++    (((a) << 0) | ((b) << 1) | ((c) << 2) | ((d) << 3) | \
++    ((e) << 4) | ((f) << 5) | ((g) << 6) | ((h) << 7) | \
++    ((i) << 8) | ((j) << 9) | ((k) << 10) | ((l) << 11) | \
++    ((m) << 12) | ((n) << 13) | ((o) << 14) | ((p) << 15))
++
++#pragma GCC diagnostic ignored "-Wmissing-braces"
++// --- Weight Tables ---
++static const int32_t_std140 BC7_WEIGHT_TABLE2_DATA[16] = {0, 21, 43, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
++static const int32_t_std140 BC7_WEIGHT_TABLE3_DATA[16] = {0, 9, 18, 27, 37, 46, 55, 64, 0, 0, 0, 0, 0, 0, 0, 0};
++static const int32_t_std140 BC7_WEIGHT_TABLE4_DATA[16] = {0, 4, 9, 13, 17, 21, 26, 30, 34, 38, 43, 47, 51, 55, 60, 64};
++
++// --- Partition Tables ---
++static const int32_t_std140 BC7_PARTITION_TABLE2_DATA[64] = {
++    P2(0,0,1,1,0,0,1,1,0,0,1,1,0,0,1,1), P2(0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1),
++    P2(0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1), P2(0,0,0,1,0,0,1,1,0,0,1,1,0,1,1,1),
++    P2(0,0,0,0,0,0,0,1,0,0,0,1,0,0,1,1), P2(0,0,1,1,0,1,1,1,0,1,1,1,1,1,1,1),
++    P2(0,0,0,1,0,0,1,1,0,1,1,1,1,1,1,1), P2(0,0,0,0,0,0,0,1,0,0,1,1,0,1,1,1),
++    P2(0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1), P2(0,0,1,1,0,1,1,1,1,1,1,1,1,1,1,1),
++    P2(0,0,0,0,0,0,0,1,0,1,1,1,1,1,1,1), P2(0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,1),
++    P2(0,0,0,1,0,1,1,1,1,1,1,1,1,1,1,1), P2(0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1),
++    P2(0,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1), P2(0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1),
++    P2(0,0,0,0,1,0,0,0,1,1,1,0,1,1,1,1), P2(0,1,1,1,0,0,0,1,0,0,0,0,0,0,0,0),
++    P2(0,0,0,0,0,0,0,0,1,0,0,0,1,1,1,0), P2(0,1,1,1,0,0,1,1,0,0,0,1,0,0,0,0),
++    P2(0,0,1,1,0,0,0,1,0,0,0,0,0,0,0,0), P2(0,0,0,0,1,0,0,0,1,1,0,0,1,1,1,0),
++    P2(0,0,0,0,0,0,0,0,1,0,0,0,1,1,0,0), P2(0,1,1,1,0,0,1,1,0,0,1,1,0,0,0,1),
++    P2(0,0,1,1,0,0,0,1,0,0,0,1,0,0,0,0), P2(0,0,0,0,1,0,0,0,1,0,0,0,1,1,0,0),
++    P2(0,1,1,0,0,1,1,0,0,1,1,0,0,1,1,0), P2(0,0,1,1,0,1,1,0,0,1,1,0,1,1,0,0),
++    P2(0,0,0,1,0,1,1,1,1,1,1,0,1,0,0,0), P2(0,0,0,0,1,1,1,1,1,1,1,1,0,0,0,0),
++    P2(0,1,1,1,0,0,0,1,1,0,0,0,1,1,1,0), P2(0,0,1,1,1,0,0,1,1,0,0,1,1,1,0,0),
++    P2(0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1), P2(0,0,0,0,1,1,1,1,0,0,0,0,1,1,1,1),
++    P2(0,1,0,1,1,0,1,0,0,1,0,1,1,0,1,0), P2(0,0,1,1,0,0,1,1,1,1,0,0,1,1,0,0),
++    P2(0,0,1,1,1,1,0,0,0,0,1,1,1,1,0,0), P2(0,1,0,1,0,1,0,1,1,0,1,0,1,0,1,0),
++    P2(0,1,1,0,1,0,0,1,0,1,1,0,1,0,0,1), P2(0,1,0,1,1,0,1,0,1,0,1,0,0,1,0,1),
++    P2(0,1,1,1,0,0,1,1,1,1,0,0,1,1,1,0), P2(0,0,0,1,0,0,1,1,1,1,0,0,1,0,0,0),
++    P2(0,0,1,1,0,0,1,0,0,1,0,0,1,1,0,0), P2(0,0,1,1,1,0,1,1,1,1,0,1,1,1,0,0),
++    P2(0,1,1,0,1,0,0,1,1,0,0,1,0,1,1,0), P2(0,0,1,1,1,1,0,0,1,1,0,0,0,0,1,1),
++    P2(0,1,1,0,0,1,1,0,1,0,0,1,1,0,0,1), P2(0,0,0,0,0,1,1,0,0,1,1,0,0,0,0,0),
++    P2(0,1,0,0,1,1,1,0,0,1,0,0,0,0,0,0), P2(0,0,1,0,0,1,1,1,0,0,1,0,0,0,0,0),
++    P2(0,0,0,0,0,0,1,0,0,1,1,1,0,0,1,0), P2(0,0,0,0,0,1,0,0,1,1,1,0,0,1,0,0),
++    P2(0,1,1,0,1,1,0,0,1,0,0,1,0,0,1,1), P2(0,0,1,1,0,1,1,0,1,1,0,0,1,0,0,1),
++    P2(0,1,1,0,0,0,1,1,1,0,0,1,1,1,0,0), P2(0,0,1,1,1,0,0,1,1,1,0,0,0,1,1,0),
++    P2(0,1,1,0,1,1,0,0,1,1,0,0,1,0,0,1), P2(0,1,1,0,0,0,1,1,0,0,1,1,1,0,0,1),
++    P2(0,1,1,1,1,1,1,0,1,0,0,0,0,0,0,1), P2(0,0,0,1,1,0,0,0,1,1,1,0,0,1,1,1),
++    P2(0,0,0,0,1,1,1,1,0,0,1,1,0,0,1,1), P2(0,0,1,1,0,0,1,1,1,1,1,1,0,0,0,0),
++    P2(0,0,1,0,0,0,1,0,1,1,1,0,1,1,1,0), P2(0,1,0,0,0,1,0,0,0,1,1,1,0,1,1,1)
++};
++static const int32_t_std140 BC7_PARTITION_TABLE3_DATA[64] = {
++    P3(0,0,1,1,0,0,1,1,0,2,2,1,2,2,2,2), P3(0,0,0,1,0,0,1,1,2,2,1,1,2,2,2,1),
++    P3(0,0,0,0,2,0,0,1,2,2,1,1,2,2,1,1), P3(0,2,2,2,0,0,2,2,0,0,1,1,0,1,1,1),
++    P3(0,0,0,0,0,0,0,0,1,1,2,2,1,1,2,2), P3(0,0,1,1,0,0,1,1,0,0,2,2,0,0,2,2),
++    P3(0,0,2,2,0,0,2,2,1,1,1,1,1,1,1,1), P3(0,0,1,1,0,0,1,1,2,2,1,1,2,2,1,1),
++    P3(0,0,0,0,0,0,0,0,1,1,1,1,2,2,2,2), P3(0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2),
++    P3(0,0,0,0,1,1,1,1,2,2,2,2,2,2,2,2), P3(0,0,1,2,0,0,1,2,0,0,1,2,0,0,1,2),
++    P3(0,1,1,2,0,1,1,2,0,1,1,2,0,1,1,2), P3(0,1,2,2,0,1,2,2,0,1,2,2,0,1,2,2),
++    P3(0,0,1,1,0,1,1,2,1,1,2,2,1,2,2,2), P3(0,0,1,1,2,0,0,1,2,2,0,0,2,2,2,0),
++    P3(0,0,0,1,0,0,1,1,0,1,1,2,1,1,2,2), P3(0,1,1,1,0,0,1,1,2,0,0,1,2,2,0,0),
++    P3(0,0,0,0,1,1,2,2,1,1,2,2,1,1,2,2), P3(0,0,2,2,0,0,2,2,0,0,2,2,1,1,1,1),
++    P3(0,1,1,1,0,1,1,1,0,2,2,2,0,2,2,2), P3(0,0,0,1,0,0,0,1,2,2,2,1,2,2,2,1),
++    P3(0,0,0,0,0,0,1,1,0,1,2,2,0,1,2,2), P3(0,0,0,0,1,1,0,0,2,2,1,0,2,2,1,0),
++    P3(0,1,2,2,0,1,2,2,0,0,1,1,0,0,0,0), P3(0,0,1,2,0,0,1,2,1,1,2,2,2,2,2,2),
++    P3(0,1,1,0,1,2,2,1,1,2,2,1,0,1,1,0), P3(0,0,0,0,0,1,1,0,1,2,2,1,1,2,2,1),
++    P3(0,0,2,2,1,1,0,2,1,1,0,2,0,0,2,2), P3(0,1,1,0,0,1,1,0,2,0,0,2,2,2,2,2),
++    P3(0,0,1,1,0,1,2,2,0,1,2,2,0,0,1,1), P3(0,0,0,0,2,0,0,0,2,2,1,1,2,2,2,1),
++    P3(0,0,0,0,0,0,0,2,1,1,2,2,1,2,2,2), P3(0,2,2,2,0,0,2,2,0,0,1,2,0,0,1,1),
++    P3(0,0,1,1,0,0,1,2,0,0,2,2,0,2,2,2), P3(0,1,2,0,0,1,2,0,0,1,2,0,0,1,2,0),
++    P3(0,0,0,0,1,1,1,1,2,2,2,2,0,0,0,0), P3(0,1,2,0,1,2,0,1,2,0,1,2,0,1,2,0),
++    P3(0,1,2,0,2,0,1,2,1,2,0,1,0,1,2,0), P3(0,0,1,1,2,2,0,0,1,1,2,2,0,0,1,1),
++    P3(0,0,1,1,1,1,2,2,2,2,0,0,0,0,1,1), P3(0,1,0,1,0,1,0,1,2,2,2,2,2,2,2,2),
++    P3(0,0,0,0,0,0,0,0,2,1,2,1,2,1,2,1), P3(0,0,2,2,1,1,2,2,0,0,2,2,1,1,2,2),
++    P3(0,0,2,2,0,0,1,1,0,0,2,2,0,0,1,1), P3(0,2,2,0,1,2,2,1,0,2,2,0,1,2,2,1),
++    P3(0,1,0,1,2,2,2,2,2,2,2,2,0,1,0,1), P3(0,0,0,0,2,1,2,1,2,1,2,1,2,1,2,1),
++    P3(0,1,0,1,0,1,0,1,0,1,0,1,2,2,2,2), P3(0,2,2,2,0,1,1,1,0,2,2,2,0,1,1,1),
++    P3(0,0,0,2,1,1,1,2,0,0,0,2,1,1,1,2), P3(0,0,0,0,2,1,1,2,2,1,1,2,2,1,1,2),
++    P3(0,2,2,2,0,1,1,1,0,1,1,1,0,2,2,2), P3(0,0,0,2,1,1,1,2,1,1,1,2,0,0,0,2),
++    P3(0,1,1,0,0,1,1,0,0,1,1,0,2,2,2,2), P3(0,0,0,0,0,0,0,0,2,1,1,2,2,1,1,2),
++    P3(0,1,1,0,0,1,1,0,2,2,2,2,2,2,2,2), P3(0,0,2,2,0,0,1,1,0,0,1,1,0,0,2,2),
++    P3(0,0,2,2,1,1,2,2,1,1,2,2,0,0,2,2), P3(0,0,0,0,0,0,0,0,0,0,0,0,2,1,1,2),
++    P3(0,0,0,2,0,0,0,1,0,0,0,2,0,0,0,1), P3(0,2,2,2,1,2,2,2,0,2,2,2,1,2,2,2),
++    P3(0,1,0,1,2,2,2,2,2,2,2,2,2,2,2,2), P3(0,1,1,1,2,0,1,1,2,2,0,1,2,2,2,0)
++};
++
++// --- Anchor Tables ---
++static const int32_t_std140 BC7_ANCHOR_TABLE2_DATA[64] = {
++    15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,
++    15,2,8,2,2,8,8,15,2,8,2,2,8,8,2,2,
++    15,15,6,8,2,8,15,15,2,8,2,2,2,15,15,6,
++    6,2,6,8,15,15,2,2,15,15,15,15,15,2,2,15
++};
++static const ivec2_t_std140 BC7_ANCHOR_TABLE3_DATA[64] = {
++    {3,15},{3,8},{15,8},{15,3},{8,15},{3,15},{15,3},{15,8},
++    {8,15},{8,15},{6,15},{6,15},{6,15},{5,15},{3,15},{3,8},
++    {3,15},{3,8},{8,15},{15,3},{3,15},{3,8},{6,15},{10,8},
++    {5,3},{8,15},{8,6},{6,10},{8,15},{5,15},{15,10},{15,8},
++    {8,15},{15,3},{3,15},{5,10},{6,10},{10,8},{8,9},{15,10},
++    {15,6},{3,15},{15,8},{5,15},{15,3},{15,6},{15,6},{15,8},
++    {3,15},{15,3},{5,15},{5,15},{5,15},{8,15},{5,15},{10,15},
++    {5,15},{10,15},{8,15},{13,15},{15,3},{12,15},{3,15},{3,8}
++};
++
++static void populate_bc7_decoding_constants(Bc7Constants* constants) {
++    memcpy(constants->weight_table2,     BC7_WEIGHT_TABLE2_DATA,     sizeof(BC7_WEIGHT_TABLE2_DATA));
++    memcpy(constants->weight_table3,     BC7_WEIGHT_TABLE3_DATA,     sizeof(BC7_WEIGHT_TABLE3_DATA));
++    memcpy(constants->weight_table4,     BC7_WEIGHT_TABLE4_DATA,     sizeof(BC7_WEIGHT_TABLE4_DATA));
++    memcpy(constants->partition_table2,  BC7_PARTITION_TABLE2_DATA,  sizeof(BC7_PARTITION_TABLE2_DATA));
++    memcpy(constants->partition_table3,  BC7_PARTITION_TABLE3_DATA,  sizeof(BC7_PARTITION_TABLE3_DATA));
++    memcpy(constants->anchor_table2,     BC7_ANCHOR_TABLE2_DATA,     sizeof(BC7_ANCHOR_TABLE2_DATA));
++    memcpy(constants->anchor_table3,     BC7_ANCHOR_TABLE3_DATA,     sizeof(BC7_ANCHOR_TABLE3_DATA));
++}
++
++typedef struct __attribute__((aligned(16))) Bc6Constants {
++   int32_t_std140 weight_table3[16];
++   int32_t_std140 weight_table4[16];
++
++   int32_t_std140 partition_table2[32];
++   int32_t_std140 anchor_table2[32];
++} Bc6Constants;
++
++
++static const int32_t_std140 BC6_WEIGHT_TABLE3_DATA[16] = {0, 9, 18, 27, 37, 46, 55, 64, 0,0,0,0,0,0,0,0};
++static const int32_t_std140 BC6_WEIGHT_TABLE4_DATA[16] = {0, 4, 9, 13, 17, 21, 26, 30, 34, 38, 43, 47, 51, 55, 60, 64};
++
++static const int32_t_std140 BC6_PARTITION_TABLE2_DATA[32] = {
++    P2(0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1),
++    P2(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1),
++    P2(0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1),
++    P2(0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1),
++    P2(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1),
++    P2(0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1),
++    P2(0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1),
++    P2(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1),
++
++    P2(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1),
++    P2(0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
++    P2(0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1),
++    P2(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1),
++    P2(0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
++    P2(0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1),
++    P2(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
++    P2(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
++
++    P2(0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1),
++    P2(0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
++    P2(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0),
++    P2(0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0),
++    P2(0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
++    P2(0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0),
++    P2(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0),
++    P2(0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1),
++
++    P2(0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0),
++    P2(0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0),
++    P2(0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0),
++    P2(0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0),
++    P2(0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0),
++    P2(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0),
++    P2(0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0),
++    P2(0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0)
++};
++
++static const int32_t_std140 BC6_ANCHOR_TABLE2_DATA[32] = {
++    15, 15, 15, 15, 15, 15, 15, 15,
++    15, 15, 15, 15, 15, 15, 15, 15,
++    15, 2, 8, 2, 2, 8, 8, 15,
++    2, 8, 2, 2, 8, 8, 2, 2
++};
++
++#pragma GCC diagnostic pop
++
++static void populate_bc6_decoding_constants(Bc6Constants* constants) {
++    memcpy(constants->weight_table3,     BC6_WEIGHT_TABLE3_DATA,     sizeof(BC6_WEIGHT_TABLE3_DATA));
++    memcpy(constants->weight_table4,     BC6_WEIGHT_TABLE4_DATA,     sizeof(BC6_WEIGHT_TABLE4_DATA));
++    memcpy(constants->partition_table2,  BC6_PARTITION_TABLE2_DATA,  sizeof(BC6_PARTITION_TABLE2_DATA));
++    memcpy(constants->anchor_table2,     BC6_ANCHOR_TABLE2_DATA,     sizeof(BC6_ANCHOR_TABLE2_DATA));
++}
 diff --git a/src/vulkan/wsi/wsi_common.c b/src/vulkan/wsi/wsi_common.c
 index 92c25c08a58..cd1057d48bd 100644
 --- a/src/vulkan/wsi/wsi_common.c

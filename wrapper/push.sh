@@ -17,4 +17,8 @@ push libvulkan_wrapper.so
 # push libVkLayer_khronos_validation.so
 # push2 VkLayer_khronos_validation.aarch64.json
 
+cp usr/lib/libvulkan_wrapper.so ./
+rm libvulkan_wrapper.so.zip
+zip libvulkan_wrapper.so.zip libvulkan_wrapper.so
+
 adb shell rm /sdcard/Documents/Wrapper/*.txt

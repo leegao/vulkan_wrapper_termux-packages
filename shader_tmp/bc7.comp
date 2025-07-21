@@ -1,0 +1,761 @@
+#version 450
+/* Copyright (c) 2020-2024 Hans-Kristian Arntzen
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining
+ * a copy of this software and associated documentation files (the
+ * "Software"), to deal in the Software without restriction, including
+ * without limitation the rights to use, copy, modify, merge, publish,
+ * distribute, sublicense, and/or sell copies of the Software, and to
+ * permit persons to whom the Software is furnished to do so, subject to
+ * the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be
+ * included in all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ * EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ * MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ * IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ * CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ * TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
+
+// Originally written by Hans-Kristian Arntzen, and modified to use a different "ABI"
+
+#extension GL_GOOGLE_include_directive : require
+
+#include "bitextract.h"
+
+// The shader will be dispatched with one invocation per pixel of the output image.
+layout (local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
+
+// --- Push Constants ---
+// We use push constants to pass image parameters efficiently.
+layout(push_constant) uniform PushConstants {
+    // Format of the source compressed data. We'll use Vulkan enum values.
+    // VK_FORMAT_BC7_UNORM_BLOCK = 145
+    // VK_FORMAT_BC7_SRGB_BLOCK = 146
+    uint srcFormat;
+
+    // The dimensions of the source compressed data buffer.
+    uint srcRowLength;   // Stride in pixels of the source data
+    uint srcImageHeight;
+
+    // The destination image parameters.
+    int offsetx; // region->imageOffset.x
+    int offsety; // region->imageOffset.y
+    uint dst_width; // region->imageExtent.width
+    uint dst_height; // region->imageExtent.height
+} push_constants;
+
+// --- Buffers ---
+// Source buffer containing the compressed BC7 blocks.
+// We read it as an array of 32-bit uints for easier bit manipulation.
+layout(set = 0, binding = 0) readonly buffer SourceBuffer {
+    uint data[];
+} srcBuffer;
+
+#ifdef USE_IMAGE_VIEW_OUTPUT
+// Destination image view for the decompressed RGBA8 data.
+// We use a storage image to write the decompressed pixels directly.
+layout(set = 0, binding = 1, rgba8) uniform writeonly image2D dstImage;
+#else
+// Destination buffer for the decompressed RGBA8 data.
+// We now use a raw storage buffer of uints.
+layout(set = 0, binding = 1) writeonly buffer DestinationBuffer {
+    uint data[];
+} dstBuffer;
+#endif
+
+// --- BC7 Tables and Helper Functions ---
+
+const int weight_table2[16] = int[](0, 21, 43, 64, 0,0,0,0, 0,0,0,0, 0,0,0,0);
+const int weight_table3[16] = int[](0, 9, 18, 27, 37, 46, 55, 64, 0,0,0,0, 0,0,0,0);
+const int weight_table4[16] = int[](0, 4, 9, 13, 17, 21, 26, 30, 34, 38, 43, 47, 51, 55, 60, 64);
+
+#define P3(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) \
+    (((a) << 0) | ((b) << 2) | ((c) << 4) | ((d) << 6) | \
+    ((e) << 8) | ((f) << 10) | ((g) << 12) | ((h) << 14) | \
+    ((i) << 16) | ((j) << 18) | ((k) << 20) | ((l) << 22) | \
+    ((m) << 24) | ((n) << 26) | ((o) << 28) | ((p) << 30))
+
+const int partition_table3[64] = int[](
+    P3(0, 0, 1, 1, 0, 0, 1, 1, 0, 2, 2, 1, 2, 2, 2, 2),
+    P3(0, 0, 0, 1, 0, 0, 1, 1, 2, 2, 1, 1, 2, 2, 2, 1),
+    P3(0, 0, 0, 0, 2, 0, 0, 1, 2, 2, 1, 1, 2, 2, 1, 1),
+    P3(0, 2, 2, 2, 0, 0, 2, 2, 0, 0, 1, 1, 0, 1, 1, 1),
+    P3(0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 2, 1, 1, 2, 2),
+    P3(0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2, 0, 0, 2, 2),
+    P3(0, 0, 2, 2, 0, 0, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1),
+    P3(0, 0, 1, 1, 0, 0, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1),
+
+    P3(0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2),
+    P3(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2),
+    P3(0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2),
+    P3(0, 0, 1, 2, 0, 0, 1, 2, 0, 0, 1, 2, 0, 0, 1, 2),
+    P3(0, 1, 1, 2, 0, 1, 1, 2, 0, 1, 1, 2, 0, 1, 1, 2),
+    P3(0, 1, 2, 2, 0, 1, 2, 2, 0, 1, 2, 2, 0, 1, 2, 2),
+    P3(0, 0, 1, 1, 0, 1, 1, 2, 1, 1, 2, 2, 1, 2, 2, 2),
+    P3(0, 0, 1, 1, 2, 0, 0, 1, 2, 2, 0, 0, 2, 2, 2, 0),
+
+    P3(0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 2, 1, 1, 2, 2),
+    P3(0, 1, 1, 1, 0, 0, 1, 1, 2, 0, 0, 1, 2, 2, 0, 0),
+    P3(0, 0, 0, 0, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2),
+    P3(0, 0, 2, 2, 0, 0, 2, 2, 0, 0, 2, 2, 1, 1, 1, 1),
+    P3(0, 1, 1, 1, 0, 1, 1, 1, 0, 2, 2, 2, 0, 2, 2, 2),
+    P3(0, 0, 0, 1, 0, 0, 0, 1, 2, 2, 2, 1, 2, 2, 2, 1),
+    P3(0, 0, 0, 0, 0, 0, 1, 1, 0, 1, 2, 2, 0, 1, 2, 2),
+    P3(0, 0, 0, 0, 1, 1, 0, 0, 2, 2, 1, 0, 2, 2, 1, 0),
+
+    P3(0, 1, 2, 2, 0, 1, 2, 2, 0, 0, 1, 1, 0, 0, 0, 0),
+    P3(0, 0, 1, 2, 0, 0, 1, 2, 1, 1, 2, 2, 2, 2, 2, 2),
+    P3(0, 1, 1, 0, 1, 2, 2, 1, 1, 2, 2, 1, 0, 1, 1, 0),
+    P3(0, 0, 0, 0, 0, 1, 1, 0, 1, 2, 2, 1, 1, 2, 2, 1),
+    P3(0, 0, 2, 2, 1, 1, 0, 2, 1, 1, 0, 2, 0, 0, 2, 2),
+    P3(0, 1, 1, 0, 0, 1, 1, 0, 2, 0, 0, 2, 2, 2, 2, 2),
+    P3(0, 0, 1, 1, 0, 1, 2, 2, 0, 1, 2, 2, 0, 0, 1, 1),
+    P3(0, 0, 0, 0, 2, 0, 0, 0, 2, 2, 1, 1, 2, 2, 2, 1),
+
+    P3(0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 2, 2, 1, 2, 2, 2),
+    P3(0, 2, 2, 2, 0, 0, 2, 2, 0, 0, 1, 2, 0, 0, 1, 1),
+    P3(0, 0, 1, 1, 0, 0, 1, 2, 0, 0, 2, 2, 0, 2, 2, 2),
+    P3(0, 1, 2, 0, 0, 1, 2, 0, 0, 1, 2, 0, 0, 1, 2, 0),
+    P3(0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 0, 0, 0, 0),
+    P3(0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0),
+    P3(0, 1, 2, 0, 2, 0, 1, 2, 1, 2, 0, 1, 0, 1, 2, 0),
+    P3(0, 0, 1, 1, 2, 2, 0, 0, 1, 1, 2, 2, 0, 0, 1, 1),
+
+    P3(0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 0, 0, 0, 0, 1, 1),
+    P3(0, 1, 0, 1, 0, 1, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2),
+    P3(0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 2, 1, 2, 1, 2, 1),
+    P3(0, 0, 2, 2, 1, 1, 2, 2, 0, 0, 2, 2, 1, 1, 2, 2),
+    P3(0, 0, 2, 2, 0, 0, 1, 1, 0, 0, 2, 2, 0, 0, 1, 1),
+    P3(0, 2, 2, 0, 1, 2, 2, 1, 0, 2, 2, 0, 1, 2, 2, 1),
+    P3(0, 1, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 0, 1, 0, 1),
+    P3(0, 0, 0, 0, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1),
+
+    P3(0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 2, 2, 2, 2),
+    P3(0, 2, 2, 2, 0, 1, 1, 1, 0, 2, 2, 2, 0, 1, 1, 1),
+    P3(0, 0, 0, 2, 1, 1, 1, 2, 0, 0, 0, 2, 1, 1, 1, 2),
+    P3(0, 0, 0, 0, 2, 1, 1, 2, 2, 1, 1, 2, 2, 1, 1, 2),
+    P3(0, 2, 2, 2, 0, 1, 1, 1, 0, 1, 1, 1, 0, 2, 2, 2),
+    P3(0, 0, 0, 2, 1, 1, 1, 2, 1, 1, 1, 2, 0, 0, 0, 2),
+    P3(0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 2, 2, 2, 2),
+    P3(0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 2, 2, 1, 1, 2),
+
+    P3(0, 1, 1, 0, 0, 1, 1, 0, 2, 2, 2, 2, 2, 2, 2, 2),
+    P3(0, 0, 2, 2, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 2, 2),
+    P3(0, 0, 2, 2, 1, 1, 2, 2, 1, 1, 2, 2, 0, 0, 2, 2),
+    P3(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 1, 2),
+    P3(0, 0, 0, 2, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 1),
+    P3(0, 2, 2, 2, 1, 2, 2, 2, 0, 2, 2, 2, 1, 2, 2, 2),
+    P3(0, 1, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2),
+    P3(0, 1, 1, 1, 2, 0, 1, 1, 2, 2, 0, 1, 2, 2, 2, 0));
+
+#define P2(a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p) \
+    (((a) << 0) | ((b) << 1) | ((c) << 2) | ((d) << 3) | \
+    ((e) << 4) | ((f) << 5) | ((g) << 6) | ((h) << 7) | \
+    ((i) << 8) | ((j) << 9) | ((k) << 10) | ((l) << 11) | \
+    ((m) << 12) | ((n) << 13) | ((o) << 14) | ((p) << 15))
+const int partition_table2[64] = int[](
+    P2(0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1),
+    P2(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1),
+    P2(0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1),
+    P2(0, 0, 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1),
+    P2(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 1),
+    P2(0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1),
+    P2(0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1),
+    P2(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1),
+
+    P2(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1),
+    P2(0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+    P2(0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1),
+    P2(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1),
+    P2(0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+    P2(0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1),
+    P2(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+    P2(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
+
+    P2(0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1),
+    P2(0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+    P2(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0),
+    P2(0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0),
+    P2(0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
+    P2(0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0),
+    P2(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0),
+    P2(0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1),
+
+    P2(0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0),
+    P2(0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0),
+    P2(0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0),
+    P2(0, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 0, 0),
+    P2(0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0),
+    P2(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0),
+    P2(0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0),
+    P2(0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0),
+
+    P2(0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1),
+    P2(0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1),
+    P2(0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0),
+    P2(0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0),
+    P2(0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0),
+    P2(0, 1, 0, 1, 0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0),
+    P2(0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 0, 0, 1),
+    P2(0, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 0, 1),
+
+    P2(0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0),
+    P2(0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0),
+    P2(0, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1, 0, 0),
+    P2(0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0),
+    P2(0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 0),
+    P2(0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1),
+    P2(0, 1, 1, 0, 0, 1, 1, 0, 1, 0, 0, 1, 1, 0, 0, 1),
+    P2(0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0, 0),
+
+    P2(0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0),
+    P2(0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0),
+    P2(0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0),
+    P2(0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0),
+    P2(0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 1),
+    P2(0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 0, 0, 1),
+    P2(0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0),
+    P2(0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 0),
+
+    P2(0, 1, 1, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 0, 0, 1),
+    P2(0, 1, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1),
+    P2(0, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1),
+    P2(0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1),
+    P2(0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1),
+    P2(0, 0, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0),
+    P2(0, 0, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0),
+    P2(0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1));
+
+const int anchor_table2[64] = int[](
+    15, 15, 15, 15, 15, 15, 15, 15,
+    15, 15, 15, 15, 15, 15, 15, 15,
+    15, 2, 8, 2, 2, 8, 8, 15,
+    2, 8, 2, 2, 8, 8, 2, 2,
+    15, 15, 6, 8, 2, 8, 15, 15,
+    2, 8, 2, 2, 2, 15, 15, 6,
+    6, 2, 6, 8, 15, 15, 2, 2,
+    15, 15, 15, 15, 15, 2, 2, 15);
+
+const ivec2 anchor_table3[64] = ivec2[](
+    ivec2(3, 15), ivec2(3, 8), ivec2(15, 8), ivec2(15, 3), ivec2(8, 15), ivec2(3, 15), ivec2(15, 3), ivec2(15, 8),
+    ivec2(8, 15), ivec2(8, 15), ivec2(6, 15), ivec2(6, 15), ivec2(6, 15), ivec2(5, 15), ivec2(3, 15), ivec2(3, 8),
+    ivec2(3, 15), ivec2(3, 8), ivec2(8, 15), ivec2(15, 3), ivec2(3, 15), ivec2(3, 8), ivec2(6, 15), ivec2(10, 8),
+    ivec2(5, 3), ivec2(8, 15), ivec2(8, 6), ivec2(6, 10), ivec2(8, 15), ivec2(5, 15), ivec2(15, 10), ivec2(15, 8),
+    ivec2(8, 15), ivec2(15, 3), ivec2(3, 15), ivec2(5, 10), ivec2(6, 10), ivec2(10, 8), ivec2(8, 9), ivec2(15, 10),
+    ivec2(15, 6), ivec2(3, 15), ivec2(15, 8), ivec2(5, 15), ivec2(15, 3), ivec2(15, 6), ivec2(15, 6), ivec2(15, 8),
+    ivec2(3, 15), ivec2(15, 3), ivec2(5, 15), ivec2(5, 15), ivec2(5, 15), ivec2(8, 15), ivec2(5, 15), ivec2(10, 15),
+    ivec2(5, 15), ivec2(10, 15), ivec2(8, 15), ivec2(13, 15), ivec2(15, 3), ivec2(12, 15), ivec2(3, 15), ivec2(3, 8)
+);
+
+struct DecodedInterpolation
+{
+    uvec4 ep0, ep1;
+    uint color_weight;
+    uint alpha_weight;
+    uint rotation;
+};
+
+// --- Per-Mode Decode Functions ---
+
+DecodedInterpolation decode_bc7_mode0(uvec4 payload, int linear_pixel)
+{
+    int part_index = extract_bits(payload, 1, 4);
+    int part = (partition_table3[part_index] >> (2 * linear_pixel)) & 3;
+    int bit_offset = part * 8;
+
+    int r0 = extract_bits(payload, 5 + bit_offset, 4);
+    int r1 = extract_bits(payload, 9 + bit_offset, 4);
+    int g0 = extract_bits(payload, 29 + bit_offset, 4);
+    int g1 = extract_bits(payload, 33 + bit_offset, 4);
+    int b0 = extract_bits(payload, 53 + bit_offset, 4);
+    int b1 = extract_bits(payload, 57 + bit_offset, 4);
+
+    int sep0 = extract_bits(payload, 77 + part * 2, 1);
+    int sep1 = extract_bits(payload, 78 + part * 2, 1);
+
+    ivec2 anchor_pixels = anchor_table3[part_index];
+    int index = extract_bits(
+            payload,
+            max(82 + linear_pixel * 3 - int(linear_pixel > anchor_pixels.x) - int(linear_pixel > anchor_pixels.y), 83),
+            (linear_pixel == anchor_pixels.y || linear_pixel == anchor_pixels.x || linear_pixel == 0) ? 2 : 3);
+
+    ivec3 rgb0 = ivec3(r0, g0, b0);
+    ivec3 rgb1 = ivec3(r1, g1, b1);
+
+    // Combine the 4-bit color and 1-bit P-bit into a 5-bit value
+    // ivec3 v0_5bit = (rgb0 << 1) | sep0;
+    // ivec3 v1_5bit = (rgb1 << 1) | sep1;
+
+    // Replicate the 5-bit value to 8 bits
+    // rgb0 = (v0_5bit << 3) | (v0_5bit >> 2);
+    // rgb1 = (v1_5bit << 3) | (v1_5bit >> 2);
+    
+    // Note that this is an algebraic simplification of the original
+    // BC7 2-pass implementation shown above
+    rgb0 = (rgb0 << 4) | (sep0 << 3) | (rgb0 >> 1);
+    rgb1 = (rgb1 << 4) | (sep1 << 3) | (rgb1 >> 1);
+
+    int w = weight_table3[index];
+    return DecodedInterpolation(uvec4(rgb0, 0xff), uvec4(rgb1, 0xff), w, w, 0);
+}
+
+DecodedInterpolation decode_bc7_mode1(uvec4 payload, int linear_pixel)
+{
+    int part_index = extract_bits(payload, 2, 6);
+    int part = (partition_table2[part_index] >> linear_pixel) & 1;
+    int bit_offset = part * 12;
+
+    int r0 = extract_bits(payload, 8 + bit_offset, 6);
+    int r1 = extract_bits(payload, 14 + bit_offset, 6);
+    int g0 = extract_bits(payload, 32 + bit_offset, 6);
+    int g1 = extract_bits(payload, 38 + bit_offset, 6);
+    int b0 = extract_bits(payload, 56 + bit_offset, 6);
+    int b1 = extract_bits(payload, 62 + bit_offset, 6);
+    int sep = extract_bits(payload, 80 + part, 1) << 1;
+
+    int anchor_pixel = anchor_table2[part_index];
+
+    int index = extract_bits(
+        payload,
+        max(81 + linear_pixel * 3 - int(linear_pixel > anchor_pixel), 82),
+        (linear_pixel == anchor_pixel || linear_pixel == 0) ? 2 : 3);
+
+    ivec3 rgb0 = ivec3(r0, g0, b0);
+    ivec3 rgb1 = ivec3(r1, g1, b1);
+    rgb0 = (rgb0 << 2) | sep | (rgb0 >> 5);
+    rgb1 = (rgb1 << 2) | sep | (rgb1 >> 5);
+
+    int w = weight_table3[index];
+    return DecodedInterpolation(uvec4(rgb0, 0xff), uvec4(rgb1, 0xff), w, w, 0);
+}
+
+DecodedInterpolation decode_bc7_mode2(uvec4 payload, int linear_pixel)
+{
+    int part_index = extract_bits(payload, 3, 6);
+    int part = (partition_table3[part_index] >> (2 * linear_pixel)) & 3;
+    int bit_offset = part * 10;
+
+    int r0 = extract_bits(payload, 9 + bit_offset, 5);
+    int r1 = extract_bits(payload, 14 + bit_offset, 5);
+    int g0 = extract_bits(payload, 39 + bit_offset, 5);
+    int g1 = extract_bits(payload, 44 + bit_offset, 5);
+    int b0 = extract_bits(payload, 69 + bit_offset, 5);
+    int b1 = extract_bits(payload, 74 + bit_offset, 5);
+
+    ivec2 anchor_pixels = anchor_table3[part_index];
+    int index = extract_bits(
+            payload,
+            max(98 + linear_pixel * 2 - int(linear_pixel > anchor_pixels.x) - int(linear_pixel > anchor_pixels.y), 99),
+            (linear_pixel == anchor_pixels.y || linear_pixel == anchor_pixels.x || linear_pixel == 0) ? 1 : 2);
+
+    ivec3 rgb0 = ivec3(r0, g0, b0);
+    ivec3 rgb1 = ivec3(r1, g1, b1);
+    rgb0 = (rgb0 << 3) | (rgb0 >> 2);
+    rgb1 = (rgb1 << 3) | (rgb1 >> 2);
+
+    int w = weight_table2[index];
+    return DecodedInterpolation(uvec4(rgb0, 0xff), uvec4(rgb1, 0xff), w, w, 0);
+}
+
+DecodedInterpolation decode_bc7_mode3(uvec4 payload, int linear_pixel)
+{
+    int part_index = extract_bits(payload, 4, 6);
+    int part = (partition_table2[part_index] >> linear_pixel) & 1;
+    int bit_offset = part * 14;
+
+    int r0 = extract_bits(payload, 10 + bit_offset, 7);
+    int r1 = extract_bits(payload, 17 + bit_offset, 7);
+    int g0 = extract_bits(payload, 38 + bit_offset, 7);
+    int g1 = extract_bits(payload, 45 + bit_offset, 7);
+    int b0 = extract_bits(payload, 66 + bit_offset, 7);
+    int b1 = extract_bits(payload, 73 + bit_offset, 7);
+
+    int sep0 = extract_bits(payload, 94 + part * 2, 1);
+    int sep1 = extract_bits(payload, 95 + part * 2, 1);
+
+    int anchor_pixel = anchor_table2[part_index];
+
+    int index = extract_bits(
+        payload,
+        max(97 + linear_pixel * 2 - int(linear_pixel > anchor_pixel), 98),
+        (linear_pixel == anchor_pixel || linear_pixel == 0) ? 1 : 2);
+
+    ivec3 rgb0 = ivec3(r0, g0, b0);
+    ivec3 rgb1 = ivec3(r1, g1, b1);
+    rgb0 = (rgb0 << 1) | sep0;
+    rgb1 = (rgb1 << 1) | sep1;
+
+    int w = weight_table2[index];
+    return DecodedInterpolation(uvec4(rgb0, 0xff), uvec4(rgb1, 0xff), w, w, 0);
+}
+
+DecodedInterpolation decode_bc7_mode4(uvec4 payload, int linear_pixel)
+{
+    int rot = extract_bits(payload, 5, 2);
+    bool isb = (payload.x & 0x80u) != 0u;
+    int r0 = extract_bits(payload, 8, 5);
+    int r1 = extract_bits(payload, 13, 5);
+    int g0 = extract_bits(payload, 18, 5);
+    int g1 = extract_bits(payload, 23, 5);
+    int b0 = extract_bits(payload, 28, 5);
+    int b1 = extract_bits(payload, 33, 5);
+    int a0 = extract_bits(payload, 38, 6);
+    int a1 = extract_bits(payload, 44, 6);
+
+    int primary_index = extract_bits(
+            payload,
+            max(49 + linear_pixel * 2, 50),
+            linear_pixel == 0 ? 1 : 2);
+    int secondary_index = extract_bits(
+            payload,
+            max(80 + linear_pixel * 3, 81),
+            linear_pixel == 0 ? 2 : 3);
+
+    int color_weight = weight_table2[primary_index];
+    int alpha_weight = weight_table3[secondary_index];
+
+    if (isb)
+    {
+        int tmp = color_weight;
+        color_weight = alpha_weight;
+        alpha_weight = tmp;
+    }
+
+    ivec3 rgb0 = ivec3(r0, g0, b0);
+    ivec3 rgb1 = ivec3(r1, g1, b1);
+    rgb0 = (rgb0 << 3) | (rgb0 >> 2);
+    rgb1 = (rgb1 << 3) | (rgb1 >> 2);
+    a0 = (a0 << 2) | (a0 >> 4);
+    a1 = (a1 << 2) | (a1 >> 4);
+    return DecodedInterpolation(uvec4(rgb0, a0), uvec4(rgb1, a1), color_weight, alpha_weight, rot);
+}
+
+DecodedInterpolation decode_bc7_mode5(uvec4 payload, int linear_pixel)
+{
+    int rot = extract_bits(payload, 6, 2);
+    int r0 = extract_bits(payload, 8, 7);
+    int r1 = extract_bits(payload, 15, 7);
+    int g0 = extract_bits(payload, 22, 7);
+    int g1 = extract_bits(payload, 29, 7);
+    int b0 = extract_bits(payload, 36, 7);
+    int b1 = extract_bits(payload, 43, 7);
+    int a0 = extract_bits(payload, 50, 8);
+    int a1 = extract_bits(payload, 58, 8);
+
+    int primary_index = extract_bits(
+            payload,
+            max(65 + linear_pixel * 2, 66),
+            linear_pixel == 0 ? 1 : 2);
+    int secondary_index = extract_bits(
+            payload,
+            max(96 + linear_pixel * 2, 97),
+            linear_pixel == 0 ? 1 : 2);
+
+    int color_weight = weight_table2[primary_index];
+    int alpha_weight = weight_table2[secondary_index];
+
+    ivec3 rgb0 = ivec3(r0, g0, b0);
+    ivec3 rgb1 = ivec3(r1, g1, b1);
+    rgb0 = (rgb0 << 1) | (rgb0 >> 6);
+    rgb1 = (rgb1 << 1) | (rgb1 >> 6);
+    return DecodedInterpolation(uvec4(rgb0, a0), uvec4(rgb1, a1), color_weight, alpha_weight, rot);
+}
+
+DecodedInterpolation decode_bc7_mode6(uvec4 payload, int linear_pixel)
+{
+    int sep0 = extract_bits(payload, 63, 1);
+    int sep1 = extract_bits(payload, 64, 1);
+    int r0 = extract_bits(payload, 7, 7);
+    int r1 = extract_bits(payload, 14, 7);
+    int g0 = extract_bits(payload, 21, 7);
+    int g1 = extract_bits(payload, 28, 7);
+    int b0 = extract_bits(payload, 35, 7);
+    int b1 = extract_bits(payload, 42, 7);
+    int a0 = extract_bits(payload, 49, 7);
+    int a1 = extract_bits(payload, 56, 7);
+
+    ivec4 ep0 = ivec4(r0, g0, b0, a0) * 2 + sep0;
+    ivec4 ep1 = ivec4(r1, g1, b1, a1) * 2 + sep1;
+
+    int index = extract_bits(
+            payload,
+            max(64 + linear_pixel * 4, 65),
+            linear_pixel == 0 ? 3 : 4);
+
+    int w = weight_table4[index];
+    return DecodedInterpolation(ep0, ep1, w, w, 0);
+}
+
+DecodedInterpolation decode_bc7_mode7(uvec4 payload, int linear_pixel)
+{
+    int part_index = extract_bits(payload, 8, 6);
+    int part = (partition_table2[part_index] >> linear_pixel) & 1;
+    int bit_offset = part * 10;
+
+    int r0 = extract_bits(payload, 14 + bit_offset, 5);
+    int r1 = extract_bits(payload, 19 + bit_offset, 5);
+    int g0 = extract_bits(payload, 34 + bit_offset, 5);
+    int g1 = extract_bits(payload, 39 + bit_offset, 5);
+    int b0 = extract_bits(payload, 54 + bit_offset, 5);
+    int b1 = extract_bits(payload, 59 + bit_offset, 5);
+    int a0 = extract_bits(payload, 74 + bit_offset, 5);
+    int a1 = extract_bits(payload, 79 + bit_offset, 5);
+
+    int sep0 = extract_bits(payload, 94 + part * 2, 1);
+    int sep1 = extract_bits(payload, 95 + part * 2, 1);
+
+    int anchor_pixel = anchor_table2[part_index];
+
+    int index = extract_bits(
+        payload,
+        max(97 + linear_pixel * 2 - int(linear_pixel > anchor_pixel), 98),
+        (linear_pixel == anchor_pixel || linear_pixel == 0) ? 1 : 2);
+
+    ivec4 rgba0 = ivec4(r0, g0, b0, a0);
+    ivec4 rgba1 = ivec4(r1, g1, b1, a1);
+    rgba0 = (rgba0 << 3) | (rgba0 >> 3) | (sep0 << 2);
+    rgba1 = (rgba1 << 3) | (rgba1 >> 3) | (sep1 << 2);
+
+    int w = weight_table2[index];
+    return DecodedInterpolation(rgba0, rgba1, w, w, 0);
+}
+
+// int interpolate(int e0, int e1, int w) {
+//     w = w & 63;
+//     return (e0 * (64 - w) + e1 * w + 32) >> 6;
+// }
+
+uvec4 interpolate_endpoint(DecodedInterpolation interp)
+{
+    uvec3 rgb = (((64u - interp.color_weight) * interp.ep0.rgb + interp.color_weight * interp.ep1.rgb + 32) >> 6);
+    uint a = (((64u - interp.alpha_weight) * interp.ep0.a + interp.alpha_weight * interp.ep1.a + 32) >> 6);
+    // int r = interpolate(int(interp.ep0.r), int(interp.ep1.r), int(interp.color_weight));
+    // int g = interpolate(int(interp.ep0.g), int(interp.ep1.g), int(interp.color_weight));
+    // int b = interpolate(int(interp.ep0.b), int(interp.ep1.b), int(interp.color_weight));
+    // int a = interpolate(int(interp.ep0.a), int(interp.ep1.a), int(interp.alpha_weight));
+
+    uvec4 rgba = uvec4(rgb, a);
+
+    switch (interp.rotation)
+    {
+    default:
+        break;
+    case 1u:
+        rgba = rgba.agbr;
+        break;
+    case 2u:
+        rgba = rgba.rabg;
+        break;
+    case 3u:
+        rgba = rgba.rgab;
+        break;
+    }
+
+    return rgba;
+}
+
+// --- Shared Memory for Optimization ---
+shared uvec4 shared_block_data[4]; // One 128-bit block for each 4x4 quad-group in the 8x8 workgroup.
+
+// --- Main Decode Function ---
+void main() {
+    // Calculate pixel coordinate from workgroup and local invocation IDs
+    ivec2 coord = ivec2(gl_WorkGroupID.xy) * 8 + ivec2(gl_LocalInvocationID.xy);
+
+    // Check if this invocation is out of bounds for the destination image
+    if (coord.x >= push_constants.dst_width || coord.y >= push_constants.dst_height) {
+        return;
+    }
+
+    ivec2 local_coords = ivec2(gl_LocalInvocationID.xy); // on 8x8 warp grid
+    // The first worker in the 4x4 squad is the leader who's responsible for fetching data
+    bool is_leader = (local_coords.x % 4 == 0) && (local_coords.y % 4 == 0);
+    int shared_idx = (local_coords.y / 4) * 2 + (local_coords.x / 4);
+
+    // Load the 128-bit block data into shared memory if this invocation is a leader
+    if (is_leader) {
+        ivec2 block_coord = coord / 4;
+        uint block_stride = push_constants.srcRowLength / 4;
+        uint block_index = block_coord.y * block_stride + block_coord.x;
+        uint buffer_offset = block_index * 4;
+        shared_block_data[shared_idx] = uvec4(
+            srcBuffer.data[buffer_offset + 0], srcBuffer.data[buffer_offset + 1],
+            srcBuffer.data[buffer_offset + 2], srcBuffer.data[buffer_offset + 3]
+        );
+    }
+    
+    // Synchronize to ensure all leaders have written their data before any invocation reads it
+    barrier();
+    // All invocations read the shared memory (only leaders fetch from main memory)
+    uvec4 payload = shared_block_data[shared_idx];
+    
+    // Find the specific pixel this thread is responsible for within its 4x4 block
+    ivec2 tile_coord = coord & 3;
+    int linear_pixel = 4 * tile_coord.y + tile_coord.x;
+
+    DecodedInterpolation interp;
+    // findLSB() returns the bit index of the least significant bit.
+    // This is the standard way to determine the BC7 mode.
+    int mode = findLSB(payload.x);
+    switch (mode) {
+    case 0:
+        interp = decode_bc7_mode0(payload, linear_pixel);
+        break;
+    case 1:
+        interp = decode_bc7_mode1(payload, linear_pixel);
+        break;
+    case 2:
+        interp = decode_bc7_mode2(payload, linear_pixel);
+        break;
+    case 3:
+        interp = decode_bc7_mode3(payload, linear_pixel);
+        break;
+    case 4:
+        interp = decode_bc7_mode4(payload, linear_pixel);
+        break;
+    case 5:
+        interp = decode_bc7_mode5(payload, linear_pixel);
+        break;
+    case 6:
+        interp = decode_bc7_mode6(payload, linear_pixel);
+        break;
+    case 7:
+        interp = decode_bc7_mode7(payload, linear_pixel);
+        break;
+    default:
+        // Invalid mode, should not happen for valid BC7 data.
+        interp = DecodedInterpolation(uvec4(255, 0, 255, 255), uvec4(255, 0, 255, 255), 0, 0, 0);
+        break;
+    }
+
+    uvec4 rgba_result = interpolate_endpoint(interp);
+    // Calculate the final destination coordinate including the offset
+    ivec2 final_dst_coord = ivec2(push_constants.offsetx, push_constants.offsety) + coord;
+
+    // NEW
+
+    // // Get the global coordinate of the pixel this invocation is responsible for.
+    // ivec2 global_coord = ivec2(gl_GlobalInvocationID.xy);
+
+    // // Apply boundary checks based on the destination region's extent.
+    // if (global_coord.x >= push_constants.dst_width || global_coord.y >= push_constants.dst_height)
+    // {
+    //     return;
+    // }
+
+    // // Calculate the final destination coordinate by applying the offset.
+    // ivec2 final_dst_coord = ivec2(push_constants.offsetx, push_constants.offsety) + global_coord;
+    // // ivec2 dst_dims = imageSize(dstImage);
+    // // if (any(lessThan(final_dst_coord, ivec2(0))) || any(greaterThanEqual(final_dst_coord, dst_dims)))
+    // // {
+    // //     return;
+    // // }
+
+    // // --- GUARD 3: Source Stride Sanity Check ---
+    // // A stride of 0 in blocks would cause problems for any image taller than one block.
+    // uint blocks_per_row = push_constants.srcRowLength >> 2;
+    // // if (blocks_per_row == 0) {
+    // //     // This is an invalid configuration. Draw an error color and exit.
+    // //     imageStore(dstImage, final_dst_coord, uvec4(255, 0, 0, 255)); // Red = Bad Stride
+    // //     return;
+    // // }
+    // // --- Locate and fetch the BC7 block data from the source buffer ---
+
+    // // 1. Find the coordinate of the 4x4 pixel block (tile) this pixel belongs to.
+    // ivec2 tile_coord = global_coord >> 2; // Equivalent to final_dst_coord / 4
+
+    // // 2. Calculate the linear index of this block in the source buffer.
+    // // The source stride is given in pixels, so we convert it to blocks.
+    // // uint blocks_per_row = push_constants.srcRowLength >> 2;
+    // // Each block is 16 bytes (4 uints).
+    // uint buffer_base_index = (tile_coord.y * blocks_per_row + tile_coord.x) * 4;
+
+    // // --- GUARD 4: Physical Source Buffer Bounds Check (MOST CRITICAL) ---
+    // // This is the most likely source of a GPU fault.
+    // // Check if the 16 bytes (4 uints) we *intend* to read are within the allocated buffer size.
+    // // uint buffer_len = srcBuffer.data.length();
+    // // if (buffer_base_index + 3 >= buffer_len) {
+    // //     // We are about to read out of bounds. To help debug, we can write a special
+    // //     // color to the output image to see where the error is happening.
+    // //     imageStore(dstImage, final_dst_coord, uvec4(0, 0, 255, 255)); // Blue = Out-of-Bounds Read
+    // //     return;
+    // // }
+
+
+
+    // // 3. Fetch the 128-bit (16-byte) block data.
+    // uvec4 payload = uvec4(
+    //     srcBuffer.data[buffer_base_index + 0],
+    //     srcBuffer.data[buffer_base_index + 1],
+    //     srcBuffer.data[buffer_base_index + 2],
+    //     srcBuffer.data[buffer_base_index + 3]
+    // );
+
+    // // --- Decode the pixel color using the fetched block data ---
+
+    // // 1. Find the pixel's 2D coordinate within its 4x4 block.
+    // ivec2 pixel_in_tile_coord = final_dst_coord & 3; // Equivalent to final_dst_coord % 4
+
+    // // 2. Convert the 2D coordinate to a linear index (0-15).
+    // int linear_pixel = 4 * pixel_in_tile_coord.y + pixel_in_tile_coord.x;
+
+    // // 3. Decode the block using the same logic as the original shader.
+    // DecodedInterpolation interp;
+    // int mode = findLSB(payload.x);
+    // switch (mode)
+    // {
+    // case 0:
+    //     interp = decode_bc7_mode0(payload, linear_pixel);
+    //     break;
+    // case 1:
+    //     interp = decode_bc7_mode1(payload, linear_pixel);
+    //     break;
+    // case 2:
+    //     interp = decode_bc7_mode2(payload, linear_pixel);
+    //     break;
+    // case 3:
+    //     interp = decode_bc7_mode3(payload, linear_pixel);
+    //     break;
+    // case 4:
+    //     interp = decode_bc7_mode4(payload, linear_pixel);
+    //     break;
+    // case 5:
+    //     interp = decode_bc7_mode5(payload, linear_pixel);
+    //     break;
+    // case 6:
+    //     interp = decode_bc7_mode6(payload, linear_pixel);
+    //     break;
+    // case 7:
+    //     interp = decode_bc7_mode7(payload, linear_pixel);
+    //     break;
+    // default:
+    //     // This case handles invalid block data (mode bit not in 0-7).
+    //     // Produces a black, transparent pixel.
+    //     interp = DecodedInterpolation(uvec4(0), uvec4(0), 0, 0, 0);
+    //     break;
+    // }
+
+    // // Interpolate the final color and handle component rotation.
+    // uvec4 rgba_result = interpolate_endpoint(interp);
+    // // ivec2 offset = ivec2(push_constants.offsetx, push_constants.offsety);
+    // // final_dst_coord = offset + global_coord;
+
+    // // ivec2 dst_dims = imageSize(dstImage);
+    // // if (any(greaterThanEqual(final_dst_coord, dst_dims))) {
+    // //     return;
+    // // }
+
+#ifdef USE_IMAGE_VIEW_OUTPUT
+    imageStore(dstImage, final_dst_coord, rgba_result / 255.0);
+    // imageStore(dstImage, final_dst_coord, vec4(1.0,0,1.0,1.0));
+#else
+    // Calculate the linear index into the destination buffer using its row length (dst_width is the stride)
+    int dst_index = int(final_dst_coord.y * push_constants.dst_width + final_dst_coord.x);
+    dstBuffer.data[dst_index] =  packUnorm4x8(rgba_result);
+#endif
+}

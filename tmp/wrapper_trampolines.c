@@ -40,6 +40,8 @@ wrapper_tramp_GetPhysicalDeviceProperties(
     VkPhysicalDevice physicalDevice,
     VkPhysicalDeviceProperties* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceProperties");
 WLOGA("GetPhysicalDeviceProperties(physicalDevice: %p, pProperties: %p)", physicalDevice, pProperties);
@@ -54,8 +56,9 @@ WLOGA("GetPhysicalDeviceProperties(physicalDevice: %p, pProperties: %p)", physic
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceProperties
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceProperties EntrypointParam(type='VkPhysicalDeviceProperties', name='pProperties', decl='VkPhysicalDeviceProperties* pProperties', len=None, elem=<Element 'param' at 0x75c0e95a62a0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceProperties EntrypointParam(type='VkPhysicalDeviceProperties', name='pProperties', decl='VkPhysicalDeviceProperties* pProperties', len=None, elem=<Element 'param' at 0x7f0cb32b6250>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -65,6 +68,8 @@ wrapper_tramp_GetPhysicalDeviceQueueFamilyProperties(
     uint32_t* pQueueFamilyPropertyCount,
     VkQueueFamilyProperties* pQueueFamilyProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceQueueFamilyProperties");
 WLOGA("GetPhysicalDeviceQueueFamilyProperties(physicalDevice: %p, pQueueFamilyPropertyCount: %p, pQueueFamilyProperties: %p)", physicalDevice, pQueueFamilyPropertyCount, pQueueFamilyProperties);
@@ -88,8 +93,9 @@ WLOGA("GetPhysicalDeviceQueueFamilyProperties(physicalDevice: %p, pQueueFamilyPr
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkQueueFamilyProperties
-#warning TODO: Repack struct+array+out GetPhysicalDeviceQueueFamilyProperties EntrypointParam(type='VkQueueFamilyProperties', name='pQueueFamilyProperties', decl='VkQueueFamilyProperties* pQueueFamilyProperties', len='pQueueFamilyPropertyCount', elem=<Element 'param' at 0x75c0e95a67a0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceQueueFamilyProperties EntrypointParam(type='VkQueueFamilyProperties', name='pQueueFamilyProperties', decl='VkQueueFamilyProperties* pQueueFamilyProperties', len='pQueueFamilyPropertyCount', elem=<Element 'param' at 0x7f0cb32b6750>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -98,6 +104,8 @@ wrapper_tramp_GetPhysicalDeviceMemoryProperties(
     VkPhysicalDevice physicalDevice,
     VkPhysicalDeviceMemoryProperties* pMemoryProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceMemoryProperties");
 WLOGA("GetPhysicalDeviceMemoryProperties(physicalDevice: %p, pMemoryProperties: %p)", physicalDevice, pMemoryProperties);
@@ -112,8 +120,9 @@ WLOGA("GetPhysicalDeviceMemoryProperties(physicalDevice: %p, pMemoryProperties: 
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceMemoryProperties
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceMemoryProperties EntrypointParam(type='VkPhysicalDeviceMemoryProperties', name='pMemoryProperties', decl='VkPhysicalDeviceMemoryProperties* pMemoryProperties', len=None, elem=<Element 'param' at 0x75c0e95a6b10>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceMemoryProperties EntrypointParam(type='VkPhysicalDeviceMemoryProperties', name='pMemoryProperties', decl='VkPhysicalDeviceMemoryProperties* pMemoryProperties', len=None, elem=<Element 'param' at 0x7f0cb32b6ac0>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -122,6 +131,8 @@ wrapper_tramp_GetPhysicalDeviceFeatures(
     VkPhysicalDevice physicalDevice,
     VkPhysicalDeviceFeatures* pFeatures)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceFeatures");
 WLOGA("GetPhysicalDeviceFeatures(physicalDevice: %p, pFeatures: %p)", physicalDevice, pFeatures);
@@ -136,8 +147,9 @@ WLOGA("GetPhysicalDeviceFeatures(physicalDevice: %p, pFeatures: %p)", physicalDe
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceFeatures
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFeatures EntrypointParam(type='VkPhysicalDeviceFeatures', name='pFeatures', decl='VkPhysicalDeviceFeatures* pFeatures', len=None, elem=<Element 'param' at 0x75c0e95a6ed0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFeatures EntrypointParam(type='VkPhysicalDeviceFeatures', name='pFeatures', decl='VkPhysicalDeviceFeatures* pFeatures', len=None, elem=<Element 'param' at 0x7f0cb32b6e80>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -147,6 +159,8 @@ wrapper_tramp_GetPhysicalDeviceFormatProperties(
     VkFormat format,
     VkFormatProperties* pFormatProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceFormatProperties");
 WLOGA("GetPhysicalDeviceFormatProperties(physicalDevice: %p, format: %x, pFormatProperties: %p)", physicalDevice, format, pFormatProperties);
@@ -168,8 +182,9 @@ VkFormat format__ = format;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkFormatProperties
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFormatProperties EntrypointParam(type='VkFormatProperties', name='pFormatProperties', decl='VkFormatProperties* pFormatProperties', len=None, elem=<Element 'param' at 0x75c0e95a7380>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFormatProperties EntrypointParam(type='VkFormatProperties', name='pFormatProperties', decl='VkFormatProperties* pFormatProperties', len=None, elem=<Element 'param' at 0x7f0cb32b7330>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -183,6 +198,8 @@ wrapper_tramp_GetPhysicalDeviceImageFormatProperties(
     VkImageCreateFlags flags,
     VkImageFormatProperties* pImageFormatProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceImageFormatProperties");
 WLOGA("GetPhysicalDeviceImageFormatProperties(physicalDevice: %p, format: %x, type: %x, tiling: %x, usage: %x, flags: %x, pImageFormatProperties: %p)", physicalDevice, format, type, tiling, usage, flags, pImageFormatProperties);
@@ -227,16 +244,18 @@ VkImageCreateFlags flags__ = flags;
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceImageFormatProperties(base->dispatch_handle, format__, type__, tiling__, usage__, flags__, pImageFormatProperties);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceImageFormatProperties
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceImageFormatProperties
     VK_CMD_LOGA("  out: pImageFormatProperties: VkImageFormatProperties*");
     VK_PRINT_VkImageFormatProperties("    ", pImageFormatProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkImageFormatProperties
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceImageFormatProperties EntrypointParam(type='VkImageFormatProperties', name='pImageFormatProperties', decl='VkImageFormatProperties* pImageFormatProperties', len=None, elem=<Element 'param' at 0x75c0e95a7b50>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceImageFormatProperties EntrypointParam(type='VkImageFormatProperties', name='pImageFormatProperties', decl='VkImageFormatProperties* pImageFormatProperties', len=None, elem=<Element 'param' at 0x7f0cb32b7b00>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOG("Call to GetPhysicalDeviceImageFormatProperties with (physicalDevice: %p,format: %x,type: %x,tiling: %x,usage: %x,flags: %x,pImageFormatProperties: %p) failed with result: %d", base->dispatch_handle,format__,type__,tiling__,usage__,flags__,pImageFormatProperties, result);
-}
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -247,6 +266,8 @@ wrapper_tramp_CreateDevice(
     const VkAllocationCallbacks* pAllocator,
     VkDevice* pDevice)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("CreateDevice");
 WLOGA("CreateDevice(physicalDevice: %p)", physicalDevice, pCreateInfo, pAllocator, pDevice);
@@ -255,7 +276,14 @@ WLOGA("CreateDevice(physicalDevice: %p)", physicalDevice, pCreateInfo, pAllocato
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.CreateDevice(base->dispatch_handle, pCreateInfo, pAllocator, pDevice);
-
+#ifdef NEEDS_PRINTING_CreateDevice
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateDevice with (physicalDevice: %p) failed with result: %d", base->dispatch_handle,pCreateInfo,pAllocator,pDevice, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                 
@@ -265,6 +293,8 @@ wrapper_tramp_EnumerateDeviceLayerProperties(
     uint32_t* pPropertyCount,
     VkLayerProperties* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("EnumerateDeviceLayerProperties");
 WLOGA("EnumerateDeviceLayerProperties(physicalDevice: %p, pPropertyCount: %p, pProperties: %p)", physicalDevice, pPropertyCount, pProperties);
@@ -274,14 +304,15 @@ WLOGA("EnumerateDeviceLayerProperties(physicalDevice: %p, pPropertyCount: %p, pP
 #endif
     VkResult result = base->dispatch_table.EnumerateDeviceLayerProperties(base->dispatch_handle, pPropertyCount, pProperties);
 #ifdef NEEDS_PRINTING_EnumerateDeviceLayerProperties
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_EnumerateDeviceLayerProperties
     VK_CMD_LOGA("  out: *pPropertyCount: uint32_t = %x", (int64_t)*pPropertyCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to EnumerateDeviceLayerProperties with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
-}
 #ifdef NEEDS_PRINTING_EnumerateDeviceLayerProperties
     VK_CMD_LOGA("  out: pProperties[]: VkLayerProperties");
     for (int i = 0; i < pPropertyCount; i++) {
@@ -291,11 +322,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkLayerProperties
-#warning TODO: Repack struct+array+out EnumerateDeviceLayerProperties EntrypointParam(type='VkLayerProperties', name='pProperties', decl='VkLayerProperties* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75c0e95b1940>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out EnumerateDeviceLayerProperties EntrypointParam(type='VkLayerProperties', name='pProperties', decl='VkLayerProperties* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7f0cb32c58f0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to EnumerateDeviceLayerProperties with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to EnumerateDeviceLayerProperties with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -306,6 +338,8 @@ wrapper_tramp_EnumerateDeviceExtensionProperties(
     uint32_t* pPropertyCount,
     VkExtensionProperties* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("EnumerateDeviceExtensionProperties");
 WLOGA("EnumerateDeviceExtensionProperties(physicalDevice: %p, pLayerName: %x, pPropertyCount: %p, pProperties: %p)", physicalDevice, pLayerName, pPropertyCount, pProperties);
@@ -322,14 +356,15 @@ const char* pLayerName__ = pLayerName;
 #endif
     VkResult result = base->dispatch_table.EnumerateDeviceExtensionProperties(base->dispatch_handle, pLayerName__, pPropertyCount, pProperties);
 #ifdef NEEDS_PRINTING_EnumerateDeviceExtensionProperties
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_EnumerateDeviceExtensionProperties
     VK_CMD_LOGA("  out: *pPropertyCount: uint32_t = %x", (int64_t)*pPropertyCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to EnumerateDeviceExtensionProperties with (physicalDevice: %p,pLayerName: %x,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pLayerName__,pPropertyCount,pProperties, result);
-}
 #ifdef NEEDS_PRINTING_EnumerateDeviceExtensionProperties
     VK_CMD_LOGA("  out: pProperties[]: VkExtensionProperties");
     for (int i = 0; i < pPropertyCount; i++) {
@@ -339,11 +374,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkExtensionProperties
-#warning TODO: Repack struct+array+out EnumerateDeviceExtensionProperties EntrypointParam(type='VkExtensionProperties', name='pProperties', decl='VkExtensionProperties* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75c0e95b2340>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out EnumerateDeviceExtensionProperties EntrypointParam(type='VkExtensionProperties', name='pProperties', decl='VkExtensionProperties* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7f0cb32c62f0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to EnumerateDeviceExtensionProperties with (physicalDevice: %p,pLayerName: %x,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pLayerName__,pPropertyCount,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to EnumerateDeviceExtensionProperties with (physicalDevice: %p,pLayerName: %x,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pLayerName__,pPropertyCount,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                                                                 
@@ -358,6 +394,8 @@ wrapper_tramp_GetPhysicalDeviceSparseImageFormatProperties(
     uint32_t* pPropertyCount,
     VkSparseImageFormatProperties* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceSparseImageFormatProperties");
 WLOGA("GetPhysicalDeviceSparseImageFormatProperties(physicalDevice: %p, format: %x, type: %x, samples: %x, usage: %x, tiling: %x, pPropertyCount: %p, pProperties: %p)", physicalDevice, format, type, samples, usage, tiling, pPropertyCount, pProperties);
@@ -416,8 +454,9 @@ VkImageTiling tiling__ = tiling;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSparseImageFormatProperties
-#warning TODO: Repack struct+array+out GetPhysicalDeviceSparseImageFormatProperties EntrypointParam(type='VkSparseImageFormatProperties', name='pProperties', decl='VkSparseImageFormatProperties* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75c0e95bf4c0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceSparseImageFormatProperties EntrypointParam(type='VkSparseImageFormatProperties', name='pProperties', decl='VkSparseImageFormatProperties* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7f0cb32cf470>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
@@ -427,6 +466,8 @@ wrapper_tramp_GetPhysicalDeviceDisplayPropertiesKHR(
     uint32_t* pPropertyCount,
     VkDisplayPropertiesKHR* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceDisplayPropertiesKHR");
 WLOGA("GetPhysicalDeviceDisplayPropertiesKHR(physicalDevice: %p, pPropertyCount: %p, pProperties: %p)", physicalDevice, pPropertyCount, pProperties);
@@ -436,14 +477,15 @@ WLOGA("GetPhysicalDeviceDisplayPropertiesKHR(physicalDevice: %p, pPropertyCount:
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceDisplayPropertiesKHR(base->dispatch_handle, pPropertyCount, pProperties);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceDisplayPropertiesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceDisplayPropertiesKHR
     VK_CMD_LOGA("  out: *pPropertyCount: uint32_t = %x", (int64_t)*pPropertyCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceDisplayPropertiesKHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceDisplayPropertiesKHR
     VK_CMD_LOGA("  out: pProperties[]: VkDisplayPropertiesKHR");
     for (int i = 0; i < pPropertyCount; i++) {
@@ -453,11 +495,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayPropertiesKHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayPropertiesKHR EntrypointParam(type='VkDisplayPropertiesKHR', name='pProperties', decl='VkDisplayPropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75c0e943b560>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayPropertiesKHR EntrypointParam(type='VkDisplayPropertiesKHR', name='pProperties', decl='VkDisplayPropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7f0cb3157510>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceDisplayPropertiesKHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceDisplayPropertiesKHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -467,6 +510,8 @@ wrapper_tramp_GetPhysicalDeviceDisplayPlanePropertiesKHR(
     uint32_t* pPropertyCount,
     VkDisplayPlanePropertiesKHR* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceDisplayPlanePropertiesKHR");
 WLOGA("GetPhysicalDeviceDisplayPlanePropertiesKHR(physicalDevice: %p, pPropertyCount: %p, pProperties: %p)", physicalDevice, pPropertyCount, pProperties);
@@ -476,14 +521,15 @@ WLOGA("GetPhysicalDeviceDisplayPlanePropertiesKHR(physicalDevice: %p, pPropertyC
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceDisplayPlanePropertiesKHR(base->dispatch_handle, pPropertyCount, pProperties);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceDisplayPlanePropertiesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceDisplayPlanePropertiesKHR
     VK_CMD_LOGA("  out: *pPropertyCount: uint32_t = %x", (int64_t)*pPropertyCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceDisplayPlanePropertiesKHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceDisplayPlanePropertiesKHR
     VK_CMD_LOGA("  out: pProperties[]: VkDisplayPlanePropertiesKHR");
     for (int i = 0; i < pPropertyCount; i++) {
@@ -493,11 +539,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayPlanePropertiesKHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayPlanePropertiesKHR EntrypointParam(type='VkDisplayPlanePropertiesKHR', name='pProperties', decl='VkDisplayPlanePropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75c0e943b9c0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayPlanePropertiesKHR EntrypointParam(type='VkDisplayPlanePropertiesKHR', name='pProperties', decl='VkDisplayPlanePropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7f0cb3157970>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceDisplayPlanePropertiesKHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceDisplayPlanePropertiesKHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -508,6 +555,8 @@ wrapper_tramp_GetDisplayPlaneSupportedDisplaysKHR(
     uint32_t* pDisplayCount,
     VkDisplayKHR* pDisplays)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetDisplayPlaneSupportedDisplaysKHR");
 WLOGA("GetDisplayPlaneSupportedDisplaysKHR(physicalDevice: %p, planeIndex: %x, pDisplayCount: %p, pDisplays: %p)", physicalDevice, planeIndex, pDisplayCount, pDisplays);
@@ -524,23 +573,25 @@ uint32_t planeIndex__ = planeIndex;
 #endif
     VkResult result = base->dispatch_table.GetDisplayPlaneSupportedDisplaysKHR(base->dispatch_handle, planeIndex__, pDisplayCount, pDisplays);
 #ifdef NEEDS_PRINTING_GetDisplayPlaneSupportedDisplaysKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetDisplayPlaneSupportedDisplaysKHR
     VK_CMD_LOGA("  out: *pDisplayCount: uint32_t = %x", (int64_t)*pDisplayCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDisplayPlaneSupportedDisplaysKHR with (physicalDevice: %p,planeIndex: %x,pDisplayCount: %p,pDisplays: %p) failed with result: %d", base->dispatch_handle,planeIndex__,pDisplayCount,pDisplays, result);
-}
 #ifdef NEEDS_PRINTING_GetDisplayPlaneSupportedDisplaysKHR
     VK_CMD_LOGA("  out: *pDisplays: VkDisplayKHR = %x", (int64_t)*pDisplays);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDisplayPlaneSupportedDisplaysKHR with (physicalDevice: %p,planeIndex: %x,pDisplayCount: %p,pDisplays: %p) failed with result: %d", base->dispatch_handle,planeIndex__,pDisplayCount,pDisplays, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetDisplayPlaneSupportedDisplaysKHR with (physicalDevice: %p,planeIndex: %x,pDisplayCount: %p,pDisplays: %p) failed with result: %d", base->dispatch_handle,planeIndex__,pDisplayCount,pDisplays, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -551,6 +602,8 @@ wrapper_tramp_GetDisplayModePropertiesKHR(
     uint32_t* pPropertyCount,
     VkDisplayModePropertiesKHR* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetDisplayModePropertiesKHR");
 WLOGA("GetDisplayModePropertiesKHR(physicalDevice: %p, display: %x, pPropertyCount: %p, pProperties: %p)", physicalDevice, display, pPropertyCount, pProperties);
@@ -567,14 +620,15 @@ VkDisplayKHR display__ = display;
 #endif
     VkResult result = base->dispatch_table.GetDisplayModePropertiesKHR(base->dispatch_handle, display__, pPropertyCount, pProperties);
 #ifdef NEEDS_PRINTING_GetDisplayModePropertiesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetDisplayModePropertiesKHR
     VK_CMD_LOGA("  out: *pPropertyCount: uint32_t = %x", (int64_t)*pPropertyCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDisplayModePropertiesKHR with (physicalDevice: %p,display: %x,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,display__,pPropertyCount,pProperties, result);
-}
 #ifdef NEEDS_PRINTING_GetDisplayModePropertiesKHR
     VK_CMD_LOGA("  out: pProperties[]: VkDisplayModePropertiesKHR");
     for (int i = 0; i < pPropertyCount; i++) {
@@ -584,11 +638,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayModePropertiesKHR
-#warning TODO: Repack struct+array+out GetDisplayModePropertiesKHR EntrypointParam(type='VkDisplayModePropertiesKHR', name='pProperties', decl='VkDisplayModePropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75c0e9448590>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetDisplayModePropertiesKHR EntrypointParam(type='VkDisplayModePropertiesKHR', name='pProperties', decl='VkDisplayModePropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7f0cb3160540>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDisplayModePropertiesKHR with (physicalDevice: %p,display: %x,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,display__,pPropertyCount,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetDisplayModePropertiesKHR with (physicalDevice: %p,display: %x,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,display__,pPropertyCount,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -600,6 +655,8 @@ wrapper_tramp_CreateDisplayModeKHR(
     const VkAllocationCallbacks* pAllocator,
     VkDisplayModeKHR* pMode)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("CreateDisplayModeKHR");
 WLOGA("CreateDisplayModeKHR(physicalDevice: %p, display: %x, pCreateInfo: %p, pAllocator: %p, pMode: %p)", physicalDevice, display, pCreateInfo, pAllocator, pMode);
@@ -618,7 +675,7 @@ const VkDisplayModeCreateInfoKHR* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkDisplayModeCreateInfoKHR
     VkDisplayModeCreateInfoKHR _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkDisplayModeCreateInfoKHR(NULL, (VkDisplayModeCreateInfoKHR *) pCreateInfo__, pCreateInfo);
+    unwrap_VkDisplayModeCreateInfoKHR(&temp, NULL, (VkDisplayModeCreateInfoKHR *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateDisplayModeKHR
     VK_CMD_LOGA("  in: pCreateInfo: VkDisplayModeCreateInfoKHR*");
@@ -629,7 +686,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(NULL, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, NULL, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateDisplayModeKHR
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -638,14 +695,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateDisplayModeKHR(base->dispatch_handle, display__, pCreateInfo__, pAllocator__, pMode);
 #ifdef NEEDS_PRINTING_CreateDisplayModeKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateDisplayModeKHR
     VK_CMD_LOGA("  out: *pMode: VkDisplayModeKHR = %x", (int64_t)*pMode);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayModeKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateDisplayModeKHR with (physicalDevice: %p,display: %x,pCreateInfo: %p,pAllocator: %p,pMode: %p) failed with result: %d", base->dispatch_handle,display__,pCreateInfo__,pAllocator__,pMode, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateDisplayModeKHR with (physicalDevice: %p,display: %x,pCreateInfo: %p,pAllocator: %p,pMode: %p) failed with result: %d", base->dispatch_handle,display__,pCreateInfo__,pAllocator__,pMode, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -656,6 +718,8 @@ wrapper_tramp_GetDisplayPlaneCapabilitiesKHR(
     uint32_t planeIndex,
     VkDisplayPlaneCapabilitiesKHR* pCapabilities)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetDisplayPlaneCapabilitiesKHR");
 WLOGA("GetDisplayPlaneCapabilitiesKHR(physicalDevice: %p, mode: %x, planeIndex: %x, pCapabilities: %p)", physicalDevice, mode, planeIndex, pCapabilities);
@@ -679,16 +743,21 @@ uint32_t planeIndex__ = planeIndex;
 #endif
     VkResult result = base->dispatch_table.GetDisplayPlaneCapabilitiesKHR(base->dispatch_handle, mode__, planeIndex__, pCapabilities);
 #ifdef NEEDS_PRINTING_GetDisplayPlaneCapabilitiesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetDisplayPlaneCapabilitiesKHR
     VK_CMD_LOGA("  out: pCapabilities: VkDisplayPlaneCapabilitiesKHR*");
     VK_PRINT_VkDisplayPlaneCapabilitiesKHR("    ", pCapabilities);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayPlaneCapabilitiesKHR
-#warning TODO: Repack struct+ptr+out GetDisplayPlaneCapabilitiesKHR EntrypointParam(type='VkDisplayPlaneCapabilitiesKHR', name='pCapabilities', decl='VkDisplayPlaneCapabilitiesKHR* pCapabilities', len=None, elem=<Element 'param' at 0x75c0e9449170>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDisplayPlaneCapabilitiesKHR EntrypointParam(type='VkDisplayPlaneCapabilitiesKHR', name='pCapabilities', decl='VkDisplayPlaneCapabilitiesKHR* pCapabilities', len=None, elem=<Element 'param' at 0x7f0cb3161120>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDisplayPlaneCapabilitiesKHR with (physicalDevice: %p,mode: %x,planeIndex: %x,pCapabilities: %p) failed with result: %d", base->dispatch_handle,mode__,planeIndex__,pCapabilities, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetDisplayPlaneCapabilitiesKHR with (physicalDevice: %p,mode: %x,planeIndex: %x,pCapabilities: %p) failed with result: %d", base->dispatch_handle,mode__,planeIndex__,pCapabilities, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
             
@@ -699,6 +768,8 @@ wrapper_tramp_GetPhysicalDeviceSurfaceSupportKHR(
     VkSurfaceKHR surface,
     VkBool32* pSupported)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceSurfaceSupportKHR");
 WLOGA("GetPhysicalDeviceSurfaceSupportKHR(physicalDevice: %p, queueFamilyIndex: %x, surface: %x, pSupported: %p)", physicalDevice, queueFamilyIndex, surface, pSupported);
@@ -722,14 +793,19 @@ VkSurfaceKHR surface__ = surface;
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceSurfaceSupportKHR(base->dispatch_handle, queueFamilyIndex__, surface__, pSupported);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceSupportKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceSupportKHR
     VK_CMD_LOGA("  out: *pSupported: VkBool32 = %x", (int64_t)*pSupported);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkBool32
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceSurfaceSupportKHR with (physicalDevice: %p,queueFamilyIndex: %x,surface: %x,pSupported: %p) failed with result: %d", base->dispatch_handle,queueFamilyIndex__,surface__,pSupported, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceSurfaceSupportKHR with (physicalDevice: %p,queueFamilyIndex: %x,surface: %x,pSupported: %p) failed with result: %d", base->dispatch_handle,queueFamilyIndex__,surface__,pSupported, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -739,6 +815,8 @@ wrapper_tramp_GetPhysicalDeviceSurfaceCapabilitiesKHR(
     VkSurfaceKHR surface,
     VkSurfaceCapabilitiesKHR* pSurfaceCapabilities)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceSurfaceCapabilitiesKHR");
 WLOGA("GetPhysicalDeviceSurfaceCapabilitiesKHR(physicalDevice: %p, surface: %x, pSurfaceCapabilities: %p)", physicalDevice, surface, pSurfaceCapabilities);
@@ -755,16 +833,21 @@ VkSurfaceKHR surface__ = surface;
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceSurfaceCapabilitiesKHR(base->dispatch_handle, surface__, pSurfaceCapabilities);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceCapabilitiesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceCapabilitiesKHR
     VK_CMD_LOGA("  out: pSurfaceCapabilities: VkSurfaceCapabilitiesKHR*");
     VK_PRINT_VkSurfaceCapabilitiesKHR("    ", pSurfaceCapabilities);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSurfaceCapabilitiesKHR
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceSurfaceCapabilitiesKHR EntrypointParam(type='VkSurfaceCapabilitiesKHR', name='pSurfaceCapabilities', decl='VkSurfaceCapabilitiesKHR* pSurfaceCapabilities', len=None, elem=<Element 'param' at 0x75c0e944aca0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceSurfaceCapabilitiesKHR EntrypointParam(type='VkSurfaceCapabilitiesKHR', name='pSurfaceCapabilities', decl='VkSurfaceCapabilitiesKHR* pSurfaceCapabilities', len=None, elem=<Element 'param' at 0x7f0cb3162c50>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceSurfaceCapabilitiesKHR with (physicalDevice: %p,surface: %x,pSurfaceCapabilities: %p) failed with result: %d", base->dispatch_handle,surface__,pSurfaceCapabilities, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceSurfaceCapabilitiesKHR with (physicalDevice: %p,surface: %x,pSurfaceCapabilities: %p) failed with result: %d", base->dispatch_handle,surface__,pSurfaceCapabilities, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -775,6 +858,8 @@ wrapper_tramp_GetPhysicalDeviceSurfaceFormatsKHR(
     uint32_t* pSurfaceFormatCount,
     VkSurfaceFormatKHR* pSurfaceFormats)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceSurfaceFormatsKHR");
 WLOGA("GetPhysicalDeviceSurfaceFormatsKHR(physicalDevice: %p, surface: %x, pSurfaceFormatCount: %p, pSurfaceFormats: %p)", physicalDevice, surface, pSurfaceFormatCount, pSurfaceFormats);
@@ -791,14 +876,15 @@ VkSurfaceKHR surface__ = surface;
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceSurfaceFormatsKHR(base->dispatch_handle, surface__, pSurfaceFormatCount, pSurfaceFormats);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceFormatsKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceFormatsKHR
     VK_CMD_LOGA("  out: *pSurfaceFormatCount: uint32_t = %x", (int64_t)*pSurfaceFormatCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceSurfaceFormatsKHR with (physicalDevice: %p,surface: %x,pSurfaceFormatCount: %p,pSurfaceFormats: %p) failed with result: %d", base->dispatch_handle,surface__,pSurfaceFormatCount,pSurfaceFormats, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceFormatsKHR
     VK_CMD_LOGA("  out: pSurfaceFormats[]: VkSurfaceFormatKHR");
     for (int i = 0; i < pSurfaceFormatCount; i++) {
@@ -808,11 +894,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSurfaceFormatKHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceSurfaceFormatsKHR EntrypointParam(type='VkSurfaceFormatKHR', name='pSurfaceFormats', decl='VkSurfaceFormatKHR* pSurfaceFormats', len='pSurfaceFormatCount', elem=<Element 'param' at 0x75c0e944b290>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceSurfaceFormatsKHR EntrypointParam(type='VkSurfaceFormatKHR', name='pSurfaceFormats', decl='VkSurfaceFormatKHR* pSurfaceFormats', len='pSurfaceFormatCount', elem=<Element 'param' at 0x7f0cb3163240>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceSurfaceFormatsKHR with (physicalDevice: %p,surface: %x,pSurfaceFormatCount: %p,pSurfaceFormats: %p) failed with result: %d", base->dispatch_handle,surface__,pSurfaceFormatCount,pSurfaceFormats, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceSurfaceFormatsKHR with (physicalDevice: %p,surface: %x,pSurfaceFormatCount: %p,pSurfaceFormats: %p) failed with result: %d", base->dispatch_handle,surface__,pSurfaceFormatCount,pSurfaceFormats, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -823,6 +910,8 @@ wrapper_tramp_GetPhysicalDeviceSurfacePresentModesKHR(
     uint32_t* pPresentModeCount,
     VkPresentModeKHR* pPresentModes)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceSurfacePresentModesKHR");
 WLOGA("GetPhysicalDeviceSurfacePresentModesKHR(physicalDevice: %p, surface: %x, pPresentModeCount: %p, pPresentModes: %p)", physicalDevice, surface, pPresentModeCount, pPresentModes);
@@ -839,23 +928,25 @@ VkSurfaceKHR surface__ = surface;
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceSurfacePresentModesKHR(base->dispatch_handle, surface__, pPresentModeCount, pPresentModes);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfacePresentModesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfacePresentModesKHR
     VK_CMD_LOGA("  out: *pPresentModeCount: uint32_t = %x", (int64_t)*pPresentModeCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceSurfacePresentModesKHR with (physicalDevice: %p,surface: %x,pPresentModeCount: %p,pPresentModes: %p) failed with result: %d", base->dispatch_handle,surface__,pPresentModeCount,pPresentModes, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfacePresentModesKHR
     VK_CMD_LOGA("  out: *pPresentModes: VkPresentModeKHR = %x", (int64_t)*pPresentModes);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPresentModeKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceSurfacePresentModesKHR with (physicalDevice: %p,surface: %x,pPresentModeCount: %p,pPresentModes: %p) failed with result: %d", base->dispatch_handle,surface__,pPresentModeCount,pPresentModes, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceSurfacePresentModesKHR with (physicalDevice: %p,surface: %x,pPresentModeCount: %p,pPresentModes: %p) failed with result: %d", base->dispatch_handle,surface__,pPresentModeCount,pPresentModes, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                             #ifdef VK_USE_PLATFORM_WAYLAND_KHR
@@ -866,6 +957,8 @@ wrapper_tramp_GetPhysicalDeviceWaylandPresentationSupportKHR(
     uint32_t queueFamilyIndex,
     struct wl_display* display)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceWaylandPresentationSupportKHR");
 WLOGA("GetPhysicalDeviceWaylandPresentationSupportKHR(physicalDevice: %p, queueFamilyIndex: %x, display: %p)", physicalDevice, queueFamilyIndex, display);
@@ -887,6 +980,7 @@ uint32_t queueFamilyIndex__ = queueFamilyIndex;
 #endif
 #ifdef NEEDS_UNWRAPPING_wl_display
 #endif
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -897,6 +991,8 @@ wrapper_tramp_GetPhysicalDeviceWin32PresentationSupportKHR(
     VkPhysicalDevice physicalDevice,
     uint32_t queueFamilyIndex)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceWin32PresentationSupportKHR");
 WLOGA("GetPhysicalDeviceWin32PresentationSupportKHR(physicalDevice: %p, queueFamilyIndex: %x)", physicalDevice, queueFamilyIndex);
@@ -913,6 +1009,7 @@ uint32_t queueFamilyIndex__ = queueFamilyIndex;
 #endif
     VkBool32 result = base->dispatch_table.GetPhysicalDeviceWin32PresentationSupportKHR(base->dispatch_handle, queueFamilyIndex__);
 
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -925,6 +1022,8 @@ wrapper_tramp_GetPhysicalDeviceXlibPresentationSupportKHR(
     Display* dpy,
     VisualID visualID)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceXlibPresentationSupportKHR");
 WLOGA("GetPhysicalDeviceXlibPresentationSupportKHR(physicalDevice: %p, queueFamilyIndex: %x, dpy: %p, visualID: %x)", physicalDevice, queueFamilyIndex, dpy, visualID);
@@ -953,6 +1052,7 @@ VisualID visualID__ = visualID;
 #endif
 #ifdef NEEDS_UNWRAPPING_Display
 #endif
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -965,6 +1065,8 @@ wrapper_tramp_GetPhysicalDeviceXcbPresentationSupportKHR(
     xcb_connection_t* connection,
     xcb_visualid_t visual_id)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceXcbPresentationSupportKHR");
 WLOGA("GetPhysicalDeviceXcbPresentationSupportKHR(physicalDevice: %p, queueFamilyIndex: %x, connection: %p, visual_id: %x)", physicalDevice, queueFamilyIndex, connection, visual_id);
@@ -993,6 +1095,7 @@ xcb_visualid_t visual_id__ = visual_id;
 #endif
 #ifdef NEEDS_UNWRAPPING_xcb_connection_t
 #endif
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -1004,6 +1107,8 @@ wrapper_tramp_GetPhysicalDeviceDirectFBPresentationSupportEXT(
     uint32_t queueFamilyIndex,
     IDirectFB* dfb)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceDirectFBPresentationSupportEXT");
 WLOGA("GetPhysicalDeviceDirectFBPresentationSupportEXT(physicalDevice: %p, queueFamilyIndex: %x, dfb: %p)", physicalDevice, queueFamilyIndex, dfb);
@@ -1025,6 +1130,7 @@ uint32_t queueFamilyIndex__ = queueFamilyIndex;
 #endif
 #ifdef NEEDS_UNWRAPPING_IDirectFB
 #endif
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -1036,6 +1142,8 @@ wrapper_tramp_GetPhysicalDeviceScreenPresentationSupportQNX(
     uint32_t queueFamilyIndex,
     struct _screen_window* window)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceScreenPresentationSupportQNX");
 WLOGA("GetPhysicalDeviceScreenPresentationSupportQNX(physicalDevice: %p, queueFamilyIndex: %x, window: %p)", physicalDevice, queueFamilyIndex, window);
@@ -1057,6 +1165,7 @@ uint32_t queueFamilyIndex__ = queueFamilyIndex;
 #endif
 #ifdef NEEDS_UNWRAPPING__screen_window
 #endif
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -1072,6 +1181,8 @@ wrapper_tramp_GetPhysicalDeviceExternalImageFormatPropertiesNV(
     VkExternalMemoryHandleTypeFlagsNV externalHandleType,
     VkExternalImageFormatPropertiesNV* pExternalImageFormatProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceExternalImageFormatPropertiesNV");
 WLOGA("GetPhysicalDeviceExternalImageFormatPropertiesNV(physicalDevice: %p, format: %x, type: %x, tiling: %x, usage: %x, flags: %x, externalHandleType: %x, pExternalImageFormatProperties: %p)", physicalDevice, format, type, tiling, usage, flags, externalHandleType, pExternalImageFormatProperties);
@@ -1123,16 +1234,21 @@ VkExternalMemoryHandleTypeFlagsNV externalHandleType__ = externalHandleType;
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceExternalImageFormatPropertiesNV(base->dispatch_handle, format__, type__, tiling__, usage__, flags__, externalHandleType__, pExternalImageFormatProperties);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceExternalImageFormatPropertiesNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceExternalImageFormatPropertiesNV
     VK_CMD_LOGA("  out: pExternalImageFormatProperties: VkExternalImageFormatPropertiesNV*");
     VK_PRINT_VkExternalImageFormatPropertiesNV("    ", pExternalImageFormatProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkExternalImageFormatPropertiesNV
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalImageFormatPropertiesNV EntrypointParam(type='VkExternalImageFormatPropertiesNV', name='pExternalImageFormatProperties', decl='VkExternalImageFormatPropertiesNV* pExternalImageFormatProperties', len=None, elem=<Element 'param' at 0x75c0e9470b80>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalImageFormatPropertiesNV EntrypointParam(type='VkExternalImageFormatPropertiesNV', name='pExternalImageFormatProperties', decl='VkExternalImageFormatPropertiesNV* pExternalImageFormatProperties', len=None, elem=<Element 'param' at 0x7f0cb318cb30>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceExternalImageFormatPropertiesNV with (physicalDevice: %p,format: %x,type: %x,tiling: %x,usage: %x,flags: %x,externalHandleType: %x,pExternalImageFormatProperties: %p) failed with result: %d", base->dispatch_handle,format__,type__,tiling__,usage__,flags__,externalHandleType__,pExternalImageFormatProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceExternalImageFormatPropertiesNV with (physicalDevice: %p,format: %x,type: %x,tiling: %x,usage: %x,flags: %x,externalHandleType: %x,pExternalImageFormatProperties: %p) failed with result: %d", base->dispatch_handle,format__,type__,tiling__,usage__,flags__,externalHandleType__,pExternalImageFormatProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                             
@@ -1141,6 +1257,8 @@ wrapper_tramp_GetPhysicalDeviceFeatures2(
     VkPhysicalDevice physicalDevice,
     VkPhysicalDeviceFeatures2* pFeatures)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceFeatures2");
 WLOGA("GetPhysicalDeviceFeatures2(physicalDevice: %p, pFeatures: %p)", physicalDevice, pFeatures);
@@ -1155,8 +1273,9 @@ WLOGA("GetPhysicalDeviceFeatures2(physicalDevice: %p, pFeatures: %p)", physicalD
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceFeatures2
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFeatures2 EntrypointParam(type='VkPhysicalDeviceFeatures2', name='pFeatures', decl='VkPhysicalDeviceFeatures2* pFeatures', len=None, elem=<Element 'param' at 0x75c0e94731a0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFeatures2 EntrypointParam(type='VkPhysicalDeviceFeatures2', name='pFeatures', decl='VkPhysicalDeviceFeatures2* pFeatures', len=None, elem=<Element 'param' at 0x7f0cb318f150>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -1165,6 +1284,8 @@ wrapper_tramp_GetPhysicalDeviceProperties2(
     VkPhysicalDevice physicalDevice,
     VkPhysicalDeviceProperties2* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceProperties2");
 WLOGA("GetPhysicalDeviceProperties2(physicalDevice: %p, pProperties: %p)", physicalDevice, pProperties);
@@ -1179,8 +1300,9 @@ WLOGA("GetPhysicalDeviceProperties2(physicalDevice: %p, pProperties: %p)", physi
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceProperties2
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceProperties2 EntrypointParam(type='VkPhysicalDeviceProperties2', name='pProperties', decl='VkPhysicalDeviceProperties2* pProperties', len=None, elem=<Element 'param' at 0x75c0e9473650>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceProperties2 EntrypointParam(type='VkPhysicalDeviceProperties2', name='pProperties', decl='VkPhysicalDeviceProperties2* pProperties', len=None, elem=<Element 'param' at 0x7f0cb318f600>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -1190,6 +1312,8 @@ wrapper_tramp_GetPhysicalDeviceFormatProperties2(
     VkFormat format,
     VkFormatProperties2* pFormatProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceFormatProperties2");
 WLOGA("GetPhysicalDeviceFormatProperties2(physicalDevice: %p, format: %x, pFormatProperties: %p)", physicalDevice, format, pFormatProperties);
@@ -1211,8 +1335,9 @@ VkFormat format__ = format;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkFormatProperties2
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFormatProperties2 EntrypointParam(type='VkFormatProperties2', name='pFormatProperties', decl='VkFormatProperties2* pFormatProperties', len=None, elem=<Element 'param' at 0x75c0e9473bf0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFormatProperties2 EntrypointParam(type='VkFormatProperties2', name='pFormatProperties', decl='VkFormatProperties2* pFormatProperties', len=None, elem=<Element 'param' at 0x7f0cb318fba0>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -1222,6 +1347,8 @@ wrapper_tramp_GetPhysicalDeviceImageFormatProperties2(
     const VkPhysicalDeviceImageFormatInfo2* pImageFormatInfo,
     VkImageFormatProperties2* pImageFormatProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceImageFormatProperties2");
 WLOGA("GetPhysicalDeviceImageFormatProperties2(physicalDevice: %p, pImageFormatInfo: %p, pImageFormatProperties: %p)", physicalDevice, pImageFormatInfo, pImageFormatProperties);
@@ -1233,7 +1360,7 @@ const VkPhysicalDeviceImageFormatInfo2* pImageFormatInfo__ = pImageFormatInfo;
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceImageFormatInfo2
     VkPhysicalDeviceImageFormatInfo2 _w_pImageFormatInfo = { 0 };
     pImageFormatInfo__ = &_w_pImageFormatInfo;
-    unwrap_VkPhysicalDeviceImageFormatInfo2(NULL, (VkPhysicalDeviceImageFormatInfo2 *) pImageFormatInfo__, pImageFormatInfo);
+    unwrap_VkPhysicalDeviceImageFormatInfo2(&temp, NULL, (VkPhysicalDeviceImageFormatInfo2 *) pImageFormatInfo__, pImageFormatInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceImageFormatProperties2
     VK_CMD_LOGA("  in: pImageFormatInfo: VkPhysicalDeviceImageFormatInfo2*");
@@ -1242,16 +1369,21 @@ const VkPhysicalDeviceImageFormatInfo2* pImageFormatInfo__ = pImageFormatInfo;
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceImageFormatProperties2(base->dispatch_handle, pImageFormatInfo__, pImageFormatProperties);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceImageFormatProperties2
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceImageFormatProperties2
     VK_CMD_LOGA("  out: pImageFormatProperties: VkImageFormatProperties2*");
     VK_PRINT_VkImageFormatProperties2("    ", pImageFormatProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkImageFormatProperties2
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceImageFormatProperties2 EntrypointParam(type='VkImageFormatProperties2', name='pImageFormatProperties', decl='VkImageFormatProperties2* pImageFormatProperties', len=None, elem=<Element 'param' at 0x75c0e9478180>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceImageFormatProperties2 EntrypointParam(type='VkImageFormatProperties2', name='pImageFormatProperties', decl='VkImageFormatProperties2* pImageFormatProperties', len=None, elem=<Element 'param' at 0x7f0cb3194130>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceImageFormatProperties2 with (physicalDevice: %p,pImageFormatInfo: %p,pImageFormatProperties: %p) failed with result: %d", base->dispatch_handle,pImageFormatInfo__,pImageFormatProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceImageFormatProperties2 with (physicalDevice: %p,pImageFormatInfo: %p,pImageFormatProperties: %p) failed with result: %d", base->dispatch_handle,pImageFormatInfo__,pImageFormatProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -1261,6 +1393,8 @@ wrapper_tramp_GetPhysicalDeviceQueueFamilyProperties2(
     uint32_t* pQueueFamilyPropertyCount,
     VkQueueFamilyProperties2* pQueueFamilyProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceQueueFamilyProperties2");
 WLOGA("GetPhysicalDeviceQueueFamilyProperties2(physicalDevice: %p, pQueueFamilyPropertyCount: %p, pQueueFamilyProperties: %p)", physicalDevice, pQueueFamilyPropertyCount, pQueueFamilyProperties);
@@ -1284,8 +1418,9 @@ WLOGA("GetPhysicalDeviceQueueFamilyProperties2(physicalDevice: %p, pQueueFamilyP
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkQueueFamilyProperties2
-#warning TODO: Repack struct+array+out GetPhysicalDeviceQueueFamilyProperties2 EntrypointParam(type='VkQueueFamilyProperties2', name='pQueueFamilyProperties', decl='VkQueueFamilyProperties2* pQueueFamilyProperties', len='pQueueFamilyPropertyCount', elem=<Element 'param' at 0x75c0e94786d0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceQueueFamilyProperties2 EntrypointParam(type='VkQueueFamilyProperties2', name='pQueueFamilyProperties', decl='VkQueueFamilyProperties2* pQueueFamilyProperties', len='pQueueFamilyPropertyCount', elem=<Element 'param' at 0x7f0cb3194680>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -1294,6 +1429,8 @@ wrapper_tramp_GetPhysicalDeviceMemoryProperties2(
     VkPhysicalDevice physicalDevice,
     VkPhysicalDeviceMemoryProperties2* pMemoryProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceMemoryProperties2");
 WLOGA("GetPhysicalDeviceMemoryProperties2(physicalDevice: %p, pMemoryProperties: %p)", physicalDevice, pMemoryProperties);
@@ -1308,8 +1445,9 @@ WLOGA("GetPhysicalDeviceMemoryProperties2(physicalDevice: %p, pMemoryProperties:
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceMemoryProperties2
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceMemoryProperties2 EntrypointParam(type='VkPhysicalDeviceMemoryProperties2', name='pMemoryProperties', decl='VkPhysicalDeviceMemoryProperties2* pMemoryProperties', len=None, elem=<Element 'param' at 0x75c0e9478ae0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceMemoryProperties2 EntrypointParam(type='VkPhysicalDeviceMemoryProperties2', name='pMemoryProperties', decl='VkPhysicalDeviceMemoryProperties2* pMemoryProperties', len=None, elem=<Element 'param' at 0x7f0cb3194a90>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -1320,6 +1458,8 @@ wrapper_tramp_GetPhysicalDeviceSparseImageFormatProperties2(
     uint32_t* pPropertyCount,
     VkSparseImageFormatProperties2* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceSparseImageFormatProperties2");
 WLOGA("GetPhysicalDeviceSparseImageFormatProperties2(physicalDevice: %p, pFormatInfo: %p, pPropertyCount: %p, pProperties: %p)", physicalDevice, pFormatInfo, pPropertyCount, pProperties);
@@ -1331,7 +1471,7 @@ const VkPhysicalDeviceSparseImageFormatInfo2* pFormatInfo__ = pFormatInfo;
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceSparseImageFormatInfo2
     VkPhysicalDeviceSparseImageFormatInfo2 _w_pFormatInfo = { 0 };
     pFormatInfo__ = &_w_pFormatInfo;
-    unwrap_VkPhysicalDeviceSparseImageFormatInfo2(NULL, (VkPhysicalDeviceSparseImageFormatInfo2 *) pFormatInfo__, pFormatInfo);
+    unwrap_VkPhysicalDeviceSparseImageFormatInfo2(&temp, NULL, (VkPhysicalDeviceSparseImageFormatInfo2 *) pFormatInfo__, pFormatInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSparseImageFormatProperties2
     VK_CMD_LOGA("  in: pFormatInfo: VkPhysicalDeviceSparseImageFormatInfo2*");
@@ -1354,8 +1494,9 @@ const VkPhysicalDeviceSparseImageFormatInfo2* pFormatInfo__ = pFormatInfo;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSparseImageFormatProperties2
-#warning TODO: Repack struct+array+out GetPhysicalDeviceSparseImageFormatProperties2 EntrypointParam(type='VkSparseImageFormatProperties2', name='pProperties', decl='VkSparseImageFormatProperties2* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75c0e9479170>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceSparseImageFormatProperties2 EntrypointParam(type='VkSparseImageFormatProperties2', name='pProperties', decl='VkSparseImageFormatProperties2* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7f0cb3195120>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
                 
@@ -1365,6 +1506,8 @@ wrapper_tramp_GetPhysicalDeviceExternalBufferProperties(
     const VkPhysicalDeviceExternalBufferInfo* pExternalBufferInfo,
     VkExternalBufferProperties* pExternalBufferProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceExternalBufferProperties");
 WLOGA("GetPhysicalDeviceExternalBufferProperties(physicalDevice: %p, pExternalBufferInfo: %p, pExternalBufferProperties: %p)", physicalDevice, pExternalBufferInfo, pExternalBufferProperties);
@@ -1376,7 +1519,7 @@ const VkPhysicalDeviceExternalBufferInfo* pExternalBufferInfo__ = pExternalBuffe
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceExternalBufferInfo
     VkPhysicalDeviceExternalBufferInfo _w_pExternalBufferInfo = { 0 };
     pExternalBufferInfo__ = &_w_pExternalBufferInfo;
-    unwrap_VkPhysicalDeviceExternalBufferInfo(NULL, (VkPhysicalDeviceExternalBufferInfo *) pExternalBufferInfo__, pExternalBufferInfo);
+    unwrap_VkPhysicalDeviceExternalBufferInfo(&temp, NULL, (VkPhysicalDeviceExternalBufferInfo *) pExternalBufferInfo__, pExternalBufferInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceExternalBufferProperties
     VK_CMD_LOGA("  in: pExternalBufferInfo: VkPhysicalDeviceExternalBufferInfo*");
@@ -1390,8 +1533,9 @@ const VkPhysicalDeviceExternalBufferInfo* pExternalBufferInfo__ = pExternalBuffe
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkExternalBufferProperties
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalBufferProperties EntrypointParam(type='VkExternalBufferProperties', name='pExternalBufferProperties', decl='VkExternalBufferProperties* pExternalBufferProperties', len=None, elem=<Element 'param' at 0x75c0e947a200>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalBufferProperties EntrypointParam(type='VkExternalBufferProperties', name='pExternalBufferProperties', decl='VkExternalBufferProperties* pExternalBufferProperties', len=None, elem=<Element 'param' at 0x7f0cb31961b0>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
                                 
@@ -1401,6 +1545,8 @@ wrapper_tramp_GetPhysicalDeviceExternalSemaphoreProperties(
     const VkPhysicalDeviceExternalSemaphoreInfo* pExternalSemaphoreInfo,
     VkExternalSemaphoreProperties* pExternalSemaphoreProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceExternalSemaphoreProperties");
 WLOGA("GetPhysicalDeviceExternalSemaphoreProperties(physicalDevice: %p, pExternalSemaphoreInfo: %p, pExternalSemaphoreProperties: %p)", physicalDevice, pExternalSemaphoreInfo, pExternalSemaphoreProperties);
@@ -1412,7 +1558,7 @@ const VkPhysicalDeviceExternalSemaphoreInfo* pExternalSemaphoreInfo__ = pExterna
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceExternalSemaphoreInfo
     VkPhysicalDeviceExternalSemaphoreInfo _w_pExternalSemaphoreInfo = { 0 };
     pExternalSemaphoreInfo__ = &_w_pExternalSemaphoreInfo;
-    unwrap_VkPhysicalDeviceExternalSemaphoreInfo(NULL, (VkPhysicalDeviceExternalSemaphoreInfo *) pExternalSemaphoreInfo__, pExternalSemaphoreInfo);
+    unwrap_VkPhysicalDeviceExternalSemaphoreInfo(&temp, NULL, (VkPhysicalDeviceExternalSemaphoreInfo *) pExternalSemaphoreInfo__, pExternalSemaphoreInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceExternalSemaphoreProperties
     VK_CMD_LOGA("  in: pExternalSemaphoreInfo: VkPhysicalDeviceExternalSemaphoreInfo*");
@@ -1426,8 +1572,9 @@ const VkPhysicalDeviceExternalSemaphoreInfo* pExternalSemaphoreInfo__ = pExterna
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkExternalSemaphoreProperties
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalSemaphoreProperties EntrypointParam(type='VkExternalSemaphoreProperties', name='pExternalSemaphoreProperties', decl='VkExternalSemaphoreProperties* pExternalSemaphoreProperties', len=None, elem=<Element 'param' at 0x75c0e94899e0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalSemaphoreProperties EntrypointParam(type='VkExternalSemaphoreProperties', name='pExternalSemaphoreProperties', decl='VkExternalSemaphoreProperties* pExternalSemaphoreProperties', len=None, elem=<Element 'param' at 0x7f0cb31a1990>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
                             
@@ -1437,6 +1584,8 @@ wrapper_tramp_GetPhysicalDeviceExternalFenceProperties(
     const VkPhysicalDeviceExternalFenceInfo* pExternalFenceInfo,
     VkExternalFenceProperties* pExternalFenceProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceExternalFenceProperties");
 WLOGA("GetPhysicalDeviceExternalFenceProperties(physicalDevice: %p, pExternalFenceInfo: %p, pExternalFenceProperties: %p)", physicalDevice, pExternalFenceInfo, pExternalFenceProperties);
@@ -1448,7 +1597,7 @@ const VkPhysicalDeviceExternalFenceInfo* pExternalFenceInfo__ = pExternalFenceIn
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceExternalFenceInfo
     VkPhysicalDeviceExternalFenceInfo _w_pExternalFenceInfo = { 0 };
     pExternalFenceInfo__ = &_w_pExternalFenceInfo;
-    unwrap_VkPhysicalDeviceExternalFenceInfo(NULL, (VkPhysicalDeviceExternalFenceInfo *) pExternalFenceInfo__, pExternalFenceInfo);
+    unwrap_VkPhysicalDeviceExternalFenceInfo(&temp, NULL, (VkPhysicalDeviceExternalFenceInfo *) pExternalFenceInfo__, pExternalFenceInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceExternalFenceProperties
     VK_CMD_LOGA("  in: pExternalFenceInfo: VkPhysicalDeviceExternalFenceInfo*");
@@ -1462,8 +1611,9 @@ const VkPhysicalDeviceExternalFenceInfo* pExternalFenceInfo__ = pExternalFenceIn
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkExternalFenceProperties
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalFenceProperties EntrypointParam(type='VkExternalFenceProperties', name='pExternalFenceProperties', decl='VkExternalFenceProperties* pExternalFenceProperties', len=None, elem=<Element 'param' at 0x75c0e948b7e0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalFenceProperties EntrypointParam(type='VkExternalFenceProperties', name='pExternalFenceProperties', decl='VkExternalFenceProperties* pExternalFenceProperties', len=None, elem=<Element 'param' at 0x7f0cb31a3790>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
                     
@@ -1472,6 +1622,8 @@ wrapper_tramp_ReleaseDisplayEXT(
     VkPhysicalDevice physicalDevice,
     VkDisplayKHR display)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("ReleaseDisplayEXT");
 WLOGA("ReleaseDisplayEXT(physicalDevice: %p, display: %x)", physicalDevice, display);
@@ -1487,7 +1639,14 @@ VkDisplayKHR display__ = display;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.ReleaseDisplayEXT(base->dispatch_handle, display__);
-
+#ifdef NEEDS_PRINTING_ReleaseDisplayEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to ReleaseDisplayEXT with (physicalDevice: %p,display: %x) failed with result: %d", base->dispatch_handle,display__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #ifdef VK_USE_PLATFORM_XLIB_XRANDR_EXT
@@ -1498,6 +1657,8 @@ wrapper_tramp_AcquireXlibDisplayEXT(
     Display* dpy,
     VkDisplayKHR display)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("AcquireXlibDisplayEXT");
 WLOGA("AcquireXlibDisplayEXT(physicalDevice: %p, dpy: %p, display: %x)", physicalDevice, dpy, display);
@@ -1514,14 +1675,19 @@ VkDisplayKHR display__ = display;
 #endif
     VkResult result = base->dispatch_table.AcquireXlibDisplayEXT(base->dispatch_handle, dpy, display__);
 #ifdef NEEDS_PRINTING_AcquireXlibDisplayEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_AcquireXlibDisplayEXT
     VK_CMD_LOGA("  out: *dpy: Display = %x", (int64_t)*dpy);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_Display
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to AcquireXlibDisplayEXT with (physicalDevice: %p,dpy: %p,display: %x) failed with result: %d", base->dispatch_handle,dpy,display__, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to AcquireXlibDisplayEXT with (physicalDevice: %p,dpy: %p,display: %x) failed with result: %d", base->dispatch_handle,dpy,display__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -1534,6 +1700,8 @@ wrapper_tramp_GetRandROutputDisplayEXT(
     RROutput rrOutput,
     VkDisplayKHR* pDisplay)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetRandROutputDisplayEXT");
 WLOGA("GetRandROutputDisplayEXT(physicalDevice: %p, dpy: %p, rrOutput: %x, pDisplay: %p)", physicalDevice, dpy, rrOutput, pDisplay);
@@ -1550,23 +1718,25 @@ RROutput rrOutput__ = rrOutput;
 #endif
     VkResult result = base->dispatch_table.GetRandROutputDisplayEXT(base->dispatch_handle, dpy, rrOutput__, pDisplay);
 #ifdef NEEDS_PRINTING_GetRandROutputDisplayEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetRandROutputDisplayEXT
     VK_CMD_LOGA("  out: *dpy: Display = %x", (int64_t)*dpy);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_Display
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetRandROutputDisplayEXT with (physicalDevice: %p,dpy: %p,rrOutput: %x,pDisplay: %p) failed with result: %d", base->dispatch_handle,dpy,rrOutput__,pDisplay, result);
-}
 #ifdef NEEDS_PRINTING_GetRandROutputDisplayEXT
     VK_CMD_LOGA("  out: *pDisplay: VkDisplayKHR = %x", (int64_t)*pDisplay);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetRandROutputDisplayEXT with (physicalDevice: %p,dpy: %p,rrOutput: %x,pDisplay: %p) failed with result: %d", base->dispatch_handle,dpy,rrOutput__,pDisplay, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetRandROutputDisplayEXT with (physicalDevice: %p,dpy: %p,rrOutput: %x,pDisplay: %p) failed with result: %d", base->dispatch_handle,dpy,rrOutput__,pDisplay, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -1577,6 +1747,8 @@ wrapper_tramp_AcquireWinrtDisplayNV(
     VkPhysicalDevice physicalDevice,
     VkDisplayKHR display)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("AcquireWinrtDisplayNV");
 WLOGA("AcquireWinrtDisplayNV(physicalDevice: %p, display: %x)", physicalDevice, display);
@@ -1592,7 +1764,14 @@ VkDisplayKHR display__ = display;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.AcquireWinrtDisplayNV(base->dispatch_handle, display__);
-
+#ifdef NEEDS_PRINTING_AcquireWinrtDisplayNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to AcquireWinrtDisplayNV with (physicalDevice: %p,display: %x) failed with result: %d", base->dispatch_handle,display__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -1604,6 +1783,8 @@ wrapper_tramp_GetWinrtDisplayNV(
     uint32_t deviceRelativeId,
     VkDisplayKHR* pDisplay)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetWinrtDisplayNV");
 WLOGA("GetWinrtDisplayNV(physicalDevice: %p, deviceRelativeId: %x, pDisplay: %p)", physicalDevice, deviceRelativeId, pDisplay);
@@ -1620,14 +1801,19 @@ uint32_t deviceRelativeId__ = deviceRelativeId;
 #endif
     VkResult result = base->dispatch_table.GetWinrtDisplayNV(base->dispatch_handle, deviceRelativeId__, pDisplay);
 #ifdef NEEDS_PRINTING_GetWinrtDisplayNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetWinrtDisplayNV
     VK_CMD_LOGA("  out: *pDisplay: VkDisplayKHR = %x", (int64_t)*pDisplay);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetWinrtDisplayNV with (physicalDevice: %p,deviceRelativeId: %x,pDisplay: %p) failed with result: %d", base->dispatch_handle,deviceRelativeId__,pDisplay, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetWinrtDisplayNV with (physicalDevice: %p,deviceRelativeId: %x,pDisplay: %p) failed with result: %d", base->dispatch_handle,deviceRelativeId__,pDisplay, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -1638,6 +1824,8 @@ wrapper_tramp_GetPhysicalDeviceSurfaceCapabilities2EXT(
     VkSurfaceKHR surface,
     VkSurfaceCapabilities2EXT* pSurfaceCapabilities)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceSurfaceCapabilities2EXT");
 WLOGA("GetPhysicalDeviceSurfaceCapabilities2EXT(physicalDevice: %p, surface: %x, pSurfaceCapabilities: %p)", physicalDevice, surface, pSurfaceCapabilities);
@@ -1654,16 +1842,21 @@ VkSurfaceKHR surface__ = surface;
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceSurfaceCapabilities2EXT(base->dispatch_handle, surface__, pSurfaceCapabilities);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceCapabilities2EXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceCapabilities2EXT
     VK_CMD_LOGA("  out: pSurfaceCapabilities: VkSurfaceCapabilities2EXT*");
     VK_PRINT_VkSurfaceCapabilities2EXT("    ", pSurfaceCapabilities);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSurfaceCapabilities2EXT
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceSurfaceCapabilities2EXT EntrypointParam(type='VkSurfaceCapabilities2EXT', name='pSurfaceCapabilities', decl='VkSurfaceCapabilities2EXT* pSurfaceCapabilities', len=None, elem=<Element 'param' at 0x75c0e949a020>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceSurfaceCapabilities2EXT EntrypointParam(type='VkSurfaceCapabilities2EXT', name='pSurfaceCapabilities', decl='VkSurfaceCapabilities2EXT* pSurfaceCapabilities', len=None, elem=<Element 'param' at 0x7f0cb31b5fd0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceSurfaceCapabilities2EXT with (physicalDevice: %p,surface: %x,pSurfaceCapabilities: %p) failed with result: %d", base->dispatch_handle,surface__,pSurfaceCapabilities, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceSurfaceCapabilities2EXT with (physicalDevice: %p,surface: %x,pSurfaceCapabilities: %p) failed with result: %d", base->dispatch_handle,surface__,pSurfaceCapabilities, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                                                             
@@ -1674,6 +1867,8 @@ wrapper_tramp_GetPhysicalDevicePresentRectanglesKHR(
     uint32_t* pRectCount,
     VkRect2D* pRects)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDevicePresentRectanglesKHR");
 WLOGA("GetPhysicalDevicePresentRectanglesKHR(physicalDevice: %p, surface: %x, pRectCount: %p, pRects: %p)", physicalDevice, surface, pRectCount, pRects);
@@ -1690,14 +1885,15 @@ VkSurfaceKHR surface__ = surface;
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDevicePresentRectanglesKHR(base->dispatch_handle, surface__, pRectCount, pRects);
 #ifdef NEEDS_PRINTING_GetPhysicalDevicePresentRectanglesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDevicePresentRectanglesKHR
     VK_CMD_LOGA("  out: *pRectCount: uint32_t = %x", (int64_t)*pRectCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDevicePresentRectanglesKHR with (physicalDevice: %p,surface: %x,pRectCount: %p,pRects: %p) failed with result: %d", base->dispatch_handle,surface__,pRectCount,pRects, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDevicePresentRectanglesKHR
     VK_CMD_LOGA("  out: pRects[]: VkRect2D");
     for (int i = 0; i < pRectCount; i++) {
@@ -1707,11 +1903,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkRect2D
-#warning TODO: Repack struct+array+out GetPhysicalDevicePresentRectanglesKHR EntrypointParam(type='VkRect2D', name='pRects', decl='VkRect2D* pRects', len='pRectCount', elem=<Element 'param' at 0x75c0e94a5670>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDevicePresentRectanglesKHR EntrypointParam(type='VkRect2D', name='pRects', decl='VkRect2D* pRects', len='pRectCount', elem=<Element 'param' at 0x7f0cb31bd620>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDevicePresentRectanglesKHR with (physicalDevice: %p,surface: %x,pRectCount: %p,pRects: %p) failed with result: %d", base->dispatch_handle,surface__,pRectCount,pRects, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDevicePresentRectanglesKHR with (physicalDevice: %p,surface: %x,pRectCount: %p,pRects: %p) failed with result: %d", base->dispatch_handle,surface__,pRectCount,pRects, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                                                                             
@@ -1721,6 +1918,8 @@ wrapper_tramp_GetPhysicalDeviceMultisamplePropertiesEXT(
     VkSampleCountFlagBits samples,
     VkMultisamplePropertiesEXT* pMultisampleProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceMultisamplePropertiesEXT");
 WLOGA("GetPhysicalDeviceMultisamplePropertiesEXT(physicalDevice: %p, samples: %x, pMultisampleProperties: %p)", physicalDevice, samples, pMultisampleProperties);
@@ -1742,8 +1941,9 @@ VkSampleCountFlagBits samples__ = samples;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMultisamplePropertiesEXT
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceMultisamplePropertiesEXT EntrypointParam(type='VkMultisamplePropertiesEXT', name='pMultisampleProperties', decl='VkMultisamplePropertiesEXT* pMultisampleProperties', len=None, elem=<Element 'param' at 0x75c0e94b2f20>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceMultisamplePropertiesEXT EntrypointParam(type='VkMultisamplePropertiesEXT', name='pMultisampleProperties', decl='VkMultisamplePropertiesEXT* pMultisampleProperties', len=None, elem=<Element 'param' at 0x7f0cb31ceed0>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -1753,6 +1953,8 @@ wrapper_tramp_GetPhysicalDeviceSurfaceCapabilities2KHR(
     const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo,
     VkSurfaceCapabilities2KHR* pSurfaceCapabilities)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceSurfaceCapabilities2KHR");
 WLOGA("GetPhysicalDeviceSurfaceCapabilities2KHR(physicalDevice: %p, pSurfaceInfo: %p, pSurfaceCapabilities: %p)", physicalDevice, pSurfaceInfo, pSurfaceCapabilities);
@@ -1764,7 +1966,7 @@ const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo__ = pSurfaceInfo;
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceSurfaceInfo2KHR
     VkPhysicalDeviceSurfaceInfo2KHR _w_pSurfaceInfo = { 0 };
     pSurfaceInfo__ = &_w_pSurfaceInfo;
-    unwrap_VkPhysicalDeviceSurfaceInfo2KHR(NULL, (VkPhysicalDeviceSurfaceInfo2KHR *) pSurfaceInfo__, pSurfaceInfo);
+    unwrap_VkPhysicalDeviceSurfaceInfo2KHR(&temp, NULL, (VkPhysicalDeviceSurfaceInfo2KHR *) pSurfaceInfo__, pSurfaceInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceCapabilities2KHR
     VK_CMD_LOGA("  in: pSurfaceInfo: VkPhysicalDeviceSurfaceInfo2KHR*");
@@ -1773,16 +1975,21 @@ const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo__ = pSurfaceInfo;
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceSurfaceCapabilities2KHR(base->dispatch_handle, pSurfaceInfo__, pSurfaceCapabilities);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceCapabilities2KHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceCapabilities2KHR
     VK_CMD_LOGA("  out: pSurfaceCapabilities: VkSurfaceCapabilities2KHR*");
     VK_PRINT_VkSurfaceCapabilities2KHR("    ", pSurfaceCapabilities);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSurfaceCapabilities2KHR
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceSurfaceCapabilities2KHR EntrypointParam(type='VkSurfaceCapabilities2KHR', name='pSurfaceCapabilities', decl='VkSurfaceCapabilities2KHR* pSurfaceCapabilities', len=None, elem=<Element 'param' at 0x75c0e94b33d0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceSurfaceCapabilities2KHR EntrypointParam(type='VkSurfaceCapabilities2KHR', name='pSurfaceCapabilities', decl='VkSurfaceCapabilities2KHR* pSurfaceCapabilities', len=None, elem=<Element 'param' at 0x7f0cb31cf380>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceSurfaceCapabilities2KHR with (physicalDevice: %p,pSurfaceInfo: %p,pSurfaceCapabilities: %p) failed with result: %d", base->dispatch_handle,pSurfaceInfo__,pSurfaceCapabilities, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceSurfaceCapabilities2KHR with (physicalDevice: %p,pSurfaceInfo: %p,pSurfaceCapabilities: %p) failed with result: %d", base->dispatch_handle,pSurfaceInfo__,pSurfaceCapabilities, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -1793,6 +2000,8 @@ wrapper_tramp_GetPhysicalDeviceSurfaceFormats2KHR(
     uint32_t* pSurfaceFormatCount,
     VkSurfaceFormat2KHR* pSurfaceFormats)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceSurfaceFormats2KHR");
 WLOGA("GetPhysicalDeviceSurfaceFormats2KHR(physicalDevice: %p, pSurfaceInfo: %p, pSurfaceFormatCount: %p, pSurfaceFormats: %p)", physicalDevice, pSurfaceInfo, pSurfaceFormatCount, pSurfaceFormats);
@@ -1804,7 +2013,7 @@ const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo__ = pSurfaceInfo;
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceSurfaceInfo2KHR
     VkPhysicalDeviceSurfaceInfo2KHR _w_pSurfaceInfo = { 0 };
     pSurfaceInfo__ = &_w_pSurfaceInfo;
-    unwrap_VkPhysicalDeviceSurfaceInfo2KHR(NULL, (VkPhysicalDeviceSurfaceInfo2KHR *) pSurfaceInfo__, pSurfaceInfo);
+    unwrap_VkPhysicalDeviceSurfaceInfo2KHR(&temp, NULL, (VkPhysicalDeviceSurfaceInfo2KHR *) pSurfaceInfo__, pSurfaceInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceFormats2KHR
     VK_CMD_LOGA("  in: pSurfaceInfo: VkPhysicalDeviceSurfaceInfo2KHR*");
@@ -1813,14 +2022,15 @@ const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo__ = pSurfaceInfo;
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceSurfaceFormats2KHR(base->dispatch_handle, pSurfaceInfo__, pSurfaceFormatCount, pSurfaceFormats);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceFormats2KHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceFormats2KHR
     VK_CMD_LOGA("  out: *pSurfaceFormatCount: uint32_t = %x", (int64_t)*pSurfaceFormatCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceSurfaceFormats2KHR with (physicalDevice: %p,pSurfaceInfo: %p,pSurfaceFormatCount: %p,pSurfaceFormats: %p) failed with result: %d", base->dispatch_handle,pSurfaceInfo__,pSurfaceFormatCount,pSurfaceFormats, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfaceFormats2KHR
     VK_CMD_LOGA("  out: pSurfaceFormats[]: VkSurfaceFormat2KHR");
     for (int i = 0; i < pSurfaceFormatCount; i++) {
@@ -1830,11 +2040,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSurfaceFormat2KHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceSurfaceFormats2KHR EntrypointParam(type='VkSurfaceFormat2KHR', name='pSurfaceFormats', decl='VkSurfaceFormat2KHR* pSurfaceFormats', len='pSurfaceFormatCount', elem=<Element 'param' at 0x75c0e94b3a10>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceSurfaceFormats2KHR EntrypointParam(type='VkSurfaceFormat2KHR', name='pSurfaceFormats', decl='VkSurfaceFormat2KHR* pSurfaceFormats', len='pSurfaceFormatCount', elem=<Element 'param' at 0x7f0cb31cf9c0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceSurfaceFormats2KHR with (physicalDevice: %p,pSurfaceInfo: %p,pSurfaceFormatCount: %p,pSurfaceFormats: %p) failed with result: %d", base->dispatch_handle,pSurfaceInfo__,pSurfaceFormatCount,pSurfaceFormats, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceSurfaceFormats2KHR with (physicalDevice: %p,pSurfaceInfo: %p,pSurfaceFormatCount: %p,pSurfaceFormats: %p) failed with result: %d", base->dispatch_handle,pSurfaceInfo__,pSurfaceFormatCount,pSurfaceFormats, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -1844,6 +2055,8 @@ wrapper_tramp_GetPhysicalDeviceDisplayProperties2KHR(
     uint32_t* pPropertyCount,
     VkDisplayProperties2KHR* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceDisplayProperties2KHR");
 WLOGA("GetPhysicalDeviceDisplayProperties2KHR(physicalDevice: %p, pPropertyCount: %p, pProperties: %p)", physicalDevice, pPropertyCount, pProperties);
@@ -1853,14 +2066,15 @@ WLOGA("GetPhysicalDeviceDisplayProperties2KHR(physicalDevice: %p, pPropertyCount
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceDisplayProperties2KHR(base->dispatch_handle, pPropertyCount, pProperties);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceDisplayProperties2KHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceDisplayProperties2KHR
     VK_CMD_LOGA("  out: *pPropertyCount: uint32_t = %x", (int64_t)*pPropertyCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceDisplayProperties2KHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceDisplayProperties2KHR
     VK_CMD_LOGA("  out: pProperties[]: VkDisplayProperties2KHR");
     for (int i = 0; i < pPropertyCount; i++) {
@@ -1870,11 +2084,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayProperties2KHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayProperties2KHR EntrypointParam(type='VkDisplayProperties2KHR', name='pProperties', decl='VkDisplayProperties2KHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75c0e94b3e70>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayProperties2KHR EntrypointParam(type='VkDisplayProperties2KHR', name='pProperties', decl='VkDisplayProperties2KHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7f0cb31cfe20>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceDisplayProperties2KHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceDisplayProperties2KHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -1884,6 +2099,8 @@ wrapper_tramp_GetPhysicalDeviceDisplayPlaneProperties2KHR(
     uint32_t* pPropertyCount,
     VkDisplayPlaneProperties2KHR* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceDisplayPlaneProperties2KHR");
 WLOGA("GetPhysicalDeviceDisplayPlaneProperties2KHR(physicalDevice: %p, pPropertyCount: %p, pProperties: %p)", physicalDevice, pPropertyCount, pProperties);
@@ -1893,14 +2110,15 @@ WLOGA("GetPhysicalDeviceDisplayPlaneProperties2KHR(physicalDevice: %p, pProperty
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceDisplayPlaneProperties2KHR(base->dispatch_handle, pPropertyCount, pProperties);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceDisplayPlaneProperties2KHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceDisplayPlaneProperties2KHR
     VK_CMD_LOGA("  out: *pPropertyCount: uint32_t = %x", (int64_t)*pPropertyCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceDisplayPlaneProperties2KHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceDisplayPlaneProperties2KHR
     VK_CMD_LOGA("  out: pProperties[]: VkDisplayPlaneProperties2KHR");
     for (int i = 0; i < pPropertyCount; i++) {
@@ -1910,11 +2128,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayPlaneProperties2KHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayPlaneProperties2KHR EntrypointParam(type='VkDisplayPlaneProperties2KHR', name='pProperties', decl='VkDisplayPlaneProperties2KHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75c0e94bc360>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayPlaneProperties2KHR EntrypointParam(type='VkDisplayPlaneProperties2KHR', name='pProperties', decl='VkDisplayPlaneProperties2KHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7f0cb31d8310>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceDisplayPlaneProperties2KHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceDisplayPlaneProperties2KHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -1925,6 +2144,8 @@ wrapper_tramp_GetDisplayModeProperties2KHR(
     uint32_t* pPropertyCount,
     VkDisplayModeProperties2KHR* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetDisplayModeProperties2KHR");
 WLOGA("GetDisplayModeProperties2KHR(physicalDevice: %p, display: %x, pPropertyCount: %p, pProperties: %p)", physicalDevice, display, pPropertyCount, pProperties);
@@ -1941,14 +2162,15 @@ VkDisplayKHR display__ = display;
 #endif
     VkResult result = base->dispatch_table.GetDisplayModeProperties2KHR(base->dispatch_handle, display__, pPropertyCount, pProperties);
 #ifdef NEEDS_PRINTING_GetDisplayModeProperties2KHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetDisplayModeProperties2KHR
     VK_CMD_LOGA("  out: *pPropertyCount: uint32_t = %x", (int64_t)*pPropertyCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDisplayModeProperties2KHR with (physicalDevice: %p,display: %x,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,display__,pPropertyCount,pProperties, result);
-}
 #ifdef NEEDS_PRINTING_GetDisplayModeProperties2KHR
     VK_CMD_LOGA("  out: pProperties[]: VkDisplayModeProperties2KHR");
     for (int i = 0; i < pPropertyCount; i++) {
@@ -1958,11 +2180,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayModeProperties2KHR
-#warning TODO: Repack struct+array+out GetDisplayModeProperties2KHR EntrypointParam(type='VkDisplayModeProperties2KHR', name='pProperties', decl='VkDisplayModeProperties2KHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75c0e94bc950>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetDisplayModeProperties2KHR EntrypointParam(type='VkDisplayModeProperties2KHR', name='pProperties', decl='VkDisplayModeProperties2KHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7f0cb31d8900>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDisplayModeProperties2KHR with (physicalDevice: %p,display: %x,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,display__,pPropertyCount,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetDisplayModeProperties2KHR with (physicalDevice: %p,display: %x,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,display__,pPropertyCount,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -1972,6 +2195,8 @@ wrapper_tramp_GetDisplayPlaneCapabilities2KHR(
     const VkDisplayPlaneInfo2KHR* pDisplayPlaneInfo,
     VkDisplayPlaneCapabilities2KHR* pCapabilities)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetDisplayPlaneCapabilities2KHR");
 WLOGA("GetDisplayPlaneCapabilities2KHR(physicalDevice: %p, pDisplayPlaneInfo: %p, pCapabilities: %p)", physicalDevice, pDisplayPlaneInfo, pCapabilities);
@@ -1983,7 +2208,7 @@ const VkDisplayPlaneInfo2KHR* pDisplayPlaneInfo__ = pDisplayPlaneInfo;
 #ifdef NEEDS_UNWRAPPING_VkDisplayPlaneInfo2KHR
     VkDisplayPlaneInfo2KHR _w_pDisplayPlaneInfo = { 0 };
     pDisplayPlaneInfo__ = &_w_pDisplayPlaneInfo;
-    unwrap_VkDisplayPlaneInfo2KHR(NULL, (VkDisplayPlaneInfo2KHR *) pDisplayPlaneInfo__, pDisplayPlaneInfo);
+    unwrap_VkDisplayPlaneInfo2KHR(&temp, NULL, (VkDisplayPlaneInfo2KHR *) pDisplayPlaneInfo__, pDisplayPlaneInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetDisplayPlaneCapabilities2KHR
     VK_CMD_LOGA("  in: pDisplayPlaneInfo: VkDisplayPlaneInfo2KHR*");
@@ -1992,16 +2217,21 @@ const VkDisplayPlaneInfo2KHR* pDisplayPlaneInfo__ = pDisplayPlaneInfo;
 #endif
     VkResult result = base->dispatch_table.GetDisplayPlaneCapabilities2KHR(base->dispatch_handle, pDisplayPlaneInfo__, pCapabilities);
 #ifdef NEEDS_PRINTING_GetDisplayPlaneCapabilities2KHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetDisplayPlaneCapabilities2KHR
     VK_CMD_LOGA("  out: pCapabilities: VkDisplayPlaneCapabilities2KHR*");
     VK_PRINT_VkDisplayPlaneCapabilities2KHR("    ", pCapabilities);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayPlaneCapabilities2KHR
-#warning TODO: Repack struct+ptr+out GetDisplayPlaneCapabilities2KHR EntrypointParam(type='VkDisplayPlaneCapabilities2KHR', name='pCapabilities', decl='VkDisplayPlaneCapabilities2KHR* pCapabilities', len=None, elem=<Element 'param' at 0x75c0e94bce00>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDisplayPlaneCapabilities2KHR EntrypointParam(type='VkDisplayPlaneCapabilities2KHR', name='pCapabilities', decl='VkDisplayPlaneCapabilities2KHR* pCapabilities', len=None, elem=<Element 'param' at 0x7f0cb31d8db0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDisplayPlaneCapabilities2KHR with (physicalDevice: %p,pDisplayPlaneInfo: %p,pCapabilities: %p) failed with result: %d", base->dispatch_handle,pDisplayPlaneInfo__,pCapabilities, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetDisplayPlaneCapabilities2KHR with (physicalDevice: %p,pDisplayPlaneInfo: %p,pCapabilities: %p) failed with result: %d", base->dispatch_handle,pDisplayPlaneInfo__,pCapabilities, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                                                                                                                     
@@ -2011,6 +2241,8 @@ wrapper_tramp_GetPhysicalDeviceCalibrateableTimeDomainsKHR(
     uint32_t* pTimeDomainCount,
     VkTimeDomainKHR* pTimeDomains)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceCalibrateableTimeDomainsKHR");
 WLOGA("GetPhysicalDeviceCalibrateableTimeDomainsKHR(physicalDevice: %p, pTimeDomainCount: %p, pTimeDomains: %p)", physicalDevice, pTimeDomainCount, pTimeDomains);
@@ -2020,23 +2252,25 @@ WLOGA("GetPhysicalDeviceCalibrateableTimeDomainsKHR(physicalDevice: %p, pTimeDom
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceCalibrateableTimeDomainsKHR(base->dispatch_handle, pTimeDomainCount, pTimeDomains);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceCalibrateableTimeDomainsKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceCalibrateableTimeDomainsKHR
     VK_CMD_LOGA("  out: *pTimeDomainCount: uint32_t = %x", (int64_t)*pTimeDomainCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceCalibrateableTimeDomainsKHR with (physicalDevice: %p,pTimeDomainCount: %p,pTimeDomains: %p) failed with result: %d", base->dispatch_handle,pTimeDomainCount,pTimeDomains, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceCalibrateableTimeDomainsKHR
     VK_CMD_LOGA("  out: *pTimeDomains: VkTimeDomainKHR = %x", (int64_t)*pTimeDomains);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkTimeDomainKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceCalibrateableTimeDomainsKHR with (physicalDevice: %p,pTimeDomainCount: %p,pTimeDomains: %p) failed with result: %d", base->dispatch_handle,pTimeDomainCount,pTimeDomains, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceCalibrateableTimeDomainsKHR with (physicalDevice: %p,pTimeDomainCount: %p,pTimeDomains: %p) failed with result: %d", base->dispatch_handle,pTimeDomainCount,pTimeDomains, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                                                                                                                                                                                                                                                                                                                                             
@@ -2046,6 +2280,8 @@ wrapper_tramp_GetPhysicalDeviceCooperativeMatrixPropertiesNV(
     uint32_t* pPropertyCount,
     VkCooperativeMatrixPropertiesNV* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceCooperativeMatrixPropertiesNV");
 WLOGA("GetPhysicalDeviceCooperativeMatrixPropertiesNV(physicalDevice: %p, pPropertyCount: %p, pProperties: %p)", physicalDevice, pPropertyCount, pProperties);
@@ -2055,14 +2291,15 @@ WLOGA("GetPhysicalDeviceCooperativeMatrixPropertiesNV(physicalDevice: %p, pPrope
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceCooperativeMatrixPropertiesNV(base->dispatch_handle, pPropertyCount, pProperties);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceCooperativeMatrixPropertiesNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceCooperativeMatrixPropertiesNV
     VK_CMD_LOGA("  out: *pPropertyCount: uint32_t = %x", (int64_t)*pPropertyCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceCooperativeMatrixPropertiesNV with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceCooperativeMatrixPropertiesNV
     VK_CMD_LOGA("  out: pProperties[]: VkCooperativeMatrixPropertiesNV");
     for (int i = 0; i < pPropertyCount; i++) {
@@ -2072,11 +2309,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkCooperativeMatrixPropertiesNV
-#warning TODO: Repack struct+array+out GetPhysicalDeviceCooperativeMatrixPropertiesNV EntrypointParam(type='VkCooperativeMatrixPropertiesNV', name='pProperties', decl='VkCooperativeMatrixPropertiesNV* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75c0e9316c50>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceCooperativeMatrixPropertiesNV EntrypointParam(type='VkCooperativeMatrixPropertiesNV', name='pProperties', decl='VkCooperativeMatrixPropertiesNV* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7f0cb3036c00>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceCooperativeMatrixPropertiesNV with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceCooperativeMatrixPropertiesNV with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                             #ifdef VK_USE_PLATFORM_WIN32_KHR
@@ -2088,6 +2326,8 @@ wrapper_tramp_GetPhysicalDeviceSurfacePresentModes2EXT(
     uint32_t* pPresentModeCount,
     VkPresentModeKHR* pPresentModes)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceSurfacePresentModes2EXT");
 WLOGA("GetPhysicalDeviceSurfacePresentModes2EXT(physicalDevice: %p, pSurfaceInfo: %p, pPresentModeCount: %p, pPresentModes: %p)", physicalDevice, pSurfaceInfo, pPresentModeCount, pPresentModes);
@@ -2099,7 +2339,7 @@ const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo__ = pSurfaceInfo;
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceSurfaceInfo2KHR
     VkPhysicalDeviceSurfaceInfo2KHR _w_pSurfaceInfo = { 0 };
     pSurfaceInfo__ = &_w_pSurfaceInfo;
-    unwrap_VkPhysicalDeviceSurfaceInfo2KHR(NULL, (VkPhysicalDeviceSurfaceInfo2KHR *) pSurfaceInfo__, pSurfaceInfo);
+    unwrap_VkPhysicalDeviceSurfaceInfo2KHR(&temp, NULL, (VkPhysicalDeviceSurfaceInfo2KHR *) pSurfaceInfo__, pSurfaceInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfacePresentModes2EXT
     VK_CMD_LOGA("  in: pSurfaceInfo: VkPhysicalDeviceSurfaceInfo2KHR*");
@@ -2108,23 +2348,25 @@ const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo__ = pSurfaceInfo;
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceSurfacePresentModes2EXT(base->dispatch_handle, pSurfaceInfo__, pPresentModeCount, pPresentModes);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfacePresentModes2EXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfacePresentModes2EXT
     VK_CMD_LOGA("  out: *pPresentModeCount: uint32_t = %x", (int64_t)*pPresentModeCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceSurfacePresentModes2EXT with (physicalDevice: %p,pSurfaceInfo: %p,pPresentModeCount: %p,pPresentModes: %p) failed with result: %d", base->dispatch_handle,pSurfaceInfo__,pPresentModeCount,pPresentModes, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSurfacePresentModes2EXT
     VK_CMD_LOGA("  out: *pPresentModes: VkPresentModeKHR = %x", (int64_t)*pPresentModes);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPresentModeKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceSurfacePresentModes2EXT with (physicalDevice: %p,pSurfaceInfo: %p,pPresentModeCount: %p,pPresentModes: %p) failed with result: %d", base->dispatch_handle,pSurfaceInfo__,pPresentModeCount,pPresentModes, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceSurfacePresentModes2EXT with (physicalDevice: %p,pSurfaceInfo: %p,pPresentModeCount: %p,pPresentModes: %p) failed with result: %d", base->dispatch_handle,pSurfaceInfo__,pPresentModeCount,pPresentModes, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -2137,6 +2379,8 @@ wrapper_tramp_EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR(
     VkPerformanceCounterKHR* pCounters,
     VkPerformanceCounterDescriptionKHR* pCounterDescriptions)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR");
 WLOGA("EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR(physicalDevice: %p, queueFamilyIndex: %x, pCounterCount: %p, pCounters: %p, pCounterDescriptions: %p)", physicalDevice, queueFamilyIndex, pCounterCount, pCounters, pCounterDescriptions);
@@ -2153,14 +2397,15 @@ uint32_t queueFamilyIndex__ = queueFamilyIndex;
 #endif
     VkResult result = base->dispatch_table.EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR(base->dispatch_handle, queueFamilyIndex__, pCounterCount, pCounters, pCounterDescriptions);
 #ifdef NEEDS_PRINTING_EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR
     VK_CMD_LOGA("  out: *pCounterCount: uint32_t = %x", (int64_t)*pCounterCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR with (physicalDevice: %p,queueFamilyIndex: %x,pCounterCount: %p,pCounters: %p,pCounterDescriptions: %p) failed with result: %d", base->dispatch_handle,queueFamilyIndex__,pCounterCount,pCounters,pCounterDescriptions, result);
-}
 #ifdef NEEDS_PRINTING_EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR
     VK_CMD_LOGA("  out: pCounters[]: VkPerformanceCounterKHR");
     for (int i = 0; i < pCounterCount; i++) {
@@ -2170,11 +2415,8 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPerformanceCounterKHR
-#warning TODO: Repack struct+array+out EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR EntrypointParam(type='VkPerformanceCounterKHR', name='pCounters', decl='VkPerformanceCounterKHR* pCounters', len='pCounterCount', elem=<Element 'param' at 0x75c0e9326610>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR EntrypointParam(type='VkPerformanceCounterKHR', name='pCounters', decl='VkPerformanceCounterKHR* pCounters', len='pCounterCount', elem=<Element 'param' at 0x7f0cb30425c0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR with (physicalDevice: %p,queueFamilyIndex: %x,pCounterCount: %p,pCounters: %p,pCounterDescriptions: %p) failed with result: %d", base->dispatch_handle,queueFamilyIndex__,pCounterCount,pCounters,pCounterDescriptions, result);
-}
 #ifdef NEEDS_PRINTING_EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR
     VK_CMD_LOGA("  out: pCounterDescriptions[]: VkPerformanceCounterDescriptionKHR");
     for (int i = 0; i < pCounterCount; i++) {
@@ -2184,11 +2426,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPerformanceCounterDescriptionKHR
-#warning TODO: Repack struct+array+out EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR EntrypointParam(type='VkPerformanceCounterDescriptionKHR', name='pCounterDescriptions', decl='VkPerformanceCounterDescriptionKHR* pCounterDescriptions', len='pCounterCount', elem=<Element 'param' at 0x75c0e9326700>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR EntrypointParam(type='VkPerformanceCounterDescriptionKHR', name='pCounterDescriptions', decl='VkPerformanceCounterDescriptionKHR* pCounterDescriptions', len='pCounterCount', elem=<Element 'param' at 0x7f0cb30426b0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR with (physicalDevice: %p,queueFamilyIndex: %x,pCounterCount: %p,pCounters: %p,pCounterDescriptions: %p) failed with result: %d", base->dispatch_handle,queueFamilyIndex__,pCounterCount,pCounters,pCounterDescriptions, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR with (physicalDevice: %p,queueFamilyIndex: %x,pCounterCount: %p,pCounters: %p,pCounterDescriptions: %p) failed with result: %d", base->dispatch_handle,queueFamilyIndex__,pCounterCount,pCounters,pCounterDescriptions, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -2198,6 +2441,8 @@ wrapper_tramp_GetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR(
     const VkQueryPoolPerformanceCreateInfoKHR* pPerformanceQueryCreateInfo,
     uint32_t* pNumPasses)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR");
 WLOGA("GetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR(physicalDevice: %p, pPerformanceQueryCreateInfo: %p, pNumPasses: %p)", physicalDevice, pPerformanceQueryCreateInfo, pNumPasses);
@@ -2209,7 +2454,7 @@ const VkQueryPoolPerformanceCreateInfoKHR* pPerformanceQueryCreateInfo__ = pPerf
 #ifdef NEEDS_UNWRAPPING_VkQueryPoolPerformanceCreateInfoKHR
     VkQueryPoolPerformanceCreateInfoKHR _w_pPerformanceQueryCreateInfo = { 0 };
     pPerformanceQueryCreateInfo__ = &_w_pPerformanceQueryCreateInfo;
-    unwrap_VkQueryPoolPerformanceCreateInfoKHR(NULL, (VkQueryPoolPerformanceCreateInfoKHR *) pPerformanceQueryCreateInfo__, pPerformanceQueryCreateInfo);
+    unwrap_VkQueryPoolPerformanceCreateInfoKHR(&temp, NULL, (VkQueryPoolPerformanceCreateInfoKHR *) pPerformanceQueryCreateInfo__, pPerformanceQueryCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceQueueFamilyPerformanceQueryPassesKHR
     VK_CMD_LOGA("  in: pPerformanceQueryCreateInfo: VkQueryPoolPerformanceCreateInfoKHR*");
@@ -2223,6 +2468,7 @@ const VkQueryPoolPerformanceCreateInfoKHR* pPerformanceQueryCreateInfo__ = pPerf
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
+    free_temp_objects(&temp);
     return ;
 }
                                     
@@ -2232,6 +2478,8 @@ wrapper_tramp_GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV(
     uint32_t* pCombinationCount,
     VkFramebufferMixedSamplesCombinationNV* pCombinations)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV");
 WLOGA("GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV(physicalDevice: %p, pCombinationCount: %p, pCombinations: %p)", physicalDevice, pCombinationCount, pCombinations);
@@ -2241,14 +2489,15 @@ WLOGA("GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV(physicalD
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV(base->dispatch_handle, pCombinationCount, pCombinations);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV
     VK_CMD_LOGA("  out: *pCombinationCount: uint32_t = %x", (int64_t)*pCombinationCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV with (physicalDevice: %p,pCombinationCount: %p,pCombinations: %p) failed with result: %d", base->dispatch_handle,pCombinationCount,pCombinations, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV
     VK_CMD_LOGA("  out: pCombinations[]: VkFramebufferMixedSamplesCombinationNV");
     for (int i = 0; i < pCombinationCount; i++) {
@@ -2258,11 +2507,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkFramebufferMixedSamplesCombinationNV
-#warning TODO: Repack struct+array+out GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV EntrypointParam(type='VkFramebufferMixedSamplesCombinationNV', name='pCombinations', decl='VkFramebufferMixedSamplesCombinationNV* pCombinations', len='pCombinationCount', elem=<Element 'param' at 0x75c0e9330bd0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV EntrypointParam(type='VkFramebufferMixedSamplesCombinationNV', name='pCombinations', decl='VkFramebufferMixedSamplesCombinationNV* pCombinations', len='pCombinationCount', elem=<Element 'param' at 0x7f0cb3050b80>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV with (physicalDevice: %p,pCombinationCount: %p,pCombinations: %p) failed with result: %d", base->dispatch_handle,pCombinationCount,pCombinations, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV with (physicalDevice: %p,pCombinationCount: %p,pCombinations: %p) failed with result: %d", base->dispatch_handle,pCombinationCount,pCombinations, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                                                                 
@@ -2272,6 +2522,8 @@ wrapper_tramp_GetPhysicalDeviceToolProperties(
     uint32_t* pToolCount,
     VkPhysicalDeviceToolProperties* pToolProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceToolProperties");
 WLOGA("GetPhysicalDeviceToolProperties(physicalDevice: %p, pToolCount: %p, pToolProperties: %p)", physicalDevice, pToolCount, pToolProperties);
@@ -2281,14 +2533,15 @@ WLOGA("GetPhysicalDeviceToolProperties(physicalDevice: %p, pToolCount: %p, pTool
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceToolProperties(base->dispatch_handle, pToolCount, pToolProperties);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceToolProperties
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceToolProperties
     VK_CMD_LOGA("  out: *pToolCount: uint32_t = %x", (int64_t)*pToolCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceToolProperties with (physicalDevice: %p,pToolCount: %p,pToolProperties: %p) failed with result: %d", base->dispatch_handle,pToolCount,pToolProperties, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceToolProperties
     VK_CMD_LOGA("  out: pToolProperties[]: VkPhysicalDeviceToolProperties");
     for (int i = 0; i < pToolCount; i++) {
@@ -2298,11 +2551,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceToolProperties
-#warning TODO: Repack struct+array+out GetPhysicalDeviceToolProperties EntrypointParam(type='VkPhysicalDeviceToolProperties', name='pToolProperties', decl='VkPhysicalDeviceToolProperties* pToolProperties', len='pToolCount', elem=<Element 'param' at 0x75c0e9339760>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceToolProperties EntrypointParam(type='VkPhysicalDeviceToolProperties', name='pToolProperties', decl='VkPhysicalDeviceToolProperties* pToolProperties', len='pToolCount', elem=<Element 'param' at 0x7f0cb3059710>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceToolProperties with (physicalDevice: %p,pToolCount: %p,pToolProperties: %p) failed with result: %d", base->dispatch_handle,pToolCount,pToolProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceToolProperties with (physicalDevice: %p,pToolCount: %p,pToolProperties: %p) failed with result: %d", base->dispatch_handle,pToolCount,pToolProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                                                                                                                                                                                                                                                                                                                                                                                                         
@@ -2312,6 +2566,8 @@ wrapper_tramp_GetPhysicalDeviceFragmentShadingRatesKHR(
     uint32_t* pFragmentShadingRateCount,
     VkPhysicalDeviceFragmentShadingRateKHR* pFragmentShadingRates)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceFragmentShadingRatesKHR");
 WLOGA("GetPhysicalDeviceFragmentShadingRatesKHR(physicalDevice: %p, pFragmentShadingRateCount: %p, pFragmentShadingRates: %p)", physicalDevice, pFragmentShadingRateCount, pFragmentShadingRates);
@@ -2321,14 +2577,15 @@ WLOGA("GetPhysicalDeviceFragmentShadingRatesKHR(physicalDevice: %p, pFragmentSha
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceFragmentShadingRatesKHR(base->dispatch_handle, pFragmentShadingRateCount, pFragmentShadingRates);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceFragmentShadingRatesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceFragmentShadingRatesKHR
     VK_CMD_LOGA("  out: *pFragmentShadingRateCount: uint32_t = %x", (int64_t)*pFragmentShadingRateCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceFragmentShadingRatesKHR with (physicalDevice: %p,pFragmentShadingRateCount: %p,pFragmentShadingRates: %p) failed with result: %d", base->dispatch_handle,pFragmentShadingRateCount,pFragmentShadingRates, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceFragmentShadingRatesKHR
     VK_CMD_LOGA("  out: pFragmentShadingRates[]: VkPhysicalDeviceFragmentShadingRateKHR");
     for (int i = 0; i < pFragmentShadingRateCount; i++) {
@@ -2338,11 +2595,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceFragmentShadingRateKHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceFragmentShadingRatesKHR EntrypointParam(type='VkPhysicalDeviceFragmentShadingRateKHR', name='pFragmentShadingRates', decl='VkPhysicalDeviceFragmentShadingRateKHR* pFragmentShadingRates', len='pFragmentShadingRateCount', elem=<Element 'param' at 0x75c0e9375fd0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceFragmentShadingRatesKHR EntrypointParam(type='VkPhysicalDeviceFragmentShadingRateKHR', name='pFragmentShadingRates', decl='VkPhysicalDeviceFragmentShadingRateKHR* pFragmentShadingRates', len='pFragmentShadingRateCount', elem=<Element 'param' at 0x7f0cb3095f80>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceFragmentShadingRatesKHR with (physicalDevice: %p,pFragmentShadingRateCount: %p,pFragmentShadingRates: %p) failed with result: %d", base->dispatch_handle,pFragmentShadingRateCount,pFragmentShadingRates, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceFragmentShadingRatesKHR with (physicalDevice: %p,pFragmentShadingRateCount: %p,pFragmentShadingRates: %p) failed with result: %d", base->dispatch_handle,pFragmentShadingRateCount,pFragmentShadingRates, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                                                                                         
@@ -2352,6 +2610,8 @@ wrapper_tramp_GetPhysicalDeviceVideoCapabilitiesKHR(
     const VkVideoProfileInfoKHR* pVideoProfile,
     VkVideoCapabilitiesKHR* pCapabilities)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceVideoCapabilitiesKHR");
 WLOGA("GetPhysicalDeviceVideoCapabilitiesKHR(physicalDevice: %p, pVideoProfile: %p, pCapabilities: %p)", physicalDevice, pVideoProfile, pCapabilities);
@@ -2363,7 +2623,7 @@ const VkVideoProfileInfoKHR* pVideoProfile__ = pVideoProfile;
 #ifdef NEEDS_UNWRAPPING_VkVideoProfileInfoKHR
     VkVideoProfileInfoKHR _w_pVideoProfile = { 0 };
     pVideoProfile__ = &_w_pVideoProfile;
-    unwrap_VkVideoProfileInfoKHR(NULL, (VkVideoProfileInfoKHR *) pVideoProfile__, pVideoProfile);
+    unwrap_VkVideoProfileInfoKHR(&temp, NULL, (VkVideoProfileInfoKHR *) pVideoProfile__, pVideoProfile);
 #endif
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceVideoCapabilitiesKHR
     VK_CMD_LOGA("  in: pVideoProfile: VkVideoProfileInfoKHR*");
@@ -2372,16 +2632,21 @@ const VkVideoProfileInfoKHR* pVideoProfile__ = pVideoProfile;
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceVideoCapabilitiesKHR(base->dispatch_handle, pVideoProfile__, pCapabilities);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceVideoCapabilitiesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceVideoCapabilitiesKHR
     VK_CMD_LOGA("  out: pCapabilities: VkVideoCapabilitiesKHR*");
     VK_PRINT_VkVideoCapabilitiesKHR("    ", pCapabilities);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkVideoCapabilitiesKHR
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceVideoCapabilitiesKHR EntrypointParam(type='VkVideoCapabilitiesKHR', name='pCapabilities', decl='VkVideoCapabilitiesKHR* pCapabilities', len=None, elem=<Element 'param' at 0x75c0e9383c90>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceVideoCapabilitiesKHR EntrypointParam(type='VkVideoCapabilitiesKHR', name='pCapabilities', decl='VkVideoCapabilitiesKHR* pCapabilities', len=None, elem=<Element 'param' at 0x7f0cb30a3c40>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceVideoCapabilitiesKHR with (physicalDevice: %p,pVideoProfile: %p,pCapabilities: %p) failed with result: %d", base->dispatch_handle,pVideoProfile__,pCapabilities, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceVideoCapabilitiesKHR with (physicalDevice: %p,pVideoProfile: %p,pCapabilities: %p) failed with result: %d", base->dispatch_handle,pVideoProfile__,pCapabilities, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -2392,6 +2657,8 @@ wrapper_tramp_GetPhysicalDeviceVideoFormatPropertiesKHR(
     uint32_t* pVideoFormatPropertyCount,
     VkVideoFormatPropertiesKHR* pVideoFormatProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceVideoFormatPropertiesKHR");
 WLOGA("GetPhysicalDeviceVideoFormatPropertiesKHR(physicalDevice: %p, pVideoFormatInfo: %p, pVideoFormatPropertyCount: %p, pVideoFormatProperties: %p)", physicalDevice, pVideoFormatInfo, pVideoFormatPropertyCount, pVideoFormatProperties);
@@ -2403,7 +2670,7 @@ const VkPhysicalDeviceVideoFormatInfoKHR* pVideoFormatInfo__ = pVideoFormatInfo;
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceVideoFormatInfoKHR
     VkPhysicalDeviceVideoFormatInfoKHR _w_pVideoFormatInfo = { 0 };
     pVideoFormatInfo__ = &_w_pVideoFormatInfo;
-    unwrap_VkPhysicalDeviceVideoFormatInfoKHR(NULL, (VkPhysicalDeviceVideoFormatInfoKHR *) pVideoFormatInfo__, pVideoFormatInfo);
+    unwrap_VkPhysicalDeviceVideoFormatInfoKHR(&temp, NULL, (VkPhysicalDeviceVideoFormatInfoKHR *) pVideoFormatInfo__, pVideoFormatInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceVideoFormatPropertiesKHR
     VK_CMD_LOGA("  in: pVideoFormatInfo: VkPhysicalDeviceVideoFormatInfoKHR*");
@@ -2412,14 +2679,15 @@ const VkPhysicalDeviceVideoFormatInfoKHR* pVideoFormatInfo__ = pVideoFormatInfo;
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceVideoFormatPropertiesKHR(base->dispatch_handle, pVideoFormatInfo__, pVideoFormatPropertyCount, pVideoFormatProperties);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceVideoFormatPropertiesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceVideoFormatPropertiesKHR
     VK_CMD_LOGA("  out: *pVideoFormatPropertyCount: uint32_t = %x", (int64_t)*pVideoFormatPropertyCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceVideoFormatPropertiesKHR with (physicalDevice: %p,pVideoFormatInfo: %p,pVideoFormatPropertyCount: %p,pVideoFormatProperties: %p) failed with result: %d", base->dispatch_handle,pVideoFormatInfo__,pVideoFormatPropertyCount,pVideoFormatProperties, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceVideoFormatPropertiesKHR
     VK_CMD_LOGA("  out: pVideoFormatProperties[]: VkVideoFormatPropertiesKHR");
     for (int i = 0; i < pVideoFormatPropertyCount; i++) {
@@ -2429,11 +2697,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkVideoFormatPropertiesKHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceVideoFormatPropertiesKHR EntrypointParam(type='VkVideoFormatPropertiesKHR', name='pVideoFormatProperties', decl='VkVideoFormatPropertiesKHR* pVideoFormatProperties', len='pVideoFormatPropertyCount', elem=<Element 'param' at 0x75c0e9394310>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceVideoFormatPropertiesKHR EntrypointParam(type='VkVideoFormatPropertiesKHR', name='pVideoFormatProperties', decl='VkVideoFormatPropertiesKHR* pVideoFormatProperties', len='pVideoFormatPropertyCount', elem=<Element 'param' at 0x7f0cb30b42c0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceVideoFormatPropertiesKHR with (physicalDevice: %p,pVideoFormatInfo: %p,pVideoFormatPropertyCount: %p,pVideoFormatProperties: %p) failed with result: %d", base->dispatch_handle,pVideoFormatInfo__,pVideoFormatPropertyCount,pVideoFormatProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceVideoFormatPropertiesKHR with (physicalDevice: %p,pVideoFormatInfo: %p,pVideoFormatPropertyCount: %p,pVideoFormatProperties: %p) failed with result: %d", base->dispatch_handle,pVideoFormatInfo__,pVideoFormatPropertyCount,pVideoFormatProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -2443,6 +2712,8 @@ wrapper_tramp_GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR(
     const VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR* pQualityLevelInfo,
     VkVideoEncodeQualityLevelPropertiesKHR* pQualityLevelProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR");
 WLOGA("GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR(physicalDevice: %p, pQualityLevelInfo: %p, pQualityLevelProperties: %p)", physicalDevice, pQualityLevelInfo, pQualityLevelProperties);
@@ -2454,7 +2725,7 @@ const VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR* pQualityLevelInfo__ = pQua
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR
     VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR _w_pQualityLevelInfo = { 0 };
     pQualityLevelInfo__ = &_w_pQualityLevelInfo;
-    unwrap_VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR(NULL, (VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR *) pQualityLevelInfo__, pQualityLevelInfo);
+    unwrap_VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR(&temp, NULL, (VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR *) pQualityLevelInfo__, pQualityLevelInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR
     VK_CMD_LOGA("  in: pQualityLevelInfo: VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR*");
@@ -2463,16 +2734,21 @@ const VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR* pQualityLevelInfo__ = pQua
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR(base->dispatch_handle, pQualityLevelInfo__, pQualityLevelProperties);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR
     VK_CMD_LOGA("  out: pQualityLevelProperties: VkVideoEncodeQualityLevelPropertiesKHR*");
     VK_PRINT_VkVideoEncodeQualityLevelPropertiesKHR("    ", pQualityLevelProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkVideoEncodeQualityLevelPropertiesKHR
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR EntrypointParam(type='VkVideoEncodeQualityLevelPropertiesKHR', name='pQualityLevelProperties', decl='VkVideoEncodeQualityLevelPropertiesKHR* pQualityLevelProperties', len=None, elem=<Element 'param' at 0x75c0e9394770>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR EntrypointParam(type='VkVideoEncodeQualityLevelPropertiesKHR', name='pQualityLevelProperties', decl='VkVideoEncodeQualityLevelPropertiesKHR* pQualityLevelProperties', len=None, elem=<Element 'param' at 0x7f0cb30b4720>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR with (physicalDevice: %p,pQualityLevelInfo: %p,pQualityLevelProperties: %p) failed with result: %d", base->dispatch_handle,pQualityLevelInfo__,pQualityLevelProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR with (physicalDevice: %p,pQualityLevelInfo: %p,pQualityLevelProperties: %p) failed with result: %d", base->dispatch_handle,pQualityLevelInfo__,pQualityLevelProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                                                                                                                                 
@@ -2482,6 +2758,8 @@ wrapper_tramp_AcquireDrmDisplayEXT(
     int32_t drmFd,
     VkDisplayKHR display)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("AcquireDrmDisplayEXT");
 WLOGA("AcquireDrmDisplayEXT(physicalDevice: %p, drmFd: %x, display: %x)", physicalDevice, drmFd, display);
@@ -2504,7 +2782,14 @@ VkDisplayKHR display__ = display;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.AcquireDrmDisplayEXT(base->dispatch_handle, drmFd__, display__);
-
+#ifdef NEEDS_PRINTING_AcquireDrmDisplayEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to AcquireDrmDisplayEXT with (physicalDevice: %p,drmFd: %x,display: %x) failed with result: %d", base->dispatch_handle,drmFd__,display__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -2515,6 +2800,8 @@ wrapper_tramp_GetDrmDisplayEXT(
     uint32_t connectorId,
     VkDisplayKHR* display)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetDrmDisplayEXT");
 WLOGA("GetDrmDisplayEXT(physicalDevice: %p, drmFd: %x, connectorId: %x, display: %p)", physicalDevice, drmFd, connectorId, display);
@@ -2538,14 +2825,19 @@ uint32_t connectorId__ = connectorId;
 #endif
     VkResult result = base->dispatch_table.GetDrmDisplayEXT(base->dispatch_handle, drmFd__, connectorId__, display);
 #ifdef NEEDS_PRINTING_GetDrmDisplayEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetDrmDisplayEXT
     VK_CMD_LOGA("  out: *display: VkDisplayKHR = %x", (int64_t)*display);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDrmDisplayEXT with (physicalDevice: %p,drmFd: %x,connectorId: %x,display: %p) failed with result: %d", base->dispatch_handle,drmFd__,connectorId__,display, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetDrmDisplayEXT with (physicalDevice: %p,drmFd: %x,connectorId: %x,display: %p) failed with result: %d", base->dispatch_handle,drmFd__,connectorId__,display, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                                                                                                                                         
@@ -2556,6 +2848,8 @@ wrapper_tramp_GetPhysicalDeviceOpticalFlowImageFormatsNV(
     uint32_t* pFormatCount,
     VkOpticalFlowImageFormatPropertiesNV* pImageFormatProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceOpticalFlowImageFormatsNV");
 WLOGA("GetPhysicalDeviceOpticalFlowImageFormatsNV(physicalDevice: %p, pOpticalFlowImageFormatInfo: %p, pFormatCount: %p, pImageFormatProperties: %p)", physicalDevice, pOpticalFlowImageFormatInfo, pFormatCount, pImageFormatProperties);
@@ -2567,7 +2861,7 @@ const VkOpticalFlowImageFormatInfoNV* pOpticalFlowImageFormatInfo__ = pOpticalFl
 #ifdef NEEDS_UNWRAPPING_VkOpticalFlowImageFormatInfoNV
     VkOpticalFlowImageFormatInfoNV _w_pOpticalFlowImageFormatInfo = { 0 };
     pOpticalFlowImageFormatInfo__ = &_w_pOpticalFlowImageFormatInfo;
-    unwrap_VkOpticalFlowImageFormatInfoNV(NULL, (VkOpticalFlowImageFormatInfoNV *) pOpticalFlowImageFormatInfo__, pOpticalFlowImageFormatInfo);
+    unwrap_VkOpticalFlowImageFormatInfoNV(&temp, NULL, (VkOpticalFlowImageFormatInfoNV *) pOpticalFlowImageFormatInfo__, pOpticalFlowImageFormatInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceOpticalFlowImageFormatsNV
     VK_CMD_LOGA("  in: pOpticalFlowImageFormatInfo: VkOpticalFlowImageFormatInfoNV*");
@@ -2576,14 +2870,15 @@ const VkOpticalFlowImageFormatInfoNV* pOpticalFlowImageFormatInfo__ = pOpticalFl
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceOpticalFlowImageFormatsNV(base->dispatch_handle, pOpticalFlowImageFormatInfo__, pFormatCount, pImageFormatProperties);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceOpticalFlowImageFormatsNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceOpticalFlowImageFormatsNV
     VK_CMD_LOGA("  out: *pFormatCount: uint32_t = %x", (int64_t)*pFormatCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceOpticalFlowImageFormatsNV with (physicalDevice: %p,pOpticalFlowImageFormatInfo: %p,pFormatCount: %p,pImageFormatProperties: %p) failed with result: %d", base->dispatch_handle,pOpticalFlowImageFormatInfo__,pFormatCount,pImageFormatProperties, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceOpticalFlowImageFormatsNV
     VK_CMD_LOGA("  out: pImageFormatProperties[]: VkOpticalFlowImageFormatPropertiesNV");
     for (int i = 0; i < pFormatCount; i++) {
@@ -2593,11 +2888,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkOpticalFlowImageFormatPropertiesNV
-#warning TODO: Repack struct+array+out GetPhysicalDeviceOpticalFlowImageFormatsNV EntrypointParam(type='VkOpticalFlowImageFormatPropertiesNV', name='pImageFormatProperties', decl='VkOpticalFlowImageFormatPropertiesNV* pImageFormatProperties', len='pFormatCount', elem=<Element 'param' at 0x75c0e93d5fd0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceOpticalFlowImageFormatsNV EntrypointParam(type='VkOpticalFlowImageFormatPropertiesNV', name='pImageFormatProperties', decl='VkOpticalFlowImageFormatPropertiesNV* pImageFormatProperties', len='pFormatCount', elem=<Element 'param' at 0x7f0cb2ef9f80>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceOpticalFlowImageFormatsNV with (physicalDevice: %p,pOpticalFlowImageFormatInfo: %p,pFormatCount: %p,pImageFormatProperties: %p) failed with result: %d", base->dispatch_handle,pOpticalFlowImageFormatInfo__,pFormatCount,pImageFormatProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceOpticalFlowImageFormatsNV with (physicalDevice: %p,pOpticalFlowImageFormatInfo: %p,pFormatCount: %p,pImageFormatProperties: %p) failed with result: %d", base->dispatch_handle,pOpticalFlowImageFormatInfo__,pFormatCount,pImageFormatProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                                                             
@@ -2607,6 +2903,8 @@ wrapper_tramp_GetPhysicalDeviceCooperativeMatrixPropertiesKHR(
     uint32_t* pPropertyCount,
     VkCooperativeMatrixPropertiesKHR* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_physical_device, base, physicalDevice);
     VK_CMD_LOG("GetPhysicalDeviceCooperativeMatrixPropertiesKHR");
 WLOGA("GetPhysicalDeviceCooperativeMatrixPropertiesKHR(physicalDevice: %p, pPropertyCount: %p, pProperties: %p)", physicalDevice, pPropertyCount, pProperties);
@@ -2616,14 +2914,15 @@ WLOGA("GetPhysicalDeviceCooperativeMatrixPropertiesKHR(physicalDevice: %p, pProp
 #endif
     VkResult result = base->dispatch_table.GetPhysicalDeviceCooperativeMatrixPropertiesKHR(base->dispatch_handle, pPropertyCount, pProperties);
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceCooperativeMatrixPropertiesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPhysicalDeviceCooperativeMatrixPropertiesKHR
     VK_CMD_LOGA("  out: *pPropertyCount: uint32_t = %x", (int64_t)*pPropertyCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceCooperativeMatrixPropertiesKHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
-}
 #ifdef NEEDS_PRINTING_GetPhysicalDeviceCooperativeMatrixPropertiesKHR
     VK_CMD_LOGA("  out: pProperties[]: VkCooperativeMatrixPropertiesKHR");
     for (int i = 0; i < pPropertyCount; i++) {
@@ -2633,11 +2932,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkCooperativeMatrixPropertiesKHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceCooperativeMatrixPropertiesKHR EntrypointParam(type='VkCooperativeMatrixPropertiesKHR', name='pProperties', decl='VkCooperativeMatrixPropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75c0e93deb60>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceCooperativeMatrixPropertiesKHR EntrypointParam(type='VkCooperativeMatrixPropertiesKHR', name='pProperties', decl='VkCooperativeMatrixPropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7f0cb2f02b10>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPhysicalDeviceCooperativeMatrixPropertiesKHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPhysicalDeviceCooperativeMatrixPropertiesKHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                                                     
@@ -2738,6 +3038,8 @@ wrapper_tramp_GetDeviceProcAddr(
     VkDevice device,
     const char* pName)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceProcAddr");
 WLOGA("GetDeviceProcAddr(device: %p, pName: %x)", device, pName);
@@ -2754,6 +3056,7 @@ const char* pName__ = pName;
 #endif
     PFN_vkVoidFunction result = base->dispatch_table.GetDeviceProcAddr(base->dispatch_handle, pName__);
 
+    free_temp_objects(&temp);
     return result;
 }
                                 
@@ -2762,6 +3065,8 @@ wrapper_tramp_DestroyDevice(
     VkDevice device,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyDevice");
 WLOGA("DestroyDevice(device: %p, pAllocator: %p)", device, pAllocator);
@@ -2773,7 +3078,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyDevice
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -2782,6 +3087,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyDevice(base->dispatch_handle, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
                     
@@ -2792,6 +3098,8 @@ wrapper_tramp_GetDeviceQueue(
     uint32_t queueIndex,
     VkQueue* pQueue)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceQueue");
 WLOGA("GetDeviceQueue(device: %p)", device, queueFamilyIndex, queueIndex, pQueue);
@@ -2801,6 +3109,7 @@ WLOGA("GetDeviceQueue(device: %p)", device, queueFamilyIndex, queueIndex, pQueue
 #endif
     base->dispatch_table.GetDeviceQueue(base->dispatch_handle, queueFamilyIndex, queueIndex, pQueue);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -2811,6 +3120,8 @@ wrapper_tramp_QueueSubmit(
     const VkSubmitInfo* pSubmits,
     VkFence fence)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_queue, base, queue);
     VK_CMD_LOG("QueueSubmit");
 WLOGA("QueueSubmit(queue: %p, submitCount: %x, pSubmits: %p, fence: %x)", queue, submitCount, pSubmits, fence);
@@ -2829,7 +3140,7 @@ const VkSubmitInfo* pSubmits__ = pSubmits;
 #ifdef NEEDS_UNWRAPPING_VkSubmitInfo
     pSubmits__ = alloca(submitCount * sizeof(VkSubmitInfo));
     for (int i = 0; i < submitCount; i++)
-        unwrap_VkSubmitInfo(base->device, (VkSubmitInfo *) &pSubmits__[i], &pSubmits[i]);
+        unwrap_VkSubmitInfo(&temp, base->device, (VkSubmitInfo *) &pSubmits__[i], &pSubmits[i]);
 #endif
 #ifdef NEEDS_PRINTING_QueueSubmit
     VK_CMD_LOGA("  in: pSubmits[]: VkSubmitInfo");
@@ -2847,7 +3158,14 @@ VkFence fence__ = fence;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->device->dispatch_table.QueueSubmit(base->dispatch_handle, submitCount__, pSubmits__, fence__);
-
+#ifdef NEEDS_PRINTING_QueueSubmit
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to QueueSubmit with (queue: %p,submitCount: %x,pSubmits: %p,fence: %x) failed with result: %d", base->dispatch_handle,submitCount__,pSubmits__,fence__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -2855,6 +3173,8 @@ static VKAPI_ATTR VkResult VKAPI_CALL
 wrapper_tramp_QueueWaitIdle(
     VkQueue queue)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_queue, base, queue);
     VK_CMD_LOG("QueueWaitIdle");
 WLOGA("QueueWaitIdle(queue: %p)", queue);
@@ -2863,7 +3183,14 @@ WLOGA("QueueWaitIdle(queue: %p)", queue);
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->device->dispatch_table.QueueWaitIdle(base->dispatch_handle);
-
+#ifdef NEEDS_PRINTING_QueueWaitIdle
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to QueueWaitIdle with (queue: %p) failed with result: %d", base->dispatch_handle, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -2871,6 +3198,8 @@ static VKAPI_ATTR VkResult VKAPI_CALL
 wrapper_tramp_DeviceWaitIdle(
     VkDevice device)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DeviceWaitIdle");
 WLOGA("DeviceWaitIdle(device: %p)", device);
@@ -2879,7 +3208,14 @@ WLOGA("DeviceWaitIdle(device: %p)", device);
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.DeviceWaitIdle(base->dispatch_handle);
-
+#ifdef NEEDS_PRINTING_DeviceWaitIdle
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to DeviceWaitIdle with (device: %p) failed with result: %d", base->dispatch_handle, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -2890,6 +3226,8 @@ wrapper_tramp_AllocateMemory(
     const VkAllocationCallbacks* pAllocator,
     VkDeviceMemory* pMemory)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("AllocateMemory");
 WLOGA("AllocateMemory(device: %p, pAllocateInfo: %p, pAllocator: %p, pMemory: %p)", device, pAllocateInfo, pAllocator, pMemory);
@@ -2901,7 +3239,7 @@ const VkMemoryAllocateInfo* pAllocateInfo__ = pAllocateInfo;
 #ifdef NEEDS_UNWRAPPING_VkMemoryAllocateInfo
     VkMemoryAllocateInfo _w_pAllocateInfo = { 0 };
     pAllocateInfo__ = &_w_pAllocateInfo;
-    unwrap_VkMemoryAllocateInfo(base, (VkMemoryAllocateInfo *) pAllocateInfo__, pAllocateInfo);
+    unwrap_VkMemoryAllocateInfo(&temp, base, (VkMemoryAllocateInfo *) pAllocateInfo__, pAllocateInfo);
 #endif
 #ifdef NEEDS_PRINTING_AllocateMemory
     VK_CMD_LOGA("  in: pAllocateInfo: VkMemoryAllocateInfo*");
@@ -2912,7 +3250,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_AllocateMemory
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -2921,14 +3259,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.AllocateMemory(base->dispatch_handle, pAllocateInfo__, pAllocator__, pMemory);
 #ifdef NEEDS_PRINTING_AllocateMemory
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_AllocateMemory
     VK_CMD_LOGA("  out: *pMemory: VkDeviceMemory = %x", (int64_t)*pMemory);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDeviceMemory
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to AllocateMemory with (device: %p,pAllocateInfo: %p,pAllocator: %p,pMemory: %p) failed with result: %d", base->dispatch_handle,pAllocateInfo__,pAllocator__,pMemory, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to AllocateMemory with (device: %p,pAllocateInfo: %p,pAllocator: %p,pMemory: %p) failed with result: %d", base->dispatch_handle,pAllocateInfo__,pAllocator__,pMemory, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -2938,6 +3281,8 @@ wrapper_tramp_FreeMemory(
     VkDeviceMemory memory,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("FreeMemory");
 WLOGA("FreeMemory(device: %p, memory: %x, pAllocator: %p)", device, memory, pAllocator);
@@ -2956,7 +3301,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_FreeMemory
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -2965,6 +3310,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.FreeMemory(base->dispatch_handle, memory__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -2977,6 +3323,8 @@ wrapper_tramp_MapMemory(
     VkMemoryMapFlags flags,
     void** ppData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("MapMemory");
 WLOGA("MapMemory(device: %p, memory: %x, offset: %x, size: %x, flags: %x, ppData: %p)", device, memory, offset, size, flags, ppData);
@@ -3014,14 +3362,19 @@ VkMemoryMapFlags flags__ = flags;
 #endif
     VkResult result = base->dispatch_table.MapMemory(base->dispatch_handle, memory__, offset__, size__, flags__, ppData);
 #ifdef NEEDS_PRINTING_MapMemory
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_MapMemory
     VK_CMD_LOGA("  out: *ppData: void = %x", (int64_t)*ppData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to MapMemory with (device: %p,memory: %x,offset: %x,size: %x,flags: %x,ppData: %p) failed with result: %d", base->dispatch_handle,memory__,offset__,size__,flags__,ppData, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to MapMemory with (device: %p,memory: %x,offset: %x,size: %x,flags: %x,ppData: %p) failed with result: %d", base->dispatch_handle,memory__,offset__,size__,flags__,ppData, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3030,6 +3383,8 @@ wrapper_tramp_UnmapMemory(
     VkDevice device,
     VkDeviceMemory memory)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("UnmapMemory");
 WLOGA("UnmapMemory(device: %p, memory: %x)", device, memory);
@@ -3046,6 +3401,7 @@ VkDeviceMemory memory__ = memory;
 #endif
     base->dispatch_table.UnmapMemory(base->dispatch_handle, memory__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -3055,6 +3411,8 @@ wrapper_tramp_FlushMappedMemoryRanges(
     uint32_t memoryRangeCount,
     const VkMappedMemoryRange* pMemoryRanges)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("FlushMappedMemoryRanges");
 WLOGA("FlushMappedMemoryRanges(device: %p, memoryRangeCount: %x, pMemoryRanges: %p)", device, memoryRangeCount, pMemoryRanges);
@@ -3073,7 +3431,7 @@ const VkMappedMemoryRange* pMemoryRanges__ = pMemoryRanges;
 #ifdef NEEDS_UNWRAPPING_VkMappedMemoryRange
     pMemoryRanges__ = alloca(memoryRangeCount * sizeof(VkMappedMemoryRange));
     for (int i = 0; i < memoryRangeCount; i++)
-        unwrap_VkMappedMemoryRange(base, (VkMappedMemoryRange *) &pMemoryRanges__[i], &pMemoryRanges[i]);
+        unwrap_VkMappedMemoryRange(&temp, base, (VkMappedMemoryRange *) &pMemoryRanges__[i], &pMemoryRanges[i]);
 #endif
 #ifdef NEEDS_PRINTING_FlushMappedMemoryRanges
     VK_CMD_LOGA("  in: pMemoryRanges[]: VkMappedMemoryRange");
@@ -3084,7 +3442,14 @@ const VkMappedMemoryRange* pMemoryRanges__ = pMemoryRanges;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.FlushMappedMemoryRanges(base->dispatch_handle, memoryRangeCount__, pMemoryRanges__);
-
+#ifdef NEEDS_PRINTING_FlushMappedMemoryRanges
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to FlushMappedMemoryRanges with (device: %p,memoryRangeCount: %x,pMemoryRanges: %p) failed with result: %d", base->dispatch_handle,memoryRangeCount__,pMemoryRanges__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3094,6 +3459,8 @@ wrapper_tramp_InvalidateMappedMemoryRanges(
     uint32_t memoryRangeCount,
     const VkMappedMemoryRange* pMemoryRanges)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("InvalidateMappedMemoryRanges");
 WLOGA("InvalidateMappedMemoryRanges(device: %p, memoryRangeCount: %x, pMemoryRanges: %p)", device, memoryRangeCount, pMemoryRanges);
@@ -3112,7 +3479,7 @@ const VkMappedMemoryRange* pMemoryRanges__ = pMemoryRanges;
 #ifdef NEEDS_UNWRAPPING_VkMappedMemoryRange
     pMemoryRanges__ = alloca(memoryRangeCount * sizeof(VkMappedMemoryRange));
     for (int i = 0; i < memoryRangeCount; i++)
-        unwrap_VkMappedMemoryRange(base, (VkMappedMemoryRange *) &pMemoryRanges__[i], &pMemoryRanges[i]);
+        unwrap_VkMappedMemoryRange(&temp, base, (VkMappedMemoryRange *) &pMemoryRanges__[i], &pMemoryRanges[i]);
 #endif
 #ifdef NEEDS_PRINTING_InvalidateMappedMemoryRanges
     VK_CMD_LOGA("  in: pMemoryRanges[]: VkMappedMemoryRange");
@@ -3123,7 +3490,14 @@ const VkMappedMemoryRange* pMemoryRanges__ = pMemoryRanges;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.InvalidateMappedMemoryRanges(base->dispatch_handle, memoryRangeCount__, pMemoryRanges__);
-
+#ifdef NEEDS_PRINTING_InvalidateMappedMemoryRanges
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to InvalidateMappedMemoryRanges with (device: %p,memoryRangeCount: %x,pMemoryRanges: %p) failed with result: %d", base->dispatch_handle,memoryRangeCount__,pMemoryRanges__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3133,6 +3507,8 @@ wrapper_tramp_GetDeviceMemoryCommitment(
     VkDeviceMemory memory,
     VkDeviceSize* pCommittedMemoryInBytes)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceMemoryCommitment");
 WLOGA("GetDeviceMemoryCommitment(device: %p, memory: %x, pCommittedMemoryInBytes: %p)", device, memory, pCommittedMemoryInBytes);
@@ -3154,6 +3530,7 @@ VkDeviceMemory memory__ = memory;
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDeviceSize
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -3163,6 +3540,8 @@ wrapper_tramp_GetBufferMemoryRequirements(
     VkBuffer buffer,
     VkMemoryRequirements* pMemoryRequirements)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetBufferMemoryRequirements");
 WLOGA("GetBufferMemoryRequirements(device: %p, buffer: %x, pMemoryRequirements: %p)", device, buffer, pMemoryRequirements);
@@ -3184,8 +3563,9 @@ VkBuffer buffer__ = buffer;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements
-#warning TODO: Repack struct+ptr+out GetBufferMemoryRequirements EntrypointParam(type='VkMemoryRequirements', name='pMemoryRequirements', decl='VkMemoryRequirements* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75c0e95bd710>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetBufferMemoryRequirements EntrypointParam(type='VkMemoryRequirements', name='pMemoryRequirements', decl='VkMemoryRequirements* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7f0cb32cd6c0>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -3196,6 +3576,8 @@ wrapper_tramp_BindBufferMemory(
     VkDeviceMemory memory,
     VkDeviceSize memoryOffset)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("BindBufferMemory");
 WLOGA("BindBufferMemory(device: %p, buffer: %x, memory: %x, memoryOffset: %x)", device, buffer, memory, memoryOffset);
@@ -3225,7 +3607,14 @@ VkDeviceSize memoryOffset__ = memoryOffset;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.BindBufferMemory(base->dispatch_handle, buffer__, memory__, memoryOffset__);
-
+#ifdef NEEDS_PRINTING_BindBufferMemory
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to BindBufferMemory with (device: %p,buffer: %x,memory: %x,memoryOffset: %x) failed with result: %d", base->dispatch_handle,buffer__,memory__,memoryOffset__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3235,6 +3624,8 @@ wrapper_tramp_GetImageMemoryRequirements(
     VkImage image,
     VkMemoryRequirements* pMemoryRequirements)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetImageMemoryRequirements");
 WLOGA("GetImageMemoryRequirements(device: %p, image: %x, pMemoryRequirements: %p)", device, image, pMemoryRequirements);
@@ -3256,8 +3647,9 @@ VkImage image__ = image;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements
-#warning TODO: Repack struct+ptr+out GetImageMemoryRequirements EntrypointParam(type='VkMemoryRequirements', name='pMemoryRequirements', decl='VkMemoryRequirements* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75c0e95be070>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetImageMemoryRequirements EntrypointParam(type='VkMemoryRequirements', name='pMemoryRequirements', decl='VkMemoryRequirements* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7f0cb32ce020>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -3268,6 +3660,8 @@ wrapper_tramp_BindImageMemory(
     VkDeviceMemory memory,
     VkDeviceSize memoryOffset)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("BindImageMemory");
 WLOGA("BindImageMemory(device: %p, image: %x, memory: %x, memoryOffset: %x)", device, image, memory, memoryOffset);
@@ -3297,7 +3691,14 @@ VkDeviceSize memoryOffset__ = memoryOffset;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.BindImageMemory(base->dispatch_handle, image__, memory__, memoryOffset__);
-
+#ifdef NEEDS_PRINTING_BindImageMemory
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to BindImageMemory with (device: %p,image: %x,memory: %x,memoryOffset: %x) failed with result: %d", base->dispatch_handle,image__,memory__,memoryOffset__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3308,6 +3709,8 @@ wrapper_tramp_GetImageSparseMemoryRequirements(
     uint32_t* pSparseMemoryRequirementCount,
     VkSparseImageMemoryRequirements* pSparseMemoryRequirements)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetImageSparseMemoryRequirements");
 WLOGA("GetImageSparseMemoryRequirements(device: %p, image: %x, pSparseMemoryRequirementCount: %p, pSparseMemoryRequirements: %p)", device, image, pSparseMemoryRequirementCount, pSparseMemoryRequirements);
@@ -3338,8 +3741,9 @@ VkImage image__ = image;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSparseImageMemoryRequirements
-#warning TODO: Repack struct+array+out GetImageSparseMemoryRequirements EntrypointParam(type='VkSparseImageMemoryRequirements', name='pSparseMemoryRequirements', decl='VkSparseImageMemoryRequirements* pSparseMemoryRequirements', len='pSparseMemoryRequirementCount', elem=<Element 'param' at 0x75c0e95beb60>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetImageSparseMemoryRequirements EntrypointParam(type='VkSparseImageMemoryRequirements', name='pSparseMemoryRequirements', decl='VkSparseImageMemoryRequirements* pSparseMemoryRequirements', len='pSparseMemoryRequirementCount', elem=<Element 'param' at 0x7f0cb32ceb10>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -3350,6 +3754,8 @@ wrapper_tramp_QueueBindSparse(
     const VkBindSparseInfo* pBindInfo,
     VkFence fence)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_queue, base, queue);
     VK_CMD_LOG("QueueBindSparse");
 WLOGA("QueueBindSparse(queue: %p, bindInfoCount: %x, pBindInfo: %p, fence: %x)", queue, bindInfoCount, pBindInfo, fence);
@@ -3368,7 +3774,7 @@ const VkBindSparseInfo* pBindInfo__ = pBindInfo;
 #ifdef NEEDS_UNWRAPPING_VkBindSparseInfo
     pBindInfo__ = alloca(bindInfoCount * sizeof(VkBindSparseInfo));
     for (int i = 0; i < bindInfoCount; i++)
-        unwrap_VkBindSparseInfo(base->device, (VkBindSparseInfo *) &pBindInfo__[i], &pBindInfo[i]);
+        unwrap_VkBindSparseInfo(&temp, base->device, (VkBindSparseInfo *) &pBindInfo__[i], &pBindInfo[i]);
 #endif
 #ifdef NEEDS_PRINTING_QueueBindSparse
     VK_CMD_LOGA("  in: pBindInfo[]: VkBindSparseInfo");
@@ -3386,7 +3792,14 @@ VkFence fence__ = fence;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->device->dispatch_table.QueueBindSparse(base->dispatch_handle, bindInfoCount__, pBindInfo__, fence__);
-
+#ifdef NEEDS_PRINTING_QueueBindSparse
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to QueueBindSparse with (queue: %p,bindInfoCount: %x,pBindInfo: %p,fence: %x) failed with result: %d", base->dispatch_handle,bindInfoCount__,pBindInfo__,fence__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3397,6 +3810,8 @@ wrapper_tramp_CreateFence(
     const VkAllocationCallbacks* pAllocator,
     VkFence* pFence)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateFence");
 WLOGA("CreateFence(device: %p, pCreateInfo: %p, pAllocator: %p, pFence: %p)", device, pCreateInfo, pAllocator, pFence);
@@ -3408,7 +3823,7 @@ const VkFenceCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkFenceCreateInfo
     VkFenceCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkFenceCreateInfo(base, (VkFenceCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkFenceCreateInfo(&temp, base, (VkFenceCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateFence
     VK_CMD_LOGA("  in: pCreateInfo: VkFenceCreateInfo*");
@@ -3419,7 +3834,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateFence
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -3428,14 +3843,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateFence(base->dispatch_handle, pCreateInfo__, pAllocator__, pFence);
 #ifdef NEEDS_PRINTING_CreateFence
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateFence
     VK_CMD_LOGA("  out: *pFence: VkFence = %x", (int64_t)*pFence);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkFence
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateFence with (device: %p,pCreateInfo: %p,pAllocator: %p,pFence: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pFence, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateFence with (device: %p,pCreateInfo: %p,pAllocator: %p,pFence: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pFence, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3445,6 +3865,8 @@ wrapper_tramp_DestroyFence(
     VkFence fence,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyFence");
 WLOGA("DestroyFence(device: %p, fence: %x, pAllocator: %p)", device, fence, pAllocator);
@@ -3463,7 +3885,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyFence
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -3472,6 +3894,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyFence(base->dispatch_handle, fence__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -3481,6 +3904,8 @@ wrapper_tramp_ResetFences(
     uint32_t fenceCount,
     const VkFence* pFences)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("ResetFences");
 WLOGA("ResetFences(device: %p, fenceCount: %x, pFences: %x)", device, fenceCount, pFences);
@@ -3503,7 +3928,14 @@ const VkFence* pFences__ = pFences;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.ResetFences(base->dispatch_handle, fenceCount__, pFences__);
-
+#ifdef NEEDS_PRINTING_ResetFences
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to ResetFences with (device: %p,fenceCount: %x,pFences: %x) failed with result: %d", base->dispatch_handle,fenceCount__,pFences__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3512,6 +3944,8 @@ wrapper_tramp_GetFenceStatus(
     VkDevice device,
     VkFence fence)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetFenceStatus");
 WLOGA("GetFenceStatus(device: %p, fence: %x)", device, fence);
@@ -3527,7 +3961,14 @@ VkFence fence__ = fence;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.GetFenceStatus(base->dispatch_handle, fence__);
-
+#ifdef NEEDS_PRINTING_GetFenceStatus
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetFenceStatus with (device: %p,fence: %x) failed with result: %d", base->dispatch_handle,fence__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3539,6 +3980,8 @@ wrapper_tramp_WaitForFences(
     VkBool32 waitAll,
     uint64_t timeout)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("WaitForFences");
 WLOGA("WaitForFences(device: %p, fenceCount: %x, pFences: %x, waitAll: %x, timeout: %x)", device, fenceCount, pFences, waitAll, timeout);
@@ -3575,7 +4018,14 @@ uint64_t timeout__ = timeout;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.WaitForFences(base->dispatch_handle, fenceCount__, pFences__, waitAll__, timeout__);
-
+#ifdef NEEDS_PRINTING_WaitForFences
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to WaitForFences with (device: %p,fenceCount: %x,pFences: %x,waitAll: %x,timeout: %x) failed with result: %d", base->dispatch_handle,fenceCount__,pFences__,waitAll__,timeout__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3586,6 +4036,8 @@ wrapper_tramp_CreateSemaphore(
     const VkAllocationCallbacks* pAllocator,
     VkSemaphore* pSemaphore)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateSemaphore");
 WLOGA("CreateSemaphore(device: %p, pCreateInfo: %p, pAllocator: %p, pSemaphore: %p)", device, pCreateInfo, pAllocator, pSemaphore);
@@ -3597,7 +4049,7 @@ const VkSemaphoreCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkSemaphoreCreateInfo
     VkSemaphoreCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkSemaphoreCreateInfo(base, (VkSemaphoreCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkSemaphoreCreateInfo(&temp, base, (VkSemaphoreCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateSemaphore
     VK_CMD_LOGA("  in: pCreateInfo: VkSemaphoreCreateInfo*");
@@ -3608,7 +4060,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateSemaphore
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -3617,14 +4069,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateSemaphore(base->dispatch_handle, pCreateInfo__, pAllocator__, pSemaphore);
 #ifdef NEEDS_PRINTING_CreateSemaphore
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateSemaphore
     VK_CMD_LOGA("  out: *pSemaphore: VkSemaphore = %x", (int64_t)*pSemaphore);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSemaphore
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateSemaphore with (device: %p,pCreateInfo: %p,pAllocator: %p,pSemaphore: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pSemaphore, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateSemaphore with (device: %p,pCreateInfo: %p,pAllocator: %p,pSemaphore: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pSemaphore, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3634,6 +4091,8 @@ wrapper_tramp_DestroySemaphore(
     VkSemaphore semaphore,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroySemaphore");
 WLOGA("DestroySemaphore(device: %p, semaphore: %x, pAllocator: %p)", device, semaphore, pAllocator);
@@ -3652,7 +4111,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroySemaphore
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -3661,6 +4120,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroySemaphore(base->dispatch_handle, semaphore__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -3671,6 +4131,8 @@ wrapper_tramp_CreateEvent(
     const VkAllocationCallbacks* pAllocator,
     VkEvent* pEvent)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateEvent");
 WLOGA("CreateEvent(device: %p, pCreateInfo: %p, pAllocator: %p, pEvent: %p)", device, pCreateInfo, pAllocator, pEvent);
@@ -3682,7 +4144,7 @@ const VkEventCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkEventCreateInfo
     VkEventCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkEventCreateInfo(base, (VkEventCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkEventCreateInfo(&temp, base, (VkEventCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateEvent
     VK_CMD_LOGA("  in: pCreateInfo: VkEventCreateInfo*");
@@ -3693,7 +4155,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateEvent
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -3702,14 +4164,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateEvent(base->dispatch_handle, pCreateInfo__, pAllocator__, pEvent);
 #ifdef NEEDS_PRINTING_CreateEvent
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateEvent
     VK_CMD_LOGA("  out: *pEvent: VkEvent = %x", (int64_t)*pEvent);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkEvent
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateEvent with (device: %p,pCreateInfo: %p,pAllocator: %p,pEvent: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pEvent, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateEvent with (device: %p,pCreateInfo: %p,pAllocator: %p,pEvent: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pEvent, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3719,6 +4186,8 @@ wrapper_tramp_DestroyEvent(
     VkEvent event,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyEvent");
 WLOGA("DestroyEvent(device: %p, event: %x, pAllocator: %p)", device, event, pAllocator);
@@ -3737,7 +4206,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyEvent
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -3746,6 +4215,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyEvent(base->dispatch_handle, event__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -3754,6 +4224,8 @@ wrapper_tramp_GetEventStatus(
     VkDevice device,
     VkEvent event)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetEventStatus");
 WLOGA("GetEventStatus(device: %p, event: %x)", device, event);
@@ -3769,7 +4241,11 @@ VkEvent event__ = event;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.GetEventStatus(base->dispatch_handle, event__);
-
+#ifdef NEEDS_PRINTING_GetEventStatus
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3778,6 +4254,8 @@ wrapper_tramp_SetEvent(
     VkDevice device,
     VkEvent event)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("SetEvent");
 WLOGA("SetEvent(device: %p, event: %x)", device, event);
@@ -3793,7 +4271,14 @@ VkEvent event__ = event;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.SetEvent(base->dispatch_handle, event__);
-
+#ifdef NEEDS_PRINTING_SetEvent
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to SetEvent with (device: %p,event: %x) failed with result: %d", base->dispatch_handle,event__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3802,6 +4287,8 @@ wrapper_tramp_ResetEvent(
     VkDevice device,
     VkEvent event)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("ResetEvent");
 WLOGA("ResetEvent(device: %p, event: %x)", device, event);
@@ -3817,7 +4304,14 @@ VkEvent event__ = event;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.ResetEvent(base->dispatch_handle, event__);
-
+#ifdef NEEDS_PRINTING_ResetEvent
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to ResetEvent with (device: %p,event: %x) failed with result: %d", base->dispatch_handle,event__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3828,6 +4322,8 @@ wrapper_tramp_CreateQueryPool(
     const VkAllocationCallbacks* pAllocator,
     VkQueryPool* pQueryPool)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateQueryPool");
 WLOGA("CreateQueryPool(device: %p, pCreateInfo: %p, pAllocator: %p, pQueryPool: %p)", device, pCreateInfo, pAllocator, pQueryPool);
@@ -3839,7 +4335,7 @@ const VkQueryPoolCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkQueryPoolCreateInfo
     VkQueryPoolCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkQueryPoolCreateInfo(base, (VkQueryPoolCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkQueryPoolCreateInfo(&temp, base, (VkQueryPoolCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateQueryPool
     VK_CMD_LOGA("  in: pCreateInfo: VkQueryPoolCreateInfo*");
@@ -3850,7 +4346,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateQueryPool
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -3859,14 +4355,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateQueryPool(base->dispatch_handle, pCreateInfo__, pAllocator__, pQueryPool);
 #ifdef NEEDS_PRINTING_CreateQueryPool
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateQueryPool
     VK_CMD_LOGA("  out: *pQueryPool: VkQueryPool = %x", (int64_t)*pQueryPool);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkQueryPool
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateQueryPool with (device: %p,pCreateInfo: %p,pAllocator: %p,pQueryPool: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pQueryPool, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateQueryPool with (device: %p,pCreateInfo: %p,pAllocator: %p,pQueryPool: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pQueryPool, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3876,6 +4377,8 @@ wrapper_tramp_DestroyQueryPool(
     VkQueryPool queryPool,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyQueryPool");
 WLOGA("DestroyQueryPool(device: %p, queryPool: %x, pAllocator: %p)", device, queryPool, pAllocator);
@@ -3894,7 +4397,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyQueryPool
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -3903,6 +4406,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyQueryPool(base->dispatch_handle, queryPool__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -3917,6 +4421,8 @@ wrapper_tramp_GetQueryPoolResults(
     VkDeviceSize stride,
     VkQueryResultFlags flags)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetQueryPoolResults");
 WLOGA("GetQueryPoolResults(device: %p, queryPool: %x, firstQuery: %x, queryCount: %x, dataSize: %x, pData: %p, stride: %x, flags: %x)", device, queryPool, firstQuery, queryCount, dataSize, pData, stride, flags);
@@ -3968,14 +4474,16 @@ VkQueryResultFlags flags__ = flags;
 #endif
     VkResult result = base->dispatch_table.GetQueryPoolResults(base->dispatch_handle, queryPool__, firstQuery__, queryCount__, dataSize__, pData, stride__, flags__);
 #ifdef NEEDS_PRINTING_GetQueryPoolResults
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetQueryPoolResults
     VK_CMD_LOGA("  out: *pData: void = %x", (int64_t)*pData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetQueryPoolResults with (device: %p,queryPool: %x,firstQuery: %x,queryCount: %x,dataSize: %x,pData: %p,stride: %x,flags: %x) failed with result: %d", base->dispatch_handle,queryPool__,firstQuery__,queryCount__,dataSize__,pData,stride__,flags__, result);
-}
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -3986,6 +4494,8 @@ wrapper_tramp_ResetQueryPool(
     uint32_t firstQuery,
     uint32_t queryCount)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("ResetQueryPool");
 WLOGA("ResetQueryPool(device: %p, queryPool: %x, firstQuery: %x, queryCount: %x)", device, queryPool, firstQuery, queryCount);
@@ -4016,6 +4526,7 @@ uint32_t queryCount__ = queryCount;
 #endif
     base->dispatch_table.ResetQueryPool(base->dispatch_handle, queryPool__, firstQuery__, queryCount__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -4026,6 +4537,8 @@ wrapper_tramp_CreateBuffer(
     const VkAllocationCallbacks* pAllocator,
     VkBuffer* pBuffer)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateBuffer");
 WLOGA("CreateBuffer(device: %p, pCreateInfo: %p, pAllocator: %p, pBuffer: %p)", device, pCreateInfo, pAllocator, pBuffer);
@@ -4037,7 +4550,7 @@ const VkBufferCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkBufferCreateInfo
     VkBufferCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkBufferCreateInfo(base, (VkBufferCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkBufferCreateInfo(&temp, base, (VkBufferCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateBuffer
     VK_CMD_LOGA("  in: pCreateInfo: VkBufferCreateInfo*");
@@ -4048,7 +4561,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateBuffer
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4057,14 +4570,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateBuffer(base->dispatch_handle, pCreateInfo__, pAllocator__, pBuffer);
 #ifdef NEEDS_PRINTING_CreateBuffer
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateBuffer
     VK_CMD_LOGA("  out: *pBuffer: VkBuffer = %x", (int64_t)*pBuffer);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkBuffer
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateBuffer with (device: %p,pCreateInfo: %p,pAllocator: %p,pBuffer: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pBuffer, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateBuffer with (device: %p,pCreateInfo: %p,pAllocator: %p,pBuffer: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pBuffer, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -4074,6 +4592,8 @@ wrapper_tramp_DestroyBuffer(
     VkBuffer buffer,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyBuffer");
 WLOGA("DestroyBuffer(device: %p, buffer: %x, pAllocator: %p)", device, buffer, pAllocator);
@@ -4092,7 +4612,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyBuffer
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4101,6 +4621,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyBuffer(base->dispatch_handle, buffer__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -4111,6 +4632,8 @@ wrapper_tramp_CreateBufferView(
     const VkAllocationCallbacks* pAllocator,
     VkBufferView* pView)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateBufferView");
 WLOGA("CreateBufferView(device: %p, pCreateInfo: %p, pAllocator: %p, pView: %p)", device, pCreateInfo, pAllocator, pView);
@@ -4122,7 +4645,7 @@ const VkBufferViewCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkBufferViewCreateInfo
     VkBufferViewCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkBufferViewCreateInfo(base, (VkBufferViewCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkBufferViewCreateInfo(&temp, base, (VkBufferViewCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateBufferView
     VK_CMD_LOGA("  in: pCreateInfo: VkBufferViewCreateInfo*");
@@ -4133,7 +4656,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateBufferView
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4142,14 +4665,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateBufferView(base->dispatch_handle, pCreateInfo__, pAllocator__, pView);
 #ifdef NEEDS_PRINTING_CreateBufferView
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateBufferView
     VK_CMD_LOGA("  out: *pView: VkBufferView = %x", (int64_t)*pView);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkBufferView
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateBufferView with (device: %p,pCreateInfo: %p,pAllocator: %p,pView: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pView, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateBufferView with (device: %p,pCreateInfo: %p,pAllocator: %p,pView: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pView, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -4159,6 +4687,8 @@ wrapper_tramp_DestroyBufferView(
     VkBufferView bufferView,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyBufferView");
 WLOGA("DestroyBufferView(device: %p, bufferView: %x, pAllocator: %p)", device, bufferView, pAllocator);
@@ -4177,7 +4707,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyBufferView
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4186,6 +4716,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyBufferView(base->dispatch_handle, bufferView__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -4196,6 +4727,8 @@ wrapper_tramp_CreateImage(
     const VkAllocationCallbacks* pAllocator,
     VkImage* pImage)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateImage");
 WLOGA("CreateImage(device: %p, pCreateInfo: %p, pAllocator: %p, pImage: %p)", device, pCreateInfo, pAllocator, pImage);
@@ -4207,7 +4740,7 @@ const VkImageCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkImageCreateInfo
     VkImageCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkImageCreateInfo(base, (VkImageCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkImageCreateInfo(&temp, base, (VkImageCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateImage
     VK_CMD_LOGA("  in: pCreateInfo: VkImageCreateInfo*");
@@ -4218,7 +4751,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateImage
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4227,14 +4760,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateImage(base->dispatch_handle, pCreateInfo__, pAllocator__, pImage);
 #ifdef NEEDS_PRINTING_CreateImage
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateImage
     VK_CMD_LOGA("  out: *pImage: VkImage = %x", (int64_t)*pImage);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkImage
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateImage with (device: %p,pCreateInfo: %p,pAllocator: %p,pImage: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pImage, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateImage with (device: %p,pCreateInfo: %p,pAllocator: %p,pImage: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pImage, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -4244,6 +4782,8 @@ wrapper_tramp_DestroyImage(
     VkImage image,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyImage");
 WLOGA("DestroyImage(device: %p, image: %x, pAllocator: %p)", device, image, pAllocator);
@@ -4262,7 +4802,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyImage
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4271,6 +4811,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyImage(base->dispatch_handle, image__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -4281,6 +4822,8 @@ wrapper_tramp_GetImageSubresourceLayout(
     const VkImageSubresource* pSubresource,
     VkSubresourceLayout* pLayout)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetImageSubresourceLayout");
 WLOGA("GetImageSubresourceLayout(device: %p, image: %x, pSubresource: %p, pLayout: %p)", device, image, pSubresource, pLayout);
@@ -4299,7 +4842,7 @@ const VkImageSubresource* pSubresource__ = pSubresource;
 #ifdef NEEDS_UNWRAPPING_VkImageSubresource
     VkImageSubresource _w_pSubresource = { 0 };
     pSubresource__ = &_w_pSubresource;
-    unwrap_VkImageSubresource(base, (VkImageSubresource *) pSubresource__, pSubresource);
+    unwrap_VkImageSubresource(&temp, base, (VkImageSubresource *) pSubresource__, pSubresource);
 #endif
 #ifdef NEEDS_PRINTING_GetImageSubresourceLayout
     VK_CMD_LOGA("  in: pSubresource: VkImageSubresource*");
@@ -4313,8 +4856,9 @@ const VkImageSubresource* pSubresource__ = pSubresource;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSubresourceLayout
-#warning TODO: Repack struct+ptr+out GetImageSubresourceLayout EntrypointParam(type='VkSubresourceLayout', name='pLayout', decl='VkSubresourceLayout* pLayout', len=None, elem=<Element 'param' at 0x75c0e95da4d0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetImageSubresourceLayout EntrypointParam(type='VkSubresourceLayout', name='pLayout', decl='VkSubresourceLayout* pLayout', len=None, elem=<Element 'param' at 0x7f0cb30ee480>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -4325,6 +4869,8 @@ wrapper_tramp_CreateImageView(
     const VkAllocationCallbacks* pAllocator,
     VkImageView* pView)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateImageView");
 WLOGA("CreateImageView(device: %p, pCreateInfo: %p, pAllocator: %p, pView: %p)", device, pCreateInfo, pAllocator, pView);
@@ -4336,7 +4882,7 @@ const VkImageViewCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkImageViewCreateInfo
     VkImageViewCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkImageViewCreateInfo(base, (VkImageViewCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkImageViewCreateInfo(&temp, base, (VkImageViewCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateImageView
     VK_CMD_LOGA("  in: pCreateInfo: VkImageViewCreateInfo*");
@@ -4347,7 +4893,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateImageView
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4356,14 +4902,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateImageView(base->dispatch_handle, pCreateInfo__, pAllocator__, pView);
 #ifdef NEEDS_PRINTING_CreateImageView
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateImageView
     VK_CMD_LOGA("  out: *pView: VkImageView = %x", (int64_t)*pView);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkImageView
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateImageView with (device: %p,pCreateInfo: %p,pAllocator: %p,pView: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pView, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateImageView with (device: %p,pCreateInfo: %p,pAllocator: %p,pView: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pView, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -4373,6 +4924,8 @@ wrapper_tramp_DestroyImageView(
     VkImageView imageView,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyImageView");
 WLOGA("DestroyImageView(device: %p, imageView: %x, pAllocator: %p)", device, imageView, pAllocator);
@@ -4391,7 +4944,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyImageView
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4400,6 +4953,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyImageView(base->dispatch_handle, imageView__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -4410,6 +4964,8 @@ wrapper_tramp_CreateShaderModule(
     const VkAllocationCallbacks* pAllocator,
     VkShaderModule* pShaderModule)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateShaderModule");
 WLOGA("CreateShaderModule(device: %p, pCreateInfo: %p, pAllocator: %p, pShaderModule: %p)", device, pCreateInfo, pAllocator, pShaderModule);
@@ -4421,7 +4977,7 @@ const VkShaderModuleCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkShaderModuleCreateInfo
     VkShaderModuleCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkShaderModuleCreateInfo(base, (VkShaderModuleCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkShaderModuleCreateInfo(&temp, base, (VkShaderModuleCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateShaderModule
     VK_CMD_LOGA("  in: pCreateInfo: VkShaderModuleCreateInfo*");
@@ -4432,7 +4988,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateShaderModule
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4441,14 +4997,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateShaderModule(base->dispatch_handle, pCreateInfo__, pAllocator__, pShaderModule);
 #ifdef NEEDS_PRINTING_CreateShaderModule
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateShaderModule
     VK_CMD_LOGA("  out: *pShaderModule: VkShaderModule = %x", (int64_t)*pShaderModule);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkShaderModule
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateShaderModule with (device: %p,pCreateInfo: %p,pAllocator: %p,pShaderModule: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pShaderModule, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateShaderModule with (device: %p,pCreateInfo: %p,pAllocator: %p,pShaderModule: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pShaderModule, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -4458,6 +5019,8 @@ wrapper_tramp_DestroyShaderModule(
     VkShaderModule shaderModule,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyShaderModule");
 WLOGA("DestroyShaderModule(device: %p, shaderModule: %x, pAllocator: %p)", device, shaderModule, pAllocator);
@@ -4476,7 +5039,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyShaderModule
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4485,6 +5048,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyShaderModule(base->dispatch_handle, shaderModule__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -4495,6 +5059,8 @@ wrapper_tramp_CreatePipelineCache(
     const VkAllocationCallbacks* pAllocator,
     VkPipelineCache* pPipelineCache)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreatePipelineCache");
 WLOGA("CreatePipelineCache(device: %p, pCreateInfo: %p, pAllocator: %p, pPipelineCache: %p)", device, pCreateInfo, pAllocator, pPipelineCache);
@@ -4506,7 +5072,7 @@ const VkPipelineCacheCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkPipelineCacheCreateInfo
     VkPipelineCacheCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkPipelineCacheCreateInfo(base, (VkPipelineCacheCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkPipelineCacheCreateInfo(&temp, base, (VkPipelineCacheCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreatePipelineCache
     VK_CMD_LOGA("  in: pCreateInfo: VkPipelineCacheCreateInfo*");
@@ -4517,7 +5083,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreatePipelineCache
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4526,14 +5092,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreatePipelineCache(base->dispatch_handle, pCreateInfo__, pAllocator__, pPipelineCache);
 #ifdef NEEDS_PRINTING_CreatePipelineCache
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreatePipelineCache
     VK_CMD_LOGA("  out: *pPipelineCache: VkPipelineCache = %x", (int64_t)*pPipelineCache);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPipelineCache
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreatePipelineCache with (device: %p,pCreateInfo: %p,pAllocator: %p,pPipelineCache: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pPipelineCache, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreatePipelineCache with (device: %p,pCreateInfo: %p,pAllocator: %p,pPipelineCache: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pPipelineCache, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -4543,6 +5114,8 @@ wrapper_tramp_DestroyPipelineCache(
     VkPipelineCache pipelineCache,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyPipelineCache");
 WLOGA("DestroyPipelineCache(device: %p, pipelineCache: %x, pAllocator: %p)", device, pipelineCache, pAllocator);
@@ -4561,7 +5134,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyPipelineCache
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4570,6 +5143,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyPipelineCache(base->dispatch_handle, pipelineCache__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -4580,6 +5154,8 @@ wrapper_tramp_GetPipelineCacheData(
     size_t* pDataSize,
     void* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetPipelineCacheData");
 WLOGA("GetPipelineCacheData(device: %p, pipelineCache: %x, pDataSize: %p, pData: %p)", device, pipelineCache, pDataSize, pData);
@@ -4596,23 +5172,25 @@ VkPipelineCache pipelineCache__ = pipelineCache;
 #endif
     VkResult result = base->dispatch_table.GetPipelineCacheData(base->dispatch_handle, pipelineCache__, pDataSize, pData);
 #ifdef NEEDS_PRINTING_GetPipelineCacheData
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPipelineCacheData
     VK_CMD_LOGA("  out: *pDataSize: size_t = %x", (int64_t)*pDataSize);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_size_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPipelineCacheData with (device: %p,pipelineCache: %x,pDataSize: %p,pData: %p) failed with result: %d", base->dispatch_handle,pipelineCache__,pDataSize,pData, result);
-}
 #ifdef NEEDS_PRINTING_GetPipelineCacheData
     VK_CMD_LOGA("  out: *pData: void = %x", (int64_t)*pData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPipelineCacheData with (device: %p,pipelineCache: %x,pDataSize: %p,pData: %p) failed with result: %d", base->dispatch_handle,pipelineCache__,pDataSize,pData, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPipelineCacheData with (device: %p,pipelineCache: %x,pDataSize: %p,pData: %p) failed with result: %d", base->dispatch_handle,pipelineCache__,pDataSize,pData, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -4623,6 +5201,8 @@ wrapper_tramp_MergePipelineCaches(
     uint32_t srcCacheCount,
     const VkPipelineCache* pSrcCaches)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("MergePipelineCaches");
 WLOGA("MergePipelineCaches(device: %p, dstCache: %x, srcCacheCount: %x, pSrcCaches: %x)", device, dstCache, srcCacheCount, pSrcCaches);
@@ -4652,7 +5232,14 @@ const VkPipelineCache* pSrcCaches__ = pSrcCaches;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.MergePipelineCaches(base->dispatch_handle, dstCache__, srcCacheCount__, pSrcCaches__);
-
+#ifdef NEEDS_PRINTING_MergePipelineCaches
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to MergePipelineCaches with (device: %p,dstCache: %x,srcCacheCount: %x,pSrcCaches: %x) failed with result: %d", base->dispatch_handle,dstCache__,srcCacheCount__,pSrcCaches__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -4665,6 +5252,8 @@ wrapper_tramp_CreateGraphicsPipelines(
     const VkAllocationCallbacks* pAllocator,
     VkPipeline* pPipelines)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateGraphicsPipelines");
 WLOGA("CreateGraphicsPipelines(device: %p, pipelineCache: %x, createInfoCount: %x, pCreateInfos: %p, pAllocator: %p, pPipelines: %p)", device, pipelineCache, createInfoCount, pCreateInfos, pAllocator, pPipelines);
@@ -4690,7 +5279,7 @@ const VkGraphicsPipelineCreateInfo* pCreateInfos__ = pCreateInfos;
 #ifdef NEEDS_UNWRAPPING_VkGraphicsPipelineCreateInfo
     pCreateInfos__ = alloca(createInfoCount * sizeof(VkGraphicsPipelineCreateInfo));
     for (int i = 0; i < createInfoCount; i++)
-        unwrap_VkGraphicsPipelineCreateInfo(base, (VkGraphicsPipelineCreateInfo *) &pCreateInfos__[i], &pCreateInfos[i]);
+        unwrap_VkGraphicsPipelineCreateInfo(&temp, base, (VkGraphicsPipelineCreateInfo *) &pCreateInfos__[i], &pCreateInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_CreateGraphicsPipelines
     VK_CMD_LOGA("  in: pCreateInfos[]: VkGraphicsPipelineCreateInfo");
@@ -4704,7 +5293,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateGraphicsPipelines
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4713,14 +5302,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateGraphicsPipelines(base->dispatch_handle, pipelineCache__, createInfoCount__, pCreateInfos__, pAllocator__, pPipelines);
 #ifdef NEEDS_PRINTING_CreateGraphicsPipelines
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateGraphicsPipelines
     VK_CMD_LOGA("  out: *pPipelines: VkPipeline = %x", (int64_t)*pPipelines);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPipeline
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateGraphicsPipelines with (device: %p,pipelineCache: %x,createInfoCount: %x,pCreateInfos: %p,pAllocator: %p,pPipelines: %p) failed with result: %d", base->dispatch_handle,pipelineCache__,createInfoCount__,pCreateInfos__,pAllocator__,pPipelines, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateGraphicsPipelines with (device: %p,pipelineCache: %x,createInfoCount: %x,pCreateInfos: %p,pAllocator: %p,pPipelines: %p) failed with result: %d", base->dispatch_handle,pipelineCache__,createInfoCount__,pCreateInfos__,pAllocator__,pPipelines, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -4733,6 +5327,8 @@ wrapper_tramp_CreateComputePipelines(
     const VkAllocationCallbacks* pAllocator,
     VkPipeline* pPipelines)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateComputePipelines");
 WLOGA("CreateComputePipelines(device: %p, pipelineCache: %x, createInfoCount: %x, pCreateInfos: %p, pAllocator: %p, pPipelines: %p)", device, pipelineCache, createInfoCount, pCreateInfos, pAllocator, pPipelines);
@@ -4758,7 +5354,7 @@ const VkComputePipelineCreateInfo* pCreateInfos__ = pCreateInfos;
 #ifdef NEEDS_UNWRAPPING_VkComputePipelineCreateInfo
     pCreateInfos__ = alloca(createInfoCount * sizeof(VkComputePipelineCreateInfo));
     for (int i = 0; i < createInfoCount; i++)
-        unwrap_VkComputePipelineCreateInfo(base, (VkComputePipelineCreateInfo *) &pCreateInfos__[i], &pCreateInfos[i]);
+        unwrap_VkComputePipelineCreateInfo(&temp, base, (VkComputePipelineCreateInfo *) &pCreateInfos__[i], &pCreateInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_CreateComputePipelines
     VK_CMD_LOGA("  in: pCreateInfos[]: VkComputePipelineCreateInfo");
@@ -4772,7 +5368,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateComputePipelines
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4781,14 +5377,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateComputePipelines(base->dispatch_handle, pipelineCache__, createInfoCount__, pCreateInfos__, pAllocator__, pPipelines);
 #ifdef NEEDS_PRINTING_CreateComputePipelines
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateComputePipelines
     VK_CMD_LOGA("  out: *pPipelines: VkPipeline = %x", (int64_t)*pPipelines);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPipeline
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateComputePipelines with (device: %p,pipelineCache: %x,createInfoCount: %x,pCreateInfos: %p,pAllocator: %p,pPipelines: %p) failed with result: %d", base->dispatch_handle,pipelineCache__,createInfoCount__,pCreateInfos__,pAllocator__,pPipelines, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateComputePipelines with (device: %p,pipelineCache: %x,createInfoCount: %x,pCreateInfos: %p,pAllocator: %p,pPipelines: %p) failed with result: %d", base->dispatch_handle,pipelineCache__,createInfoCount__,pCreateInfos__,pAllocator__,pPipelines, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -4798,6 +5399,8 @@ wrapper_tramp_GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI(
     VkRenderPass renderpass,
     VkExtent2D* pMaxWorkgroupSize)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI");
 WLOGA("GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI(device: %p, renderpass: %x, pMaxWorkgroupSize: %p)", device, renderpass, pMaxWorkgroupSize);
@@ -4814,6 +5417,10 @@ VkRenderPass renderpass__ = renderpass;
 #endif
     VkResult result = base->dispatch_table.GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI(base->dispatch_handle, renderpass__, pMaxWorkgroupSize);
 #ifdef NEEDS_PRINTING_GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI
     VK_CMD_LOGA("  out: pMaxWorkgroupSize[]: VkExtent2D");
     for (int i = 0; i < 1; i++) {
         VK_CMD_LOGA("    pMaxWorkgroupSize[%d]: VkExtent2D", i);
@@ -4822,11 +5429,12 @@ VkRenderPass renderpass__ = renderpass;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkExtent2D
-#warning TODO: Repack struct+array+out GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI EntrypointParam(type='VkExtent2D', name='pMaxWorkgroupSize', decl='VkExtent2D* pMaxWorkgroupSize', len='1', elem=<Element 'param' at 0x75c0e95e3290>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI EntrypointParam(type='VkExtent2D', name='pMaxWorkgroupSize', decl='VkExtent2D* pMaxWorkgroupSize', len='1', elem=<Element 'param' at 0x7f0cb30ff240>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI with (device: %p,renderpass: %x,pMaxWorkgroupSize: %p) failed with result: %d", base->dispatch_handle,renderpass__,pMaxWorkgroupSize, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI with (device: %p,renderpass: %x,pMaxWorkgroupSize: %p) failed with result: %d", base->dispatch_handle,renderpass__,pMaxWorkgroupSize, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -4836,6 +5444,8 @@ wrapper_tramp_DestroyPipeline(
     VkPipeline pipeline,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyPipeline");
 WLOGA("DestroyPipeline(device: %p, pipeline: %x, pAllocator: %p)", device, pipeline, pAllocator);
@@ -4854,7 +5464,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyPipeline
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4863,6 +5473,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyPipeline(base->dispatch_handle, pipeline__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -4873,6 +5484,8 @@ wrapper_tramp_CreatePipelineLayout(
     const VkAllocationCallbacks* pAllocator,
     VkPipelineLayout* pPipelineLayout)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreatePipelineLayout");
 WLOGA("CreatePipelineLayout(device: %p, pCreateInfo: %p, pAllocator: %p, pPipelineLayout: %p)", device, pCreateInfo, pAllocator, pPipelineLayout);
@@ -4884,7 +5497,7 @@ const VkPipelineLayoutCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkPipelineLayoutCreateInfo
     VkPipelineLayoutCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkPipelineLayoutCreateInfo(base, (VkPipelineLayoutCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkPipelineLayoutCreateInfo(&temp, base, (VkPipelineLayoutCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreatePipelineLayout
     VK_CMD_LOGA("  in: pCreateInfo: VkPipelineLayoutCreateInfo*");
@@ -4895,7 +5508,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreatePipelineLayout
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4904,14 +5517,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreatePipelineLayout(base->dispatch_handle, pCreateInfo__, pAllocator__, pPipelineLayout);
 #ifdef NEEDS_PRINTING_CreatePipelineLayout
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreatePipelineLayout
     VK_CMD_LOGA("  out: *pPipelineLayout: VkPipelineLayout = %x", (int64_t)*pPipelineLayout);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPipelineLayout
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreatePipelineLayout with (device: %p,pCreateInfo: %p,pAllocator: %p,pPipelineLayout: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pPipelineLayout, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreatePipelineLayout with (device: %p,pCreateInfo: %p,pAllocator: %p,pPipelineLayout: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pPipelineLayout, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -4921,6 +5539,8 @@ wrapper_tramp_DestroyPipelineLayout(
     VkPipelineLayout pipelineLayout,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyPipelineLayout");
 WLOGA("DestroyPipelineLayout(device: %p, pipelineLayout: %x, pAllocator: %p)", device, pipelineLayout, pAllocator);
@@ -4939,7 +5559,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyPipelineLayout
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4948,6 +5568,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyPipelineLayout(base->dispatch_handle, pipelineLayout__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -4958,6 +5579,8 @@ wrapper_tramp_CreateSampler(
     const VkAllocationCallbacks* pAllocator,
     VkSampler* pSampler)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateSampler");
 WLOGA("CreateSampler(device: %p, pCreateInfo: %p, pAllocator: %p, pSampler: %p)", device, pCreateInfo, pAllocator, pSampler);
@@ -4969,7 +5592,7 @@ const VkSamplerCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkSamplerCreateInfo
     VkSamplerCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkSamplerCreateInfo(base, (VkSamplerCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkSamplerCreateInfo(&temp, base, (VkSamplerCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateSampler
     VK_CMD_LOGA("  in: pCreateInfo: VkSamplerCreateInfo*");
@@ -4980,7 +5603,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateSampler
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -4989,14 +5612,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateSampler(base->dispatch_handle, pCreateInfo__, pAllocator__, pSampler);
 #ifdef NEEDS_PRINTING_CreateSampler
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateSampler
     VK_CMD_LOGA("  out: *pSampler: VkSampler = %x", (int64_t)*pSampler);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSampler
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateSampler with (device: %p,pCreateInfo: %p,pAllocator: %p,pSampler: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pSampler, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateSampler with (device: %p,pCreateInfo: %p,pAllocator: %p,pSampler: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pSampler, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -5006,6 +5634,8 @@ wrapper_tramp_DestroySampler(
     VkSampler sampler,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroySampler");
 WLOGA("DestroySampler(device: %p, sampler: %x, pAllocator: %p)", device, sampler, pAllocator);
@@ -5024,7 +5654,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroySampler
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -5033,6 +5663,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroySampler(base->dispatch_handle, sampler__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -5043,6 +5674,8 @@ wrapper_tramp_CreateDescriptorSetLayout(
     const VkAllocationCallbacks* pAllocator,
     VkDescriptorSetLayout* pSetLayout)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateDescriptorSetLayout");
 WLOGA("CreateDescriptorSetLayout(device: %p, pCreateInfo: %p, pAllocator: %p, pSetLayout: %p)", device, pCreateInfo, pAllocator, pSetLayout);
@@ -5054,7 +5687,7 @@ const VkDescriptorSetLayoutCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkDescriptorSetLayoutCreateInfo
     VkDescriptorSetLayoutCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkDescriptorSetLayoutCreateInfo(base, (VkDescriptorSetLayoutCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkDescriptorSetLayoutCreateInfo(&temp, base, (VkDescriptorSetLayoutCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateDescriptorSetLayout
     VK_CMD_LOGA("  in: pCreateInfo: VkDescriptorSetLayoutCreateInfo*");
@@ -5065,7 +5698,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateDescriptorSetLayout
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -5074,14 +5707,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateDescriptorSetLayout(base->dispatch_handle, pCreateInfo__, pAllocator__, pSetLayout);
 #ifdef NEEDS_PRINTING_CreateDescriptorSetLayout
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateDescriptorSetLayout
     VK_CMD_LOGA("  out: *pSetLayout: VkDescriptorSetLayout = %x", (int64_t)*pSetLayout);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDescriptorSetLayout
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateDescriptorSetLayout with (device: %p,pCreateInfo: %p,pAllocator: %p,pSetLayout: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pSetLayout, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateDescriptorSetLayout with (device: %p,pCreateInfo: %p,pAllocator: %p,pSetLayout: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pSetLayout, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -5091,6 +5729,8 @@ wrapper_tramp_DestroyDescriptorSetLayout(
     VkDescriptorSetLayout descriptorSetLayout,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyDescriptorSetLayout");
 WLOGA("DestroyDescriptorSetLayout(device: %p, descriptorSetLayout: %x, pAllocator: %p)", device, descriptorSetLayout, pAllocator);
@@ -5109,7 +5749,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyDescriptorSetLayout
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -5118,6 +5758,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyDescriptorSetLayout(base->dispatch_handle, descriptorSetLayout__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -5128,6 +5769,8 @@ wrapper_tramp_CreateDescriptorPool(
     const VkAllocationCallbacks* pAllocator,
     VkDescriptorPool* pDescriptorPool)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateDescriptorPool");
 WLOGA("CreateDescriptorPool(device: %p, pCreateInfo: %p, pAllocator: %p, pDescriptorPool: %p)", device, pCreateInfo, pAllocator, pDescriptorPool);
@@ -5139,7 +5782,7 @@ const VkDescriptorPoolCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkDescriptorPoolCreateInfo
     VkDescriptorPoolCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkDescriptorPoolCreateInfo(base, (VkDescriptorPoolCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkDescriptorPoolCreateInfo(&temp, base, (VkDescriptorPoolCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateDescriptorPool
     VK_CMD_LOGA("  in: pCreateInfo: VkDescriptorPoolCreateInfo*");
@@ -5150,7 +5793,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateDescriptorPool
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -5159,14 +5802,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateDescriptorPool(base->dispatch_handle, pCreateInfo__, pAllocator__, pDescriptorPool);
 #ifdef NEEDS_PRINTING_CreateDescriptorPool
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateDescriptorPool
     VK_CMD_LOGA("  out: *pDescriptorPool: VkDescriptorPool = %x", (int64_t)*pDescriptorPool);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDescriptorPool
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateDescriptorPool with (device: %p,pCreateInfo: %p,pAllocator: %p,pDescriptorPool: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pDescriptorPool, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateDescriptorPool with (device: %p,pCreateInfo: %p,pAllocator: %p,pDescriptorPool: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pDescriptorPool, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -5176,6 +5824,8 @@ wrapper_tramp_DestroyDescriptorPool(
     VkDescriptorPool descriptorPool,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyDescriptorPool");
 WLOGA("DestroyDescriptorPool(device: %p, descriptorPool: %x, pAllocator: %p)", device, descriptorPool, pAllocator);
@@ -5194,7 +5844,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyDescriptorPool
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -5203,6 +5853,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyDescriptorPool(base->dispatch_handle, descriptorPool__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -5212,6 +5863,8 @@ wrapper_tramp_ResetDescriptorPool(
     VkDescriptorPool descriptorPool,
     VkDescriptorPoolResetFlags flags)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("ResetDescriptorPool");
 WLOGA("ResetDescriptorPool(device: %p, descriptorPool: %x, flags: %x)", device, descriptorPool, flags);
@@ -5234,7 +5887,14 @@ VkDescriptorPoolResetFlags flags__ = flags;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.ResetDescriptorPool(base->dispatch_handle, descriptorPool__, flags__);
-
+#ifdef NEEDS_PRINTING_ResetDescriptorPool
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to ResetDescriptorPool with (device: %p,descriptorPool: %x,flags: %x) failed with result: %d", base->dispatch_handle,descriptorPool__,flags__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -5244,6 +5904,8 @@ wrapper_tramp_AllocateDescriptorSets(
     const VkDescriptorSetAllocateInfo* pAllocateInfo,
     VkDescriptorSet* pDescriptorSets)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("AllocateDescriptorSets");
 WLOGA("AllocateDescriptorSets(device: %p, pAllocateInfo: %p, pDescriptorSets: %p)", device, pAllocateInfo, pDescriptorSets);
@@ -5255,7 +5917,7 @@ const VkDescriptorSetAllocateInfo* pAllocateInfo__ = pAllocateInfo;
 #ifdef NEEDS_UNWRAPPING_VkDescriptorSetAllocateInfo
     VkDescriptorSetAllocateInfo _w_pAllocateInfo = { 0 };
     pAllocateInfo__ = &_w_pAllocateInfo;
-    unwrap_VkDescriptorSetAllocateInfo(base, (VkDescriptorSetAllocateInfo *) pAllocateInfo__, pAllocateInfo);
+    unwrap_VkDescriptorSetAllocateInfo(&temp, base, (VkDescriptorSetAllocateInfo *) pAllocateInfo__, pAllocateInfo);
 #endif
 #ifdef NEEDS_PRINTING_AllocateDescriptorSets
     VK_CMD_LOGA("  in: pAllocateInfo: VkDescriptorSetAllocateInfo*");
@@ -5264,11 +5926,16 @@ const VkDescriptorSetAllocateInfo* pAllocateInfo__ = pAllocateInfo;
 #endif
     VkResult result = base->dispatch_table.AllocateDescriptorSets(base->dispatch_handle, pAllocateInfo__, pDescriptorSets);
 #ifdef NEEDS_PRINTING_AllocateDescriptorSets
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_AllocateDescriptorSets
     VK_CMD_LOGA("  out: *pDescriptorSets: VkDescriptorSet = %x", (int64_t)*pDescriptorSets);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDescriptorSet
 #endif
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -5279,6 +5946,8 @@ wrapper_tramp_FreeDescriptorSets(
     uint32_t descriptorSetCount,
     const VkDescriptorSet* pDescriptorSets)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("FreeDescriptorSets");
 WLOGA("FreeDescriptorSets(device: %p, descriptorPool: %x, descriptorSetCount: %x, pDescriptorSets: %x)", device, descriptorPool, descriptorSetCount, pDescriptorSets);
@@ -5308,7 +5977,14 @@ const VkDescriptorSet* pDescriptorSets__ = pDescriptorSets;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.FreeDescriptorSets(base->dispatch_handle, descriptorPool__, descriptorSetCount__, pDescriptorSets__);
-
+#ifdef NEEDS_PRINTING_FreeDescriptorSets
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to FreeDescriptorSets with (device: %p,descriptorPool: %x,descriptorSetCount: %x,pDescriptorSets: %x) failed with result: %d", base->dispatch_handle,descriptorPool__,descriptorSetCount__,pDescriptorSets__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -5320,6 +5996,8 @@ wrapper_tramp_UpdateDescriptorSets(
     uint32_t descriptorCopyCount,
     const VkCopyDescriptorSet* pDescriptorCopies)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("UpdateDescriptorSets");
 WLOGA("UpdateDescriptorSets(device: %p, descriptorWriteCount: %x, pDescriptorWrites: %p, descriptorCopyCount: %x, pDescriptorCopies: %p)", device, descriptorWriteCount, pDescriptorWrites, descriptorCopyCount, pDescriptorCopies);
@@ -5338,7 +6016,7 @@ const VkWriteDescriptorSet* pDescriptorWrites__ = pDescriptorWrites;
 #ifdef NEEDS_UNWRAPPING_VkWriteDescriptorSet
     pDescriptorWrites__ = alloca(descriptorWriteCount * sizeof(VkWriteDescriptorSet));
     for (int i = 0; i < descriptorWriteCount; i++)
-        unwrap_VkWriteDescriptorSet(base, (VkWriteDescriptorSet *) &pDescriptorWrites__[i], &pDescriptorWrites[i]);
+        unwrap_VkWriteDescriptorSet(&temp, base, (VkWriteDescriptorSet *) &pDescriptorWrites__[i], &pDescriptorWrites[i]);
 #endif
 #ifdef NEEDS_PRINTING_UpdateDescriptorSets
     VK_CMD_LOGA("  in: pDescriptorWrites[]: VkWriteDescriptorSet");
@@ -5359,7 +6037,7 @@ const VkCopyDescriptorSet* pDescriptorCopies__ = pDescriptorCopies;
 #ifdef NEEDS_UNWRAPPING_VkCopyDescriptorSet
     pDescriptorCopies__ = alloca(descriptorCopyCount * sizeof(VkCopyDescriptorSet));
     for (int i = 0; i < descriptorCopyCount; i++)
-        unwrap_VkCopyDescriptorSet(base, (VkCopyDescriptorSet *) &pDescriptorCopies__[i], &pDescriptorCopies[i]);
+        unwrap_VkCopyDescriptorSet(&temp, base, (VkCopyDescriptorSet *) &pDescriptorCopies__[i], &pDescriptorCopies[i]);
 #endif
 #ifdef NEEDS_PRINTING_UpdateDescriptorSets
     VK_CMD_LOGA("  in: pDescriptorCopies[]: VkCopyDescriptorSet");
@@ -5371,6 +6049,7 @@ const VkCopyDescriptorSet* pDescriptorCopies__ = pDescriptorCopies;
 #endif
     base->dispatch_table.UpdateDescriptorSets(base->dispatch_handle, descriptorWriteCount__, pDescriptorWrites__, descriptorCopyCount__, pDescriptorCopies__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -5381,6 +6060,8 @@ wrapper_tramp_CreateFramebuffer(
     const VkAllocationCallbacks* pAllocator,
     VkFramebuffer* pFramebuffer)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateFramebuffer");
 WLOGA("CreateFramebuffer(device: %p, pCreateInfo: %p, pAllocator: %p, pFramebuffer: %p)", device, pCreateInfo, pAllocator, pFramebuffer);
@@ -5392,7 +6073,7 @@ const VkFramebufferCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkFramebufferCreateInfo
     VkFramebufferCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkFramebufferCreateInfo(base, (VkFramebufferCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkFramebufferCreateInfo(&temp, base, (VkFramebufferCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateFramebuffer
     VK_CMD_LOGA("  in: pCreateInfo: VkFramebufferCreateInfo*");
@@ -5403,7 +6084,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateFramebuffer
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -5412,14 +6093,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateFramebuffer(base->dispatch_handle, pCreateInfo__, pAllocator__, pFramebuffer);
 #ifdef NEEDS_PRINTING_CreateFramebuffer
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateFramebuffer
     VK_CMD_LOGA("  out: *pFramebuffer: VkFramebuffer = %x", (int64_t)*pFramebuffer);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkFramebuffer
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateFramebuffer with (device: %p,pCreateInfo: %p,pAllocator: %p,pFramebuffer: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pFramebuffer, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateFramebuffer with (device: %p,pCreateInfo: %p,pAllocator: %p,pFramebuffer: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pFramebuffer, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -5429,6 +6115,8 @@ wrapper_tramp_DestroyFramebuffer(
     VkFramebuffer framebuffer,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyFramebuffer");
 WLOGA("DestroyFramebuffer(device: %p, framebuffer: %x, pAllocator: %p)", device, framebuffer, pAllocator);
@@ -5447,7 +6135,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyFramebuffer
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -5456,6 +6144,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyFramebuffer(base->dispatch_handle, framebuffer__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -5466,6 +6155,8 @@ wrapper_tramp_CreateRenderPass(
     const VkAllocationCallbacks* pAllocator,
     VkRenderPass* pRenderPass)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateRenderPass");
 WLOGA("CreateRenderPass(device: %p, pCreateInfo: %p, pAllocator: %p, pRenderPass: %p)", device, pCreateInfo, pAllocator, pRenderPass);
@@ -5477,7 +6168,7 @@ const VkRenderPassCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkRenderPassCreateInfo
     VkRenderPassCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkRenderPassCreateInfo(base, (VkRenderPassCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkRenderPassCreateInfo(&temp, base, (VkRenderPassCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateRenderPass
     VK_CMD_LOGA("  in: pCreateInfo: VkRenderPassCreateInfo*");
@@ -5488,7 +6179,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateRenderPass
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -5497,14 +6188,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateRenderPass(base->dispatch_handle, pCreateInfo__, pAllocator__, pRenderPass);
 #ifdef NEEDS_PRINTING_CreateRenderPass
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateRenderPass
     VK_CMD_LOGA("  out: *pRenderPass: VkRenderPass = %x", (int64_t)*pRenderPass);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkRenderPass
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateRenderPass with (device: %p,pCreateInfo: %p,pAllocator: %p,pRenderPass: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pRenderPass, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateRenderPass with (device: %p,pCreateInfo: %p,pAllocator: %p,pRenderPass: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pRenderPass, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -5514,6 +6210,8 @@ wrapper_tramp_DestroyRenderPass(
     VkRenderPass renderPass,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyRenderPass");
 WLOGA("DestroyRenderPass(device: %p, renderPass: %x, pAllocator: %p)", device, renderPass, pAllocator);
@@ -5532,7 +6230,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyRenderPass
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -5541,6 +6239,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyRenderPass(base->dispatch_handle, renderPass__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -5550,6 +6249,8 @@ wrapper_tramp_GetRenderAreaGranularity(
     VkRenderPass renderPass,
     VkExtent2D* pGranularity)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetRenderAreaGranularity");
 WLOGA("GetRenderAreaGranularity(device: %p, renderPass: %x, pGranularity: %p)", device, renderPass, pGranularity);
@@ -5571,8 +6272,9 @@ VkRenderPass renderPass__ = renderPass;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkExtent2D
-#warning TODO: Repack struct+ptr+out GetRenderAreaGranularity EntrypointParam(type='VkExtent2D', name='pGranularity', decl='VkExtent2D* pGranularity', len=None, elem=<Element 'param' at 0x75c0e93fc8b0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetRenderAreaGranularity EntrypointParam(type='VkExtent2D', name='pGranularity', decl='VkExtent2D* pGranularity', len=None, elem=<Element 'param' at 0x7f0cb3118860>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -5582,6 +6284,8 @@ wrapper_tramp_GetRenderingAreaGranularityKHR(
     const VkRenderingAreaInfoKHR* pRenderingAreaInfo,
     VkExtent2D* pGranularity)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetRenderingAreaGranularityKHR");
 WLOGA("GetRenderingAreaGranularityKHR(device: %p, pRenderingAreaInfo: %p, pGranularity: %p)", device, pRenderingAreaInfo, pGranularity);
@@ -5593,7 +6297,7 @@ const VkRenderingAreaInfoKHR* pRenderingAreaInfo__ = pRenderingAreaInfo;
 #ifdef NEEDS_UNWRAPPING_VkRenderingAreaInfoKHR
     VkRenderingAreaInfoKHR _w_pRenderingAreaInfo = { 0 };
     pRenderingAreaInfo__ = &_w_pRenderingAreaInfo;
-    unwrap_VkRenderingAreaInfoKHR(base, (VkRenderingAreaInfoKHR *) pRenderingAreaInfo__, pRenderingAreaInfo);
+    unwrap_VkRenderingAreaInfoKHR(&temp, base, (VkRenderingAreaInfoKHR *) pRenderingAreaInfo__, pRenderingAreaInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetRenderingAreaGranularityKHR
     VK_CMD_LOGA("  in: pRenderingAreaInfo: VkRenderingAreaInfoKHR*");
@@ -5607,8 +6311,9 @@ const VkRenderingAreaInfoKHR* pRenderingAreaInfo__ = pRenderingAreaInfo;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkExtent2D
-#warning TODO: Repack struct+ptr+out GetRenderingAreaGranularityKHR EntrypointParam(type='VkExtent2D', name='pGranularity', decl='VkExtent2D* pGranularity', len=None, elem=<Element 'param' at 0x75c0e93fcd10>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetRenderingAreaGranularityKHR EntrypointParam(type='VkExtent2D', name='pGranularity', decl='VkExtent2D* pGranularity', len=None, elem=<Element 'param' at 0x7f0cb3118cc0>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -5619,6 +6324,8 @@ wrapper_tramp_CreateCommandPool(
     const VkAllocationCallbacks* pAllocator,
     VkCommandPool* pCommandPool)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateCommandPool");
 WLOGA("CreateCommandPool(device: %p, pCreateInfo: %p, pAllocator: %p, pCommandPool: %p)", device, pCreateInfo, pAllocator, pCommandPool);
@@ -5630,7 +6337,7 @@ const VkCommandPoolCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkCommandPoolCreateInfo
     VkCommandPoolCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkCommandPoolCreateInfo(base, (VkCommandPoolCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkCommandPoolCreateInfo(&temp, base, (VkCommandPoolCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateCommandPool
     VK_CMD_LOGA("  in: pCreateInfo: VkCommandPoolCreateInfo*");
@@ -5641,7 +6348,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateCommandPool
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -5650,14 +6357,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateCommandPool(base->dispatch_handle, pCreateInfo__, pAllocator__, pCommandPool);
 #ifdef NEEDS_PRINTING_CreateCommandPool
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateCommandPool
     VK_CMD_LOGA("  out: *pCommandPool: VkCommandPool = %x", (int64_t)*pCommandPool);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkCommandPool
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateCommandPool with (device: %p,pCreateInfo: %p,pAllocator: %p,pCommandPool: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pCommandPool, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateCommandPool with (device: %p,pCreateInfo: %p,pAllocator: %p,pCommandPool: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pCommandPool, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -5667,6 +6379,8 @@ wrapper_tramp_DestroyCommandPool(
     VkCommandPool commandPool,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyCommandPool");
 WLOGA("DestroyCommandPool(device: %p, commandPool: %x, pAllocator: %p)", device, commandPool, pAllocator);
@@ -5685,7 +6399,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyCommandPool
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -5694,6 +6408,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyCommandPool(base->dispatch_handle, commandPool__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -5703,6 +6418,8 @@ wrapper_tramp_ResetCommandPool(
     VkCommandPool commandPool,
     VkCommandPoolResetFlags flags)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("ResetCommandPool");
 WLOGA("ResetCommandPool(device: %p, commandPool: %x, flags: %x)", device, commandPool, flags);
@@ -5725,7 +6442,14 @@ VkCommandPoolResetFlags flags__ = flags;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.ResetCommandPool(base->dispatch_handle, commandPool__, flags__);
-
+#ifdef NEEDS_PRINTING_ResetCommandPool
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to ResetCommandPool with (device: %p,commandPool: %x,flags: %x) failed with result: %d", base->dispatch_handle,commandPool__,flags__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -5735,6 +6459,8 @@ wrapper_tramp_AllocateCommandBuffers(
     const VkCommandBufferAllocateInfo* pAllocateInfo,
     VkCommandBuffer* pCommandBuffers)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("AllocateCommandBuffers");
 WLOGA("AllocateCommandBuffers(device: %p)", device, pAllocateInfo, pCommandBuffers);
@@ -5743,7 +6469,14 @@ WLOGA("AllocateCommandBuffers(device: %p)", device, pAllocateInfo, pCommandBuffe
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.AllocateCommandBuffers(base->dispatch_handle, pAllocateInfo, pCommandBuffers);
-
+#ifdef NEEDS_PRINTING_AllocateCommandBuffers
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to AllocateCommandBuffers with (device: %p) failed with result: %d", base->dispatch_handle,pAllocateInfo,pCommandBuffers, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -5754,6 +6487,8 @@ wrapper_tramp_FreeCommandBuffers(
     uint32_t commandBufferCount,
     const VkCommandBuffer* pCommandBuffers)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("FreeCommandBuffers");
 WLOGA("FreeCommandBuffers(device: %p)", device, commandPool, commandBufferCount, pCommandBuffers);
@@ -5763,6 +6498,7 @@ WLOGA("FreeCommandBuffers(device: %p)", device, commandPool, commandBufferCount,
 #endif
     base->dispatch_table.FreeCommandBuffers(base->dispatch_handle, commandPool, commandBufferCount, pCommandBuffers);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -5771,6 +6507,8 @@ wrapper_tramp_BeginCommandBuffer(
     VkCommandBuffer commandBuffer,
     const VkCommandBufferBeginInfo* pBeginInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("BeginCommandBuffer");
 WLOGA("BeginCommandBuffer(commandBuffer: %p, pBeginInfo: %p)", commandBuffer, pBeginInfo);
@@ -5782,7 +6520,7 @@ const VkCommandBufferBeginInfo* pBeginInfo__ = pBeginInfo;
 #ifdef NEEDS_UNWRAPPING_VkCommandBufferBeginInfo
     VkCommandBufferBeginInfo _w_pBeginInfo = { 0 };
     pBeginInfo__ = &_w_pBeginInfo;
-    unwrap_VkCommandBufferBeginInfo(base->device, (VkCommandBufferBeginInfo *) pBeginInfo__, pBeginInfo);
+    unwrap_VkCommandBufferBeginInfo(&temp, base->device, (VkCommandBufferBeginInfo *) pBeginInfo__, pBeginInfo);
 #endif
 #ifdef NEEDS_PRINTING_BeginCommandBuffer
     VK_CMD_LOGA("  in: pBeginInfo: VkCommandBufferBeginInfo*");
@@ -5790,7 +6528,14 @@ const VkCommandBufferBeginInfo* pBeginInfo__ = pBeginInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->device->dispatch_table.BeginCommandBuffer(base->dispatch_handle, pBeginInfo__);
-
+#ifdef NEEDS_PRINTING_BeginCommandBuffer
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to BeginCommandBuffer with (commandBuffer: %p,pBeginInfo: %p) failed with result: %d", base->dispatch_handle,pBeginInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -5798,6 +6543,8 @@ static VKAPI_ATTR VkResult VKAPI_CALL
 wrapper_tramp_EndCommandBuffer(
     VkCommandBuffer commandBuffer)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("EndCommandBuffer");
 WLOGA("EndCommandBuffer(commandBuffer: %p)", commandBuffer);
@@ -5806,7 +6553,14 @@ WLOGA("EndCommandBuffer(commandBuffer: %p)", commandBuffer);
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->device->dispatch_table.EndCommandBuffer(base->dispatch_handle);
-
+#ifdef NEEDS_PRINTING_EndCommandBuffer
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to EndCommandBuffer with (commandBuffer: %p) failed with result: %d", base->dispatch_handle, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -5815,6 +6569,8 @@ wrapper_tramp_ResetCommandBuffer(
     VkCommandBuffer commandBuffer,
     VkCommandBufferResetFlags flags)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("ResetCommandBuffer");
 WLOGA("ResetCommandBuffer(commandBuffer: %p, flags: %x)", commandBuffer, flags);
@@ -5830,7 +6586,14 @@ VkCommandBufferResetFlags flags__ = flags;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->device->dispatch_table.ResetCommandBuffer(base->dispatch_handle, flags__);
-
+#ifdef NEEDS_PRINTING_ResetCommandBuffer
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to ResetCommandBuffer with (commandBuffer: %p,flags: %x) failed with result: %d", base->dispatch_handle,flags__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -5840,6 +6603,8 @@ wrapper_tramp_CmdBindPipeline(
     VkPipelineBindPoint pipelineBindPoint,
     VkPipeline pipeline)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBindPipeline");
 WLOGA("CmdBindPipeline(commandBuffer: %p, pipelineBindPoint: %x, pipeline: %x)", commandBuffer, pipelineBindPoint, pipeline);
@@ -5863,6 +6628,7 @@ VkPipeline pipeline__ = pipeline;
 #endif
     base->device->dispatch_table.CmdBindPipeline(base->dispatch_handle, pipelineBindPoint__, pipeline__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -5871,6 +6637,8 @@ wrapper_tramp_CmdSetAttachmentFeedbackLoopEnableEXT(
     VkCommandBuffer commandBuffer,
     VkImageAspectFlags aspectMask)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetAttachmentFeedbackLoopEnableEXT");
 WLOGA("CmdSetAttachmentFeedbackLoopEnableEXT(commandBuffer: %p, aspectMask: %x)", commandBuffer, aspectMask);
@@ -5887,6 +6655,7 @@ VkImageAspectFlags aspectMask__ = aspectMask;
 #endif
     base->device->dispatch_table.CmdSetAttachmentFeedbackLoopEnableEXT(base->dispatch_handle, aspectMask__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -5897,6 +6666,8 @@ wrapper_tramp_CmdSetViewport(
     uint32_t viewportCount,
     const VkViewport* pViewports)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetViewport");
 WLOGA("CmdSetViewport(commandBuffer: %p, firstViewport: %x, viewportCount: %x, pViewports: %p)", commandBuffer, firstViewport, viewportCount, pViewports);
@@ -5922,7 +6693,7 @@ const VkViewport* pViewports__ = pViewports;
 #ifdef NEEDS_UNWRAPPING_VkViewport
     pViewports__ = alloca(viewportCount * sizeof(VkViewport));
     for (int i = 0; i < viewportCount; i++)
-        unwrap_VkViewport(base->device, (VkViewport *) &pViewports__[i], &pViewports[i]);
+        unwrap_VkViewport(&temp, base->device, (VkViewport *) &pViewports__[i], &pViewports[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetViewport
     VK_CMD_LOGA("  in: pViewports[]: VkViewport");
@@ -5934,6 +6705,7 @@ const VkViewport* pViewports__ = pViewports;
 #endif
     base->device->dispatch_table.CmdSetViewport(base->dispatch_handle, firstViewport__, viewportCount__, pViewports__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -5944,6 +6716,8 @@ wrapper_tramp_CmdSetScissor(
     uint32_t scissorCount,
     const VkRect2D* pScissors)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetScissor");
 WLOGA("CmdSetScissor(commandBuffer: %p, firstScissor: %x, scissorCount: %x, pScissors: %p)", commandBuffer, firstScissor, scissorCount, pScissors);
@@ -5969,7 +6743,7 @@ const VkRect2D* pScissors__ = pScissors;
 #ifdef NEEDS_UNWRAPPING_VkRect2D
     pScissors__ = alloca(scissorCount * sizeof(VkRect2D));
     for (int i = 0; i < scissorCount; i++)
-        unwrap_VkRect2D(base->device, (VkRect2D *) &pScissors__[i], &pScissors[i]);
+        unwrap_VkRect2D(&temp, base->device, (VkRect2D *) &pScissors__[i], &pScissors[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetScissor
     VK_CMD_LOGA("  in: pScissors[]: VkRect2D");
@@ -5981,6 +6755,7 @@ const VkRect2D* pScissors__ = pScissors;
 #endif
     base->device->dispatch_table.CmdSetScissor(base->dispatch_handle, firstScissor__, scissorCount__, pScissors__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -5989,6 +6764,8 @@ wrapper_tramp_CmdSetLineWidth(
     VkCommandBuffer commandBuffer,
     float lineWidth)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetLineWidth");
 WLOGA("CmdSetLineWidth(commandBuffer: %p, lineWidth: %x)", commandBuffer, lineWidth);
@@ -6005,6 +6782,7 @@ float lineWidth__ = lineWidth;
 #endif
     base->device->dispatch_table.CmdSetLineWidth(base->dispatch_handle, lineWidth__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6015,6 +6793,8 @@ wrapper_tramp_CmdSetDepthBias(
     float depthBiasClamp,
     float depthBiasSlopeFactor)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDepthBias");
 WLOGA("CmdSetDepthBias(commandBuffer: %p, depthBiasConstantFactor: %x, depthBiasClamp: %x, depthBiasSlopeFactor: %x)", commandBuffer, depthBiasConstantFactor, depthBiasClamp, depthBiasSlopeFactor);
@@ -6045,6 +6825,7 @@ float depthBiasSlopeFactor__ = depthBiasSlopeFactor;
 #endif
     base->device->dispatch_table.CmdSetDepthBias(base->dispatch_handle, depthBiasConstantFactor__, depthBiasClamp__, depthBiasSlopeFactor__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6053,6 +6834,8 @@ wrapper_tramp_CmdSetBlendConstants(
     VkCommandBuffer commandBuffer,
     const float blendConstants[4])
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetBlendConstants");
 WLOGA("CmdSetBlendConstants(commandBuffer: %p)", commandBuffer, blendConstants);
@@ -6062,6 +6845,7 @@ WLOGA("CmdSetBlendConstants(commandBuffer: %p)", commandBuffer, blendConstants);
 #endif
     base->device->dispatch_table.CmdSetBlendConstants(base->dispatch_handle, blendConstants);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6071,6 +6855,8 @@ wrapper_tramp_CmdSetDepthBounds(
     float minDepthBounds,
     float maxDepthBounds)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDepthBounds");
 WLOGA("CmdSetDepthBounds(commandBuffer: %p, minDepthBounds: %x, maxDepthBounds: %x)", commandBuffer, minDepthBounds, maxDepthBounds);
@@ -6094,6 +6880,7 @@ float maxDepthBounds__ = maxDepthBounds;
 #endif
     base->device->dispatch_table.CmdSetDepthBounds(base->dispatch_handle, minDepthBounds__, maxDepthBounds__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6103,6 +6890,8 @@ wrapper_tramp_CmdSetStencilCompareMask(
     VkStencilFaceFlags faceMask,
     uint32_t compareMask)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetStencilCompareMask");
 WLOGA("CmdSetStencilCompareMask(commandBuffer: %p, faceMask: %x, compareMask: %x)", commandBuffer, faceMask, compareMask);
@@ -6126,6 +6915,7 @@ uint32_t compareMask__ = compareMask;
 #endif
     base->device->dispatch_table.CmdSetStencilCompareMask(base->dispatch_handle, faceMask__, compareMask__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6135,6 +6925,8 @@ wrapper_tramp_CmdSetStencilWriteMask(
     VkStencilFaceFlags faceMask,
     uint32_t writeMask)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetStencilWriteMask");
 WLOGA("CmdSetStencilWriteMask(commandBuffer: %p, faceMask: %x, writeMask: %x)", commandBuffer, faceMask, writeMask);
@@ -6158,6 +6950,7 @@ uint32_t writeMask__ = writeMask;
 #endif
     base->device->dispatch_table.CmdSetStencilWriteMask(base->dispatch_handle, faceMask__, writeMask__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6167,6 +6960,8 @@ wrapper_tramp_CmdSetStencilReference(
     VkStencilFaceFlags faceMask,
     uint32_t reference)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetStencilReference");
 WLOGA("CmdSetStencilReference(commandBuffer: %p, faceMask: %x, reference: %x)", commandBuffer, faceMask, reference);
@@ -6190,6 +6985,7 @@ uint32_t reference__ = reference;
 #endif
     base->device->dispatch_table.CmdSetStencilReference(base->dispatch_handle, faceMask__, reference__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6204,6 +7000,8 @@ wrapper_tramp_CmdBindDescriptorSets(
     uint32_t dynamicOffsetCount,
     const uint32_t* pDynamicOffsets)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBindDescriptorSets");
 WLOGA("CmdBindDescriptorSets(commandBuffer: %p, pipelineBindPoint: %x, layout: %x, firstSet: %x, descriptorSetCount: %x, pDescriptorSets: %x, dynamicOffsetCount: %x, pDynamicOffsets: %x)", commandBuffer, pipelineBindPoint, layout, firstSet, descriptorSetCount, pDescriptorSets, dynamicOffsetCount, pDynamicOffsets);
@@ -6262,6 +7060,7 @@ const uint32_t* pDynamicOffsets__ = pDynamicOffsets;
 #endif
     base->device->dispatch_table.CmdBindDescriptorSets(base->dispatch_handle, pipelineBindPoint__, layout__, firstSet__, descriptorSetCount__, pDescriptorSets__, dynamicOffsetCount__, pDynamicOffsets__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6272,6 +7071,8 @@ wrapper_tramp_CmdBindIndexBuffer(
     VkDeviceSize offset,
     VkIndexType indexType)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBindIndexBuffer");
 WLOGA("CmdBindIndexBuffer(commandBuffer: %p, buffer: %x, offset: %x, indexType: %x)", commandBuffer, buffer, offset, indexType);
@@ -6302,6 +7103,7 @@ VkIndexType indexType__ = indexType;
 #endif
     base->device->dispatch_table.CmdBindIndexBuffer(base->dispatch_handle, buffer__, offset__, indexType__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6313,6 +7115,8 @@ wrapper_tramp_CmdBindVertexBuffers(
     const VkBuffer* pBuffers,
     const VkDeviceSize* pOffsets)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBindVertexBuffers");
 WLOGA("CmdBindVertexBuffers(commandBuffer: %p, firstBinding: %x, bindingCount: %x, pBuffers: %x, pOffsets: %x)", commandBuffer, firstBinding, bindingCount, pBuffers, pOffsets);
@@ -6350,6 +7154,7 @@ const VkDeviceSize* pOffsets__ = pOffsets;
 #endif
     base->device->dispatch_table.CmdBindVertexBuffers(base->dispatch_handle, firstBinding__, bindingCount__, pBuffers__, pOffsets__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6361,6 +7166,8 @@ wrapper_tramp_CmdDraw(
     uint32_t firstVertex,
     uint32_t firstInstance)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDraw");
 WLOGA("CmdDraw(commandBuffer: %p, vertexCount: %x, instanceCount: %x, firstVertex: %x, firstInstance: %x)", commandBuffer, vertexCount, instanceCount, firstVertex, firstInstance);
@@ -6398,6 +7205,7 @@ uint32_t firstInstance__ = firstInstance;
 #endif
     base->device->dispatch_table.CmdDraw(base->dispatch_handle, vertexCount__, instanceCount__, firstVertex__, firstInstance__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6410,6 +7218,8 @@ wrapper_tramp_CmdDrawIndexed(
     int32_t vertexOffset,
     uint32_t firstInstance)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawIndexed");
 WLOGA("CmdDrawIndexed(commandBuffer: %p, indexCount: %x, instanceCount: %x, firstIndex: %x, vertexOffset: %x, firstInstance: %x)", commandBuffer, indexCount, instanceCount, firstIndex, vertexOffset, firstInstance);
@@ -6454,6 +7264,7 @@ uint32_t firstInstance__ = firstInstance;
 #endif
     base->device->dispatch_table.CmdDrawIndexed(base->dispatch_handle, indexCount__, instanceCount__, firstIndex__, vertexOffset__, firstInstance__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6466,6 +7277,8 @@ wrapper_tramp_CmdDrawMultiEXT(
     uint32_t firstInstance,
     uint32_t stride)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawMultiEXT");
 WLOGA("CmdDrawMultiEXT(commandBuffer: %p, drawCount: %x, pVertexInfo: %p, instanceCount: %x, firstInstance: %x, stride: %x)", commandBuffer, drawCount, pVertexInfo, instanceCount, firstInstance, stride);
@@ -6484,7 +7297,7 @@ const VkMultiDrawInfoEXT* pVertexInfo__ = pVertexInfo;
 #ifdef NEEDS_UNWRAPPING_VkMultiDrawInfoEXT
     pVertexInfo__ = alloca(drawCount * sizeof(VkMultiDrawInfoEXT));
     for (int i = 0; i < drawCount; i++)
-        unwrap_VkMultiDrawInfoEXT(base->device, (VkMultiDrawInfoEXT *) &pVertexInfo__[i], &pVertexInfo[i]);
+        unwrap_VkMultiDrawInfoEXT(&temp, base->device, (VkMultiDrawInfoEXT *) &pVertexInfo__[i], &pVertexInfo[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdDrawMultiEXT
     VK_CMD_LOGA("  in: pVertexInfo[]: VkMultiDrawInfoEXT");
@@ -6517,6 +7330,7 @@ uint32_t stride__ = stride;
 #endif
     base->device->dispatch_table.CmdDrawMultiEXT(base->dispatch_handle, drawCount__, pVertexInfo__, instanceCount__, firstInstance__, stride__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6530,6 +7344,8 @@ wrapper_tramp_CmdDrawMultiIndexedEXT(
     uint32_t stride,
     const int32_t* pVertexOffset)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawMultiIndexedEXT");
 WLOGA("CmdDrawMultiIndexedEXT(commandBuffer: %p, drawCount: %x, pIndexInfo: %p, instanceCount: %x, firstInstance: %x, stride: %x, pVertexOffset: %x)", commandBuffer, drawCount, pIndexInfo, instanceCount, firstInstance, stride, pVertexOffset);
@@ -6548,7 +7364,7 @@ const VkMultiDrawIndexedInfoEXT* pIndexInfo__ = pIndexInfo;
 #ifdef NEEDS_UNWRAPPING_VkMultiDrawIndexedInfoEXT
     pIndexInfo__ = alloca(drawCount * sizeof(VkMultiDrawIndexedInfoEXT));
     for (int i = 0; i < drawCount; i++)
-        unwrap_VkMultiDrawIndexedInfoEXT(base->device, (VkMultiDrawIndexedInfoEXT *) &pIndexInfo__[i], &pIndexInfo[i]);
+        unwrap_VkMultiDrawIndexedInfoEXT(&temp, base->device, (VkMultiDrawIndexedInfoEXT *) &pIndexInfo__[i], &pIndexInfo[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdDrawMultiIndexedEXT
     VK_CMD_LOGA("  in: pIndexInfo[]: VkMultiDrawIndexedInfoEXT");
@@ -6588,6 +7404,7 @@ const int32_t* pVertexOffset__ = pVertexOffset;
 #endif
     base->device->dispatch_table.CmdDrawMultiIndexedEXT(base->dispatch_handle, drawCount__, pIndexInfo__, instanceCount__, firstInstance__, stride__, pVertexOffset__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6599,6 +7416,8 @@ wrapper_tramp_CmdDrawIndirect(
     uint32_t drawCount,
     uint32_t stride)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawIndirect");
 WLOGA("CmdDrawIndirect(commandBuffer: %p, buffer: %x, offset: %x, drawCount: %x, stride: %x)", commandBuffer, buffer, offset, drawCount, stride);
@@ -6636,6 +7455,7 @@ uint32_t stride__ = stride;
 #endif
     base->device->dispatch_table.CmdDrawIndirect(base->dispatch_handle, buffer__, offset__, drawCount__, stride__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6647,6 +7467,8 @@ wrapper_tramp_CmdDrawIndexedIndirect(
     uint32_t drawCount,
     uint32_t stride)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawIndexedIndirect");
 WLOGA("CmdDrawIndexedIndirect(commandBuffer: %p, buffer: %x, offset: %x, drawCount: %x, stride: %x)", commandBuffer, buffer, offset, drawCount, stride);
@@ -6684,6 +7506,7 @@ uint32_t stride__ = stride;
 #endif
     base->device->dispatch_table.CmdDrawIndexedIndirect(base->dispatch_handle, buffer__, offset__, drawCount__, stride__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6694,6 +7517,8 @@ wrapper_tramp_CmdDispatch(
     uint32_t groupCountY,
     uint32_t groupCountZ)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDispatch");
 WLOGA("CmdDispatch(commandBuffer: %p, groupCountX: %x, groupCountY: %x, groupCountZ: %x)", commandBuffer, groupCountX, groupCountY, groupCountZ);
@@ -6724,6 +7549,7 @@ uint32_t groupCountZ__ = groupCountZ;
 #endif
     base->device->dispatch_table.CmdDispatch(base->dispatch_handle, groupCountX__, groupCountY__, groupCountZ__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6733,6 +7559,8 @@ wrapper_tramp_CmdDispatchIndirect(
     VkBuffer buffer,
     VkDeviceSize offset)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDispatchIndirect");
 WLOGA("CmdDispatchIndirect(commandBuffer: %p, buffer: %x, offset: %x)", commandBuffer, buffer, offset);
@@ -6756,6 +7584,7 @@ VkDeviceSize offset__ = offset;
 #endif
     base->device->dispatch_table.CmdDispatchIndirect(base->dispatch_handle, buffer__, offset__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6763,6 +7592,8 @@ static VKAPI_ATTR void VKAPI_CALL
 wrapper_tramp_CmdSubpassShadingHUAWEI(
     VkCommandBuffer commandBuffer)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSubpassShadingHUAWEI");
 WLOGA("CmdSubpassShadingHUAWEI(commandBuffer: %p)", commandBuffer);
@@ -6772,6 +7603,7 @@ WLOGA("CmdSubpassShadingHUAWEI(commandBuffer: %p)", commandBuffer);
 #endif
     base->device->dispatch_table.CmdSubpassShadingHUAWEI(base->dispatch_handle);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6782,6 +7614,8 @@ wrapper_tramp_CmdDrawClusterHUAWEI(
     uint32_t groupCountY,
     uint32_t groupCountZ)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawClusterHUAWEI");
 WLOGA("CmdDrawClusterHUAWEI(commandBuffer: %p, groupCountX: %x, groupCountY: %x, groupCountZ: %x)", commandBuffer, groupCountX, groupCountY, groupCountZ);
@@ -6812,6 +7646,7 @@ uint32_t groupCountZ__ = groupCountZ;
 #endif
     base->device->dispatch_table.CmdDrawClusterHUAWEI(base->dispatch_handle, groupCountX__, groupCountY__, groupCountZ__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6821,6 +7656,8 @@ wrapper_tramp_CmdDrawClusterIndirectHUAWEI(
     VkBuffer buffer,
     VkDeviceSize offset)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawClusterIndirectHUAWEI");
 WLOGA("CmdDrawClusterIndirectHUAWEI(commandBuffer: %p, buffer: %x, offset: %x)", commandBuffer, buffer, offset);
@@ -6844,6 +7681,7 @@ VkDeviceSize offset__ = offset;
 #endif
     base->device->dispatch_table.CmdDrawClusterIndirectHUAWEI(base->dispatch_handle, buffer__, offset__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6853,6 +7691,8 @@ wrapper_tramp_CmdUpdatePipelineIndirectBufferNV(
     VkPipelineBindPoint           pipelineBindPoint,
     VkPipeline                    pipeline)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdUpdatePipelineIndirectBufferNV");
 WLOGA("CmdUpdatePipelineIndirectBufferNV(commandBuffer: %p, pipelineBindPoint: %x, pipeline: %x)", commandBuffer, pipelineBindPoint, pipeline);
@@ -6876,6 +7716,7 @@ VkPipeline                    pipeline__ = pipeline;
 #endif
     base->device->dispatch_table.CmdUpdatePipelineIndirectBufferNV(base->dispatch_handle, pipelineBindPoint__, pipeline__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6887,6 +7728,8 @@ wrapper_tramp_CmdCopyBuffer(
     uint32_t regionCount,
     const VkBufferCopy* pRegions)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyBuffer");
 WLOGA("CmdCopyBuffer(commandBuffer: %p, srcBuffer: %x, dstBuffer: %x, regionCount: %x, pRegions: %p)", commandBuffer, srcBuffer, dstBuffer, regionCount, pRegions);
@@ -6919,7 +7762,7 @@ const VkBufferCopy* pRegions__ = pRegions;
 #ifdef NEEDS_UNWRAPPING_VkBufferCopy
     pRegions__ = alloca(regionCount * sizeof(VkBufferCopy));
     for (int i = 0; i < regionCount; i++)
-        unwrap_VkBufferCopy(base->device, (VkBufferCopy *) &pRegions__[i], &pRegions[i]);
+        unwrap_VkBufferCopy(&temp, base->device, (VkBufferCopy *) &pRegions__[i], &pRegions[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdCopyBuffer
     VK_CMD_LOGA("  in: pRegions[]: VkBufferCopy");
@@ -6931,6 +7774,7 @@ const VkBufferCopy* pRegions__ = pRegions;
 #endif
     base->device->dispatch_table.CmdCopyBuffer(base->dispatch_handle, srcBuffer__, dstBuffer__, regionCount__, pRegions__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -6944,6 +7788,8 @@ wrapper_tramp_CmdCopyImage(
     uint32_t regionCount,
     const VkImageCopy* pRegions)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyImage");
 WLOGA("CmdCopyImage(commandBuffer: %p, srcImage: %x, srcImageLayout: %x, dstImage: %x, dstImageLayout: %x, regionCount: %x, pRegions: %p)", commandBuffer, srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions);
@@ -6990,7 +7836,7 @@ const VkImageCopy* pRegions__ = pRegions;
 #ifdef NEEDS_UNWRAPPING_VkImageCopy
     pRegions__ = alloca(regionCount * sizeof(VkImageCopy));
     for (int i = 0; i < regionCount; i++)
-        unwrap_VkImageCopy(base->device, (VkImageCopy *) &pRegions__[i], &pRegions[i]);
+        unwrap_VkImageCopy(&temp, base->device, (VkImageCopy *) &pRegions__[i], &pRegions[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdCopyImage
     VK_CMD_LOGA("  in: pRegions[]: VkImageCopy");
@@ -7002,6 +7848,7 @@ const VkImageCopy* pRegions__ = pRegions;
 #endif
     base->device->dispatch_table.CmdCopyImage(base->dispatch_handle, srcImage__, srcImageLayout__, dstImage__, dstImageLayout__, regionCount__, pRegions__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7016,6 +7863,8 @@ wrapper_tramp_CmdBlitImage(
     const VkImageBlit* pRegions,
     VkFilter filter)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBlitImage");
 WLOGA("CmdBlitImage(commandBuffer: %p, srcImage: %x, srcImageLayout: %x, dstImage: %x, dstImageLayout: %x, regionCount: %x, pRegions: %p, filter: %x)", commandBuffer, srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions, filter);
@@ -7062,7 +7911,7 @@ const VkImageBlit* pRegions__ = pRegions;
 #ifdef NEEDS_UNWRAPPING_VkImageBlit
     pRegions__ = alloca(regionCount * sizeof(VkImageBlit));
     for (int i = 0; i < regionCount; i++)
-        unwrap_VkImageBlit(base->device, (VkImageBlit *) &pRegions__[i], &pRegions[i]);
+        unwrap_VkImageBlit(&temp, base->device, (VkImageBlit *) &pRegions__[i], &pRegions[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdBlitImage
     VK_CMD_LOGA("  in: pRegions[]: VkImageBlit");
@@ -7081,6 +7930,7 @@ VkFilter filter__ = filter;
 #endif
     base->device->dispatch_table.CmdBlitImage(base->dispatch_handle, srcImage__, srcImageLayout__, dstImage__, dstImageLayout__, regionCount__, pRegions__, filter__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7093,6 +7943,8 @@ wrapper_tramp_CmdCopyBufferToImage(
     uint32_t regionCount,
     const VkBufferImageCopy* pRegions)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyBufferToImage");
 WLOGA("CmdCopyBufferToImage(commandBuffer: %p, srcBuffer: %x, dstImage: %x, dstImageLayout: %x, regionCount: %x, pRegions: %p)", commandBuffer, srcBuffer, dstImage, dstImageLayout, regionCount, pRegions);
@@ -7132,7 +7984,7 @@ const VkBufferImageCopy* pRegions__ = pRegions;
 #ifdef NEEDS_UNWRAPPING_VkBufferImageCopy
     pRegions__ = alloca(regionCount * sizeof(VkBufferImageCopy));
     for (int i = 0; i < regionCount; i++)
-        unwrap_VkBufferImageCopy(base->device, (VkBufferImageCopy *) &pRegions__[i], &pRegions[i]);
+        unwrap_VkBufferImageCopy(&temp, base->device, (VkBufferImageCopy *) &pRegions__[i], &pRegions[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdCopyBufferToImage
     VK_CMD_LOGA("  in: pRegions[]: VkBufferImageCopy");
@@ -7144,6 +7996,7 @@ const VkBufferImageCopy* pRegions__ = pRegions;
 #endif
     base->device->dispatch_table.CmdCopyBufferToImage(base->dispatch_handle, srcBuffer__, dstImage__, dstImageLayout__, regionCount__, pRegions__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7156,6 +8009,8 @@ wrapper_tramp_CmdCopyImageToBuffer(
     uint32_t regionCount,
     const VkBufferImageCopy* pRegions)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyImageToBuffer");
 WLOGA("CmdCopyImageToBuffer(commandBuffer: %p, srcImage: %x, srcImageLayout: %x, dstBuffer: %x, regionCount: %x, pRegions: %p)", commandBuffer, srcImage, srcImageLayout, dstBuffer, regionCount, pRegions);
@@ -7195,7 +8050,7 @@ const VkBufferImageCopy* pRegions__ = pRegions;
 #ifdef NEEDS_UNWRAPPING_VkBufferImageCopy
     pRegions__ = alloca(regionCount * sizeof(VkBufferImageCopy));
     for (int i = 0; i < regionCount; i++)
-        unwrap_VkBufferImageCopy(base->device, (VkBufferImageCopy *) &pRegions__[i], &pRegions[i]);
+        unwrap_VkBufferImageCopy(&temp, base->device, (VkBufferImageCopy *) &pRegions__[i], &pRegions[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdCopyImageToBuffer
     VK_CMD_LOGA("  in: pRegions[]: VkBufferImageCopy");
@@ -7207,6 +8062,7 @@ const VkBufferImageCopy* pRegions__ = pRegions;
 #endif
     base->device->dispatch_table.CmdCopyImageToBuffer(base->dispatch_handle, srcImage__, srcImageLayout__, dstBuffer__, regionCount__, pRegions__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7217,6 +8073,8 @@ wrapper_tramp_CmdCopyMemoryIndirectNV(
     uint32_t copyCount,
     uint32_t stride)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyMemoryIndirectNV");
 WLOGA("CmdCopyMemoryIndirectNV(commandBuffer: %p, copyBufferAddress: %x, copyCount: %x, stride: %x)", commandBuffer, copyBufferAddress, copyCount, stride);
@@ -7247,6 +8105,7 @@ uint32_t stride__ = stride;
 #endif
     base->device->dispatch_table.CmdCopyMemoryIndirectNV(base->dispatch_handle, copyBufferAddress__, copyCount__, stride__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7260,6 +8119,8 @@ wrapper_tramp_CmdCopyMemoryToImageIndirectNV(
     VkImageLayout dstImageLayout,
     const VkImageSubresourceLayers* pImageSubresources)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyMemoryToImageIndirectNV");
 WLOGA("CmdCopyMemoryToImageIndirectNV(commandBuffer: %p, copyBufferAddress: %x, copyCount: %x, stride: %x, dstImage: %x, dstImageLayout: %x, pImageSubresources: %p)", commandBuffer, copyBufferAddress, copyCount, stride, dstImage, dstImageLayout, pImageSubresources);
@@ -7306,7 +8167,7 @@ const VkImageSubresourceLayers* pImageSubresources__ = pImageSubresources;
 #ifdef NEEDS_UNWRAPPING_VkImageSubresourceLayers
     pImageSubresources__ = alloca(copyCount * sizeof(VkImageSubresourceLayers));
     for (int i = 0; i < copyCount; i++)
-        unwrap_VkImageSubresourceLayers(base->device, (VkImageSubresourceLayers *) &pImageSubresources__[i], &pImageSubresources[i]);
+        unwrap_VkImageSubresourceLayers(&temp, base->device, (VkImageSubresourceLayers *) &pImageSubresources__[i], &pImageSubresources[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdCopyMemoryToImageIndirectNV
     VK_CMD_LOGA("  in: pImageSubresources[]: VkImageSubresourceLayers");
@@ -7318,6 +8179,7 @@ const VkImageSubresourceLayers* pImageSubresources__ = pImageSubresources;
 #endif
     base->device->dispatch_table.CmdCopyMemoryToImageIndirectNV(base->dispatch_handle, copyBufferAddress__, copyCount__, stride__, dstImage__, dstImageLayout__, pImageSubresources__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7329,6 +8191,8 @@ wrapper_tramp_CmdUpdateBuffer(
     VkDeviceSize dataSize,
     const void* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdUpdateBuffer");
 WLOGA("CmdUpdateBuffer(commandBuffer: %p, dstBuffer: %x, dstOffset: %x, dataSize: %x, pData: %x)", commandBuffer, dstBuffer, dstOffset, dataSize, pData);
@@ -7366,6 +8230,7 @@ const void* pData__ = pData;
 #endif
     base->device->dispatch_table.CmdUpdateBuffer(base->dispatch_handle, dstBuffer__, dstOffset__, dataSize__, pData__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7377,6 +8242,8 @@ wrapper_tramp_CmdFillBuffer(
     VkDeviceSize size,
     uint32_t data)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdFillBuffer");
 WLOGA("CmdFillBuffer(commandBuffer: %p, dstBuffer: %x, dstOffset: %x, size: %x, data: %x)", commandBuffer, dstBuffer, dstOffset, size, data);
@@ -7414,6 +8281,7 @@ uint32_t data__ = data;
 #endif
     base->device->dispatch_table.CmdFillBuffer(base->dispatch_handle, dstBuffer__, dstOffset__, size__, data__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7426,6 +8294,8 @@ wrapper_tramp_CmdClearColorImage(
     uint32_t rangeCount,
     const VkImageSubresourceRange* pRanges)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdClearColorImage");
 WLOGA("CmdClearColorImage(commandBuffer: %p, image: %x, imageLayout: %x, pColor: %x, rangeCount: %x, pRanges: %p)", commandBuffer, image, imageLayout, pColor, rangeCount, pRanges);
@@ -7465,7 +8335,7 @@ const VkImageSubresourceRange* pRanges__ = pRanges;
 #ifdef NEEDS_UNWRAPPING_VkImageSubresourceRange
     pRanges__ = alloca(rangeCount * sizeof(VkImageSubresourceRange));
     for (int i = 0; i < rangeCount; i++)
-        unwrap_VkImageSubresourceRange(base->device, (VkImageSubresourceRange *) &pRanges__[i], &pRanges[i]);
+        unwrap_VkImageSubresourceRange(&temp, base->device, (VkImageSubresourceRange *) &pRanges__[i], &pRanges[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdClearColorImage
     VK_CMD_LOGA("  in: pRanges[]: VkImageSubresourceRange");
@@ -7477,6 +8347,7 @@ const VkImageSubresourceRange* pRanges__ = pRanges;
 #endif
     base->device->dispatch_table.CmdClearColorImage(base->dispatch_handle, image__, imageLayout__, pColor__, rangeCount__, pRanges__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7489,6 +8360,8 @@ wrapper_tramp_CmdClearDepthStencilImage(
     uint32_t rangeCount,
     const VkImageSubresourceRange* pRanges)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdClearDepthStencilImage");
 WLOGA("CmdClearDepthStencilImage(commandBuffer: %p, image: %x, imageLayout: %x, pDepthStencil: %p, rangeCount: %x, pRanges: %p)", commandBuffer, image, imageLayout, pDepthStencil, rangeCount, pRanges);
@@ -7514,7 +8387,7 @@ const VkClearDepthStencilValue* pDepthStencil__ = pDepthStencil;
 #ifdef NEEDS_UNWRAPPING_VkClearDepthStencilValue
     VkClearDepthStencilValue _w_pDepthStencil = { 0 };
     pDepthStencil__ = &_w_pDepthStencil;
-    unwrap_VkClearDepthStencilValue(base->device, (VkClearDepthStencilValue *) pDepthStencil__, pDepthStencil);
+    unwrap_VkClearDepthStencilValue(&temp, base->device, (VkClearDepthStencilValue *) pDepthStencil__, pDepthStencil);
 #endif
 #ifdef NEEDS_PRINTING_CmdClearDepthStencilImage
     VK_CMD_LOGA("  in: pDepthStencil: VkClearDepthStencilValue*");
@@ -7532,7 +8405,7 @@ const VkImageSubresourceRange* pRanges__ = pRanges;
 #ifdef NEEDS_UNWRAPPING_VkImageSubresourceRange
     pRanges__ = alloca(rangeCount * sizeof(VkImageSubresourceRange));
     for (int i = 0; i < rangeCount; i++)
-        unwrap_VkImageSubresourceRange(base->device, (VkImageSubresourceRange *) &pRanges__[i], &pRanges[i]);
+        unwrap_VkImageSubresourceRange(&temp, base->device, (VkImageSubresourceRange *) &pRanges__[i], &pRanges[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdClearDepthStencilImage
     VK_CMD_LOGA("  in: pRanges[]: VkImageSubresourceRange");
@@ -7544,6 +8417,7 @@ const VkImageSubresourceRange* pRanges__ = pRanges;
 #endif
     base->device->dispatch_table.CmdClearDepthStencilImage(base->dispatch_handle, image__, imageLayout__, pDepthStencil__, rangeCount__, pRanges__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7555,6 +8429,8 @@ wrapper_tramp_CmdClearAttachments(
     uint32_t rectCount,
     const VkClearRect* pRects)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdClearAttachments");
 WLOGA("CmdClearAttachments(commandBuffer: %p, attachmentCount: %x, pAttachments: %p, rectCount: %x, pRects: %p)", commandBuffer, attachmentCount, pAttachments, rectCount, pRects);
@@ -7573,7 +8449,7 @@ const VkClearAttachment* pAttachments__ = pAttachments;
 #ifdef NEEDS_UNWRAPPING_VkClearAttachment
     pAttachments__ = alloca(attachmentCount * sizeof(VkClearAttachment));
     for (int i = 0; i < attachmentCount; i++)
-        unwrap_VkClearAttachment(base->device, (VkClearAttachment *) &pAttachments__[i], &pAttachments[i]);
+        unwrap_VkClearAttachment(&temp, base->device, (VkClearAttachment *) &pAttachments__[i], &pAttachments[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdClearAttachments
     VK_CMD_LOGA("  in: pAttachments[]: VkClearAttachment");
@@ -7594,7 +8470,7 @@ const VkClearRect* pRects__ = pRects;
 #ifdef NEEDS_UNWRAPPING_VkClearRect
     pRects__ = alloca(rectCount * sizeof(VkClearRect));
     for (int i = 0; i < rectCount; i++)
-        unwrap_VkClearRect(base->device, (VkClearRect *) &pRects__[i], &pRects[i]);
+        unwrap_VkClearRect(&temp, base->device, (VkClearRect *) &pRects__[i], &pRects[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdClearAttachments
     VK_CMD_LOGA("  in: pRects[]: VkClearRect");
@@ -7606,6 +8482,7 @@ const VkClearRect* pRects__ = pRects;
 #endif
     base->device->dispatch_table.CmdClearAttachments(base->dispatch_handle, attachmentCount__, pAttachments__, rectCount__, pRects__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7619,6 +8496,8 @@ wrapper_tramp_CmdResolveImage(
     uint32_t regionCount,
     const VkImageResolve* pRegions)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdResolveImage");
 WLOGA("CmdResolveImage(commandBuffer: %p, srcImage: %x, srcImageLayout: %x, dstImage: %x, dstImageLayout: %x, regionCount: %x, pRegions: %p)", commandBuffer, srcImage, srcImageLayout, dstImage, dstImageLayout, regionCount, pRegions);
@@ -7665,7 +8544,7 @@ const VkImageResolve* pRegions__ = pRegions;
 #ifdef NEEDS_UNWRAPPING_VkImageResolve
     pRegions__ = alloca(regionCount * sizeof(VkImageResolve));
     for (int i = 0; i < regionCount; i++)
-        unwrap_VkImageResolve(base->device, (VkImageResolve *) &pRegions__[i], &pRegions[i]);
+        unwrap_VkImageResolve(&temp, base->device, (VkImageResolve *) &pRegions__[i], &pRegions[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdResolveImage
     VK_CMD_LOGA("  in: pRegions[]: VkImageResolve");
@@ -7677,6 +8556,7 @@ const VkImageResolve* pRegions__ = pRegions;
 #endif
     base->device->dispatch_table.CmdResolveImage(base->dispatch_handle, srcImage__, srcImageLayout__, dstImage__, dstImageLayout__, regionCount__, pRegions__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7686,6 +8566,8 @@ wrapper_tramp_CmdSetEvent(
     VkEvent event,
     VkPipelineStageFlags stageMask)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetEvent");
 WLOGA("CmdSetEvent(commandBuffer: %p, event: %x, stageMask: %x)", commandBuffer, event, stageMask);
@@ -7709,6 +8591,7 @@ VkPipelineStageFlags stageMask__ = stageMask;
 #endif
     base->device->dispatch_table.CmdSetEvent(base->dispatch_handle, event__, stageMask__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7718,6 +8601,8 @@ wrapper_tramp_CmdResetEvent(
     VkEvent event,
     VkPipelineStageFlags stageMask)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdResetEvent");
 WLOGA("CmdResetEvent(commandBuffer: %p, event: %x, stageMask: %x)", commandBuffer, event, stageMask);
@@ -7741,6 +8626,7 @@ VkPipelineStageFlags stageMask__ = stageMask;
 #endif
     base->device->dispatch_table.CmdResetEvent(base->dispatch_handle, event__, stageMask__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7758,6 +8644,8 @@ wrapper_tramp_CmdWaitEvents(
     uint32_t imageMemoryBarrierCount,
     const VkImageMemoryBarrier* pImageMemoryBarriers)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdWaitEvents");
 WLOGA("CmdWaitEvents(commandBuffer: %p, eventCount: %x, pEvents: %x, srcStageMask: %x, dstStageMask: %x, memoryBarrierCount: %x, pMemoryBarriers: %p, bufferMemoryBarrierCount: %x, pBufferMemoryBarriers: %p, imageMemoryBarrierCount: %x, pImageMemoryBarriers: %p)", commandBuffer, eventCount, pEvents, srcStageMask, dstStageMask, memoryBarrierCount, pMemoryBarriers, bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount, pImageMemoryBarriers);
@@ -7804,7 +8692,7 @@ const VkMemoryBarrier* pMemoryBarriers__ = pMemoryBarriers;
 #ifdef NEEDS_UNWRAPPING_VkMemoryBarrier
     pMemoryBarriers__ = alloca(memoryBarrierCount * sizeof(VkMemoryBarrier));
     for (int i = 0; i < memoryBarrierCount; i++)
-        unwrap_VkMemoryBarrier(base->device, (VkMemoryBarrier *) &pMemoryBarriers__[i], &pMemoryBarriers[i]);
+        unwrap_VkMemoryBarrier(&temp, base->device, (VkMemoryBarrier *) &pMemoryBarriers__[i], &pMemoryBarriers[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdWaitEvents
     VK_CMD_LOGA("  in: pMemoryBarriers[]: VkMemoryBarrier");
@@ -7825,7 +8713,7 @@ const VkBufferMemoryBarrier* pBufferMemoryBarriers__ = pBufferMemoryBarriers;
 #ifdef NEEDS_UNWRAPPING_VkBufferMemoryBarrier
     pBufferMemoryBarriers__ = alloca(bufferMemoryBarrierCount * sizeof(VkBufferMemoryBarrier));
     for (int i = 0; i < bufferMemoryBarrierCount; i++)
-        unwrap_VkBufferMemoryBarrier(base->device, (VkBufferMemoryBarrier *) &pBufferMemoryBarriers__[i], &pBufferMemoryBarriers[i]);
+        unwrap_VkBufferMemoryBarrier(&temp, base->device, (VkBufferMemoryBarrier *) &pBufferMemoryBarriers__[i], &pBufferMemoryBarriers[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdWaitEvents
     VK_CMD_LOGA("  in: pBufferMemoryBarriers[]: VkBufferMemoryBarrier");
@@ -7846,7 +8734,7 @@ const VkImageMemoryBarrier* pImageMemoryBarriers__ = pImageMemoryBarriers;
 #ifdef NEEDS_UNWRAPPING_VkImageMemoryBarrier
     pImageMemoryBarriers__ = alloca(imageMemoryBarrierCount * sizeof(VkImageMemoryBarrier));
     for (int i = 0; i < imageMemoryBarrierCount; i++)
-        unwrap_VkImageMemoryBarrier(base->device, (VkImageMemoryBarrier *) &pImageMemoryBarriers__[i], &pImageMemoryBarriers[i]);
+        unwrap_VkImageMemoryBarrier(&temp, base->device, (VkImageMemoryBarrier *) &pImageMemoryBarriers__[i], &pImageMemoryBarriers[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdWaitEvents
     VK_CMD_LOGA("  in: pImageMemoryBarriers[]: VkImageMemoryBarrier");
@@ -7858,6 +8746,7 @@ const VkImageMemoryBarrier* pImageMemoryBarriers__ = pImageMemoryBarriers;
 #endif
     base->device->dispatch_table.CmdWaitEvents(base->dispatch_handle, eventCount__, pEvents__, srcStageMask__, dstStageMask__, memoryBarrierCount__, pMemoryBarriers__, bufferMemoryBarrierCount__, pBufferMemoryBarriers__, imageMemoryBarrierCount__, pImageMemoryBarriers__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7874,6 +8763,8 @@ wrapper_tramp_CmdPipelineBarrier(
     uint32_t imageMemoryBarrierCount,
     const VkImageMemoryBarrier* pImageMemoryBarriers)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdPipelineBarrier");
 WLOGA("CmdPipelineBarrier(commandBuffer: %p, srcStageMask: %x, dstStageMask: %x, dependencyFlags: %x, memoryBarrierCount: %x, pMemoryBarriers: %p, bufferMemoryBarrierCount: %x, pBufferMemoryBarriers: %p, imageMemoryBarrierCount: %x, pImageMemoryBarriers: %p)", commandBuffer, srcStageMask, dstStageMask, dependencyFlags, memoryBarrierCount, pMemoryBarriers, bufferMemoryBarrierCount, pBufferMemoryBarriers, imageMemoryBarrierCount, pImageMemoryBarriers);
@@ -7913,7 +8804,7 @@ const VkMemoryBarrier* pMemoryBarriers__ = pMemoryBarriers;
 #ifdef NEEDS_UNWRAPPING_VkMemoryBarrier
     pMemoryBarriers__ = alloca(memoryBarrierCount * sizeof(VkMemoryBarrier));
     for (int i = 0; i < memoryBarrierCount; i++)
-        unwrap_VkMemoryBarrier(base->device, (VkMemoryBarrier *) &pMemoryBarriers__[i], &pMemoryBarriers[i]);
+        unwrap_VkMemoryBarrier(&temp, base->device, (VkMemoryBarrier *) &pMemoryBarriers__[i], &pMemoryBarriers[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdPipelineBarrier
     VK_CMD_LOGA("  in: pMemoryBarriers[]: VkMemoryBarrier");
@@ -7934,7 +8825,7 @@ const VkBufferMemoryBarrier* pBufferMemoryBarriers__ = pBufferMemoryBarriers;
 #ifdef NEEDS_UNWRAPPING_VkBufferMemoryBarrier
     pBufferMemoryBarriers__ = alloca(bufferMemoryBarrierCount * sizeof(VkBufferMemoryBarrier));
     for (int i = 0; i < bufferMemoryBarrierCount; i++)
-        unwrap_VkBufferMemoryBarrier(base->device, (VkBufferMemoryBarrier *) &pBufferMemoryBarriers__[i], &pBufferMemoryBarriers[i]);
+        unwrap_VkBufferMemoryBarrier(&temp, base->device, (VkBufferMemoryBarrier *) &pBufferMemoryBarriers__[i], &pBufferMemoryBarriers[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdPipelineBarrier
     VK_CMD_LOGA("  in: pBufferMemoryBarriers[]: VkBufferMemoryBarrier");
@@ -7955,7 +8846,7 @@ const VkImageMemoryBarrier* pImageMemoryBarriers__ = pImageMemoryBarriers;
 #ifdef NEEDS_UNWRAPPING_VkImageMemoryBarrier
     pImageMemoryBarriers__ = alloca(imageMemoryBarrierCount * sizeof(VkImageMemoryBarrier));
     for (int i = 0; i < imageMemoryBarrierCount; i++)
-        unwrap_VkImageMemoryBarrier(base->device, (VkImageMemoryBarrier *) &pImageMemoryBarriers__[i], &pImageMemoryBarriers[i]);
+        unwrap_VkImageMemoryBarrier(&temp, base->device, (VkImageMemoryBarrier *) &pImageMemoryBarriers__[i], &pImageMemoryBarriers[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdPipelineBarrier
     VK_CMD_LOGA("  in: pImageMemoryBarriers[]: VkImageMemoryBarrier");
@@ -7967,6 +8858,7 @@ const VkImageMemoryBarrier* pImageMemoryBarriers__ = pImageMemoryBarriers;
 #endif
     base->device->dispatch_table.CmdPipelineBarrier(base->dispatch_handle, srcStageMask__, dstStageMask__, dependencyFlags__, memoryBarrierCount__, pMemoryBarriers__, bufferMemoryBarrierCount__, pBufferMemoryBarriers__, imageMemoryBarrierCount__, pImageMemoryBarriers__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -7977,6 +8869,8 @@ wrapper_tramp_CmdBeginQuery(
     uint32_t query,
     VkQueryControlFlags flags)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBeginQuery");
 WLOGA("CmdBeginQuery(commandBuffer: %p, queryPool: %x, query: %x, flags: %x)", commandBuffer, queryPool, query, flags);
@@ -8007,6 +8901,7 @@ VkQueryControlFlags flags__ = flags;
 #endif
     base->device->dispatch_table.CmdBeginQuery(base->dispatch_handle, queryPool__, query__, flags__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8016,6 +8911,8 @@ wrapper_tramp_CmdEndQuery(
     VkQueryPool queryPool,
     uint32_t query)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdEndQuery");
 WLOGA("CmdEndQuery(commandBuffer: %p, queryPool: %x, query: %x)", commandBuffer, queryPool, query);
@@ -8039,6 +8936,7 @@ uint32_t query__ = query;
 #endif
     base->device->dispatch_table.CmdEndQuery(base->dispatch_handle, queryPool__, query__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8047,6 +8945,8 @@ wrapper_tramp_CmdBeginConditionalRenderingEXT(
     VkCommandBuffer commandBuffer,
     const VkConditionalRenderingBeginInfoEXT* pConditionalRenderingBegin)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBeginConditionalRenderingEXT");
 WLOGA("CmdBeginConditionalRenderingEXT(commandBuffer: %p, pConditionalRenderingBegin: %p)", commandBuffer, pConditionalRenderingBegin);
@@ -8058,7 +8958,7 @@ const VkConditionalRenderingBeginInfoEXT* pConditionalRenderingBegin__ = pCondit
 #ifdef NEEDS_UNWRAPPING_VkConditionalRenderingBeginInfoEXT
     VkConditionalRenderingBeginInfoEXT _w_pConditionalRenderingBegin = { 0 };
     pConditionalRenderingBegin__ = &_w_pConditionalRenderingBegin;
-    unwrap_VkConditionalRenderingBeginInfoEXT(base->device, (VkConditionalRenderingBeginInfoEXT *) pConditionalRenderingBegin__, pConditionalRenderingBegin);
+    unwrap_VkConditionalRenderingBeginInfoEXT(&temp, base->device, (VkConditionalRenderingBeginInfoEXT *) pConditionalRenderingBegin__, pConditionalRenderingBegin);
 #endif
 #ifdef NEEDS_PRINTING_CmdBeginConditionalRenderingEXT
     VK_CMD_LOGA("  in: pConditionalRenderingBegin: VkConditionalRenderingBeginInfoEXT*");
@@ -8067,6 +8967,7 @@ const VkConditionalRenderingBeginInfoEXT* pConditionalRenderingBegin__ = pCondit
 #endif
     base->device->dispatch_table.CmdBeginConditionalRenderingEXT(base->dispatch_handle, pConditionalRenderingBegin__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8074,6 +8975,8 @@ static VKAPI_ATTR void VKAPI_CALL
 wrapper_tramp_CmdEndConditionalRenderingEXT(
     VkCommandBuffer commandBuffer)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdEndConditionalRenderingEXT");
 WLOGA("CmdEndConditionalRenderingEXT(commandBuffer: %p)", commandBuffer);
@@ -8083,6 +8986,7 @@ WLOGA("CmdEndConditionalRenderingEXT(commandBuffer: %p)", commandBuffer);
 #endif
     base->device->dispatch_table.CmdEndConditionalRenderingEXT(base->dispatch_handle);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8093,6 +8997,8 @@ wrapper_tramp_CmdResetQueryPool(
     uint32_t firstQuery,
     uint32_t queryCount)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdResetQueryPool");
 WLOGA("CmdResetQueryPool(commandBuffer: %p, queryPool: %x, firstQuery: %x, queryCount: %x)", commandBuffer, queryPool, firstQuery, queryCount);
@@ -8123,6 +9029,7 @@ uint32_t queryCount__ = queryCount;
 #endif
     base->device->dispatch_table.CmdResetQueryPool(base->dispatch_handle, queryPool__, firstQuery__, queryCount__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8133,6 +9040,8 @@ wrapper_tramp_CmdWriteTimestamp(
     VkQueryPool queryPool,
     uint32_t query)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdWriteTimestamp");
 WLOGA("CmdWriteTimestamp(commandBuffer: %p, pipelineStage: %x, queryPool: %x, query: %x)", commandBuffer, pipelineStage, queryPool, query);
@@ -8163,6 +9072,7 @@ uint32_t query__ = query;
 #endif
     base->device->dispatch_table.CmdWriteTimestamp(base->dispatch_handle, pipelineStage__, queryPool__, query__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8177,6 +9087,8 @@ wrapper_tramp_CmdCopyQueryPoolResults(
     VkDeviceSize stride,
     VkQueryResultFlags flags)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyQueryPoolResults");
 WLOGA("CmdCopyQueryPoolResults(commandBuffer: %p, queryPool: %x, firstQuery: %x, queryCount: %x, dstBuffer: %x, dstOffset: %x, stride: %x, flags: %x)", commandBuffer, queryPool, firstQuery, queryCount, dstBuffer, dstOffset, stride, flags);
@@ -8235,6 +9147,7 @@ VkQueryResultFlags flags__ = flags;
 #endif
     base->device->dispatch_table.CmdCopyQueryPoolResults(base->dispatch_handle, queryPool__, firstQuery__, queryCount__, dstBuffer__, dstOffset__, stride__, flags__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8247,6 +9160,8 @@ wrapper_tramp_CmdPushConstants(
     uint32_t size,
     const void* pValues)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdPushConstants");
 WLOGA("CmdPushConstants(commandBuffer: %p, layout: %x, stageFlags: %x, offset: %x, size: %x, pValues: %x)", commandBuffer, layout, stageFlags, offset, size, pValues);
@@ -8291,6 +9206,7 @@ const void* pValues__ = pValues;
 #endif
     base->device->dispatch_table.CmdPushConstants(base->dispatch_handle, layout__, stageFlags__, offset__, size__, pValues__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8300,6 +9216,8 @@ wrapper_tramp_CmdBeginRenderPass(
     const VkRenderPassBeginInfo* pRenderPassBegin,
     VkSubpassContents contents)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBeginRenderPass");
 WLOGA("CmdBeginRenderPass(commandBuffer: %p, pRenderPassBegin: %p, contents: %x)", commandBuffer, pRenderPassBegin, contents);
@@ -8311,7 +9229,7 @@ const VkRenderPassBeginInfo* pRenderPassBegin__ = pRenderPassBegin;
 #ifdef NEEDS_UNWRAPPING_VkRenderPassBeginInfo
     VkRenderPassBeginInfo _w_pRenderPassBegin = { 0 };
     pRenderPassBegin__ = &_w_pRenderPassBegin;
-    unwrap_VkRenderPassBeginInfo(base->device, (VkRenderPassBeginInfo *) pRenderPassBegin__, pRenderPassBegin);
+    unwrap_VkRenderPassBeginInfo(&temp, base->device, (VkRenderPassBeginInfo *) pRenderPassBegin__, pRenderPassBegin);
 #endif
 #ifdef NEEDS_PRINTING_CmdBeginRenderPass
     VK_CMD_LOGA("  in: pRenderPassBegin: VkRenderPassBeginInfo*");
@@ -8327,6 +9245,7 @@ VkSubpassContents contents__ = contents;
 #endif
     base->device->dispatch_table.CmdBeginRenderPass(base->dispatch_handle, pRenderPassBegin__, contents__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8335,6 +9254,8 @@ wrapper_tramp_CmdNextSubpass(
     VkCommandBuffer commandBuffer,
     VkSubpassContents contents)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdNextSubpass");
 WLOGA("CmdNextSubpass(commandBuffer: %p, contents: %x)", commandBuffer, contents);
@@ -8351,6 +9272,7 @@ VkSubpassContents contents__ = contents;
 #endif
     base->device->dispatch_table.CmdNextSubpass(base->dispatch_handle, contents__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8358,6 +9280,8 @@ static VKAPI_ATTR void VKAPI_CALL
 wrapper_tramp_CmdEndRenderPass(
     VkCommandBuffer commandBuffer)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdEndRenderPass");
 WLOGA("CmdEndRenderPass(commandBuffer: %p)", commandBuffer);
@@ -8367,6 +9291,7 @@ WLOGA("CmdEndRenderPass(commandBuffer: %p)", commandBuffer);
 #endif
     base->device->dispatch_table.CmdEndRenderPass(base->dispatch_handle);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8376,6 +9301,8 @@ wrapper_tramp_CmdExecuteCommands(
     uint32_t commandBufferCount,
     const VkCommandBuffer* pCommandBuffers)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdExecuteCommands");
 WLOGA("CmdExecuteCommands(commandBuffer: %p)", commandBuffer, commandBufferCount, pCommandBuffers);
@@ -8385,6 +9312,7 @@ WLOGA("CmdExecuteCommands(commandBuffer: %p)", commandBuffer, commandBufferCount
 #endif
     base->device->dispatch_table.CmdExecuteCommands(base->dispatch_handle, commandBufferCount, pCommandBuffers);
 
+    free_temp_objects(&temp);
     return ;
 }
                                 
@@ -8396,6 +9324,8 @@ wrapper_tramp_CreateSharedSwapchainsKHR(
     const VkAllocationCallbacks* pAllocator,
     VkSwapchainKHR* pSwapchains)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateSharedSwapchainsKHR");
 WLOGA("CreateSharedSwapchainsKHR(device: %p, swapchainCount: %x, pCreateInfos: %p, pAllocator: %p, pSwapchains: %p)", device, swapchainCount, pCreateInfos, pAllocator, pSwapchains);
@@ -8414,7 +9344,7 @@ const VkSwapchainCreateInfoKHR* pCreateInfos__ = pCreateInfos;
 #ifdef NEEDS_UNWRAPPING_VkSwapchainCreateInfoKHR
     pCreateInfos__ = alloca(swapchainCount * sizeof(VkSwapchainCreateInfoKHR));
     for (int i = 0; i < swapchainCount; i++)
-        unwrap_VkSwapchainCreateInfoKHR(base, (VkSwapchainCreateInfoKHR *) &pCreateInfos__[i], &pCreateInfos[i]);
+        unwrap_VkSwapchainCreateInfoKHR(&temp, base, (VkSwapchainCreateInfoKHR *) &pCreateInfos__[i], &pCreateInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_CreateSharedSwapchainsKHR
     VK_CMD_LOGA("  in: pCreateInfos[]: VkSwapchainCreateInfoKHR");
@@ -8428,7 +9358,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateSharedSwapchainsKHR
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -8437,14 +9367,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateSharedSwapchainsKHR(base->dispatch_handle, swapchainCount__, pCreateInfos__, pAllocator__, pSwapchains);
 #ifdef NEEDS_PRINTING_CreateSharedSwapchainsKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateSharedSwapchainsKHR
     VK_CMD_LOGA("  out: *pSwapchains: VkSwapchainKHR = %x", (int64_t)*pSwapchains);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSwapchainKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateSharedSwapchainsKHR with (device: %p,swapchainCount: %x,pCreateInfos: %p,pAllocator: %p,pSwapchains: %p) failed with result: %d", base->dispatch_handle,swapchainCount__,pCreateInfos__,pAllocator__,pSwapchains, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateSharedSwapchainsKHR with (device: %p,swapchainCount: %x,pCreateInfos: %p,pAllocator: %p,pSwapchains: %p) failed with result: %d", base->dispatch_handle,swapchainCount__,pCreateInfos__,pAllocator__,pSwapchains, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                     
@@ -8455,6 +9390,8 @@ wrapper_tramp_CreateSwapchainKHR(
     const VkAllocationCallbacks* pAllocator,
     VkSwapchainKHR* pSwapchain)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateSwapchainKHR");
 WLOGA("CreateSwapchainKHR(device: %p, pCreateInfo: %p, pAllocator: %p, pSwapchain: %p)", device, pCreateInfo, pAllocator, pSwapchain);
@@ -8466,7 +9403,7 @@ const VkSwapchainCreateInfoKHR* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkSwapchainCreateInfoKHR
     VkSwapchainCreateInfoKHR _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkSwapchainCreateInfoKHR(base, (VkSwapchainCreateInfoKHR *) pCreateInfo__, pCreateInfo);
+    unwrap_VkSwapchainCreateInfoKHR(&temp, base, (VkSwapchainCreateInfoKHR *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateSwapchainKHR
     VK_CMD_LOGA("  in: pCreateInfo: VkSwapchainCreateInfoKHR*");
@@ -8477,7 +9414,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateSwapchainKHR
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -8486,14 +9423,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateSwapchainKHR(base->dispatch_handle, pCreateInfo__, pAllocator__, pSwapchain);
 #ifdef NEEDS_PRINTING_CreateSwapchainKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateSwapchainKHR
     VK_CMD_LOGA("  out: *pSwapchain: VkSwapchainKHR = %x", (int64_t)*pSwapchain);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSwapchainKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateSwapchainKHR with (device: %p,pCreateInfo: %p,pAllocator: %p,pSwapchain: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pSwapchain, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateSwapchainKHR with (device: %p,pCreateInfo: %p,pAllocator: %p,pSwapchain: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pSwapchain, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -8503,6 +9445,8 @@ wrapper_tramp_DestroySwapchainKHR(
     VkSwapchainKHR swapchain,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroySwapchainKHR");
 WLOGA("DestroySwapchainKHR(device: %p, swapchain: %x, pAllocator: %p)", device, swapchain, pAllocator);
@@ -8521,7 +9465,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroySwapchainKHR
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -8530,6 +9474,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroySwapchainKHR(base->dispatch_handle, swapchain__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8540,6 +9485,8 @@ wrapper_tramp_GetSwapchainImagesKHR(
     uint32_t* pSwapchainImageCount,
     VkImage* pSwapchainImages)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetSwapchainImagesKHR");
 WLOGA("GetSwapchainImagesKHR(device: %p, swapchain: %x, pSwapchainImageCount: %p, pSwapchainImages: %p)", device, swapchain, pSwapchainImageCount, pSwapchainImages);
@@ -8556,23 +9503,25 @@ VkSwapchainKHR swapchain__ = swapchain;
 #endif
     VkResult result = base->dispatch_table.GetSwapchainImagesKHR(base->dispatch_handle, swapchain__, pSwapchainImageCount, pSwapchainImages);
 #ifdef NEEDS_PRINTING_GetSwapchainImagesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetSwapchainImagesKHR
     VK_CMD_LOGA("  out: *pSwapchainImageCount: uint32_t = %x", (int64_t)*pSwapchainImageCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetSwapchainImagesKHR with (device: %p,swapchain: %x,pSwapchainImageCount: %p,pSwapchainImages: %p) failed with result: %d", base->dispatch_handle,swapchain__,pSwapchainImageCount,pSwapchainImages, result);
-}
 #ifdef NEEDS_PRINTING_GetSwapchainImagesKHR
     VK_CMD_LOGA("  out: *pSwapchainImages: VkImage = %x", (int64_t)*pSwapchainImages);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkImage
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetSwapchainImagesKHR with (device: %p,swapchain: %x,pSwapchainImageCount: %p,pSwapchainImages: %p) failed with result: %d", base->dispatch_handle,swapchain__,pSwapchainImageCount,pSwapchainImages, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetSwapchainImagesKHR with (device: %p,swapchain: %x,pSwapchainImageCount: %p,pSwapchainImages: %p) failed with result: %d", base->dispatch_handle,swapchain__,pSwapchainImageCount,pSwapchainImages, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -8585,6 +9534,8 @@ wrapper_tramp_AcquireNextImageKHR(
     VkFence fence,
     uint32_t* pImageIndex)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("AcquireNextImageKHR");
 WLOGA("AcquireNextImageKHR(device: %p, swapchain: %x, timeout: %x, semaphore: %x, fence: %x, pImageIndex: %p)", device, swapchain, timeout, semaphore, fence, pImageIndex);
@@ -8622,14 +9573,19 @@ VkFence fence__ = fence;
 #endif
     VkResult result = base->dispatch_table.AcquireNextImageKHR(base->dispatch_handle, swapchain__, timeout__, semaphore__, fence__, pImageIndex);
 #ifdef NEEDS_PRINTING_AcquireNextImageKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_AcquireNextImageKHR
     VK_CMD_LOGA("  out: *pImageIndex: uint32_t = %x", (int64_t)*pImageIndex);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to AcquireNextImageKHR with (device: %p,swapchain: %x,timeout: %x,semaphore: %x,fence: %x,pImageIndex: %p) failed with result: %d", base->dispatch_handle,swapchain__,timeout__,semaphore__,fence__,pImageIndex, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to AcquireNextImageKHR with (device: %p,swapchain: %x,timeout: %x,semaphore: %x,fence: %x,pImageIndex: %p) failed with result: %d", base->dispatch_handle,swapchain__,timeout__,semaphore__,fence__,pImageIndex, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -8638,6 +9594,8 @@ wrapper_tramp_QueuePresentKHR(
     VkQueue queue,
     const VkPresentInfoKHR* pPresentInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_queue, base, queue);
     VK_CMD_LOG("QueuePresentKHR");
 WLOGA("QueuePresentKHR(queue: %p, pPresentInfo: %p)", queue, pPresentInfo);
@@ -8649,7 +9607,7 @@ const VkPresentInfoKHR* pPresentInfo__ = pPresentInfo;
 #ifdef NEEDS_UNWRAPPING_VkPresentInfoKHR
     VkPresentInfoKHR _w_pPresentInfo = { 0 };
     pPresentInfo__ = &_w_pPresentInfo;
-    unwrap_VkPresentInfoKHR(base->device, (VkPresentInfoKHR *) pPresentInfo__, pPresentInfo);
+    unwrap_VkPresentInfoKHR(&temp, base->device, (VkPresentInfoKHR *) pPresentInfo__, pPresentInfo);
 #endif
 #ifdef NEEDS_PRINTING_QueuePresentKHR
     VK_CMD_LOGA("  in: pPresentInfo: VkPresentInfoKHR*");
@@ -8657,7 +9615,14 @@ const VkPresentInfoKHR* pPresentInfo__ = pPresentInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->device->dispatch_table.QueuePresentKHR(base->dispatch_handle, pPresentInfo__);
-
+#ifdef NEEDS_PRINTING_QueuePresentKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to QueuePresentKHR with (queue: %p,pPresentInfo: %p) failed with result: %d", base->dispatch_handle,pPresentInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                                                                         
@@ -8666,6 +9631,8 @@ wrapper_tramp_DebugMarkerSetObjectNameEXT(
     VkDevice device,
     const VkDebugMarkerObjectNameInfoEXT* pNameInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DebugMarkerSetObjectNameEXT");
 WLOGA("DebugMarkerSetObjectNameEXT(device: %p, pNameInfo: %p)", device, pNameInfo);
@@ -8677,7 +9644,7 @@ const VkDebugMarkerObjectNameInfoEXT* pNameInfo__ = pNameInfo;
 #ifdef NEEDS_UNWRAPPING_VkDebugMarkerObjectNameInfoEXT
     VkDebugMarkerObjectNameInfoEXT _w_pNameInfo = { 0 };
     pNameInfo__ = &_w_pNameInfo;
-    unwrap_VkDebugMarkerObjectNameInfoEXT(base, (VkDebugMarkerObjectNameInfoEXT *) pNameInfo__, pNameInfo);
+    unwrap_VkDebugMarkerObjectNameInfoEXT(&temp, base, (VkDebugMarkerObjectNameInfoEXT *) pNameInfo__, pNameInfo);
 #endif
 #ifdef NEEDS_PRINTING_DebugMarkerSetObjectNameEXT
     VK_CMD_LOGA("  in: pNameInfo: VkDebugMarkerObjectNameInfoEXT*");
@@ -8685,7 +9652,14 @@ const VkDebugMarkerObjectNameInfoEXT* pNameInfo__ = pNameInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.DebugMarkerSetObjectNameEXT(base->dispatch_handle, pNameInfo__);
-
+#ifdef NEEDS_PRINTING_DebugMarkerSetObjectNameEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to DebugMarkerSetObjectNameEXT with (device: %p,pNameInfo: %p) failed with result: %d", base->dispatch_handle,pNameInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -8694,6 +9668,8 @@ wrapper_tramp_DebugMarkerSetObjectTagEXT(
     VkDevice device,
     const VkDebugMarkerObjectTagInfoEXT* pTagInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DebugMarkerSetObjectTagEXT");
 WLOGA("DebugMarkerSetObjectTagEXT(device: %p, pTagInfo: %p)", device, pTagInfo);
@@ -8705,7 +9681,7 @@ const VkDebugMarkerObjectTagInfoEXT* pTagInfo__ = pTagInfo;
 #ifdef NEEDS_UNWRAPPING_VkDebugMarkerObjectTagInfoEXT
     VkDebugMarkerObjectTagInfoEXT _w_pTagInfo = { 0 };
     pTagInfo__ = &_w_pTagInfo;
-    unwrap_VkDebugMarkerObjectTagInfoEXT(base, (VkDebugMarkerObjectTagInfoEXT *) pTagInfo__, pTagInfo);
+    unwrap_VkDebugMarkerObjectTagInfoEXT(&temp, base, (VkDebugMarkerObjectTagInfoEXT *) pTagInfo__, pTagInfo);
 #endif
 #ifdef NEEDS_PRINTING_DebugMarkerSetObjectTagEXT
     VK_CMD_LOGA("  in: pTagInfo: VkDebugMarkerObjectTagInfoEXT*");
@@ -8713,7 +9689,14 @@ const VkDebugMarkerObjectTagInfoEXT* pTagInfo__ = pTagInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.DebugMarkerSetObjectTagEXT(base->dispatch_handle, pTagInfo__);
-
+#ifdef NEEDS_PRINTING_DebugMarkerSetObjectTagEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to DebugMarkerSetObjectTagEXT with (device: %p,pTagInfo: %p) failed with result: %d", base->dispatch_handle,pTagInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -8722,6 +9705,8 @@ wrapper_tramp_CmdDebugMarkerBeginEXT(
     VkCommandBuffer commandBuffer,
     const VkDebugMarkerMarkerInfoEXT* pMarkerInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDebugMarkerBeginEXT");
 WLOGA("CmdDebugMarkerBeginEXT(commandBuffer: %p, pMarkerInfo: %p)", commandBuffer, pMarkerInfo);
@@ -8733,7 +9718,7 @@ const VkDebugMarkerMarkerInfoEXT* pMarkerInfo__ = pMarkerInfo;
 #ifdef NEEDS_UNWRAPPING_VkDebugMarkerMarkerInfoEXT
     VkDebugMarkerMarkerInfoEXT _w_pMarkerInfo = { 0 };
     pMarkerInfo__ = &_w_pMarkerInfo;
-    unwrap_VkDebugMarkerMarkerInfoEXT(base->device, (VkDebugMarkerMarkerInfoEXT *) pMarkerInfo__, pMarkerInfo);
+    unwrap_VkDebugMarkerMarkerInfoEXT(&temp, base->device, (VkDebugMarkerMarkerInfoEXT *) pMarkerInfo__, pMarkerInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdDebugMarkerBeginEXT
     VK_CMD_LOGA("  in: pMarkerInfo: VkDebugMarkerMarkerInfoEXT*");
@@ -8742,6 +9727,7 @@ const VkDebugMarkerMarkerInfoEXT* pMarkerInfo__ = pMarkerInfo;
 #endif
     base->device->dispatch_table.CmdDebugMarkerBeginEXT(base->dispatch_handle, pMarkerInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8749,6 +9735,8 @@ static VKAPI_ATTR void VKAPI_CALL
 wrapper_tramp_CmdDebugMarkerEndEXT(
     VkCommandBuffer commandBuffer)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDebugMarkerEndEXT");
 WLOGA("CmdDebugMarkerEndEXT(commandBuffer: %p)", commandBuffer);
@@ -8758,6 +9746,7 @@ WLOGA("CmdDebugMarkerEndEXT(commandBuffer: %p)", commandBuffer);
 #endif
     base->device->dispatch_table.CmdDebugMarkerEndEXT(base->dispatch_handle);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8766,6 +9755,8 @@ wrapper_tramp_CmdDebugMarkerInsertEXT(
     VkCommandBuffer commandBuffer,
     const VkDebugMarkerMarkerInfoEXT* pMarkerInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDebugMarkerInsertEXT");
 WLOGA("CmdDebugMarkerInsertEXT(commandBuffer: %p, pMarkerInfo: %p)", commandBuffer, pMarkerInfo);
@@ -8777,7 +9768,7 @@ const VkDebugMarkerMarkerInfoEXT* pMarkerInfo__ = pMarkerInfo;
 #ifdef NEEDS_UNWRAPPING_VkDebugMarkerMarkerInfoEXT
     VkDebugMarkerMarkerInfoEXT _w_pMarkerInfo = { 0 };
     pMarkerInfo__ = &_w_pMarkerInfo;
-    unwrap_VkDebugMarkerMarkerInfoEXT(base->device, (VkDebugMarkerMarkerInfoEXT *) pMarkerInfo__, pMarkerInfo);
+    unwrap_VkDebugMarkerMarkerInfoEXT(&temp, base->device, (VkDebugMarkerMarkerInfoEXT *) pMarkerInfo__, pMarkerInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdDebugMarkerInsertEXT
     VK_CMD_LOGA("  in: pMarkerInfo: VkDebugMarkerMarkerInfoEXT*");
@@ -8786,6 +9777,7 @@ const VkDebugMarkerMarkerInfoEXT* pMarkerInfo__ = pMarkerInfo;
 #endif
     base->device->dispatch_table.CmdDebugMarkerInsertEXT(base->dispatch_handle, pMarkerInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
     #ifdef VK_USE_PLATFORM_WIN32_KHR
@@ -8797,6 +9789,8 @@ wrapper_tramp_GetMemoryWin32HandleNV(
     VkExternalMemoryHandleTypeFlagsNV handleType,
     HANDLE* pHandle)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetMemoryWin32HandleNV");
 WLOGA("GetMemoryWin32HandleNV(device: %p, memory: %x, handleType: %x, pHandle: %p)", device, memory, handleType, pHandle);
@@ -8820,14 +9814,19 @@ VkExternalMemoryHandleTypeFlagsNV handleType__ = handleType;
 #endif
     VkResult result = base->dispatch_table.GetMemoryWin32HandleNV(base->dispatch_handle, memory__, handleType__, pHandle);
 #ifdef NEEDS_PRINTING_GetMemoryWin32HandleNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetMemoryWin32HandleNV
     VK_CMD_LOGA("  out: *pHandle: HANDLE = %x", (int64_t)*pHandle);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_HANDLE
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetMemoryWin32HandleNV with (device: %p,memory: %x,handleType: %x,pHandle: %p) failed with result: %d", base->dispatch_handle,memory__,handleType__,pHandle, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetMemoryWin32HandleNV with (device: %p,memory: %x,handleType: %x,pHandle: %p) failed with result: %d", base->dispatch_handle,memory__,handleType__,pHandle, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -8838,6 +9837,8 @@ wrapper_tramp_CmdExecuteGeneratedCommandsNV(
     VkBool32 isPreprocessed,
     const VkGeneratedCommandsInfoNV* pGeneratedCommandsInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdExecuteGeneratedCommandsNV");
 WLOGA("CmdExecuteGeneratedCommandsNV(commandBuffer: %p, isPreprocessed: %x, pGeneratedCommandsInfo: %p)", commandBuffer, isPreprocessed, pGeneratedCommandsInfo);
@@ -8856,7 +9857,7 @@ const VkGeneratedCommandsInfoNV* pGeneratedCommandsInfo__ = pGeneratedCommandsIn
 #ifdef NEEDS_UNWRAPPING_VkGeneratedCommandsInfoNV
     VkGeneratedCommandsInfoNV _w_pGeneratedCommandsInfo = { 0 };
     pGeneratedCommandsInfo__ = &_w_pGeneratedCommandsInfo;
-    unwrap_VkGeneratedCommandsInfoNV(base->device, (VkGeneratedCommandsInfoNV *) pGeneratedCommandsInfo__, pGeneratedCommandsInfo);
+    unwrap_VkGeneratedCommandsInfoNV(&temp, base->device, (VkGeneratedCommandsInfoNV *) pGeneratedCommandsInfo__, pGeneratedCommandsInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdExecuteGeneratedCommandsNV
     VK_CMD_LOGA("  in: pGeneratedCommandsInfo: VkGeneratedCommandsInfoNV*");
@@ -8865,6 +9866,7 @@ const VkGeneratedCommandsInfoNV* pGeneratedCommandsInfo__ = pGeneratedCommandsIn
 #endif
     base->device->dispatch_table.CmdExecuteGeneratedCommandsNV(base->dispatch_handle, isPreprocessed__, pGeneratedCommandsInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8873,6 +9875,8 @@ wrapper_tramp_CmdPreprocessGeneratedCommandsNV(
     VkCommandBuffer commandBuffer,
     const VkGeneratedCommandsInfoNV* pGeneratedCommandsInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdPreprocessGeneratedCommandsNV");
 WLOGA("CmdPreprocessGeneratedCommandsNV(commandBuffer: %p, pGeneratedCommandsInfo: %p)", commandBuffer, pGeneratedCommandsInfo);
@@ -8884,7 +9888,7 @@ const VkGeneratedCommandsInfoNV* pGeneratedCommandsInfo__ = pGeneratedCommandsIn
 #ifdef NEEDS_UNWRAPPING_VkGeneratedCommandsInfoNV
     VkGeneratedCommandsInfoNV _w_pGeneratedCommandsInfo = { 0 };
     pGeneratedCommandsInfo__ = &_w_pGeneratedCommandsInfo;
-    unwrap_VkGeneratedCommandsInfoNV(base->device, (VkGeneratedCommandsInfoNV *) pGeneratedCommandsInfo__, pGeneratedCommandsInfo);
+    unwrap_VkGeneratedCommandsInfoNV(&temp, base->device, (VkGeneratedCommandsInfoNV *) pGeneratedCommandsInfo__, pGeneratedCommandsInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdPreprocessGeneratedCommandsNV
     VK_CMD_LOGA("  in: pGeneratedCommandsInfo: VkGeneratedCommandsInfoNV*");
@@ -8893,6 +9897,7 @@ const VkGeneratedCommandsInfoNV* pGeneratedCommandsInfo__ = pGeneratedCommandsIn
 #endif
     base->device->dispatch_table.CmdPreprocessGeneratedCommandsNV(base->dispatch_handle, pGeneratedCommandsInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8903,6 +9908,8 @@ wrapper_tramp_CmdBindPipelineShaderGroupNV(
     VkPipeline pipeline,
     uint32_t groupIndex)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBindPipelineShaderGroupNV");
 WLOGA("CmdBindPipelineShaderGroupNV(commandBuffer: %p, pipelineBindPoint: %x, pipeline: %x, groupIndex: %x)", commandBuffer, pipelineBindPoint, pipeline, groupIndex);
@@ -8933,6 +9940,7 @@ uint32_t groupIndex__ = groupIndex;
 #endif
     base->device->dispatch_table.CmdBindPipelineShaderGroupNV(base->dispatch_handle, pipelineBindPoint__, pipeline__, groupIndex__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8942,6 +9950,8 @@ wrapper_tramp_GetGeneratedCommandsMemoryRequirementsNV(
     const VkGeneratedCommandsMemoryRequirementsInfoNV* pInfo,
     VkMemoryRequirements2* pMemoryRequirements)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetGeneratedCommandsMemoryRequirementsNV");
 WLOGA("GetGeneratedCommandsMemoryRequirementsNV(device: %p, pInfo: %p, pMemoryRequirements: %p)", device, pInfo, pMemoryRequirements);
@@ -8953,7 +9963,7 @@ const VkGeneratedCommandsMemoryRequirementsInfoNV* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkGeneratedCommandsMemoryRequirementsInfoNV
     VkGeneratedCommandsMemoryRequirementsInfoNV _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkGeneratedCommandsMemoryRequirementsInfoNV(base, (VkGeneratedCommandsMemoryRequirementsInfoNV *) pInfo__, pInfo);
+    unwrap_VkGeneratedCommandsMemoryRequirementsInfoNV(&temp, base, (VkGeneratedCommandsMemoryRequirementsInfoNV *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetGeneratedCommandsMemoryRequirementsNV
     VK_CMD_LOGA("  in: pInfo: VkGeneratedCommandsMemoryRequirementsInfoNV*");
@@ -8967,8 +9977,9 @@ const VkGeneratedCommandsMemoryRequirementsInfoNV* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements2
-#warning TODO: Repack struct+ptr+out GetGeneratedCommandsMemoryRequirementsNV EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75c0e9472390>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetGeneratedCommandsMemoryRequirementsNV EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7f0cb318e340>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -8979,6 +9990,8 @@ wrapper_tramp_CreateIndirectCommandsLayoutNV(
     const VkAllocationCallbacks* pAllocator,
     VkIndirectCommandsLayoutNV* pIndirectCommandsLayout)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateIndirectCommandsLayoutNV");
 WLOGA("CreateIndirectCommandsLayoutNV(device: %p, pCreateInfo: %p, pAllocator: %p, pIndirectCommandsLayout: %p)", device, pCreateInfo, pAllocator, pIndirectCommandsLayout);
@@ -8990,7 +10003,7 @@ const VkIndirectCommandsLayoutCreateInfoNV* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkIndirectCommandsLayoutCreateInfoNV
     VkIndirectCommandsLayoutCreateInfoNV _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkIndirectCommandsLayoutCreateInfoNV(base, (VkIndirectCommandsLayoutCreateInfoNV *) pCreateInfo__, pCreateInfo);
+    unwrap_VkIndirectCommandsLayoutCreateInfoNV(&temp, base, (VkIndirectCommandsLayoutCreateInfoNV *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateIndirectCommandsLayoutNV
     VK_CMD_LOGA("  in: pCreateInfo: VkIndirectCommandsLayoutCreateInfoNV*");
@@ -9001,7 +10014,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateIndirectCommandsLayoutNV
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -9010,14 +10023,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateIndirectCommandsLayoutNV(base->dispatch_handle, pCreateInfo__, pAllocator__, pIndirectCommandsLayout);
 #ifdef NEEDS_PRINTING_CreateIndirectCommandsLayoutNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateIndirectCommandsLayoutNV
     VK_CMD_LOGA("  out: *pIndirectCommandsLayout: VkIndirectCommandsLayoutNV = %x", (int64_t)*pIndirectCommandsLayout);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkIndirectCommandsLayoutNV
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateIndirectCommandsLayoutNV with (device: %p,pCreateInfo: %p,pAllocator: %p,pIndirectCommandsLayout: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pIndirectCommandsLayout, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateIndirectCommandsLayoutNV with (device: %p,pCreateInfo: %p,pAllocator: %p,pIndirectCommandsLayout: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pIndirectCommandsLayout, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -9027,6 +10045,8 @@ wrapper_tramp_DestroyIndirectCommandsLayoutNV(
     VkIndirectCommandsLayoutNV indirectCommandsLayout,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyIndirectCommandsLayoutNV");
 WLOGA("DestroyIndirectCommandsLayoutNV(device: %p, indirectCommandsLayout: %x, pAllocator: %p)", device, indirectCommandsLayout, pAllocator);
@@ -9045,7 +10065,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyIndirectCommandsLayoutNV
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -9054,6 +10074,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyIndirectCommandsLayoutNV(base->dispatch_handle, indirectCommandsLayout__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
                                                         
@@ -9066,6 +10087,8 @@ wrapper_tramp_CmdPushDescriptorSetKHR(
     uint32_t descriptorWriteCount,
     const VkWriteDescriptorSet* pDescriptorWrites)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdPushDescriptorSetKHR");
 WLOGA("CmdPushDescriptorSetKHR(commandBuffer: %p, pipelineBindPoint: %x, layout: %x, set: %x, descriptorWriteCount: %x, pDescriptorWrites: %p)", commandBuffer, pipelineBindPoint, layout, set, descriptorWriteCount, pDescriptorWrites);
@@ -9105,7 +10128,7 @@ const VkWriteDescriptorSet* pDescriptorWrites__ = pDescriptorWrites;
 #ifdef NEEDS_UNWRAPPING_VkWriteDescriptorSet
     pDescriptorWrites__ = alloca(descriptorWriteCount * sizeof(VkWriteDescriptorSet));
     for (int i = 0; i < descriptorWriteCount; i++)
-        unwrap_VkWriteDescriptorSet(base->device, (VkWriteDescriptorSet *) &pDescriptorWrites__[i], &pDescriptorWrites[i]);
+        unwrap_VkWriteDescriptorSet(&temp, base->device, (VkWriteDescriptorSet *) &pDescriptorWrites__[i], &pDescriptorWrites[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdPushDescriptorSetKHR
     VK_CMD_LOGA("  in: pDescriptorWrites[]: VkWriteDescriptorSet");
@@ -9117,6 +10140,7 @@ const VkWriteDescriptorSet* pDescriptorWrites__ = pDescriptorWrites;
 #endif
     base->device->dispatch_table.CmdPushDescriptorSetKHR(base->dispatch_handle, pipelineBindPoint__, layout__, set__, descriptorWriteCount__, pDescriptorWrites__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -9126,6 +10150,8 @@ wrapper_tramp_TrimCommandPool(
     VkCommandPool commandPool,
     VkCommandPoolTrimFlags flags)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("TrimCommandPool");
 WLOGA("TrimCommandPool(device: %p, commandPool: %x, flags: %x)", device, commandPool, flags);
@@ -9149,6 +10175,7 @@ VkCommandPoolTrimFlags flags__ = flags;
 #endif
     base->dispatch_table.TrimCommandPool(base->dispatch_handle, commandPool__, flags__);
 
+    free_temp_objects(&temp);
     return ;
 }
             #ifdef VK_USE_PLATFORM_WIN32_KHR
@@ -9159,6 +10186,8 @@ wrapper_tramp_GetMemoryWin32HandleKHR(
     const VkMemoryGetWin32HandleInfoKHR* pGetWin32HandleInfo,
     HANDLE* pHandle)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetMemoryWin32HandleKHR");
 WLOGA("GetMemoryWin32HandleKHR(device: %p, pGetWin32HandleInfo: %p, pHandle: %p)", device, pGetWin32HandleInfo, pHandle);
@@ -9170,7 +10199,7 @@ const VkMemoryGetWin32HandleInfoKHR* pGetWin32HandleInfo__ = pGetWin32HandleInfo
 #ifdef NEEDS_UNWRAPPING_VkMemoryGetWin32HandleInfoKHR
     VkMemoryGetWin32HandleInfoKHR _w_pGetWin32HandleInfo = { 0 };
     pGetWin32HandleInfo__ = &_w_pGetWin32HandleInfo;
-    unwrap_VkMemoryGetWin32HandleInfoKHR(base, (VkMemoryGetWin32HandleInfoKHR *) pGetWin32HandleInfo__, pGetWin32HandleInfo);
+    unwrap_VkMemoryGetWin32HandleInfoKHR(&temp, base, (VkMemoryGetWin32HandleInfoKHR *) pGetWin32HandleInfo__, pGetWin32HandleInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetMemoryWin32HandleKHR
     VK_CMD_LOGA("  in: pGetWin32HandleInfo: VkMemoryGetWin32HandleInfoKHR*");
@@ -9179,14 +10208,19 @@ const VkMemoryGetWin32HandleInfoKHR* pGetWin32HandleInfo__ = pGetWin32HandleInfo
 #endif
     VkResult result = base->dispatch_table.GetMemoryWin32HandleKHR(base->dispatch_handle, pGetWin32HandleInfo__, pHandle);
 #ifdef NEEDS_PRINTING_GetMemoryWin32HandleKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetMemoryWin32HandleKHR
     VK_CMD_LOGA("  out: *pHandle: HANDLE = %x", (int64_t)*pHandle);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_HANDLE
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetMemoryWin32HandleKHR with (device: %p,pGetWin32HandleInfo: %p,pHandle: %p) failed with result: %d", base->dispatch_handle,pGetWin32HandleInfo__,pHandle, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetMemoryWin32HandleKHR with (device: %p,pGetWin32HandleInfo: %p,pHandle: %p) failed with result: %d", base->dispatch_handle,pGetWin32HandleInfo__,pHandle, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -9199,6 +10233,8 @@ wrapper_tramp_GetMemoryWin32HandlePropertiesKHR(
     HANDLE handle,
     VkMemoryWin32HandlePropertiesKHR* pMemoryWin32HandleProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetMemoryWin32HandlePropertiesKHR");
 WLOGA("GetMemoryWin32HandlePropertiesKHR(device: %p, handleType: %x, handle: %x, pMemoryWin32HandleProperties: %p)", device, handleType, handle, pMemoryWin32HandleProperties);
@@ -9222,16 +10258,21 @@ HANDLE handle__ = handle;
 #endif
     VkResult result = base->dispatch_table.GetMemoryWin32HandlePropertiesKHR(base->dispatch_handle, handleType__, handle__, pMemoryWin32HandleProperties);
 #ifdef NEEDS_PRINTING_GetMemoryWin32HandlePropertiesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetMemoryWin32HandlePropertiesKHR
     VK_CMD_LOGA("  out: pMemoryWin32HandleProperties: VkMemoryWin32HandlePropertiesKHR*");
     VK_PRINT_VkMemoryWin32HandlePropertiesKHR("    ", pMemoryWin32HandleProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMemoryWin32HandlePropertiesKHR
-#warning TODO: Repack struct+ptr+out GetMemoryWin32HandlePropertiesKHR EntrypointParam(type='VkMemoryWin32HandlePropertiesKHR', name='pMemoryWin32HandleProperties', decl='VkMemoryWin32HandlePropertiesKHR* pMemoryWin32HandleProperties', len=None, elem=<Element 'param' at 0x75c0e947ad40>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetMemoryWin32HandlePropertiesKHR EntrypointParam(type='VkMemoryWin32HandlePropertiesKHR', name='pMemoryWin32HandleProperties', decl='VkMemoryWin32HandlePropertiesKHR* pMemoryWin32HandleProperties', len=None, elem=<Element 'param' at 0x7f0cb3196cf0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetMemoryWin32HandlePropertiesKHR with (device: %p,handleType: %x,handle: %x,pMemoryWin32HandleProperties: %p) failed with result: %d", base->dispatch_handle,handleType__,handle__,pMemoryWin32HandleProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetMemoryWin32HandlePropertiesKHR with (device: %p,handleType: %x,handle: %x,pMemoryWin32HandleProperties: %p) failed with result: %d", base->dispatch_handle,handleType__,handle__,pMemoryWin32HandleProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -9242,6 +10283,8 @@ wrapper_tramp_GetMemoryFdKHR(
     const VkMemoryGetFdInfoKHR* pGetFdInfo,
     int* pFd)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetMemoryFdKHR");
 WLOGA("GetMemoryFdKHR(device: %p, pGetFdInfo: %p, pFd: %p)", device, pGetFdInfo, pFd);
@@ -9253,7 +10296,7 @@ const VkMemoryGetFdInfoKHR* pGetFdInfo__ = pGetFdInfo;
 #ifdef NEEDS_UNWRAPPING_VkMemoryGetFdInfoKHR
     VkMemoryGetFdInfoKHR _w_pGetFdInfo = { 0 };
     pGetFdInfo__ = &_w_pGetFdInfo;
-    unwrap_VkMemoryGetFdInfoKHR(base, (VkMemoryGetFdInfoKHR *) pGetFdInfo__, pGetFdInfo);
+    unwrap_VkMemoryGetFdInfoKHR(&temp, base, (VkMemoryGetFdInfoKHR *) pGetFdInfo__, pGetFdInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetMemoryFdKHR
     VK_CMD_LOGA("  in: pGetFdInfo: VkMemoryGetFdInfoKHR*");
@@ -9262,14 +10305,19 @@ const VkMemoryGetFdInfoKHR* pGetFdInfo__ = pGetFdInfo;
 #endif
     VkResult result = base->dispatch_table.GetMemoryFdKHR(base->dispatch_handle, pGetFdInfo__, pFd);
 #ifdef NEEDS_PRINTING_GetMemoryFdKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetMemoryFdKHR
     VK_CMD_LOGA("  out: *pFd: int = %x", (int64_t)*pFd);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_int
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetMemoryFdKHR with (device: %p,pGetFdInfo: %p,pFd: %p) failed with result: %d", base->dispatch_handle,pGetFdInfo__,pFd, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetMemoryFdKHR with (device: %p,pGetFdInfo: %p,pFd: %p) failed with result: %d", base->dispatch_handle,pGetFdInfo__,pFd, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -9280,6 +10328,8 @@ wrapper_tramp_GetMemoryFdPropertiesKHR(
     int fd,
     VkMemoryFdPropertiesKHR* pMemoryFdProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetMemoryFdPropertiesKHR");
 WLOGA("GetMemoryFdPropertiesKHR(device: %p, handleType: %x, fd: %x, pMemoryFdProperties: %p)", device, handleType, fd, pMemoryFdProperties);
@@ -9303,16 +10353,21 @@ int fd__ = fd;
 #endif
     VkResult result = base->dispatch_table.GetMemoryFdPropertiesKHR(base->dispatch_handle, handleType__, fd__, pMemoryFdProperties);
 #ifdef NEEDS_PRINTING_GetMemoryFdPropertiesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetMemoryFdPropertiesKHR
     VK_CMD_LOGA("  out: pMemoryFdProperties: VkMemoryFdPropertiesKHR*");
     VK_PRINT_VkMemoryFdPropertiesKHR("    ", pMemoryFdProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMemoryFdPropertiesKHR
-#warning TODO: Repack struct+ptr+out GetMemoryFdPropertiesKHR EntrypointParam(type='VkMemoryFdPropertiesKHR', name='pMemoryFdProperties', decl='VkMemoryFdPropertiesKHR* pMemoryFdProperties', len=None, elem=<Element 'param' at 0x75c0e947b790>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetMemoryFdPropertiesKHR EntrypointParam(type='VkMemoryFdPropertiesKHR', name='pMemoryFdProperties', decl='VkMemoryFdPropertiesKHR* pMemoryFdProperties', len=None, elem=<Element 'param' at 0x7f0cb3197740>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetMemoryFdPropertiesKHR with (device: %p,handleType: %x,fd: %x,pMemoryFdProperties: %p) failed with result: %d", base->dispatch_handle,handleType__,fd__,pMemoryFdProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetMemoryFdPropertiesKHR with (device: %p,handleType: %x,fd: %x,pMemoryFdProperties: %p) failed with result: %d", base->dispatch_handle,handleType__,fd__,pMemoryFdProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #ifdef VK_USE_PLATFORM_FUCHSIA
@@ -9323,6 +10378,8 @@ wrapper_tramp_GetMemoryZirconHandleFUCHSIA(
     const VkMemoryGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo,
     zx_handle_t* pZirconHandle)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetMemoryZirconHandleFUCHSIA");
 WLOGA("GetMemoryZirconHandleFUCHSIA(device: %p, pGetZirconHandleInfo: %p, pZirconHandle: %p)", device, pGetZirconHandleInfo, pZirconHandle);
@@ -9334,7 +10391,7 @@ const VkMemoryGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo__ = pGetZirconHan
 #ifdef NEEDS_UNWRAPPING_VkMemoryGetZirconHandleInfoFUCHSIA
     VkMemoryGetZirconHandleInfoFUCHSIA _w_pGetZirconHandleInfo = { 0 };
     pGetZirconHandleInfo__ = &_w_pGetZirconHandleInfo;
-    unwrap_VkMemoryGetZirconHandleInfoFUCHSIA(base, (VkMemoryGetZirconHandleInfoFUCHSIA *) pGetZirconHandleInfo__, pGetZirconHandleInfo);
+    unwrap_VkMemoryGetZirconHandleInfoFUCHSIA(&temp, base, (VkMemoryGetZirconHandleInfoFUCHSIA *) pGetZirconHandleInfo__, pGetZirconHandleInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetMemoryZirconHandleFUCHSIA
     VK_CMD_LOGA("  in: pGetZirconHandleInfo: VkMemoryGetZirconHandleInfoFUCHSIA*");
@@ -9343,14 +10400,19 @@ const VkMemoryGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo__ = pGetZirconHan
 #endif
     VkResult result = base->dispatch_table.GetMemoryZirconHandleFUCHSIA(base->dispatch_handle, pGetZirconHandleInfo__, pZirconHandle);
 #ifdef NEEDS_PRINTING_GetMemoryZirconHandleFUCHSIA
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetMemoryZirconHandleFUCHSIA
     VK_CMD_LOGA("  out: *pZirconHandle: zx_handle_t = %x", (int64_t)*pZirconHandle);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_zx_handle_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetMemoryZirconHandleFUCHSIA with (device: %p,pGetZirconHandleInfo: %p,pZirconHandle: %p) failed with result: %d", base->dispatch_handle,pGetZirconHandleInfo__,pZirconHandle, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetMemoryZirconHandleFUCHSIA with (device: %p,pGetZirconHandleInfo: %p,pZirconHandle: %p) failed with result: %d", base->dispatch_handle,pGetZirconHandleInfo__,pZirconHandle, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -9363,6 +10425,8 @@ wrapper_tramp_GetMemoryZirconHandlePropertiesFUCHSIA(
     zx_handle_t zirconHandle,
     VkMemoryZirconHandlePropertiesFUCHSIA* pMemoryZirconHandleProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetMemoryZirconHandlePropertiesFUCHSIA");
 WLOGA("GetMemoryZirconHandlePropertiesFUCHSIA(device: %p, handleType: %x, zirconHandle: %x, pMemoryZirconHandleProperties: %p)", device, handleType, zirconHandle, pMemoryZirconHandleProperties);
@@ -9386,16 +10450,21 @@ zx_handle_t zirconHandle__ = zirconHandle;
 #endif
     VkResult result = base->dispatch_table.GetMemoryZirconHandlePropertiesFUCHSIA(base->dispatch_handle, handleType__, zirconHandle__, pMemoryZirconHandleProperties);
 #ifdef NEEDS_PRINTING_GetMemoryZirconHandlePropertiesFUCHSIA
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetMemoryZirconHandlePropertiesFUCHSIA
     VK_CMD_LOGA("  out: pMemoryZirconHandleProperties: VkMemoryZirconHandlePropertiesFUCHSIA*");
     VK_PRINT_VkMemoryZirconHandlePropertiesFUCHSIA("    ", pMemoryZirconHandleProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMemoryZirconHandlePropertiesFUCHSIA
-#warning TODO: Repack struct+ptr+out GetMemoryZirconHandlePropertiesFUCHSIA EntrypointParam(type='VkMemoryZirconHandlePropertiesFUCHSIA', name='pMemoryZirconHandleProperties', decl='VkMemoryZirconHandlePropertiesFUCHSIA* pMemoryZirconHandleProperties', len=None, elem=<Element 'param' at 0x75c0e9488220>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetMemoryZirconHandlePropertiesFUCHSIA EntrypointParam(type='VkMemoryZirconHandlePropertiesFUCHSIA', name='pMemoryZirconHandleProperties', decl='VkMemoryZirconHandlePropertiesFUCHSIA* pMemoryZirconHandleProperties', len=None, elem=<Element 'param' at 0x7f0cb31a01d0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetMemoryZirconHandlePropertiesFUCHSIA with (device: %p,handleType: %x,zirconHandle: %x,pMemoryZirconHandleProperties: %p) failed with result: %d", base->dispatch_handle,handleType__,zirconHandle__,pMemoryZirconHandleProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetMemoryZirconHandlePropertiesFUCHSIA with (device: %p,handleType: %x,zirconHandle: %x,pMemoryZirconHandleProperties: %p) failed with result: %d", base->dispatch_handle,handleType__,zirconHandle__,pMemoryZirconHandleProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -9406,6 +10475,8 @@ wrapper_tramp_GetMemoryRemoteAddressNV(
     const VkMemoryGetRemoteAddressInfoNV* pMemoryGetRemoteAddressInfo,
     VkRemoteAddressNV* pAddress)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetMemoryRemoteAddressNV");
 WLOGA("GetMemoryRemoteAddressNV(device: %p, pMemoryGetRemoteAddressInfo: %p, pAddress: %p)", device, pMemoryGetRemoteAddressInfo, pAddress);
@@ -9417,7 +10488,7 @@ const VkMemoryGetRemoteAddressInfoNV* pMemoryGetRemoteAddressInfo__ = pMemoryGet
 #ifdef NEEDS_UNWRAPPING_VkMemoryGetRemoteAddressInfoNV
     VkMemoryGetRemoteAddressInfoNV _w_pMemoryGetRemoteAddressInfo = { 0 };
     pMemoryGetRemoteAddressInfo__ = &_w_pMemoryGetRemoteAddressInfo;
-    unwrap_VkMemoryGetRemoteAddressInfoNV(base, (VkMemoryGetRemoteAddressInfoNV *) pMemoryGetRemoteAddressInfo__, pMemoryGetRemoteAddressInfo);
+    unwrap_VkMemoryGetRemoteAddressInfoNV(&temp, base, (VkMemoryGetRemoteAddressInfoNV *) pMemoryGetRemoteAddressInfo__, pMemoryGetRemoteAddressInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetMemoryRemoteAddressNV
     VK_CMD_LOGA("  in: pMemoryGetRemoteAddressInfo: VkMemoryGetRemoteAddressInfoNV*");
@@ -9426,14 +10497,19 @@ const VkMemoryGetRemoteAddressInfoNV* pMemoryGetRemoteAddressInfo__ = pMemoryGet
 #endif
     VkResult result = base->dispatch_table.GetMemoryRemoteAddressNV(base->dispatch_handle, pMemoryGetRemoteAddressInfo__, pAddress);
 #ifdef NEEDS_PRINTING_GetMemoryRemoteAddressNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetMemoryRemoteAddressNV
     VK_CMD_LOGA("  out: *pAddress: VkRemoteAddressNV = %x", (int64_t)*pAddress);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkRemoteAddressNV
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetMemoryRemoteAddressNV with (device: %p,pMemoryGetRemoteAddressInfo: %p,pAddress: %p) failed with result: %d", base->dispatch_handle,pMemoryGetRemoteAddressInfo__,pAddress, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetMemoryRemoteAddressNV with (device: %p,pMemoryGetRemoteAddressInfo: %p,pAddress: %p) failed with result: %d", base->dispatch_handle,pMemoryGetRemoteAddressInfo__,pAddress, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
         #ifdef VK_USE_PLATFORM_WIN32_KHR
@@ -9444,6 +10520,8 @@ wrapper_tramp_GetSemaphoreWin32HandleKHR(
     const VkSemaphoreGetWin32HandleInfoKHR* pGetWin32HandleInfo,
     HANDLE* pHandle)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetSemaphoreWin32HandleKHR");
 WLOGA("GetSemaphoreWin32HandleKHR(device: %p, pGetWin32HandleInfo: %p, pHandle: %p)", device, pGetWin32HandleInfo, pHandle);
@@ -9455,7 +10533,7 @@ const VkSemaphoreGetWin32HandleInfoKHR* pGetWin32HandleInfo__ = pGetWin32HandleI
 #ifdef NEEDS_UNWRAPPING_VkSemaphoreGetWin32HandleInfoKHR
     VkSemaphoreGetWin32HandleInfoKHR _w_pGetWin32HandleInfo = { 0 };
     pGetWin32HandleInfo__ = &_w_pGetWin32HandleInfo;
-    unwrap_VkSemaphoreGetWin32HandleInfoKHR(base, (VkSemaphoreGetWin32HandleInfoKHR *) pGetWin32HandleInfo__, pGetWin32HandleInfo);
+    unwrap_VkSemaphoreGetWin32HandleInfoKHR(&temp, base, (VkSemaphoreGetWin32HandleInfoKHR *) pGetWin32HandleInfo__, pGetWin32HandleInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetSemaphoreWin32HandleKHR
     VK_CMD_LOGA("  in: pGetWin32HandleInfo: VkSemaphoreGetWin32HandleInfoKHR*");
@@ -9464,14 +10542,19 @@ const VkSemaphoreGetWin32HandleInfoKHR* pGetWin32HandleInfo__ = pGetWin32HandleI
 #endif
     VkResult result = base->dispatch_table.GetSemaphoreWin32HandleKHR(base->dispatch_handle, pGetWin32HandleInfo__, pHandle);
 #ifdef NEEDS_PRINTING_GetSemaphoreWin32HandleKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetSemaphoreWin32HandleKHR
     VK_CMD_LOGA("  out: *pHandle: HANDLE = %x", (int64_t)*pHandle);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_HANDLE
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetSemaphoreWin32HandleKHR with (device: %p,pGetWin32HandleInfo: %p,pHandle: %p) failed with result: %d", base->dispatch_handle,pGetWin32HandleInfo__,pHandle, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetSemaphoreWin32HandleKHR with (device: %p,pGetWin32HandleInfo: %p,pHandle: %p) failed with result: %d", base->dispatch_handle,pGetWin32HandleInfo__,pHandle, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -9482,6 +10565,8 @@ wrapper_tramp_ImportSemaphoreWin32HandleKHR(
     VkDevice device,
     const VkImportSemaphoreWin32HandleInfoKHR* pImportSemaphoreWin32HandleInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("ImportSemaphoreWin32HandleKHR");
 WLOGA("ImportSemaphoreWin32HandleKHR(device: %p, pImportSemaphoreWin32HandleInfo: %p)", device, pImportSemaphoreWin32HandleInfo);
@@ -9493,7 +10578,7 @@ const VkImportSemaphoreWin32HandleInfoKHR* pImportSemaphoreWin32HandleInfo__ = p
 #ifdef NEEDS_UNWRAPPING_VkImportSemaphoreWin32HandleInfoKHR
     VkImportSemaphoreWin32HandleInfoKHR _w_pImportSemaphoreWin32HandleInfo = { 0 };
     pImportSemaphoreWin32HandleInfo__ = &_w_pImportSemaphoreWin32HandleInfo;
-    unwrap_VkImportSemaphoreWin32HandleInfoKHR(base, (VkImportSemaphoreWin32HandleInfoKHR *) pImportSemaphoreWin32HandleInfo__, pImportSemaphoreWin32HandleInfo);
+    unwrap_VkImportSemaphoreWin32HandleInfoKHR(&temp, base, (VkImportSemaphoreWin32HandleInfoKHR *) pImportSemaphoreWin32HandleInfo__, pImportSemaphoreWin32HandleInfo);
 #endif
 #ifdef NEEDS_PRINTING_ImportSemaphoreWin32HandleKHR
     VK_CMD_LOGA("  in: pImportSemaphoreWin32HandleInfo: VkImportSemaphoreWin32HandleInfoKHR*");
@@ -9501,7 +10586,14 @@ const VkImportSemaphoreWin32HandleInfoKHR* pImportSemaphoreWin32HandleInfo__ = p
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.ImportSemaphoreWin32HandleKHR(base->dispatch_handle, pImportSemaphoreWin32HandleInfo__);
-
+#ifdef NEEDS_PRINTING_ImportSemaphoreWin32HandleKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to ImportSemaphoreWin32HandleKHR with (device: %p,pImportSemaphoreWin32HandleInfo: %p) failed with result: %d", base->dispatch_handle,pImportSemaphoreWin32HandleInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -9512,6 +10604,8 @@ wrapper_tramp_GetSemaphoreFdKHR(
     const VkSemaphoreGetFdInfoKHR* pGetFdInfo,
     int* pFd)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetSemaphoreFdKHR");
 WLOGA("GetSemaphoreFdKHR(device: %p, pGetFdInfo: %p, pFd: %p)", device, pGetFdInfo, pFd);
@@ -9523,7 +10617,7 @@ const VkSemaphoreGetFdInfoKHR* pGetFdInfo__ = pGetFdInfo;
 #ifdef NEEDS_UNWRAPPING_VkSemaphoreGetFdInfoKHR
     VkSemaphoreGetFdInfoKHR _w_pGetFdInfo = { 0 };
     pGetFdInfo__ = &_w_pGetFdInfo;
-    unwrap_VkSemaphoreGetFdInfoKHR(base, (VkSemaphoreGetFdInfoKHR *) pGetFdInfo__, pGetFdInfo);
+    unwrap_VkSemaphoreGetFdInfoKHR(&temp, base, (VkSemaphoreGetFdInfoKHR *) pGetFdInfo__, pGetFdInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetSemaphoreFdKHR
     VK_CMD_LOGA("  in: pGetFdInfo: VkSemaphoreGetFdInfoKHR*");
@@ -9532,14 +10626,19 @@ const VkSemaphoreGetFdInfoKHR* pGetFdInfo__ = pGetFdInfo;
 #endif
     VkResult result = base->dispatch_table.GetSemaphoreFdKHR(base->dispatch_handle, pGetFdInfo__, pFd);
 #ifdef NEEDS_PRINTING_GetSemaphoreFdKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetSemaphoreFdKHR
     VK_CMD_LOGA("  out: *pFd: int = %x", (int64_t)*pFd);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_int
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetSemaphoreFdKHR with (device: %p,pGetFdInfo: %p,pFd: %p) failed with result: %d", base->dispatch_handle,pGetFdInfo__,pFd, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetSemaphoreFdKHR with (device: %p,pGetFdInfo: %p,pFd: %p) failed with result: %d", base->dispatch_handle,pGetFdInfo__,pFd, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -9548,6 +10647,8 @@ wrapper_tramp_ImportSemaphoreFdKHR(
     VkDevice device,
     const VkImportSemaphoreFdInfoKHR* pImportSemaphoreFdInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("ImportSemaphoreFdKHR");
 WLOGA("ImportSemaphoreFdKHR(device: %p, pImportSemaphoreFdInfo: %p)", device, pImportSemaphoreFdInfo);
@@ -9559,7 +10660,7 @@ const VkImportSemaphoreFdInfoKHR* pImportSemaphoreFdInfo__ = pImportSemaphoreFdI
 #ifdef NEEDS_UNWRAPPING_VkImportSemaphoreFdInfoKHR
     VkImportSemaphoreFdInfoKHR _w_pImportSemaphoreFdInfo = { 0 };
     pImportSemaphoreFdInfo__ = &_w_pImportSemaphoreFdInfo;
-    unwrap_VkImportSemaphoreFdInfoKHR(base, (VkImportSemaphoreFdInfoKHR *) pImportSemaphoreFdInfo__, pImportSemaphoreFdInfo);
+    unwrap_VkImportSemaphoreFdInfoKHR(&temp, base, (VkImportSemaphoreFdInfoKHR *) pImportSemaphoreFdInfo__, pImportSemaphoreFdInfo);
 #endif
 #ifdef NEEDS_PRINTING_ImportSemaphoreFdKHR
     VK_CMD_LOGA("  in: pImportSemaphoreFdInfo: VkImportSemaphoreFdInfoKHR*");
@@ -9567,7 +10668,14 @@ const VkImportSemaphoreFdInfoKHR* pImportSemaphoreFdInfo__ = pImportSemaphoreFdI
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.ImportSemaphoreFdKHR(base->dispatch_handle, pImportSemaphoreFdInfo__);
-
+#ifdef NEEDS_PRINTING_ImportSemaphoreFdKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to ImportSemaphoreFdKHR with (device: %p,pImportSemaphoreFdInfo: %p) failed with result: %d", base->dispatch_handle,pImportSemaphoreFdInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #ifdef VK_USE_PLATFORM_FUCHSIA
@@ -9578,6 +10686,8 @@ wrapper_tramp_GetSemaphoreZirconHandleFUCHSIA(
     const VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo,
     zx_handle_t* pZirconHandle)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetSemaphoreZirconHandleFUCHSIA");
 WLOGA("GetSemaphoreZirconHandleFUCHSIA(device: %p, pGetZirconHandleInfo: %p, pZirconHandle: %p)", device, pGetZirconHandleInfo, pZirconHandle);
@@ -9589,7 +10699,7 @@ const VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo__ = pGetZircon
 #ifdef NEEDS_UNWRAPPING_VkSemaphoreGetZirconHandleInfoFUCHSIA
     VkSemaphoreGetZirconHandleInfoFUCHSIA _w_pGetZirconHandleInfo = { 0 };
     pGetZirconHandleInfo__ = &_w_pGetZirconHandleInfo;
-    unwrap_VkSemaphoreGetZirconHandleInfoFUCHSIA(base, (VkSemaphoreGetZirconHandleInfoFUCHSIA *) pGetZirconHandleInfo__, pGetZirconHandleInfo);
+    unwrap_VkSemaphoreGetZirconHandleInfoFUCHSIA(&temp, base, (VkSemaphoreGetZirconHandleInfoFUCHSIA *) pGetZirconHandleInfo__, pGetZirconHandleInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetSemaphoreZirconHandleFUCHSIA
     VK_CMD_LOGA("  in: pGetZirconHandleInfo: VkSemaphoreGetZirconHandleInfoFUCHSIA*");
@@ -9598,14 +10708,19 @@ const VkSemaphoreGetZirconHandleInfoFUCHSIA* pGetZirconHandleInfo__ = pGetZircon
 #endif
     VkResult result = base->dispatch_table.GetSemaphoreZirconHandleFUCHSIA(base->dispatch_handle, pGetZirconHandleInfo__, pZirconHandle);
 #ifdef NEEDS_PRINTING_GetSemaphoreZirconHandleFUCHSIA
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetSemaphoreZirconHandleFUCHSIA
     VK_CMD_LOGA("  out: *pZirconHandle: zx_handle_t = %x", (int64_t)*pZirconHandle);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_zx_handle_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetSemaphoreZirconHandleFUCHSIA with (device: %p,pGetZirconHandleInfo: %p,pZirconHandle: %p) failed with result: %d", base->dispatch_handle,pGetZirconHandleInfo__,pZirconHandle, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetSemaphoreZirconHandleFUCHSIA with (device: %p,pGetZirconHandleInfo: %p,pZirconHandle: %p) failed with result: %d", base->dispatch_handle,pGetZirconHandleInfo__,pZirconHandle, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -9616,6 +10731,8 @@ wrapper_tramp_ImportSemaphoreZirconHandleFUCHSIA(
     VkDevice device,
     const VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("ImportSemaphoreZirconHandleFUCHSIA");
 WLOGA("ImportSemaphoreZirconHandleFUCHSIA(device: %p, pImportSemaphoreZirconHandleInfo: %p)", device, pImportSemaphoreZirconHandleInfo);
@@ -9627,7 +10744,7 @@ const VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo
 #ifdef NEEDS_UNWRAPPING_VkImportSemaphoreZirconHandleInfoFUCHSIA
     VkImportSemaphoreZirconHandleInfoFUCHSIA _w_pImportSemaphoreZirconHandleInfo = { 0 };
     pImportSemaphoreZirconHandleInfo__ = &_w_pImportSemaphoreZirconHandleInfo;
-    unwrap_VkImportSemaphoreZirconHandleInfoFUCHSIA(base, (VkImportSemaphoreZirconHandleInfoFUCHSIA *) pImportSemaphoreZirconHandleInfo__, pImportSemaphoreZirconHandleInfo);
+    unwrap_VkImportSemaphoreZirconHandleInfoFUCHSIA(&temp, base, (VkImportSemaphoreZirconHandleInfoFUCHSIA *) pImportSemaphoreZirconHandleInfo__, pImportSemaphoreZirconHandleInfo);
 #endif
 #ifdef NEEDS_PRINTING_ImportSemaphoreZirconHandleFUCHSIA
     VK_CMD_LOGA("  in: pImportSemaphoreZirconHandleInfo: VkImportSemaphoreZirconHandleInfoFUCHSIA*");
@@ -9635,7 +10752,14 @@ const VkImportSemaphoreZirconHandleInfoFUCHSIA* pImportSemaphoreZirconHandleInfo
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.ImportSemaphoreZirconHandleFUCHSIA(base->dispatch_handle, pImportSemaphoreZirconHandleInfo__);
-
+#ifdef NEEDS_PRINTING_ImportSemaphoreZirconHandleFUCHSIA
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to ImportSemaphoreZirconHandleFUCHSIA with (device: %p,pImportSemaphoreZirconHandleInfo: %p) failed with result: %d", base->dispatch_handle,pImportSemaphoreZirconHandleInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -9647,6 +10771,8 @@ wrapper_tramp_GetFenceWin32HandleKHR(
     const VkFenceGetWin32HandleInfoKHR* pGetWin32HandleInfo,
     HANDLE* pHandle)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetFenceWin32HandleKHR");
 WLOGA("GetFenceWin32HandleKHR(device: %p, pGetWin32HandleInfo: %p, pHandle: %p)", device, pGetWin32HandleInfo, pHandle);
@@ -9658,7 +10784,7 @@ const VkFenceGetWin32HandleInfoKHR* pGetWin32HandleInfo__ = pGetWin32HandleInfo;
 #ifdef NEEDS_UNWRAPPING_VkFenceGetWin32HandleInfoKHR
     VkFenceGetWin32HandleInfoKHR _w_pGetWin32HandleInfo = { 0 };
     pGetWin32HandleInfo__ = &_w_pGetWin32HandleInfo;
-    unwrap_VkFenceGetWin32HandleInfoKHR(base, (VkFenceGetWin32HandleInfoKHR *) pGetWin32HandleInfo__, pGetWin32HandleInfo);
+    unwrap_VkFenceGetWin32HandleInfoKHR(&temp, base, (VkFenceGetWin32HandleInfoKHR *) pGetWin32HandleInfo__, pGetWin32HandleInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetFenceWin32HandleKHR
     VK_CMD_LOGA("  in: pGetWin32HandleInfo: VkFenceGetWin32HandleInfoKHR*");
@@ -9667,14 +10793,19 @@ const VkFenceGetWin32HandleInfoKHR* pGetWin32HandleInfo__ = pGetWin32HandleInfo;
 #endif
     VkResult result = base->dispatch_table.GetFenceWin32HandleKHR(base->dispatch_handle, pGetWin32HandleInfo__, pHandle);
 #ifdef NEEDS_PRINTING_GetFenceWin32HandleKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetFenceWin32HandleKHR
     VK_CMD_LOGA("  out: *pHandle: HANDLE = %x", (int64_t)*pHandle);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_HANDLE
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetFenceWin32HandleKHR with (device: %p,pGetWin32HandleInfo: %p,pHandle: %p) failed with result: %d", base->dispatch_handle,pGetWin32HandleInfo__,pHandle, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetFenceWin32HandleKHR with (device: %p,pGetWin32HandleInfo: %p,pHandle: %p) failed with result: %d", base->dispatch_handle,pGetWin32HandleInfo__,pHandle, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -9685,6 +10816,8 @@ wrapper_tramp_ImportFenceWin32HandleKHR(
     VkDevice device,
     const VkImportFenceWin32HandleInfoKHR* pImportFenceWin32HandleInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("ImportFenceWin32HandleKHR");
 WLOGA("ImportFenceWin32HandleKHR(device: %p, pImportFenceWin32HandleInfo: %p)", device, pImportFenceWin32HandleInfo);
@@ -9696,7 +10829,7 @@ const VkImportFenceWin32HandleInfoKHR* pImportFenceWin32HandleInfo__ = pImportFe
 #ifdef NEEDS_UNWRAPPING_VkImportFenceWin32HandleInfoKHR
     VkImportFenceWin32HandleInfoKHR _w_pImportFenceWin32HandleInfo = { 0 };
     pImportFenceWin32HandleInfo__ = &_w_pImportFenceWin32HandleInfo;
-    unwrap_VkImportFenceWin32HandleInfoKHR(base, (VkImportFenceWin32HandleInfoKHR *) pImportFenceWin32HandleInfo__, pImportFenceWin32HandleInfo);
+    unwrap_VkImportFenceWin32HandleInfoKHR(&temp, base, (VkImportFenceWin32HandleInfoKHR *) pImportFenceWin32HandleInfo__, pImportFenceWin32HandleInfo);
 #endif
 #ifdef NEEDS_PRINTING_ImportFenceWin32HandleKHR
     VK_CMD_LOGA("  in: pImportFenceWin32HandleInfo: VkImportFenceWin32HandleInfoKHR*");
@@ -9704,7 +10837,14 @@ const VkImportFenceWin32HandleInfoKHR* pImportFenceWin32HandleInfo__ = pImportFe
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.ImportFenceWin32HandleKHR(base->dispatch_handle, pImportFenceWin32HandleInfo__);
-
+#ifdef NEEDS_PRINTING_ImportFenceWin32HandleKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to ImportFenceWin32HandleKHR with (device: %p,pImportFenceWin32HandleInfo: %p) failed with result: %d", base->dispatch_handle,pImportFenceWin32HandleInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -9715,6 +10855,8 @@ wrapper_tramp_GetFenceFdKHR(
     const VkFenceGetFdInfoKHR* pGetFdInfo,
     int* pFd)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetFenceFdKHR");
 WLOGA("GetFenceFdKHR(device: %p, pGetFdInfo: %p, pFd: %p)", device, pGetFdInfo, pFd);
@@ -9726,7 +10868,7 @@ const VkFenceGetFdInfoKHR* pGetFdInfo__ = pGetFdInfo;
 #ifdef NEEDS_UNWRAPPING_VkFenceGetFdInfoKHR
     VkFenceGetFdInfoKHR _w_pGetFdInfo = { 0 };
     pGetFdInfo__ = &_w_pGetFdInfo;
-    unwrap_VkFenceGetFdInfoKHR(base, (VkFenceGetFdInfoKHR *) pGetFdInfo__, pGetFdInfo);
+    unwrap_VkFenceGetFdInfoKHR(&temp, base, (VkFenceGetFdInfoKHR *) pGetFdInfo__, pGetFdInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetFenceFdKHR
     VK_CMD_LOGA("  in: pGetFdInfo: VkFenceGetFdInfoKHR*");
@@ -9735,14 +10877,19 @@ const VkFenceGetFdInfoKHR* pGetFdInfo__ = pGetFdInfo;
 #endif
     VkResult result = base->dispatch_table.GetFenceFdKHR(base->dispatch_handle, pGetFdInfo__, pFd);
 #ifdef NEEDS_PRINTING_GetFenceFdKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetFenceFdKHR
     VK_CMD_LOGA("  out: *pFd: int = %x", (int64_t)*pFd);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_int
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetFenceFdKHR with (device: %p,pGetFdInfo: %p,pFd: %p) failed with result: %d", base->dispatch_handle,pGetFdInfo__,pFd, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetFenceFdKHR with (device: %p,pGetFdInfo: %p,pFd: %p) failed with result: %d", base->dispatch_handle,pGetFdInfo__,pFd, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -9751,6 +10898,8 @@ wrapper_tramp_ImportFenceFdKHR(
     VkDevice device,
     const VkImportFenceFdInfoKHR* pImportFenceFdInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("ImportFenceFdKHR");
 WLOGA("ImportFenceFdKHR(device: %p, pImportFenceFdInfo: %p)", device, pImportFenceFdInfo);
@@ -9762,7 +10911,7 @@ const VkImportFenceFdInfoKHR* pImportFenceFdInfo__ = pImportFenceFdInfo;
 #ifdef NEEDS_UNWRAPPING_VkImportFenceFdInfoKHR
     VkImportFenceFdInfoKHR _w_pImportFenceFdInfo = { 0 };
     pImportFenceFdInfo__ = &_w_pImportFenceFdInfo;
-    unwrap_VkImportFenceFdInfoKHR(base, (VkImportFenceFdInfoKHR *) pImportFenceFdInfo__, pImportFenceFdInfo);
+    unwrap_VkImportFenceFdInfoKHR(&temp, base, (VkImportFenceFdInfoKHR *) pImportFenceFdInfo__, pImportFenceFdInfo);
 #endif
 #ifdef NEEDS_PRINTING_ImportFenceFdKHR
     VK_CMD_LOGA("  in: pImportFenceFdInfo: VkImportFenceFdInfoKHR*");
@@ -9770,7 +10919,14 @@ const VkImportFenceFdInfoKHR* pImportFenceFdInfo__ = pImportFenceFdInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.ImportFenceFdKHR(base->dispatch_handle, pImportFenceFdInfo__);
-
+#ifdef NEEDS_PRINTING_ImportFenceFdKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to ImportFenceFdKHR with (device: %p,pImportFenceFdInfo: %p) failed with result: %d", base->dispatch_handle,pImportFenceFdInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
                     
@@ -9780,6 +10936,8 @@ wrapper_tramp_DisplayPowerControlEXT(
     VkDisplayKHR display,
     const VkDisplayPowerInfoEXT* pDisplayPowerInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DisplayPowerControlEXT");
 WLOGA("DisplayPowerControlEXT(device: %p, display: %x, pDisplayPowerInfo: %p)", device, display, pDisplayPowerInfo);
@@ -9798,7 +10956,7 @@ const VkDisplayPowerInfoEXT* pDisplayPowerInfo__ = pDisplayPowerInfo;
 #ifdef NEEDS_UNWRAPPING_VkDisplayPowerInfoEXT
     VkDisplayPowerInfoEXT _w_pDisplayPowerInfo = { 0 };
     pDisplayPowerInfo__ = &_w_pDisplayPowerInfo;
-    unwrap_VkDisplayPowerInfoEXT(base, (VkDisplayPowerInfoEXT *) pDisplayPowerInfo__, pDisplayPowerInfo);
+    unwrap_VkDisplayPowerInfoEXT(&temp, base, (VkDisplayPowerInfoEXT *) pDisplayPowerInfo__, pDisplayPowerInfo);
 #endif
 #ifdef NEEDS_PRINTING_DisplayPowerControlEXT
     VK_CMD_LOGA("  in: pDisplayPowerInfo: VkDisplayPowerInfoEXT*");
@@ -9806,7 +10964,14 @@ const VkDisplayPowerInfoEXT* pDisplayPowerInfo__ = pDisplayPowerInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.DisplayPowerControlEXT(base->dispatch_handle, display__, pDisplayPowerInfo__);
-
+#ifdef NEEDS_PRINTING_DisplayPowerControlEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to DisplayPowerControlEXT with (device: %p,display: %x,pDisplayPowerInfo: %p) failed with result: %d", base->dispatch_handle,display__,pDisplayPowerInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -9817,6 +10982,8 @@ wrapper_tramp_RegisterDeviceEventEXT(
     const VkAllocationCallbacks* pAllocator,
     VkFence* pFence)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("RegisterDeviceEventEXT");
 WLOGA("RegisterDeviceEventEXT(device: %p, pDeviceEventInfo: %p, pAllocator: %p, pFence: %p)", device, pDeviceEventInfo, pAllocator, pFence);
@@ -9828,7 +10995,7 @@ const VkDeviceEventInfoEXT* pDeviceEventInfo__ = pDeviceEventInfo;
 #ifdef NEEDS_UNWRAPPING_VkDeviceEventInfoEXT
     VkDeviceEventInfoEXT _w_pDeviceEventInfo = { 0 };
     pDeviceEventInfo__ = &_w_pDeviceEventInfo;
-    unwrap_VkDeviceEventInfoEXT(base, (VkDeviceEventInfoEXT *) pDeviceEventInfo__, pDeviceEventInfo);
+    unwrap_VkDeviceEventInfoEXT(&temp, base, (VkDeviceEventInfoEXT *) pDeviceEventInfo__, pDeviceEventInfo);
 #endif
 #ifdef NEEDS_PRINTING_RegisterDeviceEventEXT
     VK_CMD_LOGA("  in: pDeviceEventInfo: VkDeviceEventInfoEXT*");
@@ -9839,7 +11006,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_RegisterDeviceEventEXT
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -9848,14 +11015,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.RegisterDeviceEventEXT(base->dispatch_handle, pDeviceEventInfo__, pAllocator__, pFence);
 #ifdef NEEDS_PRINTING_RegisterDeviceEventEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_RegisterDeviceEventEXT
     VK_CMD_LOGA("  out: *pFence: VkFence = %x", (int64_t)*pFence);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkFence
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to RegisterDeviceEventEXT with (device: %p,pDeviceEventInfo: %p,pAllocator: %p,pFence: %p) failed with result: %d", base->dispatch_handle,pDeviceEventInfo__,pAllocator__,pFence, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to RegisterDeviceEventEXT with (device: %p,pDeviceEventInfo: %p,pAllocator: %p,pFence: %p) failed with result: %d", base->dispatch_handle,pDeviceEventInfo__,pAllocator__,pFence, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -9867,6 +11039,8 @@ wrapper_tramp_RegisterDisplayEventEXT(
     const VkAllocationCallbacks* pAllocator,
     VkFence* pFence)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("RegisterDisplayEventEXT");
 WLOGA("RegisterDisplayEventEXT(device: %p, display: %x, pDisplayEventInfo: %p, pAllocator: %p, pFence: %p)", device, display, pDisplayEventInfo, pAllocator, pFence);
@@ -9885,7 +11059,7 @@ const VkDisplayEventInfoEXT* pDisplayEventInfo__ = pDisplayEventInfo;
 #ifdef NEEDS_UNWRAPPING_VkDisplayEventInfoEXT
     VkDisplayEventInfoEXT _w_pDisplayEventInfo = { 0 };
     pDisplayEventInfo__ = &_w_pDisplayEventInfo;
-    unwrap_VkDisplayEventInfoEXT(base, (VkDisplayEventInfoEXT *) pDisplayEventInfo__, pDisplayEventInfo);
+    unwrap_VkDisplayEventInfoEXT(&temp, base, (VkDisplayEventInfoEXT *) pDisplayEventInfo__, pDisplayEventInfo);
 #endif
 #ifdef NEEDS_PRINTING_RegisterDisplayEventEXT
     VK_CMD_LOGA("  in: pDisplayEventInfo: VkDisplayEventInfoEXT*");
@@ -9896,7 +11070,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_RegisterDisplayEventEXT
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -9905,14 +11079,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.RegisterDisplayEventEXT(base->dispatch_handle, display__, pDisplayEventInfo__, pAllocator__, pFence);
 #ifdef NEEDS_PRINTING_RegisterDisplayEventEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_RegisterDisplayEventEXT
     VK_CMD_LOGA("  out: *pFence: VkFence = %x", (int64_t)*pFence);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkFence
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to RegisterDisplayEventEXT with (device: %p,display: %x,pDisplayEventInfo: %p,pAllocator: %p,pFence: %p) failed with result: %d", base->dispatch_handle,display__,pDisplayEventInfo__,pAllocator__,pFence, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to RegisterDisplayEventEXT with (device: %p,display: %x,pDisplayEventInfo: %p,pAllocator: %p,pFence: %p) failed with result: %d", base->dispatch_handle,display__,pDisplayEventInfo__,pAllocator__,pFence, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -9923,6 +11102,8 @@ wrapper_tramp_GetSwapchainCounterEXT(
     VkSurfaceCounterFlagBitsEXT counter,
     uint64_t* pCounterValue)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetSwapchainCounterEXT");
 WLOGA("GetSwapchainCounterEXT(device: %p, swapchain: %x, counter: %x, pCounterValue: %p)", device, swapchain, counter, pCounterValue);
@@ -9946,14 +11127,19 @@ VkSurfaceCounterFlagBitsEXT counter__ = counter;
 #endif
     VkResult result = base->dispatch_table.GetSwapchainCounterEXT(base->dispatch_handle, swapchain__, counter__, pCounterValue);
 #ifdef NEEDS_PRINTING_GetSwapchainCounterEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetSwapchainCounterEXT
     VK_CMD_LOGA("  out: *pCounterValue: uint64_t = %x", (int64_t)*pCounterValue);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint64_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetSwapchainCounterEXT with (device: %p,swapchain: %x,counter: %x,pCounterValue: %p) failed with result: %d", base->dispatch_handle,swapchain__,counter__,pCounterValue, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetSwapchainCounterEXT with (device: %p,swapchain: %x,counter: %x,pCounterValue: %p) failed with result: %d", base->dispatch_handle,swapchain__,counter__,pCounterValue, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
             
@@ -9965,6 +11151,8 @@ wrapper_tramp_GetDeviceGroupPeerMemoryFeatures(
     uint32_t remoteDeviceIndex,
     VkPeerMemoryFeatureFlags* pPeerMemoryFeatures)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceGroupPeerMemoryFeatures");
 WLOGA("GetDeviceGroupPeerMemoryFeatures(device: %p, heapIndex: %x, localDeviceIndex: %x, remoteDeviceIndex: %x, pPeerMemoryFeatures: %p)", device, heapIndex, localDeviceIndex, remoteDeviceIndex, pPeerMemoryFeatures);
@@ -10000,6 +11188,7 @@ uint32_t remoteDeviceIndex__ = remoteDeviceIndex;
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPeerMemoryFeatureFlags
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -10009,6 +11198,8 @@ wrapper_tramp_BindBufferMemory2(
     uint32_t bindInfoCount,
     const VkBindBufferMemoryInfo* pBindInfos)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("BindBufferMemory2");
 WLOGA("BindBufferMemory2(device: %p, bindInfoCount: %x, pBindInfos: %p)", device, bindInfoCount, pBindInfos);
@@ -10027,7 +11218,7 @@ const VkBindBufferMemoryInfo* pBindInfos__ = pBindInfos;
 #ifdef NEEDS_UNWRAPPING_VkBindBufferMemoryInfo
     pBindInfos__ = alloca(bindInfoCount * sizeof(VkBindBufferMemoryInfo));
     for (int i = 0; i < bindInfoCount; i++)
-        unwrap_VkBindBufferMemoryInfo(base, (VkBindBufferMemoryInfo *) &pBindInfos__[i], &pBindInfos[i]);
+        unwrap_VkBindBufferMemoryInfo(&temp, base, (VkBindBufferMemoryInfo *) &pBindInfos__[i], &pBindInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_BindBufferMemory2
     VK_CMD_LOGA("  in: pBindInfos[]: VkBindBufferMemoryInfo");
@@ -10038,7 +11229,14 @@ const VkBindBufferMemoryInfo* pBindInfos__ = pBindInfos;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.BindBufferMemory2(base->dispatch_handle, bindInfoCount__, pBindInfos__);
-
+#ifdef NEEDS_PRINTING_BindBufferMemory2
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to BindBufferMemory2 with (device: %p,bindInfoCount: %x,pBindInfos: %p) failed with result: %d", base->dispatch_handle,bindInfoCount__,pBindInfos__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -10048,6 +11246,8 @@ wrapper_tramp_BindImageMemory2(
     uint32_t bindInfoCount,
     const VkBindImageMemoryInfo* pBindInfos)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("BindImageMemory2");
 WLOGA("BindImageMemory2(device: %p, bindInfoCount: %x, pBindInfos: %p)", device, bindInfoCount, pBindInfos);
@@ -10066,7 +11266,7 @@ const VkBindImageMemoryInfo* pBindInfos__ = pBindInfos;
 #ifdef NEEDS_UNWRAPPING_VkBindImageMemoryInfo
     pBindInfos__ = alloca(bindInfoCount * sizeof(VkBindImageMemoryInfo));
     for (int i = 0; i < bindInfoCount; i++)
-        unwrap_VkBindImageMemoryInfo(base, (VkBindImageMemoryInfo *) &pBindInfos__[i], &pBindInfos[i]);
+        unwrap_VkBindImageMemoryInfo(&temp, base, (VkBindImageMemoryInfo *) &pBindInfos__[i], &pBindInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_BindImageMemory2
     VK_CMD_LOGA("  in: pBindInfos[]: VkBindImageMemoryInfo");
@@ -10077,7 +11277,14 @@ const VkBindImageMemoryInfo* pBindInfos__ = pBindInfos;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.BindImageMemory2(base->dispatch_handle, bindInfoCount__, pBindInfos__);
-
+#ifdef NEEDS_PRINTING_BindImageMemory2
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to BindImageMemory2 with (device: %p,bindInfoCount: %x,pBindInfos: %p) failed with result: %d", base->dispatch_handle,bindInfoCount__,pBindInfos__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -10086,6 +11293,8 @@ wrapper_tramp_CmdSetDeviceMask(
     VkCommandBuffer commandBuffer,
     uint32_t deviceMask)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDeviceMask");
 WLOGA("CmdSetDeviceMask(commandBuffer: %p, deviceMask: %x)", commandBuffer, deviceMask);
@@ -10102,6 +11311,7 @@ uint32_t deviceMask__ = deviceMask;
 #endif
     base->device->dispatch_table.CmdSetDeviceMask(base->dispatch_handle, deviceMask__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -10110,6 +11320,8 @@ wrapper_tramp_GetDeviceGroupPresentCapabilitiesKHR(
     VkDevice device,
     VkDeviceGroupPresentCapabilitiesKHR* pDeviceGroupPresentCapabilities)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceGroupPresentCapabilitiesKHR");
 WLOGA("GetDeviceGroupPresentCapabilitiesKHR(device: %p, pDeviceGroupPresentCapabilities: %p)", device, pDeviceGroupPresentCapabilities);
@@ -10119,16 +11331,21 @@ WLOGA("GetDeviceGroupPresentCapabilitiesKHR(device: %p, pDeviceGroupPresentCapab
 #endif
     VkResult result = base->dispatch_table.GetDeviceGroupPresentCapabilitiesKHR(base->dispatch_handle, pDeviceGroupPresentCapabilities);
 #ifdef NEEDS_PRINTING_GetDeviceGroupPresentCapabilitiesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetDeviceGroupPresentCapabilitiesKHR
     VK_CMD_LOGA("  out: pDeviceGroupPresentCapabilities: VkDeviceGroupPresentCapabilitiesKHR*");
     VK_PRINT_VkDeviceGroupPresentCapabilitiesKHR("    ", pDeviceGroupPresentCapabilities);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDeviceGroupPresentCapabilitiesKHR
-#warning TODO: Repack struct+ptr+out GetDeviceGroupPresentCapabilitiesKHR EntrypointParam(type='VkDeviceGroupPresentCapabilitiesKHR', name='pDeviceGroupPresentCapabilities', decl='VkDeviceGroupPresentCapabilitiesKHR* pDeviceGroupPresentCapabilities', len=None, elem=<Element 'param' at 0x75c0e949bec0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDeviceGroupPresentCapabilitiesKHR EntrypointParam(type='VkDeviceGroupPresentCapabilitiesKHR', name='pDeviceGroupPresentCapabilities', decl='VkDeviceGroupPresentCapabilitiesKHR* pDeviceGroupPresentCapabilities', len=None, elem=<Element 'param' at 0x7f0cb31b7e70>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDeviceGroupPresentCapabilitiesKHR with (device: %p,pDeviceGroupPresentCapabilities: %p) failed with result: %d", base->dispatch_handle,pDeviceGroupPresentCapabilities, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetDeviceGroupPresentCapabilitiesKHR with (device: %p,pDeviceGroupPresentCapabilities: %p) failed with result: %d", base->dispatch_handle,pDeviceGroupPresentCapabilities, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -10138,6 +11355,8 @@ wrapper_tramp_GetDeviceGroupSurfacePresentModesKHR(
     VkSurfaceKHR surface,
     VkDeviceGroupPresentModeFlagsKHR* pModes)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceGroupSurfacePresentModesKHR");
 WLOGA("GetDeviceGroupSurfacePresentModesKHR(device: %p, surface: %x, pModes: %p)", device, surface, pModes);
@@ -10154,14 +11373,19 @@ VkSurfaceKHR surface__ = surface;
 #endif
     VkResult result = base->dispatch_table.GetDeviceGroupSurfacePresentModesKHR(base->dispatch_handle, surface__, pModes);
 #ifdef NEEDS_PRINTING_GetDeviceGroupSurfacePresentModesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetDeviceGroupSurfacePresentModesKHR
     VK_CMD_LOGA("  out: *pModes: VkDeviceGroupPresentModeFlagsKHR = %x", (int64_t)*pModes);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDeviceGroupPresentModeFlagsKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDeviceGroupSurfacePresentModesKHR with (device: %p,surface: %x,pModes: %p) failed with result: %d", base->dispatch_handle,surface__,pModes, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetDeviceGroupSurfacePresentModesKHR with (device: %p,surface: %x,pModes: %p) failed with result: %d", base->dispatch_handle,surface__,pModes, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -10171,6 +11395,8 @@ wrapper_tramp_AcquireNextImage2KHR(
     const VkAcquireNextImageInfoKHR* pAcquireInfo,
     uint32_t* pImageIndex)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("AcquireNextImage2KHR");
 WLOGA("AcquireNextImage2KHR(device: %p, pAcquireInfo: %p, pImageIndex: %p)", device, pAcquireInfo, pImageIndex);
@@ -10182,7 +11408,7 @@ const VkAcquireNextImageInfoKHR* pAcquireInfo__ = pAcquireInfo;
 #ifdef NEEDS_UNWRAPPING_VkAcquireNextImageInfoKHR
     VkAcquireNextImageInfoKHR _w_pAcquireInfo = { 0 };
     pAcquireInfo__ = &_w_pAcquireInfo;
-    unwrap_VkAcquireNextImageInfoKHR(base, (VkAcquireNextImageInfoKHR *) pAcquireInfo__, pAcquireInfo);
+    unwrap_VkAcquireNextImageInfoKHR(&temp, base, (VkAcquireNextImageInfoKHR *) pAcquireInfo__, pAcquireInfo);
 #endif
 #ifdef NEEDS_PRINTING_AcquireNextImage2KHR
     VK_CMD_LOGA("  in: pAcquireInfo: VkAcquireNextImageInfoKHR*");
@@ -10191,14 +11417,19 @@ const VkAcquireNextImageInfoKHR* pAcquireInfo__ = pAcquireInfo;
 #endif
     VkResult result = base->dispatch_table.AcquireNextImage2KHR(base->dispatch_handle, pAcquireInfo__, pImageIndex);
 #ifdef NEEDS_PRINTING_AcquireNextImage2KHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_AcquireNextImage2KHR
     VK_CMD_LOGA("  out: *pImageIndex: uint32_t = %x", (int64_t)*pImageIndex);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to AcquireNextImage2KHR with (device: %p,pAcquireInfo: %p,pImageIndex: %p) failed with result: %d", base->dispatch_handle,pAcquireInfo__,pImageIndex, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to AcquireNextImage2KHR with (device: %p,pAcquireInfo: %p,pImageIndex: %p) failed with result: %d", base->dispatch_handle,pAcquireInfo__,pImageIndex, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -10212,6 +11443,8 @@ wrapper_tramp_CmdDispatchBase(
     uint32_t groupCountY,
     uint32_t groupCountZ)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDispatchBase");
 WLOGA("CmdDispatchBase(commandBuffer: %p, baseGroupX: %x, baseGroupY: %x, baseGroupZ: %x, groupCountX: %x, groupCountY: %x, groupCountZ: %x)", commandBuffer, baseGroupX, baseGroupY, baseGroupZ, groupCountX, groupCountY, groupCountZ);
@@ -10263,6 +11496,7 @@ uint32_t groupCountZ__ = groupCountZ;
 #endif
     base->device->dispatch_table.CmdDispatchBase(base->dispatch_handle, baseGroupX__, baseGroupY__, baseGroupZ__, groupCountX__, groupCountY__, groupCountZ__);
 
+    free_temp_objects(&temp);
     return ;
 }
         
@@ -10273,6 +11507,8 @@ wrapper_tramp_CreateDescriptorUpdateTemplate(
     const VkAllocationCallbacks* pAllocator,
     VkDescriptorUpdateTemplate* pDescriptorUpdateTemplate)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateDescriptorUpdateTemplate");
 WLOGA("CreateDescriptorUpdateTemplate(device: %p, pCreateInfo: %p, pAllocator: %p, pDescriptorUpdateTemplate: %p)", device, pCreateInfo, pAllocator, pDescriptorUpdateTemplate);
@@ -10284,7 +11520,7 @@ const VkDescriptorUpdateTemplateCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkDescriptorUpdateTemplateCreateInfo
     VkDescriptorUpdateTemplateCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkDescriptorUpdateTemplateCreateInfo(base, (VkDescriptorUpdateTemplateCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkDescriptorUpdateTemplateCreateInfo(&temp, base, (VkDescriptorUpdateTemplateCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateDescriptorUpdateTemplate
     VK_CMD_LOGA("  in: pCreateInfo: VkDescriptorUpdateTemplateCreateInfo*");
@@ -10295,7 +11531,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateDescriptorUpdateTemplate
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -10304,14 +11540,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateDescriptorUpdateTemplate(base->dispatch_handle, pCreateInfo__, pAllocator__, pDescriptorUpdateTemplate);
 #ifdef NEEDS_PRINTING_CreateDescriptorUpdateTemplate
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateDescriptorUpdateTemplate
     VK_CMD_LOGA("  out: *pDescriptorUpdateTemplate: VkDescriptorUpdateTemplate = %x", (int64_t)*pDescriptorUpdateTemplate);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDescriptorUpdateTemplate
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateDescriptorUpdateTemplate with (device: %p,pCreateInfo: %p,pAllocator: %p,pDescriptorUpdateTemplate: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pDescriptorUpdateTemplate, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateDescriptorUpdateTemplate with (device: %p,pCreateInfo: %p,pAllocator: %p,pDescriptorUpdateTemplate: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pDescriptorUpdateTemplate, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -10321,6 +11562,8 @@ wrapper_tramp_DestroyDescriptorUpdateTemplate(
     VkDescriptorUpdateTemplate descriptorUpdateTemplate,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyDescriptorUpdateTemplate");
 WLOGA("DestroyDescriptorUpdateTemplate(device: %p, descriptorUpdateTemplate: %x, pAllocator: %p)", device, descriptorUpdateTemplate, pAllocator);
@@ -10339,7 +11582,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyDescriptorUpdateTemplate
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -10348,6 +11591,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyDescriptorUpdateTemplate(base->dispatch_handle, descriptorUpdateTemplate__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -10358,6 +11602,8 @@ wrapper_tramp_UpdateDescriptorSetWithTemplate(
     VkDescriptorUpdateTemplate descriptorUpdateTemplate,
     const void* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("UpdateDescriptorSetWithTemplate");
 WLOGA("UpdateDescriptorSetWithTemplate(device: %p, descriptorSet: %x, descriptorUpdateTemplate: %x, pData: %x)", device, descriptorSet, descriptorUpdateTemplate, pData);
@@ -10388,6 +11634,7 @@ const void* pData__ = pData;
 #endif
     base->dispatch_table.UpdateDescriptorSetWithTemplate(base->dispatch_handle, descriptorSet__, descriptorUpdateTemplate__, pData__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -10399,6 +11646,8 @@ wrapper_tramp_CmdPushDescriptorSetWithTemplateKHR(
     uint32_t set,
     const void* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdPushDescriptorSetWithTemplateKHR");
 WLOGA("CmdPushDescriptorSetWithTemplateKHR(commandBuffer: %p, descriptorUpdateTemplate: %x, layout: %x, set: %x, pData: %x)", commandBuffer, descriptorUpdateTemplate, layout, set, pData);
@@ -10436,6 +11685,7 @@ const void* pData__ = pData;
 #endif
     base->device->dispatch_table.CmdPushDescriptorSetWithTemplateKHR(base->dispatch_handle, descriptorUpdateTemplate__, layout__, set__, pData__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -10446,6 +11696,8 @@ wrapper_tramp_SetHdrMetadataEXT(
     const VkSwapchainKHR* pSwapchains,
     const VkHdrMetadataEXT* pMetadata)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("SetHdrMetadataEXT");
 WLOGA("SetHdrMetadataEXT(device: %p, swapchainCount: %x, pSwapchains: %x, pMetadata: %p)", device, swapchainCount, pSwapchains, pMetadata);
@@ -10471,7 +11723,7 @@ const VkHdrMetadataEXT* pMetadata__ = pMetadata;
 #ifdef NEEDS_UNWRAPPING_VkHdrMetadataEXT
     pMetadata__ = alloca(swapchainCount * sizeof(VkHdrMetadataEXT));
     for (int i = 0; i < swapchainCount; i++)
-        unwrap_VkHdrMetadataEXT(base, (VkHdrMetadataEXT *) &pMetadata__[i], &pMetadata[i]);
+        unwrap_VkHdrMetadataEXT(&temp, base, (VkHdrMetadataEXT *) &pMetadata__[i], &pMetadata[i]);
 #endif
 #ifdef NEEDS_PRINTING_SetHdrMetadataEXT
     VK_CMD_LOGA("  in: pMetadata[]: VkHdrMetadataEXT");
@@ -10483,6 +11735,7 @@ const VkHdrMetadataEXT* pMetadata__ = pMetadata;
 #endif
     base->dispatch_table.SetHdrMetadataEXT(base->dispatch_handle, swapchainCount__, pSwapchains__, pMetadata__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -10491,6 +11744,8 @@ wrapper_tramp_GetSwapchainStatusKHR(
     VkDevice device,
     VkSwapchainKHR swapchain)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetSwapchainStatusKHR");
 WLOGA("GetSwapchainStatusKHR(device: %p, swapchain: %x)", device, swapchain);
@@ -10506,7 +11761,14 @@ VkSwapchainKHR swapchain__ = swapchain;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.GetSwapchainStatusKHR(base->dispatch_handle, swapchain__);
-
+#ifdef NEEDS_PRINTING_GetSwapchainStatusKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetSwapchainStatusKHR with (device: %p,swapchain: %x) failed with result: %d", base->dispatch_handle,swapchain__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -10516,6 +11778,8 @@ wrapper_tramp_GetRefreshCycleDurationGOOGLE(
     VkSwapchainKHR swapchain,
     VkRefreshCycleDurationGOOGLE* pDisplayTimingProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetRefreshCycleDurationGOOGLE");
 WLOGA("GetRefreshCycleDurationGOOGLE(device: %p, swapchain: %x, pDisplayTimingProperties: %p)", device, swapchain, pDisplayTimingProperties);
@@ -10532,16 +11796,21 @@ VkSwapchainKHR swapchain__ = swapchain;
 #endif
     VkResult result = base->dispatch_table.GetRefreshCycleDurationGOOGLE(base->dispatch_handle, swapchain__, pDisplayTimingProperties);
 #ifdef NEEDS_PRINTING_GetRefreshCycleDurationGOOGLE
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetRefreshCycleDurationGOOGLE
     VK_CMD_LOGA("  out: pDisplayTimingProperties: VkRefreshCycleDurationGOOGLE*");
     VK_PRINT_VkRefreshCycleDurationGOOGLE("    ", pDisplayTimingProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkRefreshCycleDurationGOOGLE
-#warning TODO: Repack struct+ptr+out GetRefreshCycleDurationGOOGLE EntrypointParam(type='VkRefreshCycleDurationGOOGLE', name='pDisplayTimingProperties', decl='VkRefreshCycleDurationGOOGLE* pDisplayTimingProperties', len=None, elem=<Element 'param' at 0x75c0e94a7e20>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetRefreshCycleDurationGOOGLE EntrypointParam(type='VkRefreshCycleDurationGOOGLE', name='pDisplayTimingProperties', decl='VkRefreshCycleDurationGOOGLE* pDisplayTimingProperties', len=None, elem=<Element 'param' at 0x7f0cb31bfdd0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetRefreshCycleDurationGOOGLE with (device: %p,swapchain: %x,pDisplayTimingProperties: %p) failed with result: %d", base->dispatch_handle,swapchain__,pDisplayTimingProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetRefreshCycleDurationGOOGLE with (device: %p,swapchain: %x,pDisplayTimingProperties: %p) failed with result: %d", base->dispatch_handle,swapchain__,pDisplayTimingProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -10552,6 +11821,8 @@ wrapper_tramp_GetPastPresentationTimingGOOGLE(
     uint32_t* pPresentationTimingCount,
     VkPastPresentationTimingGOOGLE* pPresentationTimings)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetPastPresentationTimingGOOGLE");
 WLOGA("GetPastPresentationTimingGOOGLE(device: %p, swapchain: %x, pPresentationTimingCount: %p, pPresentationTimings: %p)", device, swapchain, pPresentationTimingCount, pPresentationTimings);
@@ -10568,14 +11839,15 @@ VkSwapchainKHR swapchain__ = swapchain;
 #endif
     VkResult result = base->dispatch_table.GetPastPresentationTimingGOOGLE(base->dispatch_handle, swapchain__, pPresentationTimingCount, pPresentationTimings);
 #ifdef NEEDS_PRINTING_GetPastPresentationTimingGOOGLE
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPastPresentationTimingGOOGLE
     VK_CMD_LOGA("  out: *pPresentationTimingCount: uint32_t = %x", (int64_t)*pPresentationTimingCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPastPresentationTimingGOOGLE with (device: %p,swapchain: %x,pPresentationTimingCount: %p,pPresentationTimings: %p) failed with result: %d", base->dispatch_handle,swapchain__,pPresentationTimingCount,pPresentationTimings, result);
-}
 #ifdef NEEDS_PRINTING_GetPastPresentationTimingGOOGLE
     VK_CMD_LOGA("  out: pPresentationTimings[]: VkPastPresentationTimingGOOGLE");
     for (int i = 0; i < pPresentationTimingCount; i++) {
@@ -10585,11 +11857,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPastPresentationTimingGOOGLE
-#warning TODO: Repack struct+array+out GetPastPresentationTimingGOOGLE EntrypointParam(type='VkPastPresentationTimingGOOGLE', name='pPresentationTimings', decl='VkPastPresentationTimingGOOGLE* pPresentationTimings', len='pPresentationTimingCount', elem=<Element 'param' at 0x75c0e94b0540>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPastPresentationTimingGOOGLE EntrypointParam(type='VkPastPresentationTimingGOOGLE', name='pPresentationTimings', decl='VkPastPresentationTimingGOOGLE* pPresentationTimings', len='pPresentationTimingCount', elem=<Element 'param' at 0x7f0cb31cc4f0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPastPresentationTimingGOOGLE with (device: %p,swapchain: %x,pPresentationTimingCount: %p,pPresentationTimings: %p) failed with result: %d", base->dispatch_handle,swapchain__,pPresentationTimingCount,pPresentationTimings, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPastPresentationTimingGOOGLE with (device: %p,swapchain: %x,pPresentationTimingCount: %p,pPresentationTimings: %p) failed with result: %d", base->dispatch_handle,swapchain__,pPresentationTimingCount,pPresentationTimings, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
             
@@ -10600,6 +11873,8 @@ wrapper_tramp_CmdSetViewportWScalingNV(
     uint32_t viewportCount,
     const VkViewportWScalingNV* pViewportWScalings)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetViewportWScalingNV");
 WLOGA("CmdSetViewportWScalingNV(commandBuffer: %p, firstViewport: %x, viewportCount: %x, pViewportWScalings: %p)", commandBuffer, firstViewport, viewportCount, pViewportWScalings);
@@ -10625,7 +11900,7 @@ const VkViewportWScalingNV* pViewportWScalings__ = pViewportWScalings;
 #ifdef NEEDS_UNWRAPPING_VkViewportWScalingNV
     pViewportWScalings__ = alloca(viewportCount * sizeof(VkViewportWScalingNV));
     for (int i = 0; i < viewportCount; i++)
-        unwrap_VkViewportWScalingNV(base->device, (VkViewportWScalingNV *) &pViewportWScalings__[i], &pViewportWScalings[i]);
+        unwrap_VkViewportWScalingNV(&temp, base->device, (VkViewportWScalingNV *) &pViewportWScalings__[i], &pViewportWScalings[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetViewportWScalingNV
     VK_CMD_LOGA("  in: pViewportWScalings[]: VkViewportWScalingNV");
@@ -10637,6 +11912,7 @@ const VkViewportWScalingNV* pViewportWScalings__ = pViewportWScalings;
 #endif
     base->device->dispatch_table.CmdSetViewportWScalingNV(base->dispatch_handle, firstViewport__, viewportCount__, pViewportWScalings__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -10647,6 +11923,8 @@ wrapper_tramp_CmdSetDiscardRectangleEXT(
     uint32_t discardRectangleCount,
     const VkRect2D* pDiscardRectangles)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDiscardRectangleEXT");
 WLOGA("CmdSetDiscardRectangleEXT(commandBuffer: %p, firstDiscardRectangle: %x, discardRectangleCount: %x, pDiscardRectangles: %p)", commandBuffer, firstDiscardRectangle, discardRectangleCount, pDiscardRectangles);
@@ -10672,7 +11950,7 @@ const VkRect2D* pDiscardRectangles__ = pDiscardRectangles;
 #ifdef NEEDS_UNWRAPPING_VkRect2D
     pDiscardRectangles__ = alloca(discardRectangleCount * sizeof(VkRect2D));
     for (int i = 0; i < discardRectangleCount; i++)
-        unwrap_VkRect2D(base->device, (VkRect2D *) &pDiscardRectangles__[i], &pDiscardRectangles[i]);
+        unwrap_VkRect2D(&temp, base->device, (VkRect2D *) &pDiscardRectangles__[i], &pDiscardRectangles[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetDiscardRectangleEXT
     VK_CMD_LOGA("  in: pDiscardRectangles[]: VkRect2D");
@@ -10684,6 +11962,7 @@ const VkRect2D* pDiscardRectangles__ = pDiscardRectangles;
 #endif
     base->device->dispatch_table.CmdSetDiscardRectangleEXT(base->dispatch_handle, firstDiscardRectangle__, discardRectangleCount__, pDiscardRectangles__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -10692,6 +11971,8 @@ wrapper_tramp_CmdSetDiscardRectangleEnableEXT(
     VkCommandBuffer commandBuffer,
     VkBool32 discardRectangleEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDiscardRectangleEnableEXT");
 WLOGA("CmdSetDiscardRectangleEnableEXT(commandBuffer: %p, discardRectangleEnable: %x)", commandBuffer, discardRectangleEnable);
@@ -10708,6 +11989,7 @@ VkBool32 discardRectangleEnable__ = discardRectangleEnable;
 #endif
     base->device->dispatch_table.CmdSetDiscardRectangleEnableEXT(base->dispatch_handle, discardRectangleEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -10716,6 +11998,8 @@ wrapper_tramp_CmdSetDiscardRectangleModeEXT(
     VkCommandBuffer commandBuffer,
     VkDiscardRectangleModeEXT discardRectangleMode)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDiscardRectangleModeEXT");
 WLOGA("CmdSetDiscardRectangleModeEXT(commandBuffer: %p, discardRectangleMode: %x)", commandBuffer, discardRectangleMode);
@@ -10732,6 +12016,7 @@ VkDiscardRectangleModeEXT discardRectangleMode__ = discardRectangleMode;
 #endif
     base->device->dispatch_table.CmdSetDiscardRectangleModeEXT(base->dispatch_handle, discardRectangleMode__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -10740,6 +12025,8 @@ wrapper_tramp_CmdSetSampleLocationsEXT(
     VkCommandBuffer commandBuffer,
     const VkSampleLocationsInfoEXT* pSampleLocationsInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetSampleLocationsEXT");
 WLOGA("CmdSetSampleLocationsEXT(commandBuffer: %p, pSampleLocationsInfo: %p)", commandBuffer, pSampleLocationsInfo);
@@ -10751,7 +12038,7 @@ const VkSampleLocationsInfoEXT* pSampleLocationsInfo__ = pSampleLocationsInfo;
 #ifdef NEEDS_UNWRAPPING_VkSampleLocationsInfoEXT
     VkSampleLocationsInfoEXT _w_pSampleLocationsInfo = { 0 };
     pSampleLocationsInfo__ = &_w_pSampleLocationsInfo;
-    unwrap_VkSampleLocationsInfoEXT(base->device, (VkSampleLocationsInfoEXT *) pSampleLocationsInfo__, pSampleLocationsInfo);
+    unwrap_VkSampleLocationsInfoEXT(&temp, base->device, (VkSampleLocationsInfoEXT *) pSampleLocationsInfo__, pSampleLocationsInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetSampleLocationsEXT
     VK_CMD_LOGA("  in: pSampleLocationsInfo: VkSampleLocationsInfoEXT*");
@@ -10760,6 +12047,7 @@ const VkSampleLocationsInfoEXT* pSampleLocationsInfo__ = pSampleLocationsInfo;
 #endif
     base->device->dispatch_table.CmdSetSampleLocationsEXT(base->dispatch_handle, pSampleLocationsInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
                             
@@ -10769,6 +12057,8 @@ wrapper_tramp_GetBufferMemoryRequirements2(
     const VkBufferMemoryRequirementsInfo2* pInfo,
     VkMemoryRequirements2* pMemoryRequirements)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetBufferMemoryRequirements2");
 WLOGA("GetBufferMemoryRequirements2(device: %p, pInfo: %p, pMemoryRequirements: %p)", device, pInfo, pMemoryRequirements);
@@ -10780,7 +12070,7 @@ const VkBufferMemoryRequirementsInfo2* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkBufferMemoryRequirementsInfo2
     VkBufferMemoryRequirementsInfo2 _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkBufferMemoryRequirementsInfo2(base, (VkBufferMemoryRequirementsInfo2 *) pInfo__, pInfo);
+    unwrap_VkBufferMemoryRequirementsInfo2(&temp, base, (VkBufferMemoryRequirementsInfo2 *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetBufferMemoryRequirements2
     VK_CMD_LOGA("  in: pInfo: VkBufferMemoryRequirementsInfo2*");
@@ -10794,8 +12084,9 @@ const VkBufferMemoryRequirementsInfo2* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements2
-#warning TODO: Repack struct+ptr+out GetBufferMemoryRequirements2 EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75c0e94bd300>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetBufferMemoryRequirements2 EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7f0cb31d92b0>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -10805,6 +12096,8 @@ wrapper_tramp_GetImageMemoryRequirements2(
     const VkImageMemoryRequirementsInfo2* pInfo,
     VkMemoryRequirements2* pMemoryRequirements)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetImageMemoryRequirements2");
 WLOGA("GetImageMemoryRequirements2(device: %p, pInfo: %p, pMemoryRequirements: %p)", device, pInfo, pMemoryRequirements);
@@ -10816,7 +12109,7 @@ const VkImageMemoryRequirementsInfo2* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkImageMemoryRequirementsInfo2
     VkImageMemoryRequirementsInfo2 _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkImageMemoryRequirementsInfo2(base, (VkImageMemoryRequirementsInfo2 *) pInfo__, pInfo);
+    unwrap_VkImageMemoryRequirementsInfo2(&temp, base, (VkImageMemoryRequirementsInfo2 *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetImageMemoryRequirements2
     VK_CMD_LOGA("  in: pInfo: VkImageMemoryRequirementsInfo2*");
@@ -10830,8 +12123,9 @@ const VkImageMemoryRequirementsInfo2* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements2
-#warning TODO: Repack struct+ptr+out GetImageMemoryRequirements2 EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75c0e94bd8a0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetImageMemoryRequirements2 EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7f0cb31d9850>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -10842,6 +12136,8 @@ wrapper_tramp_GetImageSparseMemoryRequirements2(
     uint32_t* pSparseMemoryRequirementCount,
     VkSparseImageMemoryRequirements2* pSparseMemoryRequirements)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetImageSparseMemoryRequirements2");
 WLOGA("GetImageSparseMemoryRequirements2(device: %p, pInfo: %p, pSparseMemoryRequirementCount: %p, pSparseMemoryRequirements: %p)", device, pInfo, pSparseMemoryRequirementCount, pSparseMemoryRequirements);
@@ -10853,7 +12149,7 @@ const VkImageSparseMemoryRequirementsInfo2* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkImageSparseMemoryRequirementsInfo2
     VkImageSparseMemoryRequirementsInfo2 _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkImageSparseMemoryRequirementsInfo2(base, (VkImageSparseMemoryRequirementsInfo2 *) pInfo__, pInfo);
+    unwrap_VkImageSparseMemoryRequirementsInfo2(&temp, base, (VkImageSparseMemoryRequirementsInfo2 *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetImageSparseMemoryRequirements2
     VK_CMD_LOGA("  in: pInfo: VkImageSparseMemoryRequirementsInfo2*");
@@ -10876,8 +12172,9 @@ const VkImageSparseMemoryRequirementsInfo2* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSparseImageMemoryRequirements2
-#warning TODO: Repack struct+array+out GetImageSparseMemoryRequirements2 EntrypointParam(type='VkSparseImageMemoryRequirements2', name='pSparseMemoryRequirements', decl='VkSparseImageMemoryRequirements2* pSparseMemoryRequirements', len='pSparseMemoryRequirementCount', elem=<Element 'param' at 0x75c0e94bdfd0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetImageSparseMemoryRequirements2 EntrypointParam(type='VkSparseImageMemoryRequirements2', name='pSparseMemoryRequirements', decl='VkSparseImageMemoryRequirements2* pSparseMemoryRequirements', len='pSparseMemoryRequirementCount', elem=<Element 'param' at 0x7f0cb31d9f80>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -10887,6 +12184,8 @@ wrapper_tramp_GetDeviceBufferMemoryRequirements(
     const VkDeviceBufferMemoryRequirements* pInfo,
     VkMemoryRequirements2* pMemoryRequirements)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceBufferMemoryRequirements");
 WLOGA("GetDeviceBufferMemoryRequirements(device: %p, pInfo: %p, pMemoryRequirements: %p)", device, pInfo, pMemoryRequirements);
@@ -10898,7 +12197,7 @@ const VkDeviceBufferMemoryRequirements* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkDeviceBufferMemoryRequirements
     VkDeviceBufferMemoryRequirements _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkDeviceBufferMemoryRequirements(base, (VkDeviceBufferMemoryRequirements *) pInfo__, pInfo);
+    unwrap_VkDeviceBufferMemoryRequirements(&temp, base, (VkDeviceBufferMemoryRequirements *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetDeviceBufferMemoryRequirements
     VK_CMD_LOGA("  in: pInfo: VkDeviceBufferMemoryRequirements*");
@@ -10912,8 +12211,9 @@ const VkDeviceBufferMemoryRequirements* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements2
-#warning TODO: Repack struct+ptr+out GetDeviceBufferMemoryRequirements EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75c0e94be610>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDeviceBufferMemoryRequirements EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7f0cb31da5c0>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -10923,6 +12223,8 @@ wrapper_tramp_GetDeviceImageMemoryRequirements(
     const VkDeviceImageMemoryRequirements* pInfo,
     VkMemoryRequirements2* pMemoryRequirements)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceImageMemoryRequirements");
 WLOGA("GetDeviceImageMemoryRequirements(device: %p, pInfo: %p, pMemoryRequirements: %p)", device, pInfo, pMemoryRequirements);
@@ -10934,7 +12236,7 @@ const VkDeviceImageMemoryRequirements* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkDeviceImageMemoryRequirements
     VkDeviceImageMemoryRequirements _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkDeviceImageMemoryRequirements(base, (VkDeviceImageMemoryRequirements *) pInfo__, pInfo);
+    unwrap_VkDeviceImageMemoryRequirements(&temp, base, (VkDeviceImageMemoryRequirements *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetDeviceImageMemoryRequirements
     VK_CMD_LOGA("  in: pInfo: VkDeviceImageMemoryRequirements*");
@@ -10948,8 +12250,9 @@ const VkDeviceImageMemoryRequirements* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements2
-#warning TODO: Repack struct+ptr+out GetDeviceImageMemoryRequirements EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75c0e94bebb0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDeviceImageMemoryRequirements EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7f0cb31dab60>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -10960,6 +12263,8 @@ wrapper_tramp_GetDeviceImageSparseMemoryRequirements(
     uint32_t* pSparseMemoryRequirementCount,
     VkSparseImageMemoryRequirements2* pSparseMemoryRequirements)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceImageSparseMemoryRequirements");
 WLOGA("GetDeviceImageSparseMemoryRequirements(device: %p, pInfo: %p, pSparseMemoryRequirementCount: %p, pSparseMemoryRequirements: %p)", device, pInfo, pSparseMemoryRequirementCount, pSparseMemoryRequirements);
@@ -10971,7 +12276,7 @@ const VkDeviceImageMemoryRequirements* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkDeviceImageMemoryRequirements
     VkDeviceImageMemoryRequirements _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkDeviceImageMemoryRequirements(base, (VkDeviceImageMemoryRequirements *) pInfo__, pInfo);
+    unwrap_VkDeviceImageMemoryRequirements(&temp, base, (VkDeviceImageMemoryRequirements *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetDeviceImageSparseMemoryRequirements
     VK_CMD_LOGA("  in: pInfo: VkDeviceImageMemoryRequirements*");
@@ -10994,8 +12299,9 @@ const VkDeviceImageMemoryRequirements* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSparseImageMemoryRequirements2
-#warning TODO: Repack struct+array+out GetDeviceImageSparseMemoryRequirements EntrypointParam(type='VkSparseImageMemoryRequirements2', name='pSparseMemoryRequirements', decl='VkSparseImageMemoryRequirements2* pSparseMemoryRequirements', len='pSparseMemoryRequirementCount', elem=<Element 'param' at 0x75c0e94bf290>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetDeviceImageSparseMemoryRequirements EntrypointParam(type='VkSparseImageMemoryRequirements2', name='pSparseMemoryRequirements', decl='VkSparseImageMemoryRequirements2* pSparseMemoryRequirements', len='pSparseMemoryRequirementCount', elem=<Element 'param' at 0x7f0cb31db240>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -11006,6 +12312,8 @@ wrapper_tramp_CreateSamplerYcbcrConversion(
     const VkAllocationCallbacks* pAllocator,
     VkSamplerYcbcrConversion* pYcbcrConversion)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateSamplerYcbcrConversion");
 WLOGA("CreateSamplerYcbcrConversion(device: %p, pCreateInfo: %p, pAllocator: %p, pYcbcrConversion: %p)", device, pCreateInfo, pAllocator, pYcbcrConversion);
@@ -11017,7 +12325,7 @@ const VkSamplerYcbcrConversionCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkSamplerYcbcrConversionCreateInfo
     VkSamplerYcbcrConversionCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkSamplerYcbcrConversionCreateInfo(base, (VkSamplerYcbcrConversionCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkSamplerYcbcrConversionCreateInfo(&temp, base, (VkSamplerYcbcrConversionCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateSamplerYcbcrConversion
     VK_CMD_LOGA("  in: pCreateInfo: VkSamplerYcbcrConversionCreateInfo*");
@@ -11028,7 +12336,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateSamplerYcbcrConversion
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -11037,14 +12345,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateSamplerYcbcrConversion(base->dispatch_handle, pCreateInfo__, pAllocator__, pYcbcrConversion);
 #ifdef NEEDS_PRINTING_CreateSamplerYcbcrConversion
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateSamplerYcbcrConversion
     VK_CMD_LOGA("  out: *pYcbcrConversion: VkSamplerYcbcrConversion = %x", (int64_t)*pYcbcrConversion);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSamplerYcbcrConversion
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateSamplerYcbcrConversion with (device: %p,pCreateInfo: %p,pAllocator: %p,pYcbcrConversion: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pYcbcrConversion, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateSamplerYcbcrConversion with (device: %p,pCreateInfo: %p,pAllocator: %p,pYcbcrConversion: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pYcbcrConversion, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -11054,6 +12367,8 @@ wrapper_tramp_DestroySamplerYcbcrConversion(
     VkSamplerYcbcrConversion ycbcrConversion,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroySamplerYcbcrConversion");
 WLOGA("DestroySamplerYcbcrConversion(device: %p, ycbcrConversion: %x, pAllocator: %p)", device, ycbcrConversion, pAllocator);
@@ -11072,7 +12387,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroySamplerYcbcrConversion
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -11081,6 +12396,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroySamplerYcbcrConversion(base->dispatch_handle, ycbcrConversion__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -11090,6 +12406,8 @@ wrapper_tramp_GetDeviceQueue2(
     const VkDeviceQueueInfo2* pQueueInfo,
     VkQueue* pQueue)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceQueue2");
 WLOGA("GetDeviceQueue2(device: %p)", device, pQueueInfo, pQueue);
@@ -11099,6 +12417,7 @@ WLOGA("GetDeviceQueue2(device: %p)", device, pQueueInfo, pQueue);
 #endif
     base->dispatch_table.GetDeviceQueue2(base->dispatch_handle, pQueueInfo, pQueue);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -11109,6 +12428,8 @@ wrapper_tramp_CreateValidationCacheEXT(
     const VkAllocationCallbacks* pAllocator,
     VkValidationCacheEXT* pValidationCache)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateValidationCacheEXT");
 WLOGA("CreateValidationCacheEXT(device: %p, pCreateInfo: %p, pAllocator: %p, pValidationCache: %p)", device, pCreateInfo, pAllocator, pValidationCache);
@@ -11120,7 +12441,7 @@ const VkValidationCacheCreateInfoEXT* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkValidationCacheCreateInfoEXT
     VkValidationCacheCreateInfoEXT _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkValidationCacheCreateInfoEXT(base, (VkValidationCacheCreateInfoEXT *) pCreateInfo__, pCreateInfo);
+    unwrap_VkValidationCacheCreateInfoEXT(&temp, base, (VkValidationCacheCreateInfoEXT *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateValidationCacheEXT
     VK_CMD_LOGA("  in: pCreateInfo: VkValidationCacheCreateInfoEXT*");
@@ -11131,7 +12452,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateValidationCacheEXT
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -11140,14 +12461,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateValidationCacheEXT(base->dispatch_handle, pCreateInfo__, pAllocator__, pValidationCache);
 #ifdef NEEDS_PRINTING_CreateValidationCacheEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateValidationCacheEXT
     VK_CMD_LOGA("  out: *pValidationCache: VkValidationCacheEXT = %x", (int64_t)*pValidationCache);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkValidationCacheEXT
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateValidationCacheEXT with (device: %p,pCreateInfo: %p,pAllocator: %p,pValidationCache: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pValidationCache, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateValidationCacheEXT with (device: %p,pCreateInfo: %p,pAllocator: %p,pValidationCache: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pValidationCache, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -11157,6 +12483,8 @@ wrapper_tramp_DestroyValidationCacheEXT(
     VkValidationCacheEXT validationCache,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyValidationCacheEXT");
 WLOGA("DestroyValidationCacheEXT(device: %p, validationCache: %x, pAllocator: %p)", device, validationCache, pAllocator);
@@ -11175,7 +12503,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyValidationCacheEXT
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -11184,6 +12512,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyValidationCacheEXT(base->dispatch_handle, validationCache__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -11194,6 +12523,8 @@ wrapper_tramp_GetValidationCacheDataEXT(
     size_t* pDataSize,
     void* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetValidationCacheDataEXT");
 WLOGA("GetValidationCacheDataEXT(device: %p, validationCache: %x, pDataSize: %p, pData: %p)", device, validationCache, pDataSize, pData);
@@ -11210,23 +12541,25 @@ VkValidationCacheEXT validationCache__ = validationCache;
 #endif
     VkResult result = base->dispatch_table.GetValidationCacheDataEXT(base->dispatch_handle, validationCache__, pDataSize, pData);
 #ifdef NEEDS_PRINTING_GetValidationCacheDataEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetValidationCacheDataEXT
     VK_CMD_LOGA("  out: *pDataSize: size_t = %x", (int64_t)*pDataSize);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_size_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetValidationCacheDataEXT with (device: %p,validationCache: %x,pDataSize: %p,pData: %p) failed with result: %d", base->dispatch_handle,validationCache__,pDataSize,pData, result);
-}
 #ifdef NEEDS_PRINTING_GetValidationCacheDataEXT
     VK_CMD_LOGA("  out: *pData: void = %x", (int64_t)*pData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetValidationCacheDataEXT with (device: %p,validationCache: %x,pDataSize: %p,pData: %p) failed with result: %d", base->dispatch_handle,validationCache__,pDataSize,pData, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetValidationCacheDataEXT with (device: %p,validationCache: %x,pDataSize: %p,pData: %p) failed with result: %d", base->dispatch_handle,validationCache__,pDataSize,pData, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -11237,6 +12570,8 @@ wrapper_tramp_MergeValidationCachesEXT(
     uint32_t srcCacheCount,
     const VkValidationCacheEXT* pSrcCaches)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("MergeValidationCachesEXT");
 WLOGA("MergeValidationCachesEXT(device: %p, dstCache: %x, srcCacheCount: %x, pSrcCaches: %x)", device, dstCache, srcCacheCount, pSrcCaches);
@@ -11266,7 +12601,14 @@ const VkValidationCacheEXT* pSrcCaches__ = pSrcCaches;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.MergeValidationCachesEXT(base->dispatch_handle, dstCache__, srcCacheCount__, pSrcCaches__);
-
+#ifdef NEEDS_PRINTING_MergeValidationCachesEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to MergeValidationCachesEXT with (device: %p,dstCache: %x,srcCacheCount: %x,pSrcCaches: %x) failed with result: %d", base->dispatch_handle,dstCache__,srcCacheCount__,pSrcCaches__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -11276,6 +12618,8 @@ wrapper_tramp_GetDescriptorSetLayoutSupport(
     const VkDescriptorSetLayoutCreateInfo* pCreateInfo,
     VkDescriptorSetLayoutSupport* pSupport)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDescriptorSetLayoutSupport");
 WLOGA("GetDescriptorSetLayoutSupport(device: %p, pCreateInfo: %p, pSupport: %p)", device, pCreateInfo, pSupport);
@@ -11287,7 +12631,7 @@ const VkDescriptorSetLayoutCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkDescriptorSetLayoutCreateInfo
     VkDescriptorSetLayoutCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkDescriptorSetLayoutCreateInfo(base, (VkDescriptorSetLayoutCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkDescriptorSetLayoutCreateInfo(&temp, base, (VkDescriptorSetLayoutCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetDescriptorSetLayoutSupport
     VK_CMD_LOGA("  in: pCreateInfo: VkDescriptorSetLayoutCreateInfo*");
@@ -11301,8 +12645,9 @@ const VkDescriptorSetLayoutCreateInfo* pCreateInfo__ = pCreateInfo;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDescriptorSetLayoutSupport
-#warning TODO: Repack struct+ptr+out GetDescriptorSetLayoutSupport EntrypointParam(type='VkDescriptorSetLayoutSupport', name='pSupport', decl='VkDescriptorSetLayoutSupport* pSupport', len=None, elem=<Element 'param' at 0x75c0e94c5e40>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDescriptorSetLayoutSupport EntrypointParam(type='VkDescriptorSetLayoutSupport', name='pSupport', decl='VkDescriptorSetLayoutSupport* pSupport', len=None, elem=<Element 'param' at 0x7f0cb31e1df0>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     #ifdef VK_USE_PLATFORM_ANDROID_KHR
@@ -11314,6 +12659,8 @@ wrapper_tramp_GetSwapchainGrallocUsageANDROID(
     VkImageUsageFlags imageUsage,
     int* grallocUsage)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetSwapchainGrallocUsageANDROID");
 WLOGA("GetSwapchainGrallocUsageANDROID(device: %p, format: %x, imageUsage: %x, grallocUsage: %p)", device, format, imageUsage, grallocUsage);
@@ -11337,14 +12684,19 @@ VkImageUsageFlags imageUsage__ = imageUsage;
 #endif
     VkResult result = base->dispatch_table.GetSwapchainGrallocUsageANDROID(base->dispatch_handle, format__, imageUsage__, grallocUsage);
 #ifdef NEEDS_PRINTING_GetSwapchainGrallocUsageANDROID
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetSwapchainGrallocUsageANDROID
     VK_CMD_LOGA("  out: *grallocUsage: int = %x", (int64_t)*grallocUsage);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_int
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetSwapchainGrallocUsageANDROID with (device: %p,format: %x,imageUsage: %x,grallocUsage: %p) failed with result: %d", base->dispatch_handle,format__,imageUsage__,grallocUsage, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetSwapchainGrallocUsageANDROID with (device: %p,format: %x,imageUsage: %x,grallocUsage: %p) failed with result: %d", base->dispatch_handle,format__,imageUsage__,grallocUsage, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -11359,6 +12711,8 @@ wrapper_tramp_GetSwapchainGrallocUsage2ANDROID(
     uint64_t* grallocConsumerUsage,
     uint64_t* grallocProducerUsage)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetSwapchainGrallocUsage2ANDROID");
 WLOGA("GetSwapchainGrallocUsage2ANDROID(device: %p, format: %x, imageUsage: %x, swapchainImageUsage: %x, grallocConsumerUsage: %p, grallocProducerUsage: %p)", device, format, imageUsage, swapchainImageUsage, grallocConsumerUsage, grallocProducerUsage);
@@ -11389,23 +12743,25 @@ VkSwapchainImageUsageFlagsANDROID swapchainImageUsage__ = swapchainImageUsage;
 #endif
     VkResult result = base->dispatch_table.GetSwapchainGrallocUsage2ANDROID(base->dispatch_handle, format__, imageUsage__, swapchainImageUsage__, grallocConsumerUsage, grallocProducerUsage);
 #ifdef NEEDS_PRINTING_GetSwapchainGrallocUsage2ANDROID
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetSwapchainGrallocUsage2ANDROID
     VK_CMD_LOGA("  out: *grallocConsumerUsage: uint64_t = %x", (int64_t)*grallocConsumerUsage);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint64_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetSwapchainGrallocUsage2ANDROID with (device: %p,format: %x,imageUsage: %x,swapchainImageUsage: %x,grallocConsumerUsage: %p,grallocProducerUsage: %p) failed with result: %d", base->dispatch_handle,format__,imageUsage__,swapchainImageUsage__,grallocConsumerUsage,grallocProducerUsage, result);
-}
 #ifdef NEEDS_PRINTING_GetSwapchainGrallocUsage2ANDROID
     VK_CMD_LOGA("  out: *grallocProducerUsage: uint64_t = %x", (int64_t)*grallocProducerUsage);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint64_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetSwapchainGrallocUsage2ANDROID with (device: %p,format: %x,imageUsage: %x,swapchainImageUsage: %x,grallocConsumerUsage: %p,grallocProducerUsage: %p) failed with result: %d", base->dispatch_handle,format__,imageUsage__,swapchainImageUsage__,grallocConsumerUsage,grallocProducerUsage, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetSwapchainGrallocUsage2ANDROID with (device: %p,format: %x,imageUsage: %x,swapchainImageUsage: %x,grallocConsumerUsage: %p,grallocProducerUsage: %p) failed with result: %d", base->dispatch_handle,format__,imageUsage__,swapchainImageUsage__,grallocConsumerUsage,grallocProducerUsage, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -11419,6 +12775,8 @@ wrapper_tramp_AcquireImageANDROID(
     VkSemaphore semaphore,
     VkFence fence)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("AcquireImageANDROID");
 WLOGA("AcquireImageANDROID(device: %p, image: %x, nativeFenceFd: %x, semaphore: %x, fence: %x)", device, image, nativeFenceFd, semaphore, fence);
@@ -11455,7 +12813,14 @@ VkFence fence__ = fence;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.AcquireImageANDROID(base->dispatch_handle, image__, nativeFenceFd__, semaphore__, fence__);
-
+#ifdef NEEDS_PRINTING_AcquireImageANDROID
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to AcquireImageANDROID with (device: %p,image: %x,nativeFenceFd: %x,semaphore: %x,fence: %x) failed with result: %d", base->dispatch_handle,image__,nativeFenceFd__,semaphore__,fence__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -11469,6 +12834,8 @@ wrapper_tramp_QueueSignalReleaseImageANDROID(
     VkImage image,
     int* pNativeFenceFd)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_queue, base, queue);
     VK_CMD_LOG("QueueSignalReleaseImageANDROID");
 WLOGA("QueueSignalReleaseImageANDROID(queue: %p, waitSemaphoreCount: %x, pWaitSemaphores: %x, image: %x, pNativeFenceFd: %p)", queue, waitSemaphoreCount, pWaitSemaphores, image, pNativeFenceFd);
@@ -11499,14 +12866,19 @@ VkImage image__ = image;
 #endif
     VkResult result = base->device->dispatch_table.QueueSignalReleaseImageANDROID(base->dispatch_handle, waitSemaphoreCount__, pWaitSemaphores__, image__, pNativeFenceFd);
 #ifdef NEEDS_PRINTING_QueueSignalReleaseImageANDROID
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_QueueSignalReleaseImageANDROID
     VK_CMD_LOGA("  out: *pNativeFenceFd: int = %x", (int64_t)*pNativeFenceFd);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_int
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to QueueSignalReleaseImageANDROID with (queue: %p,waitSemaphoreCount: %x,pWaitSemaphores: %x,image: %x,pNativeFenceFd: %p) failed with result: %d", base->dispatch_handle,waitSemaphoreCount__,pWaitSemaphores__,image__,pNativeFenceFd, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to QueueSignalReleaseImageANDROID with (queue: %p,waitSemaphoreCount: %x,pWaitSemaphores: %x,image: %x,pNativeFenceFd: %p) failed with result: %d", base->dispatch_handle,waitSemaphoreCount__,pWaitSemaphores__,image__,pNativeFenceFd, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -11520,6 +12892,8 @@ wrapper_tramp_GetShaderInfoAMD(
     size_t* pInfoSize,
     void* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetShaderInfoAMD");
 WLOGA("GetShaderInfoAMD(device: %p, pipeline: %x, shaderStage: %x, infoType: %x, pInfoSize: %p, pInfo: %p)", device, pipeline, shaderStage, infoType, pInfoSize, pInfo);
@@ -11550,23 +12924,25 @@ VkShaderInfoTypeAMD infoType__ = infoType;
 #endif
     VkResult result = base->dispatch_table.GetShaderInfoAMD(base->dispatch_handle, pipeline__, shaderStage__, infoType__, pInfoSize, pInfo);
 #ifdef NEEDS_PRINTING_GetShaderInfoAMD
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetShaderInfoAMD
     VK_CMD_LOGA("  out: *pInfoSize: size_t = %x", (int64_t)*pInfoSize);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_size_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetShaderInfoAMD with (device: %p,pipeline: %x,shaderStage: %x,infoType: %x,pInfoSize: %p,pInfo: %p) failed with result: %d", base->dispatch_handle,pipeline__,shaderStage__,infoType__,pInfoSize,pInfo, result);
-}
 #ifdef NEEDS_PRINTING_GetShaderInfoAMD
     VK_CMD_LOGA("  out: *pInfo: void = %x", (int64_t)*pInfo);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetShaderInfoAMD with (device: %p,pipeline: %x,shaderStage: %x,infoType: %x,pInfoSize: %p,pInfo: %p) failed with result: %d", base->dispatch_handle,pipeline__,shaderStage__,infoType__,pInfoSize,pInfo, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetShaderInfoAMD with (device: %p,pipeline: %x,shaderStage: %x,infoType: %x,pInfoSize: %p,pInfo: %p) failed with result: %d", base->dispatch_handle,pipeline__,shaderStage__,infoType__,pInfoSize,pInfo, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -11576,6 +12952,8 @@ wrapper_tramp_SetLocalDimmingAMD(
     VkSwapchainKHR swapChain,
     VkBool32 localDimmingEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("SetLocalDimmingAMD");
 WLOGA("SetLocalDimmingAMD(device: %p, swapChain: %x, localDimmingEnable: %x)", device, swapChain, localDimmingEnable);
@@ -11599,6 +12977,7 @@ VkBool32 localDimmingEnable__ = localDimmingEnable;
 #endif
     base->dispatch_table.SetLocalDimmingAMD(base->dispatch_handle, swapChain__, localDimmingEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
         
@@ -11610,6 +12989,8 @@ wrapper_tramp_GetCalibratedTimestampsKHR(
     uint64_t* pTimestamps,
     uint64_t* pMaxDeviation)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetCalibratedTimestampsKHR");
 WLOGA("GetCalibratedTimestampsKHR(device: %p, timestampCount: %x, pTimestampInfos: %p, pTimestamps: %p, pMaxDeviation: %p)", device, timestampCount, pTimestampInfos, pTimestamps, pMaxDeviation);
@@ -11628,7 +13009,7 @@ const VkCalibratedTimestampInfoKHR* pTimestampInfos__ = pTimestampInfos;
 #ifdef NEEDS_UNWRAPPING_VkCalibratedTimestampInfoKHR
     pTimestampInfos__ = alloca(timestampCount * sizeof(VkCalibratedTimestampInfoKHR));
     for (int i = 0; i < timestampCount; i++)
-        unwrap_VkCalibratedTimestampInfoKHR(base, (VkCalibratedTimestampInfoKHR *) &pTimestampInfos__[i], &pTimestampInfos[i]);
+        unwrap_VkCalibratedTimestampInfoKHR(&temp, base, (VkCalibratedTimestampInfoKHR *) &pTimestampInfos__[i], &pTimestampInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_GetCalibratedTimestampsKHR
     VK_CMD_LOGA("  in: pTimestampInfos[]: VkCalibratedTimestampInfoKHR");
@@ -11640,23 +13021,25 @@ const VkCalibratedTimestampInfoKHR* pTimestampInfos__ = pTimestampInfos;
 #endif
     VkResult result = base->dispatch_table.GetCalibratedTimestampsKHR(base->dispatch_handle, timestampCount__, pTimestampInfos__, pTimestamps, pMaxDeviation);
 #ifdef NEEDS_PRINTING_GetCalibratedTimestampsKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetCalibratedTimestampsKHR
     VK_CMD_LOGA("  out: *pTimestamps: uint64_t = %x", (int64_t)*pTimestamps);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint64_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetCalibratedTimestampsKHR with (device: %p,timestampCount: %x,pTimestampInfos: %p,pTimestamps: %p,pMaxDeviation: %p) failed with result: %d", base->dispatch_handle,timestampCount__,pTimestampInfos__,pTimestamps,pMaxDeviation, result);
-}
 #ifdef NEEDS_PRINTING_GetCalibratedTimestampsKHR
     VK_CMD_LOGA("  out: *pMaxDeviation: uint64_t = %x", (int64_t)*pMaxDeviation);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint64_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetCalibratedTimestampsKHR with (device: %p,timestampCount: %x,pTimestampInfos: %p,pTimestamps: %p,pMaxDeviation: %p) failed with result: %d", base->dispatch_handle,timestampCount__,pTimestampInfos__,pTimestamps,pMaxDeviation, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetCalibratedTimestampsKHR with (device: %p,timestampCount: %x,pTimestampInfos: %p,pTimestamps: %p,pMaxDeviation: %p) failed with result: %d", base->dispatch_handle,timestampCount__,pTimestampInfos__,pTimestamps,pMaxDeviation, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -11665,6 +13048,8 @@ wrapper_tramp_SetDebugUtilsObjectNameEXT(
     VkDevice device,
     const VkDebugUtilsObjectNameInfoEXT* pNameInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("SetDebugUtilsObjectNameEXT");
 WLOGA("SetDebugUtilsObjectNameEXT(device: %p, pNameInfo: %p)", device, pNameInfo);
@@ -11676,7 +13061,7 @@ const VkDebugUtilsObjectNameInfoEXT* pNameInfo__ = pNameInfo;
 #ifdef NEEDS_UNWRAPPING_VkDebugUtilsObjectNameInfoEXT
     VkDebugUtilsObjectNameInfoEXT _w_pNameInfo = { 0 };
     pNameInfo__ = &_w_pNameInfo;
-    unwrap_VkDebugUtilsObjectNameInfoEXT(base, (VkDebugUtilsObjectNameInfoEXT *) pNameInfo__, pNameInfo);
+    unwrap_VkDebugUtilsObjectNameInfoEXT(&temp, base, (VkDebugUtilsObjectNameInfoEXT *) pNameInfo__, pNameInfo);
 #endif
 #ifdef NEEDS_PRINTING_SetDebugUtilsObjectNameEXT
     VK_CMD_LOGA("  in: pNameInfo: VkDebugUtilsObjectNameInfoEXT*");
@@ -11684,7 +13069,14 @@ const VkDebugUtilsObjectNameInfoEXT* pNameInfo__ = pNameInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.SetDebugUtilsObjectNameEXT(base->dispatch_handle, pNameInfo__);
-
+#ifdef NEEDS_PRINTING_SetDebugUtilsObjectNameEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to SetDebugUtilsObjectNameEXT with (device: %p,pNameInfo: %p) failed with result: %d", base->dispatch_handle,pNameInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -11693,6 +13085,8 @@ wrapper_tramp_SetDebugUtilsObjectTagEXT(
     VkDevice device,
     const VkDebugUtilsObjectTagInfoEXT* pTagInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("SetDebugUtilsObjectTagEXT");
 WLOGA("SetDebugUtilsObjectTagEXT(device: %p, pTagInfo: %p)", device, pTagInfo);
@@ -11704,7 +13098,7 @@ const VkDebugUtilsObjectTagInfoEXT* pTagInfo__ = pTagInfo;
 #ifdef NEEDS_UNWRAPPING_VkDebugUtilsObjectTagInfoEXT
     VkDebugUtilsObjectTagInfoEXT _w_pTagInfo = { 0 };
     pTagInfo__ = &_w_pTagInfo;
-    unwrap_VkDebugUtilsObjectTagInfoEXT(base, (VkDebugUtilsObjectTagInfoEXT *) pTagInfo__, pTagInfo);
+    unwrap_VkDebugUtilsObjectTagInfoEXT(&temp, base, (VkDebugUtilsObjectTagInfoEXT *) pTagInfo__, pTagInfo);
 #endif
 #ifdef NEEDS_PRINTING_SetDebugUtilsObjectTagEXT
     VK_CMD_LOGA("  in: pTagInfo: VkDebugUtilsObjectTagInfoEXT*");
@@ -11712,7 +13106,14 @@ const VkDebugUtilsObjectTagInfoEXT* pTagInfo__ = pTagInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.SetDebugUtilsObjectTagEXT(base->dispatch_handle, pTagInfo__);
-
+#ifdef NEEDS_PRINTING_SetDebugUtilsObjectTagEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to SetDebugUtilsObjectTagEXT with (device: %p,pTagInfo: %p) failed with result: %d", base->dispatch_handle,pTagInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -11721,6 +13122,8 @@ wrapper_tramp_QueueBeginDebugUtilsLabelEXT(
     VkQueue queue,
     const VkDebugUtilsLabelEXT* pLabelInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_queue, base, queue);
     VK_CMD_LOG("QueueBeginDebugUtilsLabelEXT");
 WLOGA("QueueBeginDebugUtilsLabelEXT(queue: %p, pLabelInfo: %p)", queue, pLabelInfo);
@@ -11732,7 +13135,7 @@ const VkDebugUtilsLabelEXT* pLabelInfo__ = pLabelInfo;
 #ifdef NEEDS_UNWRAPPING_VkDebugUtilsLabelEXT
     VkDebugUtilsLabelEXT _w_pLabelInfo = { 0 };
     pLabelInfo__ = &_w_pLabelInfo;
-    unwrap_VkDebugUtilsLabelEXT(base->device, (VkDebugUtilsLabelEXT *) pLabelInfo__, pLabelInfo);
+    unwrap_VkDebugUtilsLabelEXT(&temp, base->device, (VkDebugUtilsLabelEXT *) pLabelInfo__, pLabelInfo);
 #endif
 #ifdef NEEDS_PRINTING_QueueBeginDebugUtilsLabelEXT
     VK_CMD_LOGA("  in: pLabelInfo: VkDebugUtilsLabelEXT*");
@@ -11741,6 +13144,7 @@ const VkDebugUtilsLabelEXT* pLabelInfo__ = pLabelInfo;
 #endif
     base->device->dispatch_table.QueueBeginDebugUtilsLabelEXT(base->dispatch_handle, pLabelInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -11748,6 +13152,8 @@ static VKAPI_ATTR void VKAPI_CALL
 wrapper_tramp_QueueEndDebugUtilsLabelEXT(
     VkQueue queue)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_queue, base, queue);
     VK_CMD_LOG("QueueEndDebugUtilsLabelEXT");
 WLOGA("QueueEndDebugUtilsLabelEXT(queue: %p)", queue);
@@ -11757,6 +13163,7 @@ WLOGA("QueueEndDebugUtilsLabelEXT(queue: %p)", queue);
 #endif
     base->device->dispatch_table.QueueEndDebugUtilsLabelEXT(base->dispatch_handle);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -11765,6 +13172,8 @@ wrapper_tramp_QueueInsertDebugUtilsLabelEXT(
     VkQueue queue,
     const VkDebugUtilsLabelEXT* pLabelInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_queue, base, queue);
     VK_CMD_LOG("QueueInsertDebugUtilsLabelEXT");
 WLOGA("QueueInsertDebugUtilsLabelEXT(queue: %p, pLabelInfo: %p)", queue, pLabelInfo);
@@ -11776,7 +13185,7 @@ const VkDebugUtilsLabelEXT* pLabelInfo__ = pLabelInfo;
 #ifdef NEEDS_UNWRAPPING_VkDebugUtilsLabelEXT
     VkDebugUtilsLabelEXT _w_pLabelInfo = { 0 };
     pLabelInfo__ = &_w_pLabelInfo;
-    unwrap_VkDebugUtilsLabelEXT(base->device, (VkDebugUtilsLabelEXT *) pLabelInfo__, pLabelInfo);
+    unwrap_VkDebugUtilsLabelEXT(&temp, base->device, (VkDebugUtilsLabelEXT *) pLabelInfo__, pLabelInfo);
 #endif
 #ifdef NEEDS_PRINTING_QueueInsertDebugUtilsLabelEXT
     VK_CMD_LOGA("  in: pLabelInfo: VkDebugUtilsLabelEXT*");
@@ -11785,6 +13194,7 @@ const VkDebugUtilsLabelEXT* pLabelInfo__ = pLabelInfo;
 #endif
     base->device->dispatch_table.QueueInsertDebugUtilsLabelEXT(base->dispatch_handle, pLabelInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -11793,6 +13203,8 @@ wrapper_tramp_CmdBeginDebugUtilsLabelEXT(
     VkCommandBuffer commandBuffer,
     const VkDebugUtilsLabelEXT* pLabelInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBeginDebugUtilsLabelEXT");
 WLOGA("CmdBeginDebugUtilsLabelEXT(commandBuffer: %p, pLabelInfo: %p)", commandBuffer, pLabelInfo);
@@ -11804,7 +13216,7 @@ const VkDebugUtilsLabelEXT* pLabelInfo__ = pLabelInfo;
 #ifdef NEEDS_UNWRAPPING_VkDebugUtilsLabelEXT
     VkDebugUtilsLabelEXT _w_pLabelInfo = { 0 };
     pLabelInfo__ = &_w_pLabelInfo;
-    unwrap_VkDebugUtilsLabelEXT(base->device, (VkDebugUtilsLabelEXT *) pLabelInfo__, pLabelInfo);
+    unwrap_VkDebugUtilsLabelEXT(&temp, base->device, (VkDebugUtilsLabelEXT *) pLabelInfo__, pLabelInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdBeginDebugUtilsLabelEXT
     VK_CMD_LOGA("  in: pLabelInfo: VkDebugUtilsLabelEXT*");
@@ -11813,6 +13225,7 @@ const VkDebugUtilsLabelEXT* pLabelInfo__ = pLabelInfo;
 #endif
     base->device->dispatch_table.CmdBeginDebugUtilsLabelEXT(base->dispatch_handle, pLabelInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -11820,6 +13233,8 @@ static VKAPI_ATTR void VKAPI_CALL
 wrapper_tramp_CmdEndDebugUtilsLabelEXT(
     VkCommandBuffer commandBuffer)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdEndDebugUtilsLabelEXT");
 WLOGA("CmdEndDebugUtilsLabelEXT(commandBuffer: %p)", commandBuffer);
@@ -11829,6 +13244,7 @@ WLOGA("CmdEndDebugUtilsLabelEXT(commandBuffer: %p)", commandBuffer);
 #endif
     base->device->dispatch_table.CmdEndDebugUtilsLabelEXT(base->dispatch_handle);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -11837,6 +13253,8 @@ wrapper_tramp_CmdInsertDebugUtilsLabelEXT(
     VkCommandBuffer commandBuffer,
     const VkDebugUtilsLabelEXT* pLabelInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdInsertDebugUtilsLabelEXT");
 WLOGA("CmdInsertDebugUtilsLabelEXT(commandBuffer: %p, pLabelInfo: %p)", commandBuffer, pLabelInfo);
@@ -11848,7 +13266,7 @@ const VkDebugUtilsLabelEXT* pLabelInfo__ = pLabelInfo;
 #ifdef NEEDS_UNWRAPPING_VkDebugUtilsLabelEXT
     VkDebugUtilsLabelEXT _w_pLabelInfo = { 0 };
     pLabelInfo__ = &_w_pLabelInfo;
-    unwrap_VkDebugUtilsLabelEXT(base->device, (VkDebugUtilsLabelEXT *) pLabelInfo__, pLabelInfo);
+    unwrap_VkDebugUtilsLabelEXT(&temp, base->device, (VkDebugUtilsLabelEXT *) pLabelInfo__, pLabelInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdInsertDebugUtilsLabelEXT
     VK_CMD_LOGA("  in: pLabelInfo: VkDebugUtilsLabelEXT*");
@@ -11857,6 +13275,7 @@ const VkDebugUtilsLabelEXT* pLabelInfo__ = pLabelInfo;
 #endif
     base->device->dispatch_table.CmdInsertDebugUtilsLabelEXT(base->dispatch_handle, pLabelInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
             
@@ -11867,6 +13286,8 @@ wrapper_tramp_GetMemoryHostPointerPropertiesEXT(
     const void* pHostPointer,
     VkMemoryHostPointerPropertiesEXT* pMemoryHostPointerProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetMemoryHostPointerPropertiesEXT");
 WLOGA("GetMemoryHostPointerPropertiesEXT(device: %p, handleType: %x, pHostPointer: %x, pMemoryHostPointerProperties: %p)", device, handleType, pHostPointer, pMemoryHostPointerProperties);
@@ -11890,16 +13311,21 @@ const void* pHostPointer__ = pHostPointer;
 #endif
     VkResult result = base->dispatch_table.GetMemoryHostPointerPropertiesEXT(base->dispatch_handle, handleType__, pHostPointer__, pMemoryHostPointerProperties);
 #ifdef NEEDS_PRINTING_GetMemoryHostPointerPropertiesEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetMemoryHostPointerPropertiesEXT
     VK_CMD_LOGA("  out: pMemoryHostPointerProperties: VkMemoryHostPointerPropertiesEXT*");
     VK_PRINT_VkMemoryHostPointerPropertiesEXT("    ", pMemoryHostPointerProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMemoryHostPointerPropertiesEXT
-#warning TODO: Repack struct+ptr+out GetMemoryHostPointerPropertiesEXT EntrypointParam(type='VkMemoryHostPointerPropertiesEXT', name='pMemoryHostPointerProperties', decl='VkMemoryHostPointerPropertiesEXT* pMemoryHostPointerProperties', len=None, elem=<Element 'param' at 0x75c0e94d8180>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetMemoryHostPointerPropertiesEXT EntrypointParam(type='VkMemoryHostPointerPropertiesEXT', name='pMemoryHostPointerProperties', decl='VkMemoryHostPointerPropertiesEXT* pMemoryHostPointerProperties', len=None, elem=<Element 'param' at 0x7f0cb2ff8130>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetMemoryHostPointerPropertiesEXT with (device: %p,handleType: %x,pHostPointer: %x,pMemoryHostPointerProperties: %p) failed with result: %d", base->dispatch_handle,handleType__,pHostPointer__,pMemoryHostPointerProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetMemoryHostPointerPropertiesEXT with (device: %p,handleType: %x,pHostPointer: %x,pMemoryHostPointerProperties: %p) failed with result: %d", base->dispatch_handle,handleType__,pHostPointer__,pMemoryHostPointerProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -11911,6 +13337,8 @@ wrapper_tramp_CmdWriteBufferMarkerAMD(
     VkDeviceSize dstOffset,
     uint32_t marker)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdWriteBufferMarkerAMD");
 WLOGA("CmdWriteBufferMarkerAMD(commandBuffer: %p, pipelineStage: %x, dstBuffer: %x, dstOffset: %x, marker: %x)", commandBuffer, pipelineStage, dstBuffer, dstOffset, marker);
@@ -11948,6 +13376,7 @@ uint32_t marker__ = marker;
 #endif
     base->device->dispatch_table.CmdWriteBufferMarkerAMD(base->dispatch_handle, pipelineStage__, dstBuffer__, dstOffset__, marker__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -11958,6 +13387,8 @@ wrapper_tramp_CreateRenderPass2(
     const VkAllocationCallbacks* pAllocator,
     VkRenderPass* pRenderPass)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateRenderPass2");
 WLOGA("CreateRenderPass2(device: %p, pCreateInfo: %p, pAllocator: %p, pRenderPass: %p)", device, pCreateInfo, pAllocator, pRenderPass);
@@ -11969,7 +13400,7 @@ const VkRenderPassCreateInfo2* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkRenderPassCreateInfo2
     VkRenderPassCreateInfo2 _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkRenderPassCreateInfo2(base, (VkRenderPassCreateInfo2 *) pCreateInfo__, pCreateInfo);
+    unwrap_VkRenderPassCreateInfo2(&temp, base, (VkRenderPassCreateInfo2 *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateRenderPass2
     VK_CMD_LOGA("  in: pCreateInfo: VkRenderPassCreateInfo2*");
@@ -11980,7 +13411,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateRenderPass2
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -11989,14 +13420,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateRenderPass2(base->dispatch_handle, pCreateInfo__, pAllocator__, pRenderPass);
 #ifdef NEEDS_PRINTING_CreateRenderPass2
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateRenderPass2
     VK_CMD_LOGA("  out: *pRenderPass: VkRenderPass = %x", (int64_t)*pRenderPass);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkRenderPass
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateRenderPass2 with (device: %p,pCreateInfo: %p,pAllocator: %p,pRenderPass: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pRenderPass, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateRenderPass2 with (device: %p,pCreateInfo: %p,pAllocator: %p,pRenderPass: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pRenderPass, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -12006,6 +13442,8 @@ wrapper_tramp_CmdBeginRenderPass2(
     const VkRenderPassBeginInfo*      pRenderPassBegin,
     const VkSubpassBeginInfo*      pSubpassBeginInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBeginRenderPass2");
 WLOGA("CmdBeginRenderPass2(commandBuffer: %p, pRenderPassBegin: %p, pSubpassBeginInfo: %p)", commandBuffer, pRenderPassBegin, pSubpassBeginInfo);
@@ -12017,7 +13455,7 @@ const VkRenderPassBeginInfo*      pRenderPassBegin__ = pRenderPassBegin;
 #ifdef NEEDS_UNWRAPPING_VkRenderPassBeginInfo
     VkRenderPassBeginInfo _w_pRenderPassBegin = { 0 };
     pRenderPassBegin__ = &_w_pRenderPassBegin;
-    unwrap_VkRenderPassBeginInfo(base->device, (VkRenderPassBeginInfo *) pRenderPassBegin__, pRenderPassBegin);
+    unwrap_VkRenderPassBeginInfo(&temp, base->device, (VkRenderPassBeginInfo *) pRenderPassBegin__, pRenderPassBegin);
 #endif
 #ifdef NEEDS_PRINTING_CmdBeginRenderPass2
     VK_CMD_LOGA("  in: pRenderPassBegin: VkRenderPassBeginInfo*");
@@ -12028,7 +13466,7 @@ const VkSubpassBeginInfo*      pSubpassBeginInfo__ = pSubpassBeginInfo;
 #ifdef NEEDS_UNWRAPPING_VkSubpassBeginInfo
     VkSubpassBeginInfo _w_pSubpassBeginInfo = { 0 };
     pSubpassBeginInfo__ = &_w_pSubpassBeginInfo;
-    unwrap_VkSubpassBeginInfo(base->device, (VkSubpassBeginInfo *) pSubpassBeginInfo__, pSubpassBeginInfo);
+    unwrap_VkSubpassBeginInfo(&temp, base->device, (VkSubpassBeginInfo *) pSubpassBeginInfo__, pSubpassBeginInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdBeginRenderPass2
     VK_CMD_LOGA("  in: pSubpassBeginInfo: VkSubpassBeginInfo*");
@@ -12037,6 +13475,7 @@ const VkSubpassBeginInfo*      pSubpassBeginInfo__ = pSubpassBeginInfo;
 #endif
     base->device->dispatch_table.CmdBeginRenderPass2(base->dispatch_handle, pRenderPassBegin__, pSubpassBeginInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -12046,6 +13485,8 @@ wrapper_tramp_CmdNextSubpass2(
     const VkSubpassBeginInfo*      pSubpassBeginInfo,
     const VkSubpassEndInfo*        pSubpassEndInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdNextSubpass2");
 WLOGA("CmdNextSubpass2(commandBuffer: %p, pSubpassBeginInfo: %p, pSubpassEndInfo: %p)", commandBuffer, pSubpassBeginInfo, pSubpassEndInfo);
@@ -12057,7 +13498,7 @@ const VkSubpassBeginInfo*      pSubpassBeginInfo__ = pSubpassBeginInfo;
 #ifdef NEEDS_UNWRAPPING_VkSubpassBeginInfo
     VkSubpassBeginInfo _w_pSubpassBeginInfo = { 0 };
     pSubpassBeginInfo__ = &_w_pSubpassBeginInfo;
-    unwrap_VkSubpassBeginInfo(base->device, (VkSubpassBeginInfo *) pSubpassBeginInfo__, pSubpassBeginInfo);
+    unwrap_VkSubpassBeginInfo(&temp, base->device, (VkSubpassBeginInfo *) pSubpassBeginInfo__, pSubpassBeginInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdNextSubpass2
     VK_CMD_LOGA("  in: pSubpassBeginInfo: VkSubpassBeginInfo*");
@@ -12068,7 +13509,7 @@ const VkSubpassEndInfo*        pSubpassEndInfo__ = pSubpassEndInfo;
 #ifdef NEEDS_UNWRAPPING_VkSubpassEndInfo
     VkSubpassEndInfo _w_pSubpassEndInfo = { 0 };
     pSubpassEndInfo__ = &_w_pSubpassEndInfo;
-    unwrap_VkSubpassEndInfo(base->device, (VkSubpassEndInfo *) pSubpassEndInfo__, pSubpassEndInfo);
+    unwrap_VkSubpassEndInfo(&temp, base->device, (VkSubpassEndInfo *) pSubpassEndInfo__, pSubpassEndInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdNextSubpass2
     VK_CMD_LOGA("  in: pSubpassEndInfo: VkSubpassEndInfo*");
@@ -12077,6 +13518,7 @@ const VkSubpassEndInfo*        pSubpassEndInfo__ = pSubpassEndInfo;
 #endif
     base->device->dispatch_table.CmdNextSubpass2(base->dispatch_handle, pSubpassBeginInfo__, pSubpassEndInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -12085,6 +13527,8 @@ wrapper_tramp_CmdEndRenderPass2(
     VkCommandBuffer commandBuffer,
     const VkSubpassEndInfo*        pSubpassEndInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdEndRenderPass2");
 WLOGA("CmdEndRenderPass2(commandBuffer: %p, pSubpassEndInfo: %p)", commandBuffer, pSubpassEndInfo);
@@ -12096,7 +13540,7 @@ const VkSubpassEndInfo*        pSubpassEndInfo__ = pSubpassEndInfo;
 #ifdef NEEDS_UNWRAPPING_VkSubpassEndInfo
     VkSubpassEndInfo _w_pSubpassEndInfo = { 0 };
     pSubpassEndInfo__ = &_w_pSubpassEndInfo;
-    unwrap_VkSubpassEndInfo(base->device, (VkSubpassEndInfo *) pSubpassEndInfo__, pSubpassEndInfo);
+    unwrap_VkSubpassEndInfo(&temp, base->device, (VkSubpassEndInfo *) pSubpassEndInfo__, pSubpassEndInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdEndRenderPass2
     VK_CMD_LOGA("  in: pSubpassEndInfo: VkSubpassEndInfo*");
@@ -12105,6 +13549,7 @@ const VkSubpassEndInfo*        pSubpassEndInfo__ = pSubpassEndInfo;
 #endif
     base->device->dispatch_table.CmdEndRenderPass2(base->dispatch_handle, pSubpassEndInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -12114,6 +13559,8 @@ wrapper_tramp_GetSemaphoreCounterValue(
     VkSemaphore semaphore,
     uint64_t* pValue)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetSemaphoreCounterValue");
 WLOGA("GetSemaphoreCounterValue(device: %p, semaphore: %x, pValue: %p)", device, semaphore, pValue);
@@ -12130,14 +13577,19 @@ VkSemaphore semaphore__ = semaphore;
 #endif
     VkResult result = base->dispatch_table.GetSemaphoreCounterValue(base->dispatch_handle, semaphore__, pValue);
 #ifdef NEEDS_PRINTING_GetSemaphoreCounterValue
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetSemaphoreCounterValue
     VK_CMD_LOGA("  out: *pValue: uint64_t = %x", (int64_t)*pValue);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint64_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetSemaphoreCounterValue with (device: %p,semaphore: %x,pValue: %p) failed with result: %d", base->dispatch_handle,semaphore__,pValue, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetSemaphoreCounterValue with (device: %p,semaphore: %x,pValue: %p) failed with result: %d", base->dispatch_handle,semaphore__,pValue, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -12147,6 +13599,8 @@ wrapper_tramp_WaitSemaphores(
     const VkSemaphoreWaitInfo* pWaitInfo,
     uint64_t timeout)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("WaitSemaphores");
 WLOGA("WaitSemaphores(device: %p, pWaitInfo: %p, timeout: %x)", device, pWaitInfo, timeout);
@@ -12158,7 +13612,7 @@ const VkSemaphoreWaitInfo* pWaitInfo__ = pWaitInfo;
 #ifdef NEEDS_UNWRAPPING_VkSemaphoreWaitInfo
     VkSemaphoreWaitInfo _w_pWaitInfo = { 0 };
     pWaitInfo__ = &_w_pWaitInfo;
-    unwrap_VkSemaphoreWaitInfo(base, (VkSemaphoreWaitInfo *) pWaitInfo__, pWaitInfo);
+    unwrap_VkSemaphoreWaitInfo(&temp, base, (VkSemaphoreWaitInfo *) pWaitInfo__, pWaitInfo);
 #endif
 #ifdef NEEDS_PRINTING_WaitSemaphores
     VK_CMD_LOGA("  in: pWaitInfo: VkSemaphoreWaitInfo*");
@@ -12173,7 +13627,14 @@ uint64_t timeout__ = timeout;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.WaitSemaphores(base->dispatch_handle, pWaitInfo__, timeout__);
-
+#ifdef NEEDS_PRINTING_WaitSemaphores
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to WaitSemaphores with (device: %p,pWaitInfo: %p,timeout: %x) failed with result: %d", base->dispatch_handle,pWaitInfo__,timeout__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -12182,6 +13643,8 @@ wrapper_tramp_SignalSemaphore(
     VkDevice device,
     const VkSemaphoreSignalInfo* pSignalInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("SignalSemaphore");
 WLOGA("SignalSemaphore(device: %p, pSignalInfo: %p)", device, pSignalInfo);
@@ -12193,7 +13656,7 @@ const VkSemaphoreSignalInfo* pSignalInfo__ = pSignalInfo;
 #ifdef NEEDS_UNWRAPPING_VkSemaphoreSignalInfo
     VkSemaphoreSignalInfo _w_pSignalInfo = { 0 };
     pSignalInfo__ = &_w_pSignalInfo;
-    unwrap_VkSemaphoreSignalInfo(base, (VkSemaphoreSignalInfo *) pSignalInfo__, pSignalInfo);
+    unwrap_VkSemaphoreSignalInfo(&temp, base, (VkSemaphoreSignalInfo *) pSignalInfo__, pSignalInfo);
 #endif
 #ifdef NEEDS_PRINTING_SignalSemaphore
     VK_CMD_LOGA("  in: pSignalInfo: VkSemaphoreSignalInfo*");
@@ -12201,7 +13664,14 @@ const VkSemaphoreSignalInfo* pSignalInfo__ = pSignalInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.SignalSemaphore(base->dispatch_handle, pSignalInfo__);
-
+#ifdef NEEDS_PRINTING_SignalSemaphore
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to SignalSemaphore with (device: %p,pSignalInfo: %p) failed with result: %d", base->dispatch_handle,pSignalInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     #ifdef VK_USE_PLATFORM_ANDROID_KHR
@@ -12212,6 +13682,8 @@ wrapper_tramp_GetAndroidHardwareBufferPropertiesANDROID(
     const struct AHardwareBuffer* buffer,
     VkAndroidHardwareBufferPropertiesANDROID* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetAndroidHardwareBufferPropertiesANDROID");
 WLOGA("GetAndroidHardwareBufferPropertiesANDROID(device: %p, buffer: %x, pProperties: %p)", device, buffer, pProperties);
@@ -12228,16 +13700,21 @@ const struct AHardwareBuffer* buffer__ = buffer;
 #endif
     VkResult result = base->dispatch_table.GetAndroidHardwareBufferPropertiesANDROID(base->dispatch_handle, buffer__, pProperties);
 #ifdef NEEDS_PRINTING_GetAndroidHardwareBufferPropertiesANDROID
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetAndroidHardwareBufferPropertiesANDROID
     VK_CMD_LOGA("  out: pProperties: VkAndroidHardwareBufferPropertiesANDROID*");
     VK_PRINT_VkAndroidHardwareBufferPropertiesANDROID("    ", pProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkAndroidHardwareBufferPropertiesANDROID
-#warning TODO: Repack struct+ptr+out GetAndroidHardwareBufferPropertiesANDROID EntrypointParam(type='VkAndroidHardwareBufferPropertiesANDROID', name='pProperties', decl='VkAndroidHardwareBufferPropertiesANDROID* pProperties', len=None, elem=<Element 'param' at 0x75c0e94daca0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetAndroidHardwareBufferPropertiesANDROID EntrypointParam(type='VkAndroidHardwareBufferPropertiesANDROID', name='pProperties', decl='VkAndroidHardwareBufferPropertiesANDROID* pProperties', len=None, elem=<Element 'param' at 0x7f0cb2ffac50>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetAndroidHardwareBufferPropertiesANDROID with (device: %p,buffer: %x,pProperties: %p) failed with result: %d", base->dispatch_handle,buffer__,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetAndroidHardwareBufferPropertiesANDROID with (device: %p,buffer: %x,pProperties: %p) failed with result: %d", base->dispatch_handle,buffer__,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -12249,6 +13726,8 @@ wrapper_tramp_GetMemoryAndroidHardwareBufferANDROID(
     const VkMemoryGetAndroidHardwareBufferInfoANDROID* pInfo,
     struct AHardwareBuffer** pBuffer)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetMemoryAndroidHardwareBufferANDROID");
 WLOGA("GetMemoryAndroidHardwareBufferANDROID(device: %p, pInfo: %p, pBuffer: %p)", device, pInfo, pBuffer);
@@ -12260,7 +13739,7 @@ const VkMemoryGetAndroidHardwareBufferInfoANDROID* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkMemoryGetAndroidHardwareBufferInfoANDROID
     VkMemoryGetAndroidHardwareBufferInfoANDROID _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkMemoryGetAndroidHardwareBufferInfoANDROID(base, (VkMemoryGetAndroidHardwareBufferInfoANDROID *) pInfo__, pInfo);
+    unwrap_VkMemoryGetAndroidHardwareBufferInfoANDROID(&temp, base, (VkMemoryGetAndroidHardwareBufferInfoANDROID *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetMemoryAndroidHardwareBufferANDROID
     VK_CMD_LOGA("  in: pInfo: VkMemoryGetAndroidHardwareBufferInfoANDROID*");
@@ -12269,14 +13748,19 @@ const VkMemoryGetAndroidHardwareBufferInfoANDROID* pInfo__ = pInfo;
 #endif
     VkResult result = base->dispatch_table.GetMemoryAndroidHardwareBufferANDROID(base->dispatch_handle, pInfo__, pBuffer);
 #ifdef NEEDS_PRINTING_GetMemoryAndroidHardwareBufferANDROID
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetMemoryAndroidHardwareBufferANDROID
     VK_CMD_LOGA("  out: *pBuffer: AHardwareBuffer = %x", (int64_t)*pBuffer);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_AHardwareBuffer
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetMemoryAndroidHardwareBufferANDROID with (device: %p,pInfo: %p,pBuffer: %p) failed with result: %d", base->dispatch_handle,pInfo__,pBuffer, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetMemoryAndroidHardwareBufferANDROID with (device: %p,pInfo: %p,pBuffer: %p) failed with result: %d", base->dispatch_handle,pInfo__,pBuffer, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -12291,6 +13775,8 @@ wrapper_tramp_CmdDrawIndirectCount(
     uint32_t maxDrawCount,
     uint32_t stride)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawIndirectCount");
 WLOGA("CmdDrawIndirectCount(commandBuffer: %p, buffer: %x, offset: %x, countBuffer: %x, countBufferOffset: %x, maxDrawCount: %x, stride: %x)", commandBuffer, buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride);
@@ -12342,6 +13828,7 @@ uint32_t stride__ = stride;
 #endif
     base->device->dispatch_table.CmdDrawIndirectCount(base->dispatch_handle, buffer__, offset__, countBuffer__, countBufferOffset__, maxDrawCount__, stride__);
 
+    free_temp_objects(&temp);
     return ;
 }
         
@@ -12355,6 +13842,8 @@ wrapper_tramp_CmdDrawIndexedIndirectCount(
     uint32_t maxDrawCount,
     uint32_t stride)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawIndexedIndirectCount");
 WLOGA("CmdDrawIndexedIndirectCount(commandBuffer: %p, buffer: %x, offset: %x, countBuffer: %x, countBufferOffset: %x, maxDrawCount: %x, stride: %x)", commandBuffer, buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride);
@@ -12406,6 +13895,7 @@ uint32_t stride__ = stride;
 #endif
     base->device->dispatch_table.CmdDrawIndexedIndirectCount(base->dispatch_handle, buffer__, offset__, countBuffer__, countBufferOffset__, maxDrawCount__, stride__);
 
+    free_temp_objects(&temp);
     return ;
 }
         
@@ -12414,6 +13904,8 @@ wrapper_tramp_CmdSetCheckpointNV(
     VkCommandBuffer commandBuffer,
     const void* pCheckpointMarker)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetCheckpointNV");
 WLOGA("CmdSetCheckpointNV(commandBuffer: %p, pCheckpointMarker: %x)", commandBuffer, pCheckpointMarker);
@@ -12430,6 +13922,7 @@ const void* pCheckpointMarker__ = pCheckpointMarker;
 #endif
     base->device->dispatch_table.CmdSetCheckpointNV(base->dispatch_handle, pCheckpointMarker__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -12439,6 +13932,8 @@ wrapper_tramp_GetQueueCheckpointDataNV(
     uint32_t* pCheckpointDataCount,
     VkCheckpointDataNV* pCheckpointData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_queue, base, queue);
     VK_CMD_LOG("GetQueueCheckpointDataNV");
 WLOGA("GetQueueCheckpointDataNV(queue: %p, pCheckpointDataCount: %p, pCheckpointData: %p)", queue, pCheckpointDataCount, pCheckpointData);
@@ -12462,8 +13957,9 @@ WLOGA("GetQueueCheckpointDataNV(queue: %p, pCheckpointDataCount: %p, pCheckpoint
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkCheckpointDataNV
-#warning TODO: Repack struct+array+out GetQueueCheckpointDataNV EntrypointParam(type='VkCheckpointDataNV', name='pCheckpointData', decl='VkCheckpointDataNV* pCheckpointData', len='pCheckpointDataCount', elem=<Element 'param' at 0x75c0e94e8c20>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetQueueCheckpointDataNV EntrypointParam(type='VkCheckpointDataNV', name='pCheckpointData', decl='VkCheckpointDataNV* pCheckpointData', len='pCheckpointDataCount', elem=<Element 'param' at 0x7f0cb3004bd0>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -12476,6 +13972,8 @@ wrapper_tramp_CmdBindTransformFeedbackBuffersEXT(
     const VkDeviceSize* pOffsets,
     const VkDeviceSize* pSizes)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBindTransformFeedbackBuffersEXT");
 WLOGA("CmdBindTransformFeedbackBuffersEXT(commandBuffer: %p, firstBinding: %x, bindingCount: %x, pBuffers: %x, pOffsets: %x, pSizes: %x)", commandBuffer, firstBinding, bindingCount, pBuffers, pOffsets, pSizes);
@@ -12520,6 +14018,7 @@ const VkDeviceSize* pSizes__ = pSizes;
 #endif
     base->device->dispatch_table.CmdBindTransformFeedbackBuffersEXT(base->dispatch_handle, firstBinding__, bindingCount__, pBuffers__, pOffsets__, pSizes__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -12531,6 +14030,8 @@ wrapper_tramp_CmdBeginTransformFeedbackEXT(
     const VkBuffer* pCounterBuffers,
     const VkDeviceSize* pCounterBufferOffsets)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBeginTransformFeedbackEXT");
 WLOGA("CmdBeginTransformFeedbackEXT(commandBuffer: %p, firstCounterBuffer: %x, counterBufferCount: %x, pCounterBuffers: %x, pCounterBufferOffsets: %x)", commandBuffer, firstCounterBuffer, counterBufferCount, pCounterBuffers, pCounterBufferOffsets);
@@ -12568,6 +14069,7 @@ const VkDeviceSize* pCounterBufferOffsets__ = pCounterBufferOffsets;
 #endif
     base->device->dispatch_table.CmdBeginTransformFeedbackEXT(base->dispatch_handle, firstCounterBuffer__, counterBufferCount__, pCounterBuffers__, pCounterBufferOffsets__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -12579,6 +14081,8 @@ wrapper_tramp_CmdEndTransformFeedbackEXT(
     const VkBuffer* pCounterBuffers,
     const VkDeviceSize* pCounterBufferOffsets)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdEndTransformFeedbackEXT");
 WLOGA("CmdEndTransformFeedbackEXT(commandBuffer: %p, firstCounterBuffer: %x, counterBufferCount: %x, pCounterBuffers: %x, pCounterBufferOffsets: %x)", commandBuffer, firstCounterBuffer, counterBufferCount, pCounterBuffers, pCounterBufferOffsets);
@@ -12616,6 +14120,7 @@ const VkDeviceSize* pCounterBufferOffsets__ = pCounterBufferOffsets;
 #endif
     base->device->dispatch_table.CmdEndTransformFeedbackEXT(base->dispatch_handle, firstCounterBuffer__, counterBufferCount__, pCounterBuffers__, pCounterBufferOffsets__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -12627,6 +14132,8 @@ wrapper_tramp_CmdBeginQueryIndexedEXT(
     VkQueryControlFlags flags,
     uint32_t index)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBeginQueryIndexedEXT");
 WLOGA("CmdBeginQueryIndexedEXT(commandBuffer: %p, queryPool: %x, query: %x, flags: %x, index: %x)", commandBuffer, queryPool, query, flags, index);
@@ -12664,6 +14171,7 @@ uint32_t index__ = index;
 #endif
     base->device->dispatch_table.CmdBeginQueryIndexedEXT(base->dispatch_handle, queryPool__, query__, flags__, index__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -12674,6 +14182,8 @@ wrapper_tramp_CmdEndQueryIndexedEXT(
     uint32_t query,
     uint32_t index)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdEndQueryIndexedEXT");
 WLOGA("CmdEndQueryIndexedEXT(commandBuffer: %p, queryPool: %x, query: %x, index: %x)", commandBuffer, queryPool, query, index);
@@ -12704,6 +14214,7 @@ uint32_t index__ = index;
 #endif
     base->device->dispatch_table.CmdEndQueryIndexedEXT(base->dispatch_handle, queryPool__, query__, index__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -12717,6 +14228,8 @@ wrapper_tramp_CmdDrawIndirectByteCountEXT(
     uint32_t counterOffset,
     uint32_t vertexStride)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawIndirectByteCountEXT");
 WLOGA("CmdDrawIndirectByteCountEXT(commandBuffer: %p, instanceCount: %x, firstInstance: %x, counterBuffer: %x, counterBufferOffset: %x, counterOffset: %x, vertexStride: %x)", commandBuffer, instanceCount, firstInstance, counterBuffer, counterBufferOffset, counterOffset, vertexStride);
@@ -12768,6 +14281,7 @@ uint32_t vertexStride__ = vertexStride;
 #endif
     base->device->dispatch_table.CmdDrawIndirectByteCountEXT(base->dispatch_handle, instanceCount__, firstInstance__, counterBuffer__, counterBufferOffset__, counterOffset__, vertexStride__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -12778,6 +14292,8 @@ wrapper_tramp_CmdSetExclusiveScissorNV(
     uint32_t exclusiveScissorCount,
     const VkRect2D* pExclusiveScissors)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetExclusiveScissorNV");
 WLOGA("CmdSetExclusiveScissorNV(commandBuffer: %p, firstExclusiveScissor: %x, exclusiveScissorCount: %x, pExclusiveScissors: %p)", commandBuffer, firstExclusiveScissor, exclusiveScissorCount, pExclusiveScissors);
@@ -12803,7 +14319,7 @@ const VkRect2D* pExclusiveScissors__ = pExclusiveScissors;
 #ifdef NEEDS_UNWRAPPING_VkRect2D
     pExclusiveScissors__ = alloca(exclusiveScissorCount * sizeof(VkRect2D));
     for (int i = 0; i < exclusiveScissorCount; i++)
-        unwrap_VkRect2D(base->device, (VkRect2D *) &pExclusiveScissors__[i], &pExclusiveScissors[i]);
+        unwrap_VkRect2D(&temp, base->device, (VkRect2D *) &pExclusiveScissors__[i], &pExclusiveScissors[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetExclusiveScissorNV
     VK_CMD_LOGA("  in: pExclusiveScissors[]: VkRect2D");
@@ -12815,6 +14331,7 @@ const VkRect2D* pExclusiveScissors__ = pExclusiveScissors;
 #endif
     base->device->dispatch_table.CmdSetExclusiveScissorNV(base->dispatch_handle, firstExclusiveScissor__, exclusiveScissorCount__, pExclusiveScissors__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -12825,6 +14342,8 @@ wrapper_tramp_CmdSetExclusiveScissorEnableNV(
     uint32_t exclusiveScissorCount,
     const VkBool32* pExclusiveScissorEnables)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetExclusiveScissorEnableNV");
 WLOGA("CmdSetExclusiveScissorEnableNV(commandBuffer: %p, firstExclusiveScissor: %x, exclusiveScissorCount: %x, pExclusiveScissorEnables: %x)", commandBuffer, firstExclusiveScissor, exclusiveScissorCount, pExclusiveScissorEnables);
@@ -12855,6 +14374,7 @@ const VkBool32* pExclusiveScissorEnables__ = pExclusiveScissorEnables;
 #endif
     base->device->dispatch_table.CmdSetExclusiveScissorEnableNV(base->dispatch_handle, firstExclusiveScissor__, exclusiveScissorCount__, pExclusiveScissorEnables__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -12864,6 +14384,8 @@ wrapper_tramp_CmdBindShadingRateImageNV(
     VkImageView imageView,
     VkImageLayout imageLayout)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBindShadingRateImageNV");
 WLOGA("CmdBindShadingRateImageNV(commandBuffer: %p, imageView: %x, imageLayout: %x)", commandBuffer, imageView, imageLayout);
@@ -12887,6 +14409,7 @@ VkImageLayout imageLayout__ = imageLayout;
 #endif
     base->device->dispatch_table.CmdBindShadingRateImageNV(base->dispatch_handle, imageView__, imageLayout__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -12897,6 +14420,8 @@ wrapper_tramp_CmdSetViewportShadingRatePaletteNV(
     uint32_t viewportCount,
     const VkShadingRatePaletteNV* pShadingRatePalettes)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetViewportShadingRatePaletteNV");
 WLOGA("CmdSetViewportShadingRatePaletteNV(commandBuffer: %p, firstViewport: %x, viewportCount: %x, pShadingRatePalettes: %p)", commandBuffer, firstViewport, viewportCount, pShadingRatePalettes);
@@ -12922,7 +14447,7 @@ const VkShadingRatePaletteNV* pShadingRatePalettes__ = pShadingRatePalettes;
 #ifdef NEEDS_UNWRAPPING_VkShadingRatePaletteNV
     pShadingRatePalettes__ = alloca(viewportCount * sizeof(VkShadingRatePaletteNV));
     for (int i = 0; i < viewportCount; i++)
-        unwrap_VkShadingRatePaletteNV(base->device, (VkShadingRatePaletteNV *) &pShadingRatePalettes__[i], &pShadingRatePalettes[i]);
+        unwrap_VkShadingRatePaletteNV(&temp, base->device, (VkShadingRatePaletteNV *) &pShadingRatePalettes__[i], &pShadingRatePalettes[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetViewportShadingRatePaletteNV
     VK_CMD_LOGA("  in: pShadingRatePalettes[]: VkShadingRatePaletteNV");
@@ -12934,6 +14459,7 @@ const VkShadingRatePaletteNV* pShadingRatePalettes__ = pShadingRatePalettes;
 #endif
     base->device->dispatch_table.CmdSetViewportShadingRatePaletteNV(base->dispatch_handle, firstViewport__, viewportCount__, pShadingRatePalettes__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -12944,6 +14470,8 @@ wrapper_tramp_CmdSetCoarseSampleOrderNV(
     uint32_t customSampleOrderCount,
     const VkCoarseSampleOrderCustomNV* pCustomSampleOrders)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetCoarseSampleOrderNV");
 WLOGA("CmdSetCoarseSampleOrderNV(commandBuffer: %p, sampleOrderType: %x, customSampleOrderCount: %x, pCustomSampleOrders: %p)", commandBuffer, sampleOrderType, customSampleOrderCount, pCustomSampleOrders);
@@ -12969,7 +14497,7 @@ const VkCoarseSampleOrderCustomNV* pCustomSampleOrders__ = pCustomSampleOrders;
 #ifdef NEEDS_UNWRAPPING_VkCoarseSampleOrderCustomNV
     pCustomSampleOrders__ = alloca(customSampleOrderCount * sizeof(VkCoarseSampleOrderCustomNV));
     for (int i = 0; i < customSampleOrderCount; i++)
-        unwrap_VkCoarseSampleOrderCustomNV(base->device, (VkCoarseSampleOrderCustomNV *) &pCustomSampleOrders__[i], &pCustomSampleOrders[i]);
+        unwrap_VkCoarseSampleOrderCustomNV(&temp, base->device, (VkCoarseSampleOrderCustomNV *) &pCustomSampleOrders__[i], &pCustomSampleOrders[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetCoarseSampleOrderNV
     VK_CMD_LOGA("  in: pCustomSampleOrders[]: VkCoarseSampleOrderCustomNV");
@@ -12981,6 +14509,7 @@ const VkCoarseSampleOrderCustomNV* pCustomSampleOrders__ = pCustomSampleOrders;
 #endif
     base->device->dispatch_table.CmdSetCoarseSampleOrderNV(base->dispatch_handle, sampleOrderType__, customSampleOrderCount__, pCustomSampleOrders__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -12990,6 +14519,8 @@ wrapper_tramp_CmdDrawMeshTasksNV(
     uint32_t taskCount,
     uint32_t firstTask)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawMeshTasksNV");
 WLOGA("CmdDrawMeshTasksNV(commandBuffer: %p, taskCount: %x, firstTask: %x)", commandBuffer, taskCount, firstTask);
@@ -13013,6 +14544,7 @@ uint32_t firstTask__ = firstTask;
 #endif
     base->device->dispatch_table.CmdDrawMeshTasksNV(base->dispatch_handle, taskCount__, firstTask__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13024,6 +14556,8 @@ wrapper_tramp_CmdDrawMeshTasksIndirectNV(
     uint32_t drawCount,
     uint32_t stride)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawMeshTasksIndirectNV");
 WLOGA("CmdDrawMeshTasksIndirectNV(commandBuffer: %p, buffer: %x, offset: %x, drawCount: %x, stride: %x)", commandBuffer, buffer, offset, drawCount, stride);
@@ -13061,6 +14595,7 @@ uint32_t stride__ = stride;
 #endif
     base->device->dispatch_table.CmdDrawMeshTasksIndirectNV(base->dispatch_handle, buffer__, offset__, drawCount__, stride__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13074,6 +14609,8 @@ wrapper_tramp_CmdDrawMeshTasksIndirectCountNV(
     uint32_t maxDrawCount,
     uint32_t stride)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawMeshTasksIndirectCountNV");
 WLOGA("CmdDrawMeshTasksIndirectCountNV(commandBuffer: %p, buffer: %x, offset: %x, countBuffer: %x, countBufferOffset: %x, maxDrawCount: %x, stride: %x)", commandBuffer, buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride);
@@ -13125,6 +14662,7 @@ uint32_t stride__ = stride;
 #endif
     base->device->dispatch_table.CmdDrawMeshTasksIndirectCountNV(base->dispatch_handle, buffer__, offset__, countBuffer__, countBufferOffset__, maxDrawCount__, stride__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13135,6 +14673,8 @@ wrapper_tramp_CmdDrawMeshTasksEXT(
     uint32_t groupCountY,
     uint32_t groupCountZ)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawMeshTasksEXT");
 WLOGA("CmdDrawMeshTasksEXT(commandBuffer: %p, groupCountX: %x, groupCountY: %x, groupCountZ: %x)", commandBuffer, groupCountX, groupCountY, groupCountZ);
@@ -13165,6 +14705,7 @@ uint32_t groupCountZ__ = groupCountZ;
 #endif
     base->device->dispatch_table.CmdDrawMeshTasksEXT(base->dispatch_handle, groupCountX__, groupCountY__, groupCountZ__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13176,6 +14717,8 @@ wrapper_tramp_CmdDrawMeshTasksIndirectEXT(
     uint32_t drawCount,
     uint32_t stride)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawMeshTasksIndirectEXT");
 WLOGA("CmdDrawMeshTasksIndirectEXT(commandBuffer: %p, buffer: %x, offset: %x, drawCount: %x, stride: %x)", commandBuffer, buffer, offset, drawCount, stride);
@@ -13213,6 +14756,7 @@ uint32_t stride__ = stride;
 #endif
     base->device->dispatch_table.CmdDrawMeshTasksIndirectEXT(base->dispatch_handle, buffer__, offset__, drawCount__, stride__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13226,6 +14770,8 @@ wrapper_tramp_CmdDrawMeshTasksIndirectCountEXT(
     uint32_t maxDrawCount,
     uint32_t stride)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDrawMeshTasksIndirectCountEXT");
 WLOGA("CmdDrawMeshTasksIndirectCountEXT(commandBuffer: %p, buffer: %x, offset: %x, countBuffer: %x, countBufferOffset: %x, maxDrawCount: %x, stride: %x)", commandBuffer, buffer, offset, countBuffer, countBufferOffset, maxDrawCount, stride);
@@ -13277,6 +14823,7 @@ uint32_t stride__ = stride;
 #endif
     base->device->dispatch_table.CmdDrawMeshTasksIndirectCountEXT(base->dispatch_handle, buffer__, offset__, countBuffer__, countBufferOffset__, maxDrawCount__, stride__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13286,6 +14833,8 @@ wrapper_tramp_CompileDeferredNV(
     VkPipeline pipeline,
     uint32_t shader)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CompileDeferredNV");
 WLOGA("CompileDeferredNV(device: %p, pipeline: %x, shader: %x)", device, pipeline, shader);
@@ -13308,7 +14857,14 @@ uint32_t shader__ = shader;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.CompileDeferredNV(base->dispatch_handle, pipeline__, shader__);
-
+#ifdef NEEDS_PRINTING_CompileDeferredNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CompileDeferredNV with (device: %p,pipeline: %x,shader: %x) failed with result: %d", base->dispatch_handle,pipeline__,shader__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -13319,6 +14875,8 @@ wrapper_tramp_CreateAccelerationStructureNV(
     const VkAllocationCallbacks* pAllocator,
     VkAccelerationStructureNV* pAccelerationStructure)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateAccelerationStructureNV");
 WLOGA("CreateAccelerationStructureNV(device: %p, pCreateInfo: %p, pAllocator: %p, pAccelerationStructure: %p)", device, pCreateInfo, pAllocator, pAccelerationStructure);
@@ -13330,7 +14888,7 @@ const VkAccelerationStructureCreateInfoNV* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureCreateInfoNV
     VkAccelerationStructureCreateInfoNV _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkAccelerationStructureCreateInfoNV(base, (VkAccelerationStructureCreateInfoNV *) pCreateInfo__, pCreateInfo);
+    unwrap_VkAccelerationStructureCreateInfoNV(&temp, base, (VkAccelerationStructureCreateInfoNV *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateAccelerationStructureNV
     VK_CMD_LOGA("  in: pCreateInfo: VkAccelerationStructureCreateInfoNV*");
@@ -13341,7 +14899,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateAccelerationStructureNV
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -13350,14 +14908,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateAccelerationStructureNV(base->dispatch_handle, pCreateInfo__, pAllocator__, pAccelerationStructure);
 #ifdef NEEDS_PRINTING_CreateAccelerationStructureNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateAccelerationStructureNV
     VK_CMD_LOGA("  out: *pAccelerationStructure: VkAccelerationStructureNV = %x", (int64_t)*pAccelerationStructure);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureNV
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateAccelerationStructureNV with (device: %p,pCreateInfo: %p,pAllocator: %p,pAccelerationStructure: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pAccelerationStructure, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateAccelerationStructureNV with (device: %p,pCreateInfo: %p,pAllocator: %p,pAccelerationStructure: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pAccelerationStructure, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -13367,6 +14930,8 @@ wrapper_tramp_CmdBindInvocationMaskHUAWEI(
     VkImageView imageView,
     VkImageLayout imageLayout)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBindInvocationMaskHUAWEI");
 WLOGA("CmdBindInvocationMaskHUAWEI(commandBuffer: %p, imageView: %x, imageLayout: %x)", commandBuffer, imageView, imageLayout);
@@ -13390,6 +14955,7 @@ VkImageLayout imageLayout__ = imageLayout;
 #endif
     base->device->dispatch_table.CmdBindInvocationMaskHUAWEI(base->dispatch_handle, imageView__, imageLayout__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13399,6 +14965,8 @@ wrapper_tramp_DestroyAccelerationStructureKHR(
     VkAccelerationStructureKHR accelerationStructure,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyAccelerationStructureKHR");
 WLOGA("DestroyAccelerationStructureKHR(device: %p, accelerationStructure: %x, pAllocator: %p)", device, accelerationStructure, pAllocator);
@@ -13417,7 +14985,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyAccelerationStructureKHR
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -13426,6 +14994,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyAccelerationStructureKHR(base->dispatch_handle, accelerationStructure__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13435,6 +15004,8 @@ wrapper_tramp_DestroyAccelerationStructureNV(
     VkAccelerationStructureNV accelerationStructure,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyAccelerationStructureNV");
 WLOGA("DestroyAccelerationStructureNV(device: %p, accelerationStructure: %x, pAllocator: %p)", device, accelerationStructure, pAllocator);
@@ -13453,7 +15024,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyAccelerationStructureNV
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -13462,6 +15033,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyAccelerationStructureNV(base->dispatch_handle, accelerationStructure__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13471,6 +15043,8 @@ wrapper_tramp_GetAccelerationStructureMemoryRequirementsNV(
     const VkAccelerationStructureMemoryRequirementsInfoNV* pInfo,
     VkMemoryRequirements2KHR* pMemoryRequirements)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetAccelerationStructureMemoryRequirementsNV");
 WLOGA("GetAccelerationStructureMemoryRequirementsNV(device: %p, pInfo: %p, pMemoryRequirements: %p)", device, pInfo, pMemoryRequirements);
@@ -13482,7 +15056,7 @@ const VkAccelerationStructureMemoryRequirementsInfoNV* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureMemoryRequirementsInfoNV
     VkAccelerationStructureMemoryRequirementsInfoNV _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkAccelerationStructureMemoryRequirementsInfoNV(base, (VkAccelerationStructureMemoryRequirementsInfoNV *) pInfo__, pInfo);
+    unwrap_VkAccelerationStructureMemoryRequirementsInfoNV(&temp, base, (VkAccelerationStructureMemoryRequirementsInfoNV *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetAccelerationStructureMemoryRequirementsNV
     VK_CMD_LOGA("  in: pInfo: VkAccelerationStructureMemoryRequirementsInfoNV*");
@@ -13496,8 +15070,9 @@ const VkAccelerationStructureMemoryRequirementsInfoNV* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements2KHR
-#warning TODO: Repack struct+ptr+out GetAccelerationStructureMemoryRequirementsNV EntrypointParam(type='VkMemoryRequirements2KHR', name='pMemoryRequirements', decl='VkMemoryRequirements2KHR* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75c0e93050d0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetAccelerationStructureMemoryRequirementsNV EntrypointParam(type='VkMemoryRequirements2KHR', name='pMemoryRequirements', decl='VkMemoryRequirements2KHR* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7f0cb3021080>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13507,6 +15082,8 @@ wrapper_tramp_BindAccelerationStructureMemoryNV(
     uint32_t bindInfoCount,
     const VkBindAccelerationStructureMemoryInfoNV* pBindInfos)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("BindAccelerationStructureMemoryNV");
 WLOGA("BindAccelerationStructureMemoryNV(device: %p, bindInfoCount: %x, pBindInfos: %p)", device, bindInfoCount, pBindInfos);
@@ -13525,7 +15102,7 @@ const VkBindAccelerationStructureMemoryInfoNV* pBindInfos__ = pBindInfos;
 #ifdef NEEDS_UNWRAPPING_VkBindAccelerationStructureMemoryInfoNV
     pBindInfos__ = alloca(bindInfoCount * sizeof(VkBindAccelerationStructureMemoryInfoNV));
     for (int i = 0; i < bindInfoCount; i++)
-        unwrap_VkBindAccelerationStructureMemoryInfoNV(base, (VkBindAccelerationStructureMemoryInfoNV *) &pBindInfos__[i], &pBindInfos[i]);
+        unwrap_VkBindAccelerationStructureMemoryInfoNV(&temp, base, (VkBindAccelerationStructureMemoryInfoNV *) &pBindInfos__[i], &pBindInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_BindAccelerationStructureMemoryNV
     VK_CMD_LOGA("  in: pBindInfos[]: VkBindAccelerationStructureMemoryInfoNV");
@@ -13536,7 +15113,14 @@ const VkBindAccelerationStructureMemoryInfoNV* pBindInfos__ = pBindInfos;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.BindAccelerationStructureMemoryNV(base->dispatch_handle, bindInfoCount__, pBindInfos__);
-
+#ifdef NEEDS_PRINTING_BindAccelerationStructureMemoryNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to BindAccelerationStructureMemoryNV with (device: %p,bindInfoCount: %x,pBindInfos: %p) failed with result: %d", base->dispatch_handle,bindInfoCount__,pBindInfos__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -13547,6 +15131,8 @@ wrapper_tramp_CmdCopyAccelerationStructureNV(
     VkAccelerationStructureNV src,
     VkCopyAccelerationStructureModeKHR mode)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyAccelerationStructureNV");
 WLOGA("CmdCopyAccelerationStructureNV(commandBuffer: %p, dst: %x, src: %x, mode: %x)", commandBuffer, dst, src, mode);
@@ -13577,6 +15163,7 @@ VkCopyAccelerationStructureModeKHR mode__ = mode;
 #endif
     base->device->dispatch_table.CmdCopyAccelerationStructureNV(base->dispatch_handle, dst__, src__, mode__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13585,6 +15172,8 @@ wrapper_tramp_CmdCopyAccelerationStructureKHR(
     VkCommandBuffer commandBuffer,
     const VkCopyAccelerationStructureInfoKHR* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyAccelerationStructureKHR");
 WLOGA("CmdCopyAccelerationStructureKHR(commandBuffer: %p, pInfo: %p)", commandBuffer, pInfo);
@@ -13596,7 +15185,7 @@ const VkCopyAccelerationStructureInfoKHR* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkCopyAccelerationStructureInfoKHR
     VkCopyAccelerationStructureInfoKHR _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkCopyAccelerationStructureInfoKHR(base->device, (VkCopyAccelerationStructureInfoKHR *) pInfo__, pInfo);
+    unwrap_VkCopyAccelerationStructureInfoKHR(&temp, base->device, (VkCopyAccelerationStructureInfoKHR *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdCopyAccelerationStructureKHR
     VK_CMD_LOGA("  in: pInfo: VkCopyAccelerationStructureInfoKHR*");
@@ -13605,6 +15194,7 @@ const VkCopyAccelerationStructureInfoKHR* pInfo__ = pInfo;
 #endif
     base->device->dispatch_table.CmdCopyAccelerationStructureKHR(base->dispatch_handle, pInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13614,6 +15204,8 @@ wrapper_tramp_CopyAccelerationStructureKHR(
     VkDeferredOperationKHR deferredOperation,
     const VkCopyAccelerationStructureInfoKHR* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CopyAccelerationStructureKHR");
 WLOGA("CopyAccelerationStructureKHR(device: %p, deferredOperation: %x, pInfo: %p)", device, deferredOperation, pInfo);
@@ -13632,7 +15224,7 @@ const VkCopyAccelerationStructureInfoKHR* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkCopyAccelerationStructureInfoKHR
     VkCopyAccelerationStructureInfoKHR _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkCopyAccelerationStructureInfoKHR(base, (VkCopyAccelerationStructureInfoKHR *) pInfo__, pInfo);
+    unwrap_VkCopyAccelerationStructureInfoKHR(&temp, base, (VkCopyAccelerationStructureInfoKHR *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_CopyAccelerationStructureKHR
     VK_CMD_LOGA("  in: pInfo: VkCopyAccelerationStructureInfoKHR*");
@@ -13640,7 +15232,14 @@ const VkCopyAccelerationStructureInfoKHR* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.CopyAccelerationStructureKHR(base->dispatch_handle, deferredOperation__, pInfo__);
-
+#ifdef NEEDS_PRINTING_CopyAccelerationStructureKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CopyAccelerationStructureKHR with (device: %p,deferredOperation: %x,pInfo: %p) failed with result: %d", base->dispatch_handle,deferredOperation__,pInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -13649,6 +15248,8 @@ wrapper_tramp_CmdCopyAccelerationStructureToMemoryKHR(
     VkCommandBuffer commandBuffer,
     const VkCopyAccelerationStructureToMemoryInfoKHR* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyAccelerationStructureToMemoryKHR");
 WLOGA("CmdCopyAccelerationStructureToMemoryKHR(commandBuffer: %p, pInfo: %p)", commandBuffer, pInfo);
@@ -13660,7 +15261,7 @@ const VkCopyAccelerationStructureToMemoryInfoKHR* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkCopyAccelerationStructureToMemoryInfoKHR
     VkCopyAccelerationStructureToMemoryInfoKHR _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkCopyAccelerationStructureToMemoryInfoKHR(base->device, (VkCopyAccelerationStructureToMemoryInfoKHR *) pInfo__, pInfo);
+    unwrap_VkCopyAccelerationStructureToMemoryInfoKHR(&temp, base->device, (VkCopyAccelerationStructureToMemoryInfoKHR *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdCopyAccelerationStructureToMemoryKHR
     VK_CMD_LOGA("  in: pInfo: VkCopyAccelerationStructureToMemoryInfoKHR*");
@@ -13669,6 +15270,7 @@ const VkCopyAccelerationStructureToMemoryInfoKHR* pInfo__ = pInfo;
 #endif
     base->device->dispatch_table.CmdCopyAccelerationStructureToMemoryKHR(base->dispatch_handle, pInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13678,6 +15280,8 @@ wrapper_tramp_CopyAccelerationStructureToMemoryKHR(
     VkDeferredOperationKHR deferredOperation,
     const VkCopyAccelerationStructureToMemoryInfoKHR* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CopyAccelerationStructureToMemoryKHR");
 WLOGA("CopyAccelerationStructureToMemoryKHR(device: %p, deferredOperation: %x, pInfo: %p)", device, deferredOperation, pInfo);
@@ -13696,7 +15300,7 @@ const VkCopyAccelerationStructureToMemoryInfoKHR* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkCopyAccelerationStructureToMemoryInfoKHR
     VkCopyAccelerationStructureToMemoryInfoKHR _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkCopyAccelerationStructureToMemoryInfoKHR(base, (VkCopyAccelerationStructureToMemoryInfoKHR *) pInfo__, pInfo);
+    unwrap_VkCopyAccelerationStructureToMemoryInfoKHR(&temp, base, (VkCopyAccelerationStructureToMemoryInfoKHR *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_CopyAccelerationStructureToMemoryKHR
     VK_CMD_LOGA("  in: pInfo: VkCopyAccelerationStructureToMemoryInfoKHR*");
@@ -13704,7 +15308,14 @@ const VkCopyAccelerationStructureToMemoryInfoKHR* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.CopyAccelerationStructureToMemoryKHR(base->dispatch_handle, deferredOperation__, pInfo__);
-
+#ifdef NEEDS_PRINTING_CopyAccelerationStructureToMemoryKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CopyAccelerationStructureToMemoryKHR with (device: %p,deferredOperation: %x,pInfo: %p) failed with result: %d", base->dispatch_handle,deferredOperation__,pInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -13713,6 +15324,8 @@ wrapper_tramp_CmdCopyMemoryToAccelerationStructureKHR(
     VkCommandBuffer commandBuffer,
     const VkCopyMemoryToAccelerationStructureInfoKHR* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyMemoryToAccelerationStructureKHR");
 WLOGA("CmdCopyMemoryToAccelerationStructureKHR(commandBuffer: %p, pInfo: %p)", commandBuffer, pInfo);
@@ -13724,7 +15337,7 @@ const VkCopyMemoryToAccelerationStructureInfoKHR* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkCopyMemoryToAccelerationStructureInfoKHR
     VkCopyMemoryToAccelerationStructureInfoKHR _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkCopyMemoryToAccelerationStructureInfoKHR(base->device, (VkCopyMemoryToAccelerationStructureInfoKHR *) pInfo__, pInfo);
+    unwrap_VkCopyMemoryToAccelerationStructureInfoKHR(&temp, base->device, (VkCopyMemoryToAccelerationStructureInfoKHR *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdCopyMemoryToAccelerationStructureKHR
     VK_CMD_LOGA("  in: pInfo: VkCopyMemoryToAccelerationStructureInfoKHR*");
@@ -13733,6 +15346,7 @@ const VkCopyMemoryToAccelerationStructureInfoKHR* pInfo__ = pInfo;
 #endif
     base->device->dispatch_table.CmdCopyMemoryToAccelerationStructureKHR(base->dispatch_handle, pInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13742,6 +15356,8 @@ wrapper_tramp_CopyMemoryToAccelerationStructureKHR(
     VkDeferredOperationKHR deferredOperation,
     const VkCopyMemoryToAccelerationStructureInfoKHR* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CopyMemoryToAccelerationStructureKHR");
 WLOGA("CopyMemoryToAccelerationStructureKHR(device: %p, deferredOperation: %x, pInfo: %p)", device, deferredOperation, pInfo);
@@ -13760,7 +15376,7 @@ const VkCopyMemoryToAccelerationStructureInfoKHR* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkCopyMemoryToAccelerationStructureInfoKHR
     VkCopyMemoryToAccelerationStructureInfoKHR _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkCopyMemoryToAccelerationStructureInfoKHR(base, (VkCopyMemoryToAccelerationStructureInfoKHR *) pInfo__, pInfo);
+    unwrap_VkCopyMemoryToAccelerationStructureInfoKHR(&temp, base, (VkCopyMemoryToAccelerationStructureInfoKHR *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_CopyMemoryToAccelerationStructureKHR
     VK_CMD_LOGA("  in: pInfo: VkCopyMemoryToAccelerationStructureInfoKHR*");
@@ -13768,7 +15384,14 @@ const VkCopyMemoryToAccelerationStructureInfoKHR* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.CopyMemoryToAccelerationStructureKHR(base->dispatch_handle, deferredOperation__, pInfo__);
-
+#ifdef NEEDS_PRINTING_CopyMemoryToAccelerationStructureKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CopyMemoryToAccelerationStructureKHR with (device: %p,deferredOperation: %x,pInfo: %p) failed with result: %d", base->dispatch_handle,deferredOperation__,pInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -13781,6 +15404,8 @@ wrapper_tramp_CmdWriteAccelerationStructuresPropertiesKHR(
     VkQueryPool queryPool,
     uint32_t firstQuery)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdWriteAccelerationStructuresPropertiesKHR");
 WLOGA("CmdWriteAccelerationStructuresPropertiesKHR(commandBuffer: %p, accelerationStructureCount: %x, pAccelerationStructures: %x, queryType: %x, queryPool: %x, firstQuery: %x)", commandBuffer, accelerationStructureCount, pAccelerationStructures, queryType, queryPool, firstQuery);
@@ -13825,6 +15450,7 @@ uint32_t firstQuery__ = firstQuery;
 #endif
     base->device->dispatch_table.CmdWriteAccelerationStructuresPropertiesKHR(base->dispatch_handle, accelerationStructureCount__, pAccelerationStructures__, queryType__, queryPool__, firstQuery__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13837,6 +15463,8 @@ wrapper_tramp_CmdWriteAccelerationStructuresPropertiesNV(
     VkQueryPool queryPool,
     uint32_t firstQuery)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdWriteAccelerationStructuresPropertiesNV");
 WLOGA("CmdWriteAccelerationStructuresPropertiesNV(commandBuffer: %p, accelerationStructureCount: %x, pAccelerationStructures: %x, queryType: %x, queryPool: %x, firstQuery: %x)", commandBuffer, accelerationStructureCount, pAccelerationStructures, queryType, queryPool, firstQuery);
@@ -13881,6 +15509,7 @@ uint32_t firstQuery__ = firstQuery;
 #endif
     base->device->dispatch_table.CmdWriteAccelerationStructuresPropertiesNV(base->dispatch_handle, accelerationStructureCount__, pAccelerationStructures__, queryType__, queryPool__, firstQuery__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13896,6 +15525,8 @@ wrapper_tramp_CmdBuildAccelerationStructureNV(
     VkBuffer scratch,
     VkDeviceSize scratchOffset)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBuildAccelerationStructureNV");
 WLOGA("CmdBuildAccelerationStructureNV(commandBuffer: %p, pInfo: %p, instanceData: %x, instanceOffset: %x, update: %x, dst: %x, src: %x, scratch: %x, scratchOffset: %x)", commandBuffer, pInfo, instanceData, instanceOffset, update, dst, src, scratch, scratchOffset);
@@ -13907,7 +15538,7 @@ const VkAccelerationStructureInfoNV* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureInfoNV
     VkAccelerationStructureInfoNV _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkAccelerationStructureInfoNV(base->device, (VkAccelerationStructureInfoNV *) pInfo__, pInfo);
+    unwrap_VkAccelerationStructureInfoNV(&temp, base->device, (VkAccelerationStructureInfoNV *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdBuildAccelerationStructureNV
     VK_CMD_LOGA("  in: pInfo: VkAccelerationStructureInfoNV*");
@@ -13965,6 +15596,7 @@ VkDeviceSize scratchOffset__ = scratchOffset;
 #endif
     base->device->dispatch_table.CmdBuildAccelerationStructureNV(base->dispatch_handle, pInfo__, instanceData__, instanceOffset__, update__, dst__, src__, scratch__, scratchOffset__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -13978,6 +15610,8 @@ wrapper_tramp_WriteAccelerationStructuresPropertiesKHR(
     void* pData,
     size_t stride)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("WriteAccelerationStructuresPropertiesKHR");
 WLOGA("WriteAccelerationStructuresPropertiesKHR(device: %p, accelerationStructureCount: %x, pAccelerationStructures: %x, queryType: %x, dataSize: %x, pData: %p, stride: %x)", device, accelerationStructureCount, pAccelerationStructures, queryType, dataSize, pData, stride);
@@ -14022,14 +15656,19 @@ size_t stride__ = stride;
 #endif
     VkResult result = base->dispatch_table.WriteAccelerationStructuresPropertiesKHR(base->dispatch_handle, accelerationStructureCount__, pAccelerationStructures__, queryType__, dataSize__, pData, stride__);
 #ifdef NEEDS_PRINTING_WriteAccelerationStructuresPropertiesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_WriteAccelerationStructuresPropertiesKHR
     VK_CMD_LOGA("  out: *pData: void = %x", (int64_t)*pData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to WriteAccelerationStructuresPropertiesKHR with (device: %p,accelerationStructureCount: %x,pAccelerationStructures: %x,queryType: %x,dataSize: %x,pData: %p,stride: %x) failed with result: %d", base->dispatch_handle,accelerationStructureCount__,pAccelerationStructures__,queryType__,dataSize__,pData,stride__, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to WriteAccelerationStructuresPropertiesKHR with (device: %p,accelerationStructureCount: %x,pAccelerationStructures: %x,queryType: %x,dataSize: %x,pData: %p,stride: %x) failed with result: %d", base->dispatch_handle,accelerationStructureCount__,pAccelerationStructures__,queryType__,dataSize__,pData,stride__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -14044,6 +15683,8 @@ wrapper_tramp_CmdTraceRaysKHR(
     uint32_t height,
     uint32_t depth)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdTraceRaysKHR");
 WLOGA("CmdTraceRaysKHR(commandBuffer: %p, pRaygenShaderBindingTable: %p, pMissShaderBindingTable: %p, pHitShaderBindingTable: %p, pCallableShaderBindingTable: %p, width: %x, height: %x, depth: %x)", commandBuffer, pRaygenShaderBindingTable, pMissShaderBindingTable, pHitShaderBindingTable, pCallableShaderBindingTable, width, height, depth);
@@ -14055,7 +15696,7 @@ const VkStridedDeviceAddressRegionKHR* pRaygenShaderBindingTable__ = pRaygenShad
 #ifdef NEEDS_UNWRAPPING_VkStridedDeviceAddressRegionKHR
     VkStridedDeviceAddressRegionKHR _w_pRaygenShaderBindingTable = { 0 };
     pRaygenShaderBindingTable__ = &_w_pRaygenShaderBindingTable;
-    unwrap_VkStridedDeviceAddressRegionKHR(base->device, (VkStridedDeviceAddressRegionKHR *) pRaygenShaderBindingTable__, pRaygenShaderBindingTable);
+    unwrap_VkStridedDeviceAddressRegionKHR(&temp, base->device, (VkStridedDeviceAddressRegionKHR *) pRaygenShaderBindingTable__, pRaygenShaderBindingTable);
 #endif
 #ifdef NEEDS_PRINTING_CmdTraceRaysKHR
     VK_CMD_LOGA("  in: pRaygenShaderBindingTable: VkStridedDeviceAddressRegionKHR*");
@@ -14066,7 +15707,7 @@ const VkStridedDeviceAddressRegionKHR* pMissShaderBindingTable__ = pMissShaderBi
 #ifdef NEEDS_UNWRAPPING_VkStridedDeviceAddressRegionKHR
     VkStridedDeviceAddressRegionKHR _w_pMissShaderBindingTable = { 0 };
     pMissShaderBindingTable__ = &_w_pMissShaderBindingTable;
-    unwrap_VkStridedDeviceAddressRegionKHR(base->device, (VkStridedDeviceAddressRegionKHR *) pMissShaderBindingTable__, pMissShaderBindingTable);
+    unwrap_VkStridedDeviceAddressRegionKHR(&temp, base->device, (VkStridedDeviceAddressRegionKHR *) pMissShaderBindingTable__, pMissShaderBindingTable);
 #endif
 #ifdef NEEDS_PRINTING_CmdTraceRaysKHR
     VK_CMD_LOGA("  in: pMissShaderBindingTable: VkStridedDeviceAddressRegionKHR*");
@@ -14077,7 +15718,7 @@ const VkStridedDeviceAddressRegionKHR* pHitShaderBindingTable__ = pHitShaderBind
 #ifdef NEEDS_UNWRAPPING_VkStridedDeviceAddressRegionKHR
     VkStridedDeviceAddressRegionKHR _w_pHitShaderBindingTable = { 0 };
     pHitShaderBindingTable__ = &_w_pHitShaderBindingTable;
-    unwrap_VkStridedDeviceAddressRegionKHR(base->device, (VkStridedDeviceAddressRegionKHR *) pHitShaderBindingTable__, pHitShaderBindingTable);
+    unwrap_VkStridedDeviceAddressRegionKHR(&temp, base->device, (VkStridedDeviceAddressRegionKHR *) pHitShaderBindingTable__, pHitShaderBindingTable);
 #endif
 #ifdef NEEDS_PRINTING_CmdTraceRaysKHR
     VK_CMD_LOGA("  in: pHitShaderBindingTable: VkStridedDeviceAddressRegionKHR*");
@@ -14088,7 +15729,7 @@ const VkStridedDeviceAddressRegionKHR* pCallableShaderBindingTable__ = pCallable
 #ifdef NEEDS_UNWRAPPING_VkStridedDeviceAddressRegionKHR
     VkStridedDeviceAddressRegionKHR _w_pCallableShaderBindingTable = { 0 };
     pCallableShaderBindingTable__ = &_w_pCallableShaderBindingTable;
-    unwrap_VkStridedDeviceAddressRegionKHR(base->device, (VkStridedDeviceAddressRegionKHR *) pCallableShaderBindingTable__, pCallableShaderBindingTable);
+    unwrap_VkStridedDeviceAddressRegionKHR(&temp, base->device, (VkStridedDeviceAddressRegionKHR *) pCallableShaderBindingTable__, pCallableShaderBindingTable);
 #endif
 #ifdef NEEDS_PRINTING_CmdTraceRaysKHR
     VK_CMD_LOGA("  in: pCallableShaderBindingTable: VkStridedDeviceAddressRegionKHR*");
@@ -14118,6 +15759,7 @@ uint32_t depth__ = depth;
 #endif
     base->device->dispatch_table.CmdTraceRaysKHR(base->dispatch_handle, pRaygenShaderBindingTable__, pMissShaderBindingTable__, pHitShaderBindingTable__, pCallableShaderBindingTable__, width__, height__, depth__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -14139,6 +15781,8 @@ wrapper_tramp_CmdTraceRaysNV(
     uint32_t height,
     uint32_t depth)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdTraceRaysNV");
 WLOGA("CmdTraceRaysNV(commandBuffer: %p, raygenShaderBindingTableBuffer: %x, raygenShaderBindingOffset: %x, missShaderBindingTableBuffer: %x, missShaderBindingOffset: %x, missShaderBindingStride: %x, hitShaderBindingTableBuffer: %x, hitShaderBindingOffset: %x, hitShaderBindingStride: %x, callableShaderBindingTableBuffer: %x, callableShaderBindingOffset: %x, callableShaderBindingStride: %x, width: %x, height: %x, depth: %x)", commandBuffer, raygenShaderBindingTableBuffer, raygenShaderBindingOffset, missShaderBindingTableBuffer, missShaderBindingOffset, missShaderBindingStride, hitShaderBindingTableBuffer, hitShaderBindingOffset, hitShaderBindingStride, callableShaderBindingTableBuffer, callableShaderBindingOffset, callableShaderBindingStride, width, height, depth);
@@ -14246,6 +15890,7 @@ uint32_t depth__ = depth;
 #endif
     base->device->dispatch_table.CmdTraceRaysNV(base->dispatch_handle, raygenShaderBindingTableBuffer__, raygenShaderBindingOffset__, missShaderBindingTableBuffer__, missShaderBindingOffset__, missShaderBindingStride__, hitShaderBindingTableBuffer__, hitShaderBindingOffset__, hitShaderBindingStride__, callableShaderBindingTableBuffer__, callableShaderBindingOffset__, callableShaderBindingStride__, width__, height__, depth__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -14258,6 +15903,8 @@ wrapper_tramp_GetRayTracingShaderGroupHandlesKHR(
     size_t dataSize,
     void* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetRayTracingShaderGroupHandlesKHR");
 WLOGA("GetRayTracingShaderGroupHandlesKHR(device: %p, pipeline: %x, firstGroup: %x, groupCount: %x, dataSize: %x, pData: %p)", device, pipeline, firstGroup, groupCount, dataSize, pData);
@@ -14295,14 +15942,19 @@ size_t dataSize__ = dataSize;
 #endif
     VkResult result = base->dispatch_table.GetRayTracingShaderGroupHandlesKHR(base->dispatch_handle, pipeline__, firstGroup__, groupCount__, dataSize__, pData);
 #ifdef NEEDS_PRINTING_GetRayTracingShaderGroupHandlesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetRayTracingShaderGroupHandlesKHR
     VK_CMD_LOGA("  out: *pData: void = %x", (int64_t)*pData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetRayTracingShaderGroupHandlesKHR with (device: %p,pipeline: %x,firstGroup: %x,groupCount: %x,dataSize: %x,pData: %p) failed with result: %d", base->dispatch_handle,pipeline__,firstGroup__,groupCount__,dataSize__,pData, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetRayTracingShaderGroupHandlesKHR with (device: %p,pipeline: %x,firstGroup: %x,groupCount: %x,dataSize: %x,pData: %p) failed with result: %d", base->dispatch_handle,pipeline__,firstGroup__,groupCount__,dataSize__,pData, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -14315,6 +15967,8 @@ wrapper_tramp_GetRayTracingCaptureReplayShaderGroupHandlesKHR(
     size_t dataSize,
     void* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetRayTracingCaptureReplayShaderGroupHandlesKHR");
 WLOGA("GetRayTracingCaptureReplayShaderGroupHandlesKHR(device: %p, pipeline: %x, firstGroup: %x, groupCount: %x, dataSize: %x, pData: %p)", device, pipeline, firstGroup, groupCount, dataSize, pData);
@@ -14352,14 +16006,19 @@ size_t dataSize__ = dataSize;
 #endif
     VkResult result = base->dispatch_table.GetRayTracingCaptureReplayShaderGroupHandlesKHR(base->dispatch_handle, pipeline__, firstGroup__, groupCount__, dataSize__, pData);
 #ifdef NEEDS_PRINTING_GetRayTracingCaptureReplayShaderGroupHandlesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetRayTracingCaptureReplayShaderGroupHandlesKHR
     VK_CMD_LOGA("  out: *pData: void = %x", (int64_t)*pData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetRayTracingCaptureReplayShaderGroupHandlesKHR with (device: %p,pipeline: %x,firstGroup: %x,groupCount: %x,dataSize: %x,pData: %p) failed with result: %d", base->dispatch_handle,pipeline__,firstGroup__,groupCount__,dataSize__,pData, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetRayTracingCaptureReplayShaderGroupHandlesKHR with (device: %p,pipeline: %x,firstGroup: %x,groupCount: %x,dataSize: %x,pData: %p) failed with result: %d", base->dispatch_handle,pipeline__,firstGroup__,groupCount__,dataSize__,pData, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -14370,6 +16029,8 @@ wrapper_tramp_GetAccelerationStructureHandleNV(
     size_t dataSize,
     void* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetAccelerationStructureHandleNV");
 WLOGA("GetAccelerationStructureHandleNV(device: %p, accelerationStructure: %x, dataSize: %x, pData: %p)", device, accelerationStructure, dataSize, pData);
@@ -14393,14 +16054,19 @@ size_t dataSize__ = dataSize;
 #endif
     VkResult result = base->dispatch_table.GetAccelerationStructureHandleNV(base->dispatch_handle, accelerationStructure__, dataSize__, pData);
 #ifdef NEEDS_PRINTING_GetAccelerationStructureHandleNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetAccelerationStructureHandleNV
     VK_CMD_LOGA("  out: *pData: void = %x", (int64_t)*pData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetAccelerationStructureHandleNV with (device: %p,accelerationStructure: %x,dataSize: %x,pData: %p) failed with result: %d", base->dispatch_handle,accelerationStructure__,dataSize__,pData, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetAccelerationStructureHandleNV with (device: %p,accelerationStructure: %x,dataSize: %x,pData: %p) failed with result: %d", base->dispatch_handle,accelerationStructure__,dataSize__,pData, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -14413,6 +16079,8 @@ wrapper_tramp_CreateRayTracingPipelinesNV(
     const VkAllocationCallbacks* pAllocator,
     VkPipeline* pPipelines)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateRayTracingPipelinesNV");
 WLOGA("CreateRayTracingPipelinesNV(device: %p, pipelineCache: %x, createInfoCount: %x, pCreateInfos: %p, pAllocator: %p, pPipelines: %p)", device, pipelineCache, createInfoCount, pCreateInfos, pAllocator, pPipelines);
@@ -14438,7 +16106,7 @@ const VkRayTracingPipelineCreateInfoNV* pCreateInfos__ = pCreateInfos;
 #ifdef NEEDS_UNWRAPPING_VkRayTracingPipelineCreateInfoNV
     pCreateInfos__ = alloca(createInfoCount * sizeof(VkRayTracingPipelineCreateInfoNV));
     for (int i = 0; i < createInfoCount; i++)
-        unwrap_VkRayTracingPipelineCreateInfoNV(base, (VkRayTracingPipelineCreateInfoNV *) &pCreateInfos__[i], &pCreateInfos[i]);
+        unwrap_VkRayTracingPipelineCreateInfoNV(&temp, base, (VkRayTracingPipelineCreateInfoNV *) &pCreateInfos__[i], &pCreateInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_CreateRayTracingPipelinesNV
     VK_CMD_LOGA("  in: pCreateInfos[]: VkRayTracingPipelineCreateInfoNV");
@@ -14452,7 +16120,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateRayTracingPipelinesNV
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -14461,14 +16129,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateRayTracingPipelinesNV(base->dispatch_handle, pipelineCache__, createInfoCount__, pCreateInfos__, pAllocator__, pPipelines);
 #ifdef NEEDS_PRINTING_CreateRayTracingPipelinesNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateRayTracingPipelinesNV
     VK_CMD_LOGA("  out: *pPipelines: VkPipeline = %x", (int64_t)*pPipelines);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPipeline
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateRayTracingPipelinesNV with (device: %p,pipelineCache: %x,createInfoCount: %x,pCreateInfos: %p,pAllocator: %p,pPipelines: %p) failed with result: %d", base->dispatch_handle,pipelineCache__,createInfoCount__,pCreateInfos__,pAllocator__,pPipelines, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateRayTracingPipelinesNV with (device: %p,pipelineCache: %x,createInfoCount: %x,pCreateInfos: %p,pAllocator: %p,pPipelines: %p) failed with result: %d", base->dispatch_handle,pipelineCache__,createInfoCount__,pCreateInfos__,pAllocator__,pPipelines, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -14482,6 +16155,8 @@ wrapper_tramp_CreateRayTracingPipelinesKHR(
     const VkAllocationCallbacks* pAllocator,
     VkPipeline* pPipelines)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateRayTracingPipelinesKHR");
 WLOGA("CreateRayTracingPipelinesKHR(device: %p, deferredOperation: %x, pipelineCache: %x, createInfoCount: %x, pCreateInfos: %p, pAllocator: %p, pPipelines: %p)", device, deferredOperation, pipelineCache, createInfoCount, pCreateInfos, pAllocator, pPipelines);
@@ -14514,7 +16189,7 @@ const VkRayTracingPipelineCreateInfoKHR* pCreateInfos__ = pCreateInfos;
 #ifdef NEEDS_UNWRAPPING_VkRayTracingPipelineCreateInfoKHR
     pCreateInfos__ = alloca(createInfoCount * sizeof(VkRayTracingPipelineCreateInfoKHR));
     for (int i = 0; i < createInfoCount; i++)
-        unwrap_VkRayTracingPipelineCreateInfoKHR(base, (VkRayTracingPipelineCreateInfoKHR *) &pCreateInfos__[i], &pCreateInfos[i]);
+        unwrap_VkRayTracingPipelineCreateInfoKHR(&temp, base, (VkRayTracingPipelineCreateInfoKHR *) &pCreateInfos__[i], &pCreateInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_CreateRayTracingPipelinesKHR
     VK_CMD_LOGA("  in: pCreateInfos[]: VkRayTracingPipelineCreateInfoKHR");
@@ -14528,7 +16203,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateRayTracingPipelinesKHR
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -14537,14 +16212,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateRayTracingPipelinesKHR(base->dispatch_handle, deferredOperation__, pipelineCache__, createInfoCount__, pCreateInfos__, pAllocator__, pPipelines);
 #ifdef NEEDS_PRINTING_CreateRayTracingPipelinesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateRayTracingPipelinesKHR
     VK_CMD_LOGA("  out: *pPipelines: VkPipeline = %x", (int64_t)*pPipelines);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPipeline
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateRayTracingPipelinesKHR with (device: %p,deferredOperation: %x,pipelineCache: %x,createInfoCount: %x,pCreateInfos: %p,pAllocator: %p,pPipelines: %p) failed with result: %d", base->dispatch_handle,deferredOperation__,pipelineCache__,createInfoCount__,pCreateInfos__,pAllocator__,pPipelines, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateRayTracingPipelinesKHR with (device: %p,deferredOperation: %x,pipelineCache: %x,createInfoCount: %x,pCreateInfos: %p,pAllocator: %p,pPipelines: %p) failed with result: %d", base->dispatch_handle,deferredOperation__,pipelineCache__,createInfoCount__,pCreateInfos__,pAllocator__,pPipelines, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -14557,6 +16237,8 @@ wrapper_tramp_CmdTraceRaysIndirectKHR(
     const VkStridedDeviceAddressRegionKHR* pCallableShaderBindingTable,
     VkDeviceAddress indirectDeviceAddress)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdTraceRaysIndirectKHR");
 WLOGA("CmdTraceRaysIndirectKHR(commandBuffer: %p, pRaygenShaderBindingTable: %p, pMissShaderBindingTable: %p, pHitShaderBindingTable: %p, pCallableShaderBindingTable: %p, indirectDeviceAddress: %x)", commandBuffer, pRaygenShaderBindingTable, pMissShaderBindingTable, pHitShaderBindingTable, pCallableShaderBindingTable, indirectDeviceAddress);
@@ -14568,7 +16250,7 @@ const VkStridedDeviceAddressRegionKHR* pRaygenShaderBindingTable__ = pRaygenShad
 #ifdef NEEDS_UNWRAPPING_VkStridedDeviceAddressRegionKHR
     VkStridedDeviceAddressRegionKHR _w_pRaygenShaderBindingTable = { 0 };
     pRaygenShaderBindingTable__ = &_w_pRaygenShaderBindingTable;
-    unwrap_VkStridedDeviceAddressRegionKHR(base->device, (VkStridedDeviceAddressRegionKHR *) pRaygenShaderBindingTable__, pRaygenShaderBindingTable);
+    unwrap_VkStridedDeviceAddressRegionKHR(&temp, base->device, (VkStridedDeviceAddressRegionKHR *) pRaygenShaderBindingTable__, pRaygenShaderBindingTable);
 #endif
 #ifdef NEEDS_PRINTING_CmdTraceRaysIndirectKHR
     VK_CMD_LOGA("  in: pRaygenShaderBindingTable: VkStridedDeviceAddressRegionKHR*");
@@ -14579,7 +16261,7 @@ const VkStridedDeviceAddressRegionKHR* pMissShaderBindingTable__ = pMissShaderBi
 #ifdef NEEDS_UNWRAPPING_VkStridedDeviceAddressRegionKHR
     VkStridedDeviceAddressRegionKHR _w_pMissShaderBindingTable = { 0 };
     pMissShaderBindingTable__ = &_w_pMissShaderBindingTable;
-    unwrap_VkStridedDeviceAddressRegionKHR(base->device, (VkStridedDeviceAddressRegionKHR *) pMissShaderBindingTable__, pMissShaderBindingTable);
+    unwrap_VkStridedDeviceAddressRegionKHR(&temp, base->device, (VkStridedDeviceAddressRegionKHR *) pMissShaderBindingTable__, pMissShaderBindingTable);
 #endif
 #ifdef NEEDS_PRINTING_CmdTraceRaysIndirectKHR
     VK_CMD_LOGA("  in: pMissShaderBindingTable: VkStridedDeviceAddressRegionKHR*");
@@ -14590,7 +16272,7 @@ const VkStridedDeviceAddressRegionKHR* pHitShaderBindingTable__ = pHitShaderBind
 #ifdef NEEDS_UNWRAPPING_VkStridedDeviceAddressRegionKHR
     VkStridedDeviceAddressRegionKHR _w_pHitShaderBindingTable = { 0 };
     pHitShaderBindingTable__ = &_w_pHitShaderBindingTable;
-    unwrap_VkStridedDeviceAddressRegionKHR(base->device, (VkStridedDeviceAddressRegionKHR *) pHitShaderBindingTable__, pHitShaderBindingTable);
+    unwrap_VkStridedDeviceAddressRegionKHR(&temp, base->device, (VkStridedDeviceAddressRegionKHR *) pHitShaderBindingTable__, pHitShaderBindingTable);
 #endif
 #ifdef NEEDS_PRINTING_CmdTraceRaysIndirectKHR
     VK_CMD_LOGA("  in: pHitShaderBindingTable: VkStridedDeviceAddressRegionKHR*");
@@ -14601,7 +16283,7 @@ const VkStridedDeviceAddressRegionKHR* pCallableShaderBindingTable__ = pCallable
 #ifdef NEEDS_UNWRAPPING_VkStridedDeviceAddressRegionKHR
     VkStridedDeviceAddressRegionKHR _w_pCallableShaderBindingTable = { 0 };
     pCallableShaderBindingTable__ = &_w_pCallableShaderBindingTable;
-    unwrap_VkStridedDeviceAddressRegionKHR(base->device, (VkStridedDeviceAddressRegionKHR *) pCallableShaderBindingTable__, pCallableShaderBindingTable);
+    unwrap_VkStridedDeviceAddressRegionKHR(&temp, base->device, (VkStridedDeviceAddressRegionKHR *) pCallableShaderBindingTable__, pCallableShaderBindingTable);
 #endif
 #ifdef NEEDS_PRINTING_CmdTraceRaysIndirectKHR
     VK_CMD_LOGA("  in: pCallableShaderBindingTable: VkStridedDeviceAddressRegionKHR*");
@@ -14617,6 +16299,7 @@ VkDeviceAddress indirectDeviceAddress__ = indirectDeviceAddress;
 #endif
     base->device->dispatch_table.CmdTraceRaysIndirectKHR(base->dispatch_handle, pRaygenShaderBindingTable__, pMissShaderBindingTable__, pHitShaderBindingTable__, pCallableShaderBindingTable__, indirectDeviceAddress__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -14625,6 +16308,8 @@ wrapper_tramp_CmdTraceRaysIndirect2KHR(
     VkCommandBuffer commandBuffer,
     VkDeviceAddress indirectDeviceAddress)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdTraceRaysIndirect2KHR");
 WLOGA("CmdTraceRaysIndirect2KHR(commandBuffer: %p, indirectDeviceAddress: %x)", commandBuffer, indirectDeviceAddress);
@@ -14641,6 +16326,7 @@ VkDeviceAddress indirectDeviceAddress__ = indirectDeviceAddress;
 #endif
     base->device->dispatch_table.CmdTraceRaysIndirect2KHR(base->dispatch_handle, indirectDeviceAddress__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -14650,6 +16336,8 @@ wrapper_tramp_GetDeviceAccelerationStructureCompatibilityKHR(
     const VkAccelerationStructureVersionInfoKHR* pVersionInfo,
     VkAccelerationStructureCompatibilityKHR* pCompatibility)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceAccelerationStructureCompatibilityKHR");
 WLOGA("GetDeviceAccelerationStructureCompatibilityKHR(device: %p, pVersionInfo: %p, pCompatibility: %p)", device, pVersionInfo, pCompatibility);
@@ -14661,7 +16349,7 @@ const VkAccelerationStructureVersionInfoKHR* pVersionInfo__ = pVersionInfo;
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureVersionInfoKHR
     VkAccelerationStructureVersionInfoKHR _w_pVersionInfo = { 0 };
     pVersionInfo__ = &_w_pVersionInfo;
-    unwrap_VkAccelerationStructureVersionInfoKHR(base, (VkAccelerationStructureVersionInfoKHR *) pVersionInfo__, pVersionInfo);
+    unwrap_VkAccelerationStructureVersionInfoKHR(&temp, base, (VkAccelerationStructureVersionInfoKHR *) pVersionInfo__, pVersionInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetDeviceAccelerationStructureCompatibilityKHR
     VK_CMD_LOGA("  in: pVersionInfo: VkAccelerationStructureVersionInfoKHR*");
@@ -14675,6 +16363,7 @@ const VkAccelerationStructureVersionInfoKHR* pVersionInfo__ = pVersionInfo;
 #endif
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureCompatibilityKHR
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -14685,6 +16374,8 @@ wrapper_tramp_GetRayTracingShaderGroupStackSizeKHR(
     uint32_t group,
     VkShaderGroupShaderKHR groupShader)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetRayTracingShaderGroupStackSizeKHR");
 WLOGA("GetRayTracingShaderGroupStackSizeKHR(device: %p, pipeline: %x, group: %x, groupShader: %x)", device, pipeline, group, groupShader);
@@ -14715,6 +16406,7 @@ VkShaderGroupShaderKHR groupShader__ = groupShader;
 #endif
     VkDeviceSize result = base->dispatch_table.GetRayTracingShaderGroupStackSizeKHR(base->dispatch_handle, pipeline__, group__, groupShader__);
 
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -14723,6 +16415,8 @@ wrapper_tramp_CmdSetRayTracingPipelineStackSizeKHR(
     VkCommandBuffer commandBuffer,
     uint32_t pipelineStackSize)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetRayTracingPipelineStackSizeKHR");
 WLOGA("CmdSetRayTracingPipelineStackSizeKHR(commandBuffer: %p, pipelineStackSize: %x)", commandBuffer, pipelineStackSize);
@@ -14739,6 +16433,7 @@ uint32_t pipelineStackSize__ = pipelineStackSize;
 #endif
     base->device->dispatch_table.CmdSetRayTracingPipelineStackSizeKHR(base->dispatch_handle, pipelineStackSize__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -14747,6 +16442,8 @@ wrapper_tramp_GetImageViewHandleNVX(
     VkDevice device,
     const VkImageViewHandleInfoNVX* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetImageViewHandleNVX");
 WLOGA("GetImageViewHandleNVX(device: %p, pInfo: %p)", device, pInfo);
@@ -14758,7 +16455,7 @@ const VkImageViewHandleInfoNVX* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkImageViewHandleInfoNVX
     VkImageViewHandleInfoNVX _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkImageViewHandleInfoNVX(base, (VkImageViewHandleInfoNVX *) pInfo__, pInfo);
+    unwrap_VkImageViewHandleInfoNVX(&temp, base, (VkImageViewHandleInfoNVX *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetImageViewHandleNVX
     VK_CMD_LOGA("  in: pInfo: VkImageViewHandleInfoNVX*");
@@ -14767,6 +16464,7 @@ const VkImageViewHandleInfoNVX* pInfo__ = pInfo;
 #endif
     uint32_t result = base->dispatch_table.GetImageViewHandleNVX(base->dispatch_handle, pInfo__);
 
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -14776,6 +16474,8 @@ wrapper_tramp_GetImageViewAddressNVX(
     VkImageView imageView,
     VkImageViewAddressPropertiesNVX* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetImageViewAddressNVX");
 WLOGA("GetImageViewAddressNVX(device: %p, imageView: %x, pProperties: %p)", device, imageView, pProperties);
@@ -14792,16 +16492,21 @@ VkImageView imageView__ = imageView;
 #endif
     VkResult result = base->dispatch_table.GetImageViewAddressNVX(base->dispatch_handle, imageView__, pProperties);
 #ifdef NEEDS_PRINTING_GetImageViewAddressNVX
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetImageViewAddressNVX
     VK_CMD_LOGA("  out: pProperties: VkImageViewAddressPropertiesNVX*");
     VK_PRINT_VkImageViewAddressPropertiesNVX("    ", pProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkImageViewAddressPropertiesNVX
-#warning TODO: Repack struct+ptr+out GetImageViewAddressNVX EntrypointParam(type='VkImageViewAddressPropertiesNVX', name='pProperties', decl='VkImageViewAddressPropertiesNVX* pProperties', len=None, elem=<Element 'param' at 0x75c0e9324ef0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetImageViewAddressNVX EntrypointParam(type='VkImageViewAddressPropertiesNVX', name='pProperties', decl='VkImageViewAddressPropertiesNVX* pProperties', len=None, elem=<Element 'param' at 0x7f0cb3040ea0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetImageViewAddressNVX with (device: %p,imageView: %x,pProperties: %p) failed with result: %d", base->dispatch_handle,imageView__,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetImageViewAddressNVX with (device: %p,imageView: %x,pProperties: %p) failed with result: %d", base->dispatch_handle,imageView__,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     #ifdef VK_USE_PLATFORM_WIN32_KHR
@@ -14812,6 +16517,8 @@ wrapper_tramp_GetDeviceGroupSurfacePresentModes2EXT(
     const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo,
     VkDeviceGroupPresentModeFlagsKHR* pModes)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceGroupSurfacePresentModes2EXT");
 WLOGA("GetDeviceGroupSurfacePresentModes2EXT(device: %p, pSurfaceInfo: %p, pModes: %p)", device, pSurfaceInfo, pModes);
@@ -14823,7 +16530,7 @@ const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo__ = pSurfaceInfo;
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceSurfaceInfo2KHR
     VkPhysicalDeviceSurfaceInfo2KHR _w_pSurfaceInfo = { 0 };
     pSurfaceInfo__ = &_w_pSurfaceInfo;
-    unwrap_VkPhysicalDeviceSurfaceInfo2KHR(base, (VkPhysicalDeviceSurfaceInfo2KHR *) pSurfaceInfo__, pSurfaceInfo);
+    unwrap_VkPhysicalDeviceSurfaceInfo2KHR(&temp, base, (VkPhysicalDeviceSurfaceInfo2KHR *) pSurfaceInfo__, pSurfaceInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetDeviceGroupSurfacePresentModes2EXT
     VK_CMD_LOGA("  in: pSurfaceInfo: VkPhysicalDeviceSurfaceInfo2KHR*");
@@ -14832,14 +16539,19 @@ const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo__ = pSurfaceInfo;
 #endif
     VkResult result = base->dispatch_table.GetDeviceGroupSurfacePresentModes2EXT(base->dispatch_handle, pSurfaceInfo__, pModes);
 #ifdef NEEDS_PRINTING_GetDeviceGroupSurfacePresentModes2EXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetDeviceGroupSurfacePresentModes2EXT
     VK_CMD_LOGA("  out: *pModes: VkDeviceGroupPresentModeFlagsKHR = %x", (int64_t)*pModes);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDeviceGroupPresentModeFlagsKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDeviceGroupSurfacePresentModes2EXT with (device: %p,pSurfaceInfo: %p,pModes: %p) failed with result: %d", base->dispatch_handle,pSurfaceInfo__,pModes, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetDeviceGroupSurfacePresentModes2EXT with (device: %p,pSurfaceInfo: %p,pModes: %p) failed with result: %d", base->dispatch_handle,pSurfaceInfo__,pModes, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -14850,6 +16562,8 @@ wrapper_tramp_AcquireFullScreenExclusiveModeEXT(
     VkDevice device,
     VkSwapchainKHR swapchain)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("AcquireFullScreenExclusiveModeEXT");
 WLOGA("AcquireFullScreenExclusiveModeEXT(device: %p, swapchain: %x)", device, swapchain);
@@ -14865,7 +16579,14 @@ VkSwapchainKHR swapchain__ = swapchain;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.AcquireFullScreenExclusiveModeEXT(base->dispatch_handle, swapchain__);
-
+#ifdef NEEDS_PRINTING_AcquireFullScreenExclusiveModeEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to AcquireFullScreenExclusiveModeEXT with (device: %p,swapchain: %x) failed with result: %d", base->dispatch_handle,swapchain__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -14876,6 +16597,8 @@ wrapper_tramp_ReleaseFullScreenExclusiveModeEXT(
     VkDevice device,
     VkSwapchainKHR swapchain)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("ReleaseFullScreenExclusiveModeEXT");
 WLOGA("ReleaseFullScreenExclusiveModeEXT(device: %p, swapchain: %x)", device, swapchain);
@@ -14891,7 +16614,14 @@ VkSwapchainKHR swapchain__ = swapchain;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.ReleaseFullScreenExclusiveModeEXT(base->dispatch_handle, swapchain__);
-
+#ifdef NEEDS_PRINTING_ReleaseFullScreenExclusiveModeEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to ReleaseFullScreenExclusiveModeEXT with (device: %p,swapchain: %x) failed with result: %d", base->dispatch_handle,swapchain__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -14901,6 +16631,8 @@ wrapper_tramp_AcquireProfilingLockKHR(
     VkDevice device,
     const VkAcquireProfilingLockInfoKHR* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("AcquireProfilingLockKHR");
 WLOGA("AcquireProfilingLockKHR(device: %p, pInfo: %p)", device, pInfo);
@@ -14912,7 +16644,7 @@ const VkAcquireProfilingLockInfoKHR* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkAcquireProfilingLockInfoKHR
     VkAcquireProfilingLockInfoKHR _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkAcquireProfilingLockInfoKHR(base, (VkAcquireProfilingLockInfoKHR *) pInfo__, pInfo);
+    unwrap_VkAcquireProfilingLockInfoKHR(&temp, base, (VkAcquireProfilingLockInfoKHR *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_AcquireProfilingLockKHR
     VK_CMD_LOGA("  in: pInfo: VkAcquireProfilingLockInfoKHR*");
@@ -14920,7 +16652,14 @@ const VkAcquireProfilingLockInfoKHR* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.AcquireProfilingLockKHR(base->dispatch_handle, pInfo__);
-
+#ifdef NEEDS_PRINTING_AcquireProfilingLockKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to AcquireProfilingLockKHR with (device: %p,pInfo: %p) failed with result: %d", base->dispatch_handle,pInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -14928,6 +16667,8 @@ static VKAPI_ATTR void VKAPI_CALL
 wrapper_tramp_ReleaseProfilingLockKHR(
     VkDevice device)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("ReleaseProfilingLockKHR");
 WLOGA("ReleaseProfilingLockKHR(device: %p)", device);
@@ -14937,6 +16678,7 @@ WLOGA("ReleaseProfilingLockKHR(device: %p)", device);
 #endif
     base->dispatch_table.ReleaseProfilingLockKHR(base->dispatch_handle);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -14946,6 +16688,8 @@ wrapper_tramp_GetImageDrmFormatModifierPropertiesEXT(
     VkImage image,
     VkImageDrmFormatModifierPropertiesEXT* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetImageDrmFormatModifierPropertiesEXT");
 WLOGA("GetImageDrmFormatModifierPropertiesEXT(device: %p, image: %x, pProperties: %p)", device, image, pProperties);
@@ -14962,16 +16706,21 @@ VkImage image__ = image;
 #endif
     VkResult result = base->dispatch_table.GetImageDrmFormatModifierPropertiesEXT(base->dispatch_handle, image__, pProperties);
 #ifdef NEEDS_PRINTING_GetImageDrmFormatModifierPropertiesEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetImageDrmFormatModifierPropertiesEXT
     VK_CMD_LOGA("  out: pProperties: VkImageDrmFormatModifierPropertiesEXT*");
     VK_PRINT_VkImageDrmFormatModifierPropertiesEXT("    ", pProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkImageDrmFormatModifierPropertiesEXT
-#warning TODO: Repack struct+ptr+out GetImageDrmFormatModifierPropertiesEXT EntrypointParam(type='VkImageDrmFormatModifierPropertiesEXT', name='pProperties', decl='VkImageDrmFormatModifierPropertiesEXT* pProperties', len=None, elem=<Element 'param' at 0x75c0e93276f0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetImageDrmFormatModifierPropertiesEXT EntrypointParam(type='VkImageDrmFormatModifierPropertiesEXT', name='pProperties', decl='VkImageDrmFormatModifierPropertiesEXT* pProperties', len=None, elem=<Element 'param' at 0x7f0cb30436a0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetImageDrmFormatModifierPropertiesEXT with (device: %p,image: %x,pProperties: %p) failed with result: %d", base->dispatch_handle,image__,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetImageDrmFormatModifierPropertiesEXT with (device: %p,image: %x,pProperties: %p) failed with result: %d", base->dispatch_handle,image__,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -14980,6 +16729,8 @@ wrapper_tramp_GetBufferOpaqueCaptureAddress(
     VkDevice device,
     const VkBufferDeviceAddressInfo* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetBufferOpaqueCaptureAddress");
 WLOGA("GetBufferOpaqueCaptureAddress(device: %p, pInfo: %p)", device, pInfo);
@@ -14991,7 +16742,7 @@ const VkBufferDeviceAddressInfo* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkBufferDeviceAddressInfo
     VkBufferDeviceAddressInfo _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkBufferDeviceAddressInfo(base, (VkBufferDeviceAddressInfo *) pInfo__, pInfo);
+    unwrap_VkBufferDeviceAddressInfo(&temp, base, (VkBufferDeviceAddressInfo *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetBufferOpaqueCaptureAddress
     VK_CMD_LOGA("  in: pInfo: VkBufferDeviceAddressInfo*");
@@ -15000,6 +16751,7 @@ const VkBufferDeviceAddressInfo* pInfo__ = pInfo;
 #endif
     uint64_t result = base->dispatch_table.GetBufferOpaqueCaptureAddress(base->dispatch_handle, pInfo__);
 
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -15008,6 +16760,8 @@ wrapper_tramp_GetBufferDeviceAddress(
     VkDevice device,
     const VkBufferDeviceAddressInfo* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetBufferDeviceAddress");
 WLOGA("GetBufferDeviceAddress(device: %p, pInfo: %p)", device, pInfo);
@@ -15019,7 +16773,7 @@ const VkBufferDeviceAddressInfo* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkBufferDeviceAddressInfo
     VkBufferDeviceAddressInfo _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkBufferDeviceAddressInfo(base, (VkBufferDeviceAddressInfo *) pInfo__, pInfo);
+    unwrap_VkBufferDeviceAddressInfo(&temp, base, (VkBufferDeviceAddressInfo *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetBufferDeviceAddress
     VK_CMD_LOGA("  in: pInfo: VkBufferDeviceAddressInfo*");
@@ -15028,6 +16782,7 @@ const VkBufferDeviceAddressInfo* pInfo__ = pInfo;
 #endif
     VkDeviceAddress result = base->dispatch_table.GetBufferDeviceAddress(base->dispatch_handle, pInfo__);
 
+    free_temp_objects(&temp);
     return result;
 }
                 
@@ -15036,6 +16791,8 @@ wrapper_tramp_InitializePerformanceApiINTEL(
     VkDevice device,
     const VkInitializePerformanceApiInfoINTEL* pInitializeInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("InitializePerformanceApiINTEL");
 WLOGA("InitializePerformanceApiINTEL(device: %p, pInitializeInfo: %p)", device, pInitializeInfo);
@@ -15047,7 +16804,7 @@ const VkInitializePerformanceApiInfoINTEL* pInitializeInfo__ = pInitializeInfo;
 #ifdef NEEDS_UNWRAPPING_VkInitializePerformanceApiInfoINTEL
     VkInitializePerformanceApiInfoINTEL _w_pInitializeInfo = { 0 };
     pInitializeInfo__ = &_w_pInitializeInfo;
-    unwrap_VkInitializePerformanceApiInfoINTEL(base, (VkInitializePerformanceApiInfoINTEL *) pInitializeInfo__, pInitializeInfo);
+    unwrap_VkInitializePerformanceApiInfoINTEL(&temp, base, (VkInitializePerformanceApiInfoINTEL *) pInitializeInfo__, pInitializeInfo);
 #endif
 #ifdef NEEDS_PRINTING_InitializePerformanceApiINTEL
     VK_CMD_LOGA("  in: pInitializeInfo: VkInitializePerformanceApiInfoINTEL*");
@@ -15055,7 +16812,14 @@ const VkInitializePerformanceApiInfoINTEL* pInitializeInfo__ = pInitializeInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.InitializePerformanceApiINTEL(base->dispatch_handle, pInitializeInfo__);
-
+#ifdef NEEDS_PRINTING_InitializePerformanceApiINTEL
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to InitializePerformanceApiINTEL with (device: %p,pInitializeInfo: %p) failed with result: %d", base->dispatch_handle,pInitializeInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15063,6 +16827,8 @@ static VKAPI_ATTR void VKAPI_CALL
 wrapper_tramp_UninitializePerformanceApiINTEL(
     VkDevice device)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("UninitializePerformanceApiINTEL");
 WLOGA("UninitializePerformanceApiINTEL(device: %p)", device);
@@ -15072,6 +16838,7 @@ WLOGA("UninitializePerformanceApiINTEL(device: %p)", device);
 #endif
     base->dispatch_table.UninitializePerformanceApiINTEL(base->dispatch_handle);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -15080,6 +16847,8 @@ wrapper_tramp_CmdSetPerformanceMarkerINTEL(
     VkCommandBuffer commandBuffer,
     const VkPerformanceMarkerInfoINTEL* pMarkerInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetPerformanceMarkerINTEL");
 WLOGA("CmdSetPerformanceMarkerINTEL(commandBuffer: %p, pMarkerInfo: %p)", commandBuffer, pMarkerInfo);
@@ -15091,7 +16860,7 @@ const VkPerformanceMarkerInfoINTEL* pMarkerInfo__ = pMarkerInfo;
 #ifdef NEEDS_UNWRAPPING_VkPerformanceMarkerInfoINTEL
     VkPerformanceMarkerInfoINTEL _w_pMarkerInfo = { 0 };
     pMarkerInfo__ = &_w_pMarkerInfo;
-    unwrap_VkPerformanceMarkerInfoINTEL(base->device, (VkPerformanceMarkerInfoINTEL *) pMarkerInfo__, pMarkerInfo);
+    unwrap_VkPerformanceMarkerInfoINTEL(&temp, base->device, (VkPerformanceMarkerInfoINTEL *) pMarkerInfo__, pMarkerInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetPerformanceMarkerINTEL
     VK_CMD_LOGA("  in: pMarkerInfo: VkPerformanceMarkerInfoINTEL*");
@@ -15099,7 +16868,14 @@ const VkPerformanceMarkerInfoINTEL* pMarkerInfo__ = pMarkerInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->device->dispatch_table.CmdSetPerformanceMarkerINTEL(base->dispatch_handle, pMarkerInfo__);
-
+#ifdef NEEDS_PRINTING_CmdSetPerformanceMarkerINTEL
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CmdSetPerformanceMarkerINTEL with (commandBuffer: %p,pMarkerInfo: %p) failed with result: %d", base->dispatch_handle,pMarkerInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15108,6 +16884,8 @@ wrapper_tramp_CmdSetPerformanceStreamMarkerINTEL(
     VkCommandBuffer commandBuffer,
     const VkPerformanceStreamMarkerInfoINTEL* pMarkerInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetPerformanceStreamMarkerINTEL");
 WLOGA("CmdSetPerformanceStreamMarkerINTEL(commandBuffer: %p, pMarkerInfo: %p)", commandBuffer, pMarkerInfo);
@@ -15119,7 +16897,7 @@ const VkPerformanceStreamMarkerInfoINTEL* pMarkerInfo__ = pMarkerInfo;
 #ifdef NEEDS_UNWRAPPING_VkPerformanceStreamMarkerInfoINTEL
     VkPerformanceStreamMarkerInfoINTEL _w_pMarkerInfo = { 0 };
     pMarkerInfo__ = &_w_pMarkerInfo;
-    unwrap_VkPerformanceStreamMarkerInfoINTEL(base->device, (VkPerformanceStreamMarkerInfoINTEL *) pMarkerInfo__, pMarkerInfo);
+    unwrap_VkPerformanceStreamMarkerInfoINTEL(&temp, base->device, (VkPerformanceStreamMarkerInfoINTEL *) pMarkerInfo__, pMarkerInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetPerformanceStreamMarkerINTEL
     VK_CMD_LOGA("  in: pMarkerInfo: VkPerformanceStreamMarkerInfoINTEL*");
@@ -15127,7 +16905,14 @@ const VkPerformanceStreamMarkerInfoINTEL* pMarkerInfo__ = pMarkerInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->device->dispatch_table.CmdSetPerformanceStreamMarkerINTEL(base->dispatch_handle, pMarkerInfo__);
-
+#ifdef NEEDS_PRINTING_CmdSetPerformanceStreamMarkerINTEL
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CmdSetPerformanceStreamMarkerINTEL with (commandBuffer: %p,pMarkerInfo: %p) failed with result: %d", base->dispatch_handle,pMarkerInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15136,6 +16921,8 @@ wrapper_tramp_CmdSetPerformanceOverrideINTEL(
     VkCommandBuffer commandBuffer,
     const VkPerformanceOverrideInfoINTEL* pOverrideInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetPerformanceOverrideINTEL");
 WLOGA("CmdSetPerformanceOverrideINTEL(commandBuffer: %p, pOverrideInfo: %p)", commandBuffer, pOverrideInfo);
@@ -15147,7 +16934,7 @@ const VkPerformanceOverrideInfoINTEL* pOverrideInfo__ = pOverrideInfo;
 #ifdef NEEDS_UNWRAPPING_VkPerformanceOverrideInfoINTEL
     VkPerformanceOverrideInfoINTEL _w_pOverrideInfo = { 0 };
     pOverrideInfo__ = &_w_pOverrideInfo;
-    unwrap_VkPerformanceOverrideInfoINTEL(base->device, (VkPerformanceOverrideInfoINTEL *) pOverrideInfo__, pOverrideInfo);
+    unwrap_VkPerformanceOverrideInfoINTEL(&temp, base->device, (VkPerformanceOverrideInfoINTEL *) pOverrideInfo__, pOverrideInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetPerformanceOverrideINTEL
     VK_CMD_LOGA("  in: pOverrideInfo: VkPerformanceOverrideInfoINTEL*");
@@ -15155,7 +16942,14 @@ const VkPerformanceOverrideInfoINTEL* pOverrideInfo__ = pOverrideInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->device->dispatch_table.CmdSetPerformanceOverrideINTEL(base->dispatch_handle, pOverrideInfo__);
-
+#ifdef NEEDS_PRINTING_CmdSetPerformanceOverrideINTEL
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CmdSetPerformanceOverrideINTEL with (commandBuffer: %p,pOverrideInfo: %p) failed with result: %d", base->dispatch_handle,pOverrideInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15165,6 +16959,8 @@ wrapper_tramp_AcquirePerformanceConfigurationINTEL(
     const VkPerformanceConfigurationAcquireInfoINTEL* pAcquireInfo,
     VkPerformanceConfigurationINTEL* pConfiguration)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("AcquirePerformanceConfigurationINTEL");
 WLOGA("AcquirePerformanceConfigurationINTEL(device: %p, pAcquireInfo: %p, pConfiguration: %p)", device, pAcquireInfo, pConfiguration);
@@ -15176,7 +16972,7 @@ const VkPerformanceConfigurationAcquireInfoINTEL* pAcquireInfo__ = pAcquireInfo;
 #ifdef NEEDS_UNWRAPPING_VkPerformanceConfigurationAcquireInfoINTEL
     VkPerformanceConfigurationAcquireInfoINTEL _w_pAcquireInfo = { 0 };
     pAcquireInfo__ = &_w_pAcquireInfo;
-    unwrap_VkPerformanceConfigurationAcquireInfoINTEL(base, (VkPerformanceConfigurationAcquireInfoINTEL *) pAcquireInfo__, pAcquireInfo);
+    unwrap_VkPerformanceConfigurationAcquireInfoINTEL(&temp, base, (VkPerformanceConfigurationAcquireInfoINTEL *) pAcquireInfo__, pAcquireInfo);
 #endif
 #ifdef NEEDS_PRINTING_AcquirePerformanceConfigurationINTEL
     VK_CMD_LOGA("  in: pAcquireInfo: VkPerformanceConfigurationAcquireInfoINTEL*");
@@ -15185,14 +16981,19 @@ const VkPerformanceConfigurationAcquireInfoINTEL* pAcquireInfo__ = pAcquireInfo;
 #endif
     VkResult result = base->dispatch_table.AcquirePerformanceConfigurationINTEL(base->dispatch_handle, pAcquireInfo__, pConfiguration);
 #ifdef NEEDS_PRINTING_AcquirePerformanceConfigurationINTEL
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_AcquirePerformanceConfigurationINTEL
     VK_CMD_LOGA("  out: *pConfiguration: VkPerformanceConfigurationINTEL = %x", (int64_t)*pConfiguration);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPerformanceConfigurationINTEL
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to AcquirePerformanceConfigurationINTEL with (device: %p,pAcquireInfo: %p,pConfiguration: %p) failed with result: %d", base->dispatch_handle,pAcquireInfo__,pConfiguration, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to AcquirePerformanceConfigurationINTEL with (device: %p,pAcquireInfo: %p,pConfiguration: %p) failed with result: %d", base->dispatch_handle,pAcquireInfo__,pConfiguration, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15201,6 +17002,8 @@ wrapper_tramp_ReleasePerformanceConfigurationINTEL(
     VkDevice device,
     VkPerformanceConfigurationINTEL configuration)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("ReleasePerformanceConfigurationINTEL");
 WLOGA("ReleasePerformanceConfigurationINTEL(device: %p, configuration: %x)", device, configuration);
@@ -15216,7 +17019,14 @@ VkPerformanceConfigurationINTEL configuration__ = configuration;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.ReleasePerformanceConfigurationINTEL(base->dispatch_handle, configuration__);
-
+#ifdef NEEDS_PRINTING_ReleasePerformanceConfigurationINTEL
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to ReleasePerformanceConfigurationINTEL with (device: %p,configuration: %x) failed with result: %d", base->dispatch_handle,configuration__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15225,6 +17035,8 @@ wrapper_tramp_QueueSetPerformanceConfigurationINTEL(
     VkQueue queue,
     VkPerformanceConfigurationINTEL configuration)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_queue, base, queue);
     VK_CMD_LOG("QueueSetPerformanceConfigurationINTEL");
 WLOGA("QueueSetPerformanceConfigurationINTEL(queue: %p, configuration: %x)", queue, configuration);
@@ -15240,7 +17052,14 @@ VkPerformanceConfigurationINTEL configuration__ = configuration;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->device->dispatch_table.QueueSetPerformanceConfigurationINTEL(base->dispatch_handle, configuration__);
-
+#ifdef NEEDS_PRINTING_QueueSetPerformanceConfigurationINTEL
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to QueueSetPerformanceConfigurationINTEL with (queue: %p,configuration: %x) failed with result: %d", base->dispatch_handle,configuration__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15250,6 +17069,8 @@ wrapper_tramp_GetPerformanceParameterINTEL(
     VkPerformanceParameterTypeINTEL parameter,
     VkPerformanceValueINTEL* pValue)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetPerformanceParameterINTEL");
 WLOGA("GetPerformanceParameterINTEL(device: %p, parameter: %x, pValue: %p)", device, parameter, pValue);
@@ -15266,16 +17087,21 @@ VkPerformanceParameterTypeINTEL parameter__ = parameter;
 #endif
     VkResult result = base->dispatch_table.GetPerformanceParameterINTEL(base->dispatch_handle, parameter__, pValue);
 #ifdef NEEDS_PRINTING_GetPerformanceParameterINTEL
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPerformanceParameterINTEL
     VK_CMD_LOGA("  out: pValue: VkPerformanceValueINTEL*");
     VK_PRINT_VkPerformanceValueINTEL("    ", pValue);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPerformanceValueINTEL
-#warning TODO: Repack struct+ptr+out GetPerformanceParameterINTEL EntrypointParam(type='VkPerformanceValueINTEL', name='pValue', decl='VkPerformanceValueINTEL* pValue', len=None, elem=<Element 'param' at 0x75c0e9332f70>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPerformanceParameterINTEL EntrypointParam(type='VkPerformanceValueINTEL', name='pValue', decl='VkPerformanceValueINTEL* pValue', len=None, elem=<Element 'param' at 0x7f0cb3052f20>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPerformanceParameterINTEL with (device: %p,parameter: %x,pValue: %p) failed with result: %d", base->dispatch_handle,parameter__,pValue, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPerformanceParameterINTEL with (device: %p,parameter: %x,pValue: %p) failed with result: %d", base->dispatch_handle,parameter__,pValue, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15284,6 +17110,8 @@ wrapper_tramp_GetDeviceMemoryOpaqueCaptureAddress(
     VkDevice device,
     const VkDeviceMemoryOpaqueCaptureAddressInfo* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceMemoryOpaqueCaptureAddress");
 WLOGA("GetDeviceMemoryOpaqueCaptureAddress(device: %p, pInfo: %p)", device, pInfo);
@@ -15295,7 +17123,7 @@ const VkDeviceMemoryOpaqueCaptureAddressInfo* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkDeviceMemoryOpaqueCaptureAddressInfo
     VkDeviceMemoryOpaqueCaptureAddressInfo _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkDeviceMemoryOpaqueCaptureAddressInfo(base, (VkDeviceMemoryOpaqueCaptureAddressInfo *) pInfo__, pInfo);
+    unwrap_VkDeviceMemoryOpaqueCaptureAddressInfo(&temp, base, (VkDeviceMemoryOpaqueCaptureAddressInfo *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetDeviceMemoryOpaqueCaptureAddress
     VK_CMD_LOGA("  in: pInfo: VkDeviceMemoryOpaqueCaptureAddressInfo*");
@@ -15304,6 +17132,7 @@ const VkDeviceMemoryOpaqueCaptureAddressInfo* pInfo__ = pInfo;
 #endif
     uint64_t result = base->dispatch_table.GetDeviceMemoryOpaqueCaptureAddress(base->dispatch_handle, pInfo__);
 
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -15314,6 +17143,8 @@ wrapper_tramp_GetPipelineExecutablePropertiesKHR(
     uint32_t* pExecutableCount,
     VkPipelineExecutablePropertiesKHR* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetPipelineExecutablePropertiesKHR");
 WLOGA("GetPipelineExecutablePropertiesKHR(device: %p, pPipelineInfo: %p, pExecutableCount: %p, pProperties: %p)", device, pPipelineInfo, pExecutableCount, pProperties);
@@ -15325,7 +17156,7 @@ const VkPipelineInfoKHR*        pPipelineInfo__ = pPipelineInfo;
 #ifdef NEEDS_UNWRAPPING_VkPipelineInfoKHR
     VkPipelineInfoKHR _w_pPipelineInfo = { 0 };
     pPipelineInfo__ = &_w_pPipelineInfo;
-    unwrap_VkPipelineInfoKHR(base, (VkPipelineInfoKHR *) pPipelineInfo__, pPipelineInfo);
+    unwrap_VkPipelineInfoKHR(&temp, base, (VkPipelineInfoKHR *) pPipelineInfo__, pPipelineInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPipelineExecutablePropertiesKHR
     VK_CMD_LOGA("  in: pPipelineInfo: VkPipelineInfoKHR*");
@@ -15334,14 +17165,15 @@ const VkPipelineInfoKHR*        pPipelineInfo__ = pPipelineInfo;
 #endif
     VkResult result = base->dispatch_table.GetPipelineExecutablePropertiesKHR(base->dispatch_handle, pPipelineInfo__, pExecutableCount, pProperties);
 #ifdef NEEDS_PRINTING_GetPipelineExecutablePropertiesKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPipelineExecutablePropertiesKHR
     VK_CMD_LOGA("  out: *pExecutableCount: uint32_t = %x", (int64_t)*pExecutableCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPipelineExecutablePropertiesKHR with (device: %p,pPipelineInfo: %p,pExecutableCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPipelineInfo__,pExecutableCount,pProperties, result);
-}
 #ifdef NEEDS_PRINTING_GetPipelineExecutablePropertiesKHR
     VK_CMD_LOGA("  out: pProperties[]: VkPipelineExecutablePropertiesKHR");
     for (int i = 0; i < pExecutableCount; i++) {
@@ -15351,11 +17183,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPipelineExecutablePropertiesKHR
-#warning TODO: Repack struct+array+out GetPipelineExecutablePropertiesKHR EntrypointParam(type='VkPipelineExecutablePropertiesKHR', name='pProperties', decl='VkPipelineExecutablePropertiesKHR* pProperties', len='pExecutableCount', elem=<Element 'param' at 0x75c0e93339c0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPipelineExecutablePropertiesKHR EntrypointParam(type='VkPipelineExecutablePropertiesKHR', name='pProperties', decl='VkPipelineExecutablePropertiesKHR* pProperties', len='pExecutableCount', elem=<Element 'param' at 0x7f0cb3053970>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPipelineExecutablePropertiesKHR with (device: %p,pPipelineInfo: %p,pExecutableCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPipelineInfo__,pExecutableCount,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPipelineExecutablePropertiesKHR with (device: %p,pPipelineInfo: %p,pExecutableCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPipelineInfo__,pExecutableCount,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15366,6 +17199,8 @@ wrapper_tramp_GetPipelineExecutableStatisticsKHR(
     uint32_t* pStatisticCount,
     VkPipelineExecutableStatisticKHR* pStatistics)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetPipelineExecutableStatisticsKHR");
 WLOGA("GetPipelineExecutableStatisticsKHR(device: %p, pExecutableInfo: %p, pStatisticCount: %p, pStatistics: %p)", device, pExecutableInfo, pStatisticCount, pStatistics);
@@ -15377,7 +17212,7 @@ const VkPipelineExecutableInfoKHR*  pExecutableInfo__ = pExecutableInfo;
 #ifdef NEEDS_UNWRAPPING_VkPipelineExecutableInfoKHR
     VkPipelineExecutableInfoKHR _w_pExecutableInfo = { 0 };
     pExecutableInfo__ = &_w_pExecutableInfo;
-    unwrap_VkPipelineExecutableInfoKHR(base, (VkPipelineExecutableInfoKHR *) pExecutableInfo__, pExecutableInfo);
+    unwrap_VkPipelineExecutableInfoKHR(&temp, base, (VkPipelineExecutableInfoKHR *) pExecutableInfo__, pExecutableInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPipelineExecutableStatisticsKHR
     VK_CMD_LOGA("  in: pExecutableInfo: VkPipelineExecutableInfoKHR*");
@@ -15386,14 +17221,15 @@ const VkPipelineExecutableInfoKHR*  pExecutableInfo__ = pExecutableInfo;
 #endif
     VkResult result = base->dispatch_table.GetPipelineExecutableStatisticsKHR(base->dispatch_handle, pExecutableInfo__, pStatisticCount, pStatistics);
 #ifdef NEEDS_PRINTING_GetPipelineExecutableStatisticsKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPipelineExecutableStatisticsKHR
     VK_CMD_LOGA("  out: *pStatisticCount: uint32_t = %x", (int64_t)*pStatisticCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPipelineExecutableStatisticsKHR with (device: %p,pExecutableInfo: %p,pStatisticCount: %p,pStatistics: %p) failed with result: %d", base->dispatch_handle,pExecutableInfo__,pStatisticCount,pStatistics, result);
-}
 #ifdef NEEDS_PRINTING_GetPipelineExecutableStatisticsKHR
     VK_CMD_LOGA("  out: pStatistics[]: VkPipelineExecutableStatisticKHR");
     for (int i = 0; i < pStatisticCount; i++) {
@@ -15403,11 +17239,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPipelineExecutableStatisticKHR
-#warning TODO: Repack struct+array+out GetPipelineExecutableStatisticsKHR EntrypointParam(type='VkPipelineExecutableStatisticKHR', name='pStatistics', decl='VkPipelineExecutableStatisticKHR* pStatistics', len='pStatisticCount', elem=<Element 'param' at 0x75c0e9338090>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPipelineExecutableStatisticsKHR EntrypointParam(type='VkPipelineExecutableStatisticKHR', name='pStatistics', decl='VkPipelineExecutableStatisticKHR* pStatistics', len='pStatisticCount', elem=<Element 'param' at 0x7f0cb3058040>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPipelineExecutableStatisticsKHR with (device: %p,pExecutableInfo: %p,pStatisticCount: %p,pStatistics: %p) failed with result: %d", base->dispatch_handle,pExecutableInfo__,pStatisticCount,pStatistics, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPipelineExecutableStatisticsKHR with (device: %p,pExecutableInfo: %p,pStatisticCount: %p,pStatistics: %p) failed with result: %d", base->dispatch_handle,pExecutableInfo__,pStatisticCount,pStatistics, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15418,6 +17255,8 @@ wrapper_tramp_GetPipelineExecutableInternalRepresentationsKHR(
     uint32_t* pInternalRepresentationCount,
     VkPipelineExecutableInternalRepresentationKHR* pInternalRepresentations)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetPipelineExecutableInternalRepresentationsKHR");
 WLOGA("GetPipelineExecutableInternalRepresentationsKHR(device: %p, pExecutableInfo: %p, pInternalRepresentationCount: %p, pInternalRepresentations: %p)", device, pExecutableInfo, pInternalRepresentationCount, pInternalRepresentations);
@@ -15429,7 +17268,7 @@ const VkPipelineExecutableInfoKHR*  pExecutableInfo__ = pExecutableInfo;
 #ifdef NEEDS_UNWRAPPING_VkPipelineExecutableInfoKHR
     VkPipelineExecutableInfoKHR _w_pExecutableInfo = { 0 };
     pExecutableInfo__ = &_w_pExecutableInfo;
-    unwrap_VkPipelineExecutableInfoKHR(base, (VkPipelineExecutableInfoKHR *) pExecutableInfo__, pExecutableInfo);
+    unwrap_VkPipelineExecutableInfoKHR(&temp, base, (VkPipelineExecutableInfoKHR *) pExecutableInfo__, pExecutableInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPipelineExecutableInternalRepresentationsKHR
     VK_CMD_LOGA("  in: pExecutableInfo: VkPipelineExecutableInfoKHR*");
@@ -15438,14 +17277,15 @@ const VkPipelineExecutableInfoKHR*  pExecutableInfo__ = pExecutableInfo;
 #endif
     VkResult result = base->dispatch_table.GetPipelineExecutableInternalRepresentationsKHR(base->dispatch_handle, pExecutableInfo__, pInternalRepresentationCount, pInternalRepresentations);
 #ifdef NEEDS_PRINTING_GetPipelineExecutableInternalRepresentationsKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPipelineExecutableInternalRepresentationsKHR
     VK_CMD_LOGA("  out: *pInternalRepresentationCount: uint32_t = %x", (int64_t)*pInternalRepresentationCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPipelineExecutableInternalRepresentationsKHR with (device: %p,pExecutableInfo: %p,pInternalRepresentationCount: %p,pInternalRepresentations: %p) failed with result: %d", base->dispatch_handle,pExecutableInfo__,pInternalRepresentationCount,pInternalRepresentations, result);
-}
 #ifdef NEEDS_PRINTING_GetPipelineExecutableInternalRepresentationsKHR
     VK_CMD_LOGA("  out: pInternalRepresentations[]: VkPipelineExecutableInternalRepresentationKHR");
     for (int i = 0; i < pInternalRepresentationCount; i++) {
@@ -15455,11 +17295,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPipelineExecutableInternalRepresentationKHR
-#warning TODO: Repack struct+array+out GetPipelineExecutableInternalRepresentationsKHR EntrypointParam(type='VkPipelineExecutableInternalRepresentationKHR', name='pInternalRepresentations', decl='VkPipelineExecutableInternalRepresentationKHR* pInternalRepresentations', len='pInternalRepresentationCount', elem=<Element 'param' at 0x75c0e9338770>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPipelineExecutableInternalRepresentationsKHR EntrypointParam(type='VkPipelineExecutableInternalRepresentationKHR', name='pInternalRepresentations', decl='VkPipelineExecutableInternalRepresentationKHR* pInternalRepresentations', len='pInternalRepresentationCount', elem=<Element 'param' at 0x7f0cb3058720>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPipelineExecutableInternalRepresentationsKHR with (device: %p,pExecutableInfo: %p,pInternalRepresentationCount: %p,pInternalRepresentations: %p) failed with result: %d", base->dispatch_handle,pExecutableInfo__,pInternalRepresentationCount,pInternalRepresentations, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPipelineExecutableInternalRepresentationsKHR with (device: %p,pExecutableInfo: %p,pInternalRepresentationCount: %p,pInternalRepresentations: %p) failed with result: %d", base->dispatch_handle,pExecutableInfo__,pInternalRepresentationCount,pInternalRepresentations, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15469,6 +17310,8 @@ wrapper_tramp_CmdSetLineStippleKHR(
     uint32_t lineStippleFactor,
     uint16_t lineStipplePattern)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetLineStippleKHR");
 WLOGA("CmdSetLineStippleKHR(commandBuffer: %p, lineStippleFactor: %x, lineStipplePattern: %x)", commandBuffer, lineStippleFactor, lineStipplePattern);
@@ -15492,6 +17335,7 @@ uint16_t lineStipplePattern__ = lineStipplePattern;
 #endif
     base->device->dispatch_table.CmdSetLineStippleKHR(base->dispatch_handle, lineStippleFactor__, lineStipplePattern__);
 
+    free_temp_objects(&temp);
     return ;
 }
             
@@ -15502,6 +17346,8 @@ wrapper_tramp_CreateAccelerationStructureKHR(
     const VkAllocationCallbacks*       pAllocator,
     VkAccelerationStructureKHR*                        pAccelerationStructure)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateAccelerationStructureKHR");
 WLOGA("CreateAccelerationStructureKHR(device: %p, pCreateInfo: %p, pAllocator: %p, pAccelerationStructure: %p)", device, pCreateInfo, pAllocator, pAccelerationStructure);
@@ -15513,7 +17359,7 @@ const VkAccelerationStructureCreateInfoKHR*        pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureCreateInfoKHR
     VkAccelerationStructureCreateInfoKHR _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkAccelerationStructureCreateInfoKHR(base, (VkAccelerationStructureCreateInfoKHR *) pCreateInfo__, pCreateInfo);
+    unwrap_VkAccelerationStructureCreateInfoKHR(&temp, base, (VkAccelerationStructureCreateInfoKHR *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateAccelerationStructureKHR
     VK_CMD_LOGA("  in: pCreateInfo: VkAccelerationStructureCreateInfoKHR*");
@@ -15524,7 +17370,7 @@ const VkAllocationCallbacks*       pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateAccelerationStructureKHR
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -15533,14 +17379,19 @@ const VkAllocationCallbacks*       pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateAccelerationStructureKHR(base->dispatch_handle, pCreateInfo__, pAllocator__, pAccelerationStructure);
 #ifdef NEEDS_PRINTING_CreateAccelerationStructureKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateAccelerationStructureKHR
     VK_CMD_LOGA("  out: *pAccelerationStructure: VkAccelerationStructureKHR = %x", (int64_t)*pAccelerationStructure);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateAccelerationStructureKHR with (device: %p,pCreateInfo: %p,pAllocator: %p,pAccelerationStructure: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pAccelerationStructure, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateAccelerationStructureKHR with (device: %p,pCreateInfo: %p,pAllocator: %p,pAccelerationStructure: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pAccelerationStructure, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15551,6 +17402,8 @@ wrapper_tramp_CmdBuildAccelerationStructuresKHR(
     const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,
     const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBuildAccelerationStructuresKHR");
 WLOGA("CmdBuildAccelerationStructuresKHR(commandBuffer: %p, infoCount: %x, pInfos: %p, ppBuildRangeInfos: %p)", commandBuffer, infoCount, pInfos, ppBuildRangeInfos);
@@ -15569,7 +17422,7 @@ const VkAccelerationStructureBuildGeometryInfoKHR* pInfos__ = pInfos;
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureBuildGeometryInfoKHR
     pInfos__ = alloca(infoCount * sizeof(VkAccelerationStructureBuildGeometryInfoKHR));
     for (int i = 0; i < infoCount; i++)
-        unwrap_VkAccelerationStructureBuildGeometryInfoKHR(base->device, (VkAccelerationStructureBuildGeometryInfoKHR *) &pInfos__[i], &pInfos[i]);
+        unwrap_VkAccelerationStructureBuildGeometryInfoKHR(&temp, base->device, (VkAccelerationStructureBuildGeometryInfoKHR *) &pInfos__[i], &pInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdBuildAccelerationStructuresKHR
     VK_CMD_LOGA("  in: pInfos[]: VkAccelerationStructureBuildGeometryInfoKHR");
@@ -15581,7 +17434,7 @@ const VkAccelerationStructureBuildGeometryInfoKHR* pInfos__ = pInfos;
 #endif
 const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos__ = ppBuildRangeInfos;
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureBuildRangeInfoKHR
-#error: Unhandled struct+ptr2 CmdBuildAccelerationStructuresKHR EntrypointParam(type='VkAccelerationStructureBuildRangeInfoKHR', name='ppBuildRangeInfos', decl='const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos', len='infoCount', elem=<Element 'param' at 0x75c0e933a480>, is_const=True, num_pointers=2)
+#error: Unhandled struct+ptr2 CmdBuildAccelerationStructuresKHR EntrypointParam(type='VkAccelerationStructureBuildRangeInfoKHR', name='ppBuildRangeInfos', decl='const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos', len='infoCount', elem=<Element 'param' at 0x7f0cb305a430>, is_const=True, num_pointers=2)
 #endif
 #ifdef NEEDS_PRINTING_CmdBuildAccelerationStructuresKHR
     VK_CMD_LOGA("  in: ppBuildRangeInfos: VkAccelerationStructureBuildRangeInfoKHR** = %p", ppBuildRangeInfos);
@@ -15589,6 +17442,7 @@ const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos__ = ppB
 #endif
     base->device->dispatch_table.CmdBuildAccelerationStructuresKHR(base->dispatch_handle, infoCount__, pInfos__, ppBuildRangeInfos__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -15601,6 +17455,8 @@ wrapper_tramp_CmdBuildAccelerationStructuresIndirectKHR(
     const uint32_t*                    pIndirectStrides,
     const uint32_t* const*             ppMaxPrimitiveCounts)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBuildAccelerationStructuresIndirectKHR");
 WLOGA("CmdBuildAccelerationStructuresIndirectKHR(commandBuffer: %p, infoCount: %x, pInfos: %p, pIndirectDeviceAddresses: %x, pIndirectStrides: %x, ppMaxPrimitiveCounts: %x)", commandBuffer, infoCount, pInfos, pIndirectDeviceAddresses, pIndirectStrides, ppMaxPrimitiveCounts);
@@ -15619,7 +17475,7 @@ const VkAccelerationStructureBuildGeometryInfoKHR* pInfos__ = pInfos;
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureBuildGeometryInfoKHR
     pInfos__ = alloca(infoCount * sizeof(VkAccelerationStructureBuildGeometryInfoKHR));
     for (int i = 0; i < infoCount; i++)
-        unwrap_VkAccelerationStructureBuildGeometryInfoKHR(base->device, (VkAccelerationStructureBuildGeometryInfoKHR *) &pInfos__[i], &pInfos[i]);
+        unwrap_VkAccelerationStructureBuildGeometryInfoKHR(&temp, base->device, (VkAccelerationStructureBuildGeometryInfoKHR *) &pInfos__[i], &pInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdBuildAccelerationStructuresIndirectKHR
     VK_CMD_LOGA("  in: pInfos[]: VkAccelerationStructureBuildGeometryInfoKHR");
@@ -15652,6 +17508,7 @@ const uint32_t* const*             ppMaxPrimitiveCounts__ = ppMaxPrimitiveCounts
 #endif
     base->device->dispatch_table.CmdBuildAccelerationStructuresIndirectKHR(base->dispatch_handle, infoCount__, pInfos__, pIndirectDeviceAddresses__, pIndirectStrides__, ppMaxPrimitiveCounts__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -15663,6 +17520,8 @@ wrapper_tramp_BuildAccelerationStructuresKHR(
     const VkAccelerationStructureBuildGeometryInfoKHR* pInfos,
     const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("BuildAccelerationStructuresKHR");
 WLOGA("BuildAccelerationStructuresKHR(device: %p, deferredOperation: %x, infoCount: %x, pInfos: %p, ppBuildRangeInfos: %p)", device, deferredOperation, infoCount, pInfos, ppBuildRangeInfos);
@@ -15688,7 +17547,7 @@ const VkAccelerationStructureBuildGeometryInfoKHR* pInfos__ = pInfos;
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureBuildGeometryInfoKHR
     pInfos__ = alloca(infoCount * sizeof(VkAccelerationStructureBuildGeometryInfoKHR));
     for (int i = 0; i < infoCount; i++)
-        unwrap_VkAccelerationStructureBuildGeometryInfoKHR(base, (VkAccelerationStructureBuildGeometryInfoKHR *) &pInfos__[i], &pInfos[i]);
+        unwrap_VkAccelerationStructureBuildGeometryInfoKHR(&temp, base, (VkAccelerationStructureBuildGeometryInfoKHR *) &pInfos__[i], &pInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_BuildAccelerationStructuresKHR
     VK_CMD_LOGA("  in: pInfos[]: VkAccelerationStructureBuildGeometryInfoKHR");
@@ -15700,14 +17559,21 @@ const VkAccelerationStructureBuildGeometryInfoKHR* pInfos__ = pInfos;
 #endif
 const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos__ = ppBuildRangeInfos;
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureBuildRangeInfoKHR
-#error: Unhandled struct+ptr2 BuildAccelerationStructuresKHR EntrypointParam(type='VkAccelerationStructureBuildRangeInfoKHR', name='ppBuildRangeInfos', decl='const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos', len='infoCount', elem=<Element 'param' at 0x75c0e933b1f0>, is_const=True, num_pointers=2)
+#error: Unhandled struct+ptr2 BuildAccelerationStructuresKHR EntrypointParam(type='VkAccelerationStructureBuildRangeInfoKHR', name='ppBuildRangeInfos', decl='const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos', len='infoCount', elem=<Element 'param' at 0x7f0cb305b1a0>, is_const=True, num_pointers=2)
 #endif
 #ifdef NEEDS_PRINTING_BuildAccelerationStructuresKHR
     VK_CMD_LOGA("  in: ppBuildRangeInfos: VkAccelerationStructureBuildRangeInfoKHR** = %p", ppBuildRangeInfos);
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.BuildAccelerationStructuresKHR(base->dispatch_handle, deferredOperation__, infoCount__, pInfos__, ppBuildRangeInfos__);
-
+#ifdef NEEDS_PRINTING_BuildAccelerationStructuresKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to BuildAccelerationStructuresKHR with (device: %p,deferredOperation: %x,infoCount: %x,pInfos: %p,ppBuildRangeInfos: %p) failed with result: %d", base->dispatch_handle,deferredOperation__,infoCount__,pInfos__,ppBuildRangeInfos__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15716,6 +17582,8 @@ wrapper_tramp_GetAccelerationStructureDeviceAddressKHR(
     VkDevice device,
     const VkAccelerationStructureDeviceAddressInfoKHR* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetAccelerationStructureDeviceAddressKHR");
 WLOGA("GetAccelerationStructureDeviceAddressKHR(device: %p, pInfo: %p)", device, pInfo);
@@ -15727,7 +17595,7 @@ const VkAccelerationStructureDeviceAddressInfoKHR* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureDeviceAddressInfoKHR
     VkAccelerationStructureDeviceAddressInfoKHR _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkAccelerationStructureDeviceAddressInfoKHR(base, (VkAccelerationStructureDeviceAddressInfoKHR *) pInfo__, pInfo);
+    unwrap_VkAccelerationStructureDeviceAddressInfoKHR(&temp, base, (VkAccelerationStructureDeviceAddressInfoKHR *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetAccelerationStructureDeviceAddressKHR
     VK_CMD_LOGA("  in: pInfo: VkAccelerationStructureDeviceAddressInfoKHR*");
@@ -15736,6 +17604,7 @@ const VkAccelerationStructureDeviceAddressInfoKHR* pInfo__ = pInfo;
 #endif
     VkDeviceAddress result = base->dispatch_table.GetAccelerationStructureDeviceAddressKHR(base->dispatch_handle, pInfo__);
 
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15745,6 +17614,8 @@ wrapper_tramp_CreateDeferredOperationKHR(
     const VkAllocationCallbacks* pAllocator,
     VkDeferredOperationKHR* pDeferredOperation)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateDeferredOperationKHR");
 WLOGA("CreateDeferredOperationKHR(device: %p, pAllocator: %p, pDeferredOperation: %p)", device, pAllocator, pDeferredOperation);
@@ -15756,7 +17627,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateDeferredOperationKHR
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -15765,14 +17636,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateDeferredOperationKHR(base->dispatch_handle, pAllocator__, pDeferredOperation);
 #ifdef NEEDS_PRINTING_CreateDeferredOperationKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateDeferredOperationKHR
     VK_CMD_LOGA("  out: *pDeferredOperation: VkDeferredOperationKHR = %x", (int64_t)*pDeferredOperation);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDeferredOperationKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateDeferredOperationKHR with (device: %p,pAllocator: %p,pDeferredOperation: %p) failed with result: %d", base->dispatch_handle,pAllocator__,pDeferredOperation, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateDeferredOperationKHR with (device: %p,pAllocator: %p,pDeferredOperation: %p) failed with result: %d", base->dispatch_handle,pAllocator__,pDeferredOperation, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15782,6 +17658,8 @@ wrapper_tramp_DestroyDeferredOperationKHR(
     VkDeferredOperationKHR operation,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyDeferredOperationKHR");
 WLOGA("DestroyDeferredOperationKHR(device: %p, operation: %x, pAllocator: %p)", device, operation, pAllocator);
@@ -15800,7 +17678,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyDeferredOperationKHR
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -15809,6 +17687,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyDeferredOperationKHR(base->dispatch_handle, operation__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -15817,6 +17696,8 @@ wrapper_tramp_GetDeferredOperationMaxConcurrencyKHR(
     VkDevice device,
     VkDeferredOperationKHR operation)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeferredOperationMaxConcurrencyKHR");
 WLOGA("GetDeferredOperationMaxConcurrencyKHR(device: %p, operation: %x)", device, operation);
@@ -15833,6 +17714,7 @@ VkDeferredOperationKHR operation__ = operation;
 #endif
     uint32_t result = base->dispatch_table.GetDeferredOperationMaxConcurrencyKHR(base->dispatch_handle, operation__);
 
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15841,6 +17723,8 @@ wrapper_tramp_GetDeferredOperationResultKHR(
     VkDevice device,
     VkDeferredOperationKHR operation)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeferredOperationResultKHR");
 WLOGA("GetDeferredOperationResultKHR(device: %p, operation: %x)", device, operation);
@@ -15856,7 +17740,14 @@ VkDeferredOperationKHR operation__ = operation;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.GetDeferredOperationResultKHR(base->dispatch_handle, operation__);
-
+#ifdef NEEDS_PRINTING_GetDeferredOperationResultKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetDeferredOperationResultKHR with (device: %p,operation: %x) failed with result: %d", base->dispatch_handle,operation__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15865,6 +17756,8 @@ wrapper_tramp_DeferredOperationJoinKHR(
     VkDevice device,
     VkDeferredOperationKHR operation)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DeferredOperationJoinKHR");
 WLOGA("DeferredOperationJoinKHR(device: %p, operation: %x)", device, operation);
@@ -15880,7 +17773,14 @@ VkDeferredOperationKHR operation__ = operation;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.DeferredOperationJoinKHR(base->dispatch_handle, operation__);
-
+#ifdef NEEDS_PRINTING_DeferredOperationJoinKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to DeferredOperationJoinKHR with (device: %p,operation: %x) failed with result: %d", base->dispatch_handle,operation__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15890,6 +17790,8 @@ wrapper_tramp_GetPipelineIndirectMemoryRequirementsNV(
     const VkComputePipelineCreateInfo* pCreateInfo,
     VkMemoryRequirements2* pMemoryRequirements)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetPipelineIndirectMemoryRequirementsNV");
 WLOGA("GetPipelineIndirectMemoryRequirementsNV(device: %p, pCreateInfo: %p, pMemoryRequirements: %p)", device, pCreateInfo, pMemoryRequirements);
@@ -15901,7 +17803,7 @@ const VkComputePipelineCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkComputePipelineCreateInfo
     VkComputePipelineCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkComputePipelineCreateInfo(base, (VkComputePipelineCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkComputePipelineCreateInfo(&temp, base, (VkComputePipelineCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPipelineIndirectMemoryRequirementsNV
     VK_CMD_LOGA("  in: pCreateInfo: VkComputePipelineCreateInfo*");
@@ -15915,8 +17817,9 @@ const VkComputePipelineCreateInfo* pCreateInfo__ = pCreateInfo;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements2
-#warning TODO: Repack struct+ptr+out GetPipelineIndirectMemoryRequirementsNV EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75c0e9344d10>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPipelineIndirectMemoryRequirementsNV EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7f0cb3060cc0>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -15925,6 +17828,8 @@ wrapper_tramp_GetPipelineIndirectDeviceAddressNV(
     VkDevice device,
     const VkPipelineIndirectDeviceAddressInfoNV* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetPipelineIndirectDeviceAddressNV");
 WLOGA("GetPipelineIndirectDeviceAddressNV(device: %p, pInfo: %p)", device, pInfo);
@@ -15936,7 +17841,7 @@ const VkPipelineIndirectDeviceAddressInfoNV* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkPipelineIndirectDeviceAddressInfoNV
     VkPipelineIndirectDeviceAddressInfoNV _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkPipelineIndirectDeviceAddressInfoNV(base, (VkPipelineIndirectDeviceAddressInfoNV *) pInfo__, pInfo);
+    unwrap_VkPipelineIndirectDeviceAddressInfoNV(&temp, base, (VkPipelineIndirectDeviceAddressInfoNV *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPipelineIndirectDeviceAddressNV
     VK_CMD_LOGA("  in: pInfo: VkPipelineIndirectDeviceAddressInfoNV*");
@@ -15945,6 +17850,7 @@ const VkPipelineIndirectDeviceAddressInfoNV* pInfo__ = pInfo;
 #endif
     VkDeviceAddress result = base->dispatch_table.GetPipelineIndirectDeviceAddressNV(base->dispatch_handle, pInfo__);
 
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -15953,6 +17859,8 @@ wrapper_tramp_CmdSetCullMode(
     VkCommandBuffer commandBuffer,
     VkCullModeFlags cullMode)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetCullMode");
 WLOGA("CmdSetCullMode(commandBuffer: %p, cullMode: %x)", commandBuffer, cullMode);
@@ -15969,6 +17877,7 @@ VkCullModeFlags cullMode__ = cullMode;
 #endif
     base->device->dispatch_table.CmdSetCullMode(base->dispatch_handle, cullMode__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -15977,6 +17886,8 @@ wrapper_tramp_CmdSetFrontFace(
     VkCommandBuffer commandBuffer,
     VkFrontFace frontFace)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetFrontFace");
 WLOGA("CmdSetFrontFace(commandBuffer: %p, frontFace: %x)", commandBuffer, frontFace);
@@ -15993,6 +17904,7 @@ VkFrontFace frontFace__ = frontFace;
 #endif
     base->device->dispatch_table.CmdSetFrontFace(base->dispatch_handle, frontFace__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -16001,6 +17913,8 @@ wrapper_tramp_CmdSetPrimitiveTopology(
     VkCommandBuffer commandBuffer,
     VkPrimitiveTopology primitiveTopology)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetPrimitiveTopology");
 WLOGA("CmdSetPrimitiveTopology(commandBuffer: %p, primitiveTopology: %x)", commandBuffer, primitiveTopology);
@@ -16017,6 +17931,7 @@ VkPrimitiveTopology primitiveTopology__ = primitiveTopology;
 #endif
     base->device->dispatch_table.CmdSetPrimitiveTopology(base->dispatch_handle, primitiveTopology__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -16026,6 +17941,8 @@ wrapper_tramp_CmdSetViewportWithCount(
     uint32_t viewportCount,
     const VkViewport* pViewports)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetViewportWithCount");
 WLOGA("CmdSetViewportWithCount(commandBuffer: %p, viewportCount: %x, pViewports: %p)", commandBuffer, viewportCount, pViewports);
@@ -16044,7 +17961,7 @@ const VkViewport* pViewports__ = pViewports;
 #ifdef NEEDS_UNWRAPPING_VkViewport
     pViewports__ = alloca(viewportCount * sizeof(VkViewport));
     for (int i = 0; i < viewportCount; i++)
-        unwrap_VkViewport(base->device, (VkViewport *) &pViewports__[i], &pViewports[i]);
+        unwrap_VkViewport(&temp, base->device, (VkViewport *) &pViewports__[i], &pViewports[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetViewportWithCount
     VK_CMD_LOGA("  in: pViewports[]: VkViewport");
@@ -16056,6 +17973,7 @@ const VkViewport* pViewports__ = pViewports;
 #endif
     base->device->dispatch_table.CmdSetViewportWithCount(base->dispatch_handle, viewportCount__, pViewports__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -16065,6 +17983,8 @@ wrapper_tramp_CmdSetScissorWithCount(
     uint32_t scissorCount,
     const VkRect2D* pScissors)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetScissorWithCount");
 WLOGA("CmdSetScissorWithCount(commandBuffer: %p, scissorCount: %x, pScissors: %p)", commandBuffer, scissorCount, pScissors);
@@ -16083,7 +18003,7 @@ const VkRect2D* pScissors__ = pScissors;
 #ifdef NEEDS_UNWRAPPING_VkRect2D
     pScissors__ = alloca(scissorCount * sizeof(VkRect2D));
     for (int i = 0; i < scissorCount; i++)
-        unwrap_VkRect2D(base->device, (VkRect2D *) &pScissors__[i], &pScissors[i]);
+        unwrap_VkRect2D(&temp, base->device, (VkRect2D *) &pScissors__[i], &pScissors[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetScissorWithCount
     VK_CMD_LOGA("  in: pScissors[]: VkRect2D");
@@ -16095,6 +18015,7 @@ const VkRect2D* pScissors__ = pScissors;
 #endif
     base->device->dispatch_table.CmdSetScissorWithCount(base->dispatch_handle, scissorCount__, pScissors__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -16106,6 +18027,8 @@ wrapper_tramp_CmdBindIndexBuffer2KHR(
     VkDeviceSize size,
     VkIndexType indexType)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBindIndexBuffer2KHR");
 WLOGA("CmdBindIndexBuffer2KHR(commandBuffer: %p, buffer: %x, offset: %x, size: %x, indexType: %x)", commandBuffer, buffer, offset, size, indexType);
@@ -16143,6 +18066,7 @@ VkIndexType indexType__ = indexType;
 #endif
     base->device->dispatch_table.CmdBindIndexBuffer2KHR(base->dispatch_handle, buffer__, offset__, size__, indexType__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16156,6 +18080,8 @@ wrapper_tramp_CmdBindVertexBuffers2(
     const VkDeviceSize* pSizes,
     const VkDeviceSize* pStrides)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBindVertexBuffers2");
 WLOGA("CmdBindVertexBuffers2(commandBuffer: %p, firstBinding: %x, bindingCount: %x, pBuffers: %x, pOffsets: %x, pSizes: %x, pStrides: %x)", commandBuffer, firstBinding, bindingCount, pBuffers, pOffsets, pSizes, pStrides);
@@ -16207,6 +18133,7 @@ const VkDeviceSize* pStrides__ = pStrides;
 #endif
     base->device->dispatch_table.CmdBindVertexBuffers2(base->dispatch_handle, firstBinding__, bindingCount__, pBuffers__, pOffsets__, pSizes__, pStrides__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -16215,6 +18142,8 @@ wrapper_tramp_CmdSetDepthTestEnable(
     VkCommandBuffer commandBuffer,
     VkBool32 depthTestEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDepthTestEnable");
 WLOGA("CmdSetDepthTestEnable(commandBuffer: %p, depthTestEnable: %x)", commandBuffer, depthTestEnable);
@@ -16231,6 +18160,7 @@ VkBool32 depthTestEnable__ = depthTestEnable;
 #endif
     base->device->dispatch_table.CmdSetDepthTestEnable(base->dispatch_handle, depthTestEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -16239,6 +18169,8 @@ wrapper_tramp_CmdSetDepthWriteEnable(
     VkCommandBuffer commandBuffer,
     VkBool32 depthWriteEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDepthWriteEnable");
 WLOGA("CmdSetDepthWriteEnable(commandBuffer: %p, depthWriteEnable: %x)", commandBuffer, depthWriteEnable);
@@ -16255,6 +18187,7 @@ VkBool32 depthWriteEnable__ = depthWriteEnable;
 #endif
     base->device->dispatch_table.CmdSetDepthWriteEnable(base->dispatch_handle, depthWriteEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -16263,6 +18196,8 @@ wrapper_tramp_CmdSetDepthCompareOp(
     VkCommandBuffer commandBuffer,
     VkCompareOp depthCompareOp)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDepthCompareOp");
 WLOGA("CmdSetDepthCompareOp(commandBuffer: %p, depthCompareOp: %x)", commandBuffer, depthCompareOp);
@@ -16279,6 +18214,7 @@ VkCompareOp depthCompareOp__ = depthCompareOp;
 #endif
     base->device->dispatch_table.CmdSetDepthCompareOp(base->dispatch_handle, depthCompareOp__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -16287,6 +18223,8 @@ wrapper_tramp_CmdSetDepthBoundsTestEnable(
     VkCommandBuffer commandBuffer,
     VkBool32 depthBoundsTestEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDepthBoundsTestEnable");
 WLOGA("CmdSetDepthBoundsTestEnable(commandBuffer: %p, depthBoundsTestEnable: %x)", commandBuffer, depthBoundsTestEnable);
@@ -16303,6 +18241,7 @@ VkBool32 depthBoundsTestEnable__ = depthBoundsTestEnable;
 #endif
     base->device->dispatch_table.CmdSetDepthBoundsTestEnable(base->dispatch_handle, depthBoundsTestEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -16311,6 +18250,8 @@ wrapper_tramp_CmdSetStencilTestEnable(
     VkCommandBuffer commandBuffer,
     VkBool32 stencilTestEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetStencilTestEnable");
 WLOGA("CmdSetStencilTestEnable(commandBuffer: %p, stencilTestEnable: %x)", commandBuffer, stencilTestEnable);
@@ -16327,6 +18268,7 @@ VkBool32 stencilTestEnable__ = stencilTestEnable;
 #endif
     base->device->dispatch_table.CmdSetStencilTestEnable(base->dispatch_handle, stencilTestEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -16339,6 +18281,8 @@ wrapper_tramp_CmdSetStencilOp(
     VkStencilOp depthFailOp,
     VkCompareOp compareOp)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetStencilOp");
 WLOGA("CmdSetStencilOp(commandBuffer: %p, faceMask: %x, failOp: %x, passOp: %x, depthFailOp: %x, compareOp: %x)", commandBuffer, faceMask, failOp, passOp, depthFailOp, compareOp);
@@ -16383,6 +18327,7 @@ VkCompareOp compareOp__ = compareOp;
 #endif
     base->device->dispatch_table.CmdSetStencilOp(base->dispatch_handle, faceMask__, failOp__, passOp__, depthFailOp__, compareOp__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -16391,6 +18336,8 @@ wrapper_tramp_CmdSetPatchControlPointsEXT(
     VkCommandBuffer commandBuffer,
     uint32_t patchControlPoints)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetPatchControlPointsEXT");
 WLOGA("CmdSetPatchControlPointsEXT(commandBuffer: %p, patchControlPoints: %x)", commandBuffer, patchControlPoints);
@@ -16407,6 +18354,7 @@ uint32_t patchControlPoints__ = patchControlPoints;
 #endif
     base->device->dispatch_table.CmdSetPatchControlPointsEXT(base->dispatch_handle, patchControlPoints__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16415,6 +18363,8 @@ wrapper_tramp_CmdSetRasterizerDiscardEnable(
     VkCommandBuffer commandBuffer,
     VkBool32 rasterizerDiscardEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetRasterizerDiscardEnable");
 WLOGA("CmdSetRasterizerDiscardEnable(commandBuffer: %p, rasterizerDiscardEnable: %x)", commandBuffer, rasterizerDiscardEnable);
@@ -16431,6 +18381,7 @@ VkBool32 rasterizerDiscardEnable__ = rasterizerDiscardEnable;
 #endif
     base->device->dispatch_table.CmdSetRasterizerDiscardEnable(base->dispatch_handle, rasterizerDiscardEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -16439,6 +18390,8 @@ wrapper_tramp_CmdSetDepthBiasEnable(
     VkCommandBuffer commandBuffer,
     VkBool32 depthBiasEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDepthBiasEnable");
 WLOGA("CmdSetDepthBiasEnable(commandBuffer: %p, depthBiasEnable: %x)", commandBuffer, depthBiasEnable);
@@ -16455,6 +18408,7 @@ VkBool32 depthBiasEnable__ = depthBiasEnable;
 #endif
     base->device->dispatch_table.CmdSetDepthBiasEnable(base->dispatch_handle, depthBiasEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -16463,6 +18417,8 @@ wrapper_tramp_CmdSetLogicOpEXT(
     VkCommandBuffer commandBuffer,
     VkLogicOp logicOp)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetLogicOpEXT");
 WLOGA("CmdSetLogicOpEXT(commandBuffer: %p, logicOp: %x)", commandBuffer, logicOp);
@@ -16479,6 +18435,7 @@ VkLogicOp logicOp__ = logicOp;
 #endif
     base->device->dispatch_table.CmdSetLogicOpEXT(base->dispatch_handle, logicOp__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16487,6 +18444,8 @@ wrapper_tramp_CmdSetPrimitiveRestartEnable(
     VkCommandBuffer commandBuffer,
     VkBool32 primitiveRestartEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetPrimitiveRestartEnable");
 WLOGA("CmdSetPrimitiveRestartEnable(commandBuffer: %p, primitiveRestartEnable: %x)", commandBuffer, primitiveRestartEnable);
@@ -16503,6 +18462,7 @@ VkBool32 primitiveRestartEnable__ = primitiveRestartEnable;
 #endif
     base->device->dispatch_table.CmdSetPrimitiveRestartEnable(base->dispatch_handle, primitiveRestartEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -16511,6 +18471,8 @@ wrapper_tramp_CmdSetTessellationDomainOriginEXT(
     VkCommandBuffer commandBuffer,
     VkTessellationDomainOrigin domainOrigin)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetTessellationDomainOriginEXT");
 WLOGA("CmdSetTessellationDomainOriginEXT(commandBuffer: %p, domainOrigin: %x)", commandBuffer, domainOrigin);
@@ -16527,6 +18489,7 @@ VkTessellationDomainOrigin domainOrigin__ = domainOrigin;
 #endif
     base->device->dispatch_table.CmdSetTessellationDomainOriginEXT(base->dispatch_handle, domainOrigin__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16535,6 +18498,8 @@ wrapper_tramp_CmdSetDepthClampEnableEXT(
     VkCommandBuffer commandBuffer,
     VkBool32 depthClampEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDepthClampEnableEXT");
 WLOGA("CmdSetDepthClampEnableEXT(commandBuffer: %p, depthClampEnable: %x)", commandBuffer, depthClampEnable);
@@ -16551,6 +18516,7 @@ VkBool32 depthClampEnable__ = depthClampEnable;
 #endif
     base->device->dispatch_table.CmdSetDepthClampEnableEXT(base->dispatch_handle, depthClampEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16559,6 +18525,8 @@ wrapper_tramp_CmdSetPolygonModeEXT(
     VkCommandBuffer commandBuffer,
     VkPolygonMode polygonMode)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetPolygonModeEXT");
 WLOGA("CmdSetPolygonModeEXT(commandBuffer: %p, polygonMode: %x)", commandBuffer, polygonMode);
@@ -16575,6 +18543,7 @@ VkPolygonMode polygonMode__ = polygonMode;
 #endif
     base->device->dispatch_table.CmdSetPolygonModeEXT(base->dispatch_handle, polygonMode__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16583,6 +18552,8 @@ wrapper_tramp_CmdSetRasterizationSamplesEXT(
     VkCommandBuffer commandBuffer,
     VkSampleCountFlagBits  rasterizationSamples)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetRasterizationSamplesEXT");
 WLOGA("CmdSetRasterizationSamplesEXT(commandBuffer: %p, rasterizationSamples: %x)", commandBuffer, rasterizationSamples);
@@ -16599,6 +18570,7 @@ VkSampleCountFlagBits  rasterizationSamples__ = rasterizationSamples;
 #endif
     base->device->dispatch_table.CmdSetRasterizationSamplesEXT(base->dispatch_handle, rasterizationSamples__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16608,6 +18580,8 @@ wrapper_tramp_CmdSetSampleMaskEXT(
     VkSampleCountFlagBits  samples,
     const VkSampleMask*    pSampleMask)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetSampleMaskEXT");
 WLOGA("CmdSetSampleMaskEXT(commandBuffer: %p, samples: %x, pSampleMask: %x)", commandBuffer, samples, pSampleMask);
@@ -16631,6 +18605,7 @@ const VkSampleMask*    pSampleMask__ = pSampleMask;
 #endif
     base->device->dispatch_table.CmdSetSampleMaskEXT(base->dispatch_handle, samples__, pSampleMask__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16639,6 +18614,8 @@ wrapper_tramp_CmdSetAlphaToCoverageEnableEXT(
     VkCommandBuffer commandBuffer,
     VkBool32 alphaToCoverageEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetAlphaToCoverageEnableEXT");
 WLOGA("CmdSetAlphaToCoverageEnableEXT(commandBuffer: %p, alphaToCoverageEnable: %x)", commandBuffer, alphaToCoverageEnable);
@@ -16655,6 +18632,7 @@ VkBool32 alphaToCoverageEnable__ = alphaToCoverageEnable;
 #endif
     base->device->dispatch_table.CmdSetAlphaToCoverageEnableEXT(base->dispatch_handle, alphaToCoverageEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16663,6 +18641,8 @@ wrapper_tramp_CmdSetAlphaToOneEnableEXT(
     VkCommandBuffer commandBuffer,
     VkBool32 alphaToOneEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetAlphaToOneEnableEXT");
 WLOGA("CmdSetAlphaToOneEnableEXT(commandBuffer: %p, alphaToOneEnable: %x)", commandBuffer, alphaToOneEnable);
@@ -16679,6 +18659,7 @@ VkBool32 alphaToOneEnable__ = alphaToOneEnable;
 #endif
     base->device->dispatch_table.CmdSetAlphaToOneEnableEXT(base->dispatch_handle, alphaToOneEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16687,6 +18668,8 @@ wrapper_tramp_CmdSetLogicOpEnableEXT(
     VkCommandBuffer commandBuffer,
     VkBool32 logicOpEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetLogicOpEnableEXT");
 WLOGA("CmdSetLogicOpEnableEXT(commandBuffer: %p, logicOpEnable: %x)", commandBuffer, logicOpEnable);
@@ -16703,6 +18686,7 @@ VkBool32 logicOpEnable__ = logicOpEnable;
 #endif
     base->device->dispatch_table.CmdSetLogicOpEnableEXT(base->dispatch_handle, logicOpEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16713,6 +18697,8 @@ wrapper_tramp_CmdSetColorBlendEnableEXT(
     uint32_t attachmentCount,
     const VkBool32* pColorBlendEnables)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetColorBlendEnableEXT");
 WLOGA("CmdSetColorBlendEnableEXT(commandBuffer: %p, firstAttachment: %x, attachmentCount: %x, pColorBlendEnables: %x)", commandBuffer, firstAttachment, attachmentCount, pColorBlendEnables);
@@ -16743,6 +18729,7 @@ const VkBool32* pColorBlendEnables__ = pColorBlendEnables;
 #endif
     base->device->dispatch_table.CmdSetColorBlendEnableEXT(base->dispatch_handle, firstAttachment__, attachmentCount__, pColorBlendEnables__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16753,6 +18740,8 @@ wrapper_tramp_CmdSetColorBlendEquationEXT(
     uint32_t attachmentCount,
     const VkColorBlendEquationEXT* pColorBlendEquations)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetColorBlendEquationEXT");
 WLOGA("CmdSetColorBlendEquationEXT(commandBuffer: %p, firstAttachment: %x, attachmentCount: %x, pColorBlendEquations: %p)", commandBuffer, firstAttachment, attachmentCount, pColorBlendEquations);
@@ -16778,7 +18767,7 @@ const VkColorBlendEquationEXT* pColorBlendEquations__ = pColorBlendEquations;
 #ifdef NEEDS_UNWRAPPING_VkColorBlendEquationEXT
     pColorBlendEquations__ = alloca(attachmentCount * sizeof(VkColorBlendEquationEXT));
     for (int i = 0; i < attachmentCount; i++)
-        unwrap_VkColorBlendEquationEXT(base->device, (VkColorBlendEquationEXT *) &pColorBlendEquations__[i], &pColorBlendEquations[i]);
+        unwrap_VkColorBlendEquationEXT(&temp, base->device, (VkColorBlendEquationEXT *) &pColorBlendEquations__[i], &pColorBlendEquations[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetColorBlendEquationEXT
     VK_CMD_LOGA("  in: pColorBlendEquations[]: VkColorBlendEquationEXT");
@@ -16790,6 +18779,7 @@ const VkColorBlendEquationEXT* pColorBlendEquations__ = pColorBlendEquations;
 #endif
     base->device->dispatch_table.CmdSetColorBlendEquationEXT(base->dispatch_handle, firstAttachment__, attachmentCount__, pColorBlendEquations__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16800,6 +18790,8 @@ wrapper_tramp_CmdSetColorWriteMaskEXT(
     uint32_t attachmentCount,
     const VkColorComponentFlags* pColorWriteMasks)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetColorWriteMaskEXT");
 WLOGA("CmdSetColorWriteMaskEXT(commandBuffer: %p, firstAttachment: %x, attachmentCount: %x, pColorWriteMasks: %x)", commandBuffer, firstAttachment, attachmentCount, pColorWriteMasks);
@@ -16830,6 +18822,7 @@ const VkColorComponentFlags* pColorWriteMasks__ = pColorWriteMasks;
 #endif
     base->device->dispatch_table.CmdSetColorWriteMaskEXT(base->dispatch_handle, firstAttachment__, attachmentCount__, pColorWriteMasks__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16838,6 +18831,8 @@ wrapper_tramp_CmdSetRasterizationStreamEXT(
     VkCommandBuffer commandBuffer,
     uint32_t rasterizationStream)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetRasterizationStreamEXT");
 WLOGA("CmdSetRasterizationStreamEXT(commandBuffer: %p, rasterizationStream: %x)", commandBuffer, rasterizationStream);
@@ -16854,6 +18849,7 @@ uint32_t rasterizationStream__ = rasterizationStream;
 #endif
     base->device->dispatch_table.CmdSetRasterizationStreamEXT(base->dispatch_handle, rasterizationStream__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16862,6 +18858,8 @@ wrapper_tramp_CmdSetConservativeRasterizationModeEXT(
     VkCommandBuffer commandBuffer,
     VkConservativeRasterizationModeEXT conservativeRasterizationMode)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetConservativeRasterizationModeEXT");
 WLOGA("CmdSetConservativeRasterizationModeEXT(commandBuffer: %p, conservativeRasterizationMode: %x)", commandBuffer, conservativeRasterizationMode);
@@ -16878,6 +18876,7 @@ VkConservativeRasterizationModeEXT conservativeRasterizationMode__ = conservativ
 #endif
     base->device->dispatch_table.CmdSetConservativeRasterizationModeEXT(base->dispatch_handle, conservativeRasterizationMode__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16886,6 +18885,8 @@ wrapper_tramp_CmdSetExtraPrimitiveOverestimationSizeEXT(
     VkCommandBuffer commandBuffer,
     float extraPrimitiveOverestimationSize)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetExtraPrimitiveOverestimationSizeEXT");
 WLOGA("CmdSetExtraPrimitiveOverestimationSizeEXT(commandBuffer: %p, extraPrimitiveOverestimationSize: %x)", commandBuffer, extraPrimitiveOverestimationSize);
@@ -16902,6 +18903,7 @@ float extraPrimitiveOverestimationSize__ = extraPrimitiveOverestimationSize;
 #endif
     base->device->dispatch_table.CmdSetExtraPrimitiveOverestimationSizeEXT(base->dispatch_handle, extraPrimitiveOverestimationSize__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16910,6 +18912,8 @@ wrapper_tramp_CmdSetDepthClipEnableEXT(
     VkCommandBuffer commandBuffer,
     VkBool32 depthClipEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDepthClipEnableEXT");
 WLOGA("CmdSetDepthClipEnableEXT(commandBuffer: %p, depthClipEnable: %x)", commandBuffer, depthClipEnable);
@@ -16926,6 +18930,7 @@ VkBool32 depthClipEnable__ = depthClipEnable;
 #endif
     base->device->dispatch_table.CmdSetDepthClipEnableEXT(base->dispatch_handle, depthClipEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16934,6 +18939,8 @@ wrapper_tramp_CmdSetSampleLocationsEnableEXT(
     VkCommandBuffer commandBuffer,
     VkBool32 sampleLocationsEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetSampleLocationsEnableEXT");
 WLOGA("CmdSetSampleLocationsEnableEXT(commandBuffer: %p, sampleLocationsEnable: %x)", commandBuffer, sampleLocationsEnable);
@@ -16950,6 +18957,7 @@ VkBool32 sampleLocationsEnable__ = sampleLocationsEnable;
 #endif
     base->device->dispatch_table.CmdSetSampleLocationsEnableEXT(base->dispatch_handle, sampleLocationsEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -16960,6 +18968,8 @@ wrapper_tramp_CmdSetColorBlendAdvancedEXT(
     uint32_t attachmentCount,
     const VkColorBlendAdvancedEXT* pColorBlendAdvanced)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetColorBlendAdvancedEXT");
 WLOGA("CmdSetColorBlendAdvancedEXT(commandBuffer: %p, firstAttachment: %x, attachmentCount: %x, pColorBlendAdvanced: %p)", commandBuffer, firstAttachment, attachmentCount, pColorBlendAdvanced);
@@ -16985,7 +18995,7 @@ const VkColorBlendAdvancedEXT* pColorBlendAdvanced__ = pColorBlendAdvanced;
 #ifdef NEEDS_UNWRAPPING_VkColorBlendAdvancedEXT
     pColorBlendAdvanced__ = alloca(attachmentCount * sizeof(VkColorBlendAdvancedEXT));
     for (int i = 0; i < attachmentCount; i++)
-        unwrap_VkColorBlendAdvancedEXT(base->device, (VkColorBlendAdvancedEXT *) &pColorBlendAdvanced__[i], &pColorBlendAdvanced[i]);
+        unwrap_VkColorBlendAdvancedEXT(&temp, base->device, (VkColorBlendAdvancedEXT *) &pColorBlendAdvanced__[i], &pColorBlendAdvanced[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetColorBlendAdvancedEXT
     VK_CMD_LOGA("  in: pColorBlendAdvanced[]: VkColorBlendAdvancedEXT");
@@ -16997,6 +19007,7 @@ const VkColorBlendAdvancedEXT* pColorBlendAdvanced__ = pColorBlendAdvanced;
 #endif
     base->device->dispatch_table.CmdSetColorBlendAdvancedEXT(base->dispatch_handle, firstAttachment__, attachmentCount__, pColorBlendAdvanced__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17005,6 +19016,8 @@ wrapper_tramp_CmdSetProvokingVertexModeEXT(
     VkCommandBuffer commandBuffer,
     VkProvokingVertexModeEXT provokingVertexMode)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetProvokingVertexModeEXT");
 WLOGA("CmdSetProvokingVertexModeEXT(commandBuffer: %p, provokingVertexMode: %x)", commandBuffer, provokingVertexMode);
@@ -17021,6 +19034,7 @@ VkProvokingVertexModeEXT provokingVertexMode__ = provokingVertexMode;
 #endif
     base->device->dispatch_table.CmdSetProvokingVertexModeEXT(base->dispatch_handle, provokingVertexMode__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17029,6 +19043,8 @@ wrapper_tramp_CmdSetLineRasterizationModeEXT(
     VkCommandBuffer commandBuffer,
     VkLineRasterizationModeEXT lineRasterizationMode)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetLineRasterizationModeEXT");
 WLOGA("CmdSetLineRasterizationModeEXT(commandBuffer: %p, lineRasterizationMode: %x)", commandBuffer, lineRasterizationMode);
@@ -17045,6 +19061,7 @@ VkLineRasterizationModeEXT lineRasterizationMode__ = lineRasterizationMode;
 #endif
     base->device->dispatch_table.CmdSetLineRasterizationModeEXT(base->dispatch_handle, lineRasterizationMode__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17053,6 +19070,8 @@ wrapper_tramp_CmdSetLineStippleEnableEXT(
     VkCommandBuffer commandBuffer,
     VkBool32 stippledLineEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetLineStippleEnableEXT");
 WLOGA("CmdSetLineStippleEnableEXT(commandBuffer: %p, stippledLineEnable: %x)", commandBuffer, stippledLineEnable);
@@ -17069,6 +19088,7 @@ VkBool32 stippledLineEnable__ = stippledLineEnable;
 #endif
     base->device->dispatch_table.CmdSetLineStippleEnableEXT(base->dispatch_handle, stippledLineEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17077,6 +19097,8 @@ wrapper_tramp_CmdSetDepthClipNegativeOneToOneEXT(
     VkCommandBuffer commandBuffer,
     VkBool32 negativeOneToOne)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDepthClipNegativeOneToOneEXT");
 WLOGA("CmdSetDepthClipNegativeOneToOneEXT(commandBuffer: %p, negativeOneToOne: %x)", commandBuffer, negativeOneToOne);
@@ -17093,6 +19115,7 @@ VkBool32 negativeOneToOne__ = negativeOneToOne;
 #endif
     base->device->dispatch_table.CmdSetDepthClipNegativeOneToOneEXT(base->dispatch_handle, negativeOneToOne__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17101,6 +19124,8 @@ wrapper_tramp_CmdSetViewportWScalingEnableNV(
     VkCommandBuffer commandBuffer,
     VkBool32 viewportWScalingEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetViewportWScalingEnableNV");
 WLOGA("CmdSetViewportWScalingEnableNV(commandBuffer: %p, viewportWScalingEnable: %x)", commandBuffer, viewportWScalingEnable);
@@ -17117,6 +19142,7 @@ VkBool32 viewportWScalingEnable__ = viewportWScalingEnable;
 #endif
     base->device->dispatch_table.CmdSetViewportWScalingEnableNV(base->dispatch_handle, viewportWScalingEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17127,6 +19153,8 @@ wrapper_tramp_CmdSetViewportSwizzleNV(
     uint32_t viewportCount,
     const VkViewportSwizzleNV* pViewportSwizzles)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetViewportSwizzleNV");
 WLOGA("CmdSetViewportSwizzleNV(commandBuffer: %p, firstViewport: %x, viewportCount: %x, pViewportSwizzles: %p)", commandBuffer, firstViewport, viewportCount, pViewportSwizzles);
@@ -17152,7 +19180,7 @@ const VkViewportSwizzleNV* pViewportSwizzles__ = pViewportSwizzles;
 #ifdef NEEDS_UNWRAPPING_VkViewportSwizzleNV
     pViewportSwizzles__ = alloca(viewportCount * sizeof(VkViewportSwizzleNV));
     for (int i = 0; i < viewportCount; i++)
-        unwrap_VkViewportSwizzleNV(base->device, (VkViewportSwizzleNV *) &pViewportSwizzles__[i], &pViewportSwizzles[i]);
+        unwrap_VkViewportSwizzleNV(&temp, base->device, (VkViewportSwizzleNV *) &pViewportSwizzles__[i], &pViewportSwizzles[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetViewportSwizzleNV
     VK_CMD_LOGA("  in: pViewportSwizzles[]: VkViewportSwizzleNV");
@@ -17164,6 +19192,7 @@ const VkViewportSwizzleNV* pViewportSwizzles__ = pViewportSwizzles;
 #endif
     base->device->dispatch_table.CmdSetViewportSwizzleNV(base->dispatch_handle, firstViewport__, viewportCount__, pViewportSwizzles__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17172,6 +19201,8 @@ wrapper_tramp_CmdSetCoverageToColorEnableNV(
     VkCommandBuffer commandBuffer,
     VkBool32 coverageToColorEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetCoverageToColorEnableNV");
 WLOGA("CmdSetCoverageToColorEnableNV(commandBuffer: %p, coverageToColorEnable: %x)", commandBuffer, coverageToColorEnable);
@@ -17188,6 +19219,7 @@ VkBool32 coverageToColorEnable__ = coverageToColorEnable;
 #endif
     base->device->dispatch_table.CmdSetCoverageToColorEnableNV(base->dispatch_handle, coverageToColorEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17196,6 +19228,8 @@ wrapper_tramp_CmdSetCoverageToColorLocationNV(
     VkCommandBuffer commandBuffer,
     uint32_t coverageToColorLocation)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetCoverageToColorLocationNV");
 WLOGA("CmdSetCoverageToColorLocationNV(commandBuffer: %p, coverageToColorLocation: %x)", commandBuffer, coverageToColorLocation);
@@ -17212,6 +19246,7 @@ uint32_t coverageToColorLocation__ = coverageToColorLocation;
 #endif
     base->device->dispatch_table.CmdSetCoverageToColorLocationNV(base->dispatch_handle, coverageToColorLocation__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17220,6 +19255,8 @@ wrapper_tramp_CmdSetCoverageModulationModeNV(
     VkCommandBuffer commandBuffer,
     VkCoverageModulationModeNV coverageModulationMode)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetCoverageModulationModeNV");
 WLOGA("CmdSetCoverageModulationModeNV(commandBuffer: %p, coverageModulationMode: %x)", commandBuffer, coverageModulationMode);
@@ -17236,6 +19273,7 @@ VkCoverageModulationModeNV coverageModulationMode__ = coverageModulationMode;
 #endif
     base->device->dispatch_table.CmdSetCoverageModulationModeNV(base->dispatch_handle, coverageModulationMode__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17244,6 +19282,8 @@ wrapper_tramp_CmdSetCoverageModulationTableEnableNV(
     VkCommandBuffer commandBuffer,
     VkBool32 coverageModulationTableEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetCoverageModulationTableEnableNV");
 WLOGA("CmdSetCoverageModulationTableEnableNV(commandBuffer: %p, coverageModulationTableEnable: %x)", commandBuffer, coverageModulationTableEnable);
@@ -17260,6 +19300,7 @@ VkBool32 coverageModulationTableEnable__ = coverageModulationTableEnable;
 #endif
     base->device->dispatch_table.CmdSetCoverageModulationTableEnableNV(base->dispatch_handle, coverageModulationTableEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17269,6 +19310,8 @@ wrapper_tramp_CmdSetCoverageModulationTableNV(
     uint32_t coverageModulationTableCount,
     const float* pCoverageModulationTable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetCoverageModulationTableNV");
 WLOGA("CmdSetCoverageModulationTableNV(commandBuffer: %p, coverageModulationTableCount: %x, pCoverageModulationTable: %x)", commandBuffer, coverageModulationTableCount, pCoverageModulationTable);
@@ -17292,6 +19335,7 @@ const float* pCoverageModulationTable__ = pCoverageModulationTable;
 #endif
     base->device->dispatch_table.CmdSetCoverageModulationTableNV(base->dispatch_handle, coverageModulationTableCount__, pCoverageModulationTable__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17300,6 +19344,8 @@ wrapper_tramp_CmdSetShadingRateImageEnableNV(
     VkCommandBuffer commandBuffer,
     VkBool32 shadingRateImageEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetShadingRateImageEnableNV");
 WLOGA("CmdSetShadingRateImageEnableNV(commandBuffer: %p, shadingRateImageEnable: %x)", commandBuffer, shadingRateImageEnable);
@@ -17316,6 +19362,7 @@ VkBool32 shadingRateImageEnable__ = shadingRateImageEnable;
 #endif
     base->device->dispatch_table.CmdSetShadingRateImageEnableNV(base->dispatch_handle, shadingRateImageEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17324,6 +19371,8 @@ wrapper_tramp_CmdSetCoverageReductionModeNV(
     VkCommandBuffer commandBuffer,
     VkCoverageReductionModeNV coverageReductionMode)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetCoverageReductionModeNV");
 WLOGA("CmdSetCoverageReductionModeNV(commandBuffer: %p, coverageReductionMode: %x)", commandBuffer, coverageReductionMode);
@@ -17340,6 +19389,7 @@ VkCoverageReductionModeNV coverageReductionMode__ = coverageReductionMode;
 #endif
     base->device->dispatch_table.CmdSetCoverageReductionModeNV(base->dispatch_handle, coverageReductionMode__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17348,6 +19398,8 @@ wrapper_tramp_CmdSetRepresentativeFragmentTestEnableNV(
     VkCommandBuffer commandBuffer,
     VkBool32 representativeFragmentTestEnable)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetRepresentativeFragmentTestEnableNV");
 WLOGA("CmdSetRepresentativeFragmentTestEnableNV(commandBuffer: %p, representativeFragmentTestEnable: %x)", commandBuffer, representativeFragmentTestEnable);
@@ -17364,6 +19416,7 @@ VkBool32 representativeFragmentTestEnable__ = representativeFragmentTestEnable;
 #endif
     base->device->dispatch_table.CmdSetRepresentativeFragmentTestEnableNV(base->dispatch_handle, representativeFragmentTestEnable__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17374,6 +19427,8 @@ wrapper_tramp_CreatePrivateDataSlot(
     const VkAllocationCallbacks* pAllocator,
     VkPrivateDataSlot* pPrivateDataSlot)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreatePrivateDataSlot");
 WLOGA("CreatePrivateDataSlot(device: %p, pCreateInfo: %p, pAllocator: %p, pPrivateDataSlot: %p)", device, pCreateInfo, pAllocator, pPrivateDataSlot);
@@ -17385,7 +19440,7 @@ const VkPrivateDataSlotCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkPrivateDataSlotCreateInfo
     VkPrivateDataSlotCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkPrivateDataSlotCreateInfo(base, (VkPrivateDataSlotCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkPrivateDataSlotCreateInfo(&temp, base, (VkPrivateDataSlotCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreatePrivateDataSlot
     VK_CMD_LOGA("  in: pCreateInfo: VkPrivateDataSlotCreateInfo*");
@@ -17396,7 +19451,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreatePrivateDataSlot
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -17405,14 +19460,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreatePrivateDataSlot(base->dispatch_handle, pCreateInfo__, pAllocator__, pPrivateDataSlot);
 #ifdef NEEDS_PRINTING_CreatePrivateDataSlot
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreatePrivateDataSlot
     VK_CMD_LOGA("  out: *pPrivateDataSlot: VkPrivateDataSlot = %x", (int64_t)*pPrivateDataSlot);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPrivateDataSlot
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreatePrivateDataSlot with (device: %p,pCreateInfo: %p,pAllocator: %p,pPrivateDataSlot: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pPrivateDataSlot, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreatePrivateDataSlot with (device: %p,pCreateInfo: %p,pAllocator: %p,pPrivateDataSlot: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pPrivateDataSlot, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -17422,6 +19482,8 @@ wrapper_tramp_DestroyPrivateDataSlot(
     VkPrivateDataSlot privateDataSlot,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyPrivateDataSlot");
 WLOGA("DestroyPrivateDataSlot(device: %p, privateDataSlot: %x, pAllocator: %p)", device, privateDataSlot, pAllocator);
@@ -17440,7 +19502,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyPrivateDataSlot
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -17449,6 +19511,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyPrivateDataSlot(base->dispatch_handle, privateDataSlot__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -17460,6 +19523,8 @@ wrapper_tramp_SetPrivateData(
     VkPrivateDataSlot privateDataSlot,
     uint64_t data)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("SetPrivateData");
 WLOGA("SetPrivateData(device: %p, objectType: %x, objectHandle: %x, privateDataSlot: %x, data: %x)", device, objectType, objectHandle, privateDataSlot, data);
@@ -17496,7 +19561,14 @@ uint64_t data__ = data;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.SetPrivateData(base->dispatch_handle, objectType__, objectHandle__, privateDataSlot__, data__);
-
+#ifdef NEEDS_PRINTING_SetPrivateData
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to SetPrivateData with (device: %p,objectType: %x,objectHandle: %x,privateDataSlot: %x,data: %x) failed with result: %d", base->dispatch_handle,objectType__,objectHandle__,privateDataSlot__,data__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -17508,6 +19580,8 @@ wrapper_tramp_GetPrivateData(
     VkPrivateDataSlot privateDataSlot,
     uint64_t* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetPrivateData");
 WLOGA("GetPrivateData(device: %p, objectType: %x, objectHandle: %x, privateDataSlot: %x, pData: %p)", device, objectType, objectHandle, privateDataSlot, pData);
@@ -17543,6 +19617,7 @@ VkPrivateDataSlot privateDataSlot__ = privateDataSlot;
 #endif
 #ifdef NEEDS_UNWRAPPING_uint64_t
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -17551,6 +19626,8 @@ wrapper_tramp_CmdCopyBuffer2(
     VkCommandBuffer commandBuffer,
     const VkCopyBufferInfo2* pCopyBufferInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyBuffer2");
 WLOGA("CmdCopyBuffer2(commandBuffer: %p, pCopyBufferInfo: %p)", commandBuffer, pCopyBufferInfo);
@@ -17562,7 +19639,7 @@ const VkCopyBufferInfo2* pCopyBufferInfo__ = pCopyBufferInfo;
 #ifdef NEEDS_UNWRAPPING_VkCopyBufferInfo2
     VkCopyBufferInfo2 _w_pCopyBufferInfo = { 0 };
     pCopyBufferInfo__ = &_w_pCopyBufferInfo;
-    unwrap_VkCopyBufferInfo2(base->device, (VkCopyBufferInfo2 *) pCopyBufferInfo__, pCopyBufferInfo);
+    unwrap_VkCopyBufferInfo2(&temp, base->device, (VkCopyBufferInfo2 *) pCopyBufferInfo__, pCopyBufferInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdCopyBuffer2
     VK_CMD_LOGA("  in: pCopyBufferInfo: VkCopyBufferInfo2*");
@@ -17571,6 +19648,7 @@ const VkCopyBufferInfo2* pCopyBufferInfo__ = pCopyBufferInfo;
 #endif
     base->device->dispatch_table.CmdCopyBuffer2(base->dispatch_handle, pCopyBufferInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -17579,6 +19657,8 @@ wrapper_tramp_CmdCopyImage2(
     VkCommandBuffer commandBuffer,
     const VkCopyImageInfo2* pCopyImageInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyImage2");
 WLOGA("CmdCopyImage2(commandBuffer: %p, pCopyImageInfo: %p)", commandBuffer, pCopyImageInfo);
@@ -17590,7 +19670,7 @@ const VkCopyImageInfo2* pCopyImageInfo__ = pCopyImageInfo;
 #ifdef NEEDS_UNWRAPPING_VkCopyImageInfo2
     VkCopyImageInfo2 _w_pCopyImageInfo = { 0 };
     pCopyImageInfo__ = &_w_pCopyImageInfo;
-    unwrap_VkCopyImageInfo2(base->device, (VkCopyImageInfo2 *) pCopyImageInfo__, pCopyImageInfo);
+    unwrap_VkCopyImageInfo2(&temp, base->device, (VkCopyImageInfo2 *) pCopyImageInfo__, pCopyImageInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdCopyImage2
     VK_CMD_LOGA("  in: pCopyImageInfo: VkCopyImageInfo2*");
@@ -17599,6 +19679,7 @@ const VkCopyImageInfo2* pCopyImageInfo__ = pCopyImageInfo;
 #endif
     base->device->dispatch_table.CmdCopyImage2(base->dispatch_handle, pCopyImageInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -17607,6 +19688,8 @@ wrapper_tramp_CmdBlitImage2(
     VkCommandBuffer commandBuffer,
     const VkBlitImageInfo2* pBlitImageInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBlitImage2");
 WLOGA("CmdBlitImage2(commandBuffer: %p, pBlitImageInfo: %p)", commandBuffer, pBlitImageInfo);
@@ -17618,7 +19701,7 @@ const VkBlitImageInfo2* pBlitImageInfo__ = pBlitImageInfo;
 #ifdef NEEDS_UNWRAPPING_VkBlitImageInfo2
     VkBlitImageInfo2 _w_pBlitImageInfo = { 0 };
     pBlitImageInfo__ = &_w_pBlitImageInfo;
-    unwrap_VkBlitImageInfo2(base->device, (VkBlitImageInfo2 *) pBlitImageInfo__, pBlitImageInfo);
+    unwrap_VkBlitImageInfo2(&temp, base->device, (VkBlitImageInfo2 *) pBlitImageInfo__, pBlitImageInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdBlitImage2
     VK_CMD_LOGA("  in: pBlitImageInfo: VkBlitImageInfo2*");
@@ -17627,6 +19710,7 @@ const VkBlitImageInfo2* pBlitImageInfo__ = pBlitImageInfo;
 #endif
     base->device->dispatch_table.CmdBlitImage2(base->dispatch_handle, pBlitImageInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -17635,6 +19719,8 @@ wrapper_tramp_CmdCopyBufferToImage2(
     VkCommandBuffer commandBuffer,
     const VkCopyBufferToImageInfo2* pCopyBufferToImageInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyBufferToImage2");
 WLOGA("CmdCopyBufferToImage2(commandBuffer: %p, pCopyBufferToImageInfo: %p)", commandBuffer, pCopyBufferToImageInfo);
@@ -17646,7 +19732,7 @@ const VkCopyBufferToImageInfo2* pCopyBufferToImageInfo__ = pCopyBufferToImageInf
 #ifdef NEEDS_UNWRAPPING_VkCopyBufferToImageInfo2
     VkCopyBufferToImageInfo2 _w_pCopyBufferToImageInfo = { 0 };
     pCopyBufferToImageInfo__ = &_w_pCopyBufferToImageInfo;
-    unwrap_VkCopyBufferToImageInfo2(base->device, (VkCopyBufferToImageInfo2 *) pCopyBufferToImageInfo__, pCopyBufferToImageInfo);
+    unwrap_VkCopyBufferToImageInfo2(&temp, base->device, (VkCopyBufferToImageInfo2 *) pCopyBufferToImageInfo__, pCopyBufferToImageInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdCopyBufferToImage2
     VK_CMD_LOGA("  in: pCopyBufferToImageInfo: VkCopyBufferToImageInfo2*");
@@ -17655,6 +19741,7 @@ const VkCopyBufferToImageInfo2* pCopyBufferToImageInfo__ = pCopyBufferToImageInf
 #endif
     base->device->dispatch_table.CmdCopyBufferToImage2(base->dispatch_handle, pCopyBufferToImageInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -17663,6 +19750,8 @@ wrapper_tramp_CmdCopyImageToBuffer2(
     VkCommandBuffer commandBuffer,
     const VkCopyImageToBufferInfo2* pCopyImageToBufferInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyImageToBuffer2");
 WLOGA("CmdCopyImageToBuffer2(commandBuffer: %p, pCopyImageToBufferInfo: %p)", commandBuffer, pCopyImageToBufferInfo);
@@ -17674,7 +19763,7 @@ const VkCopyImageToBufferInfo2* pCopyImageToBufferInfo__ = pCopyImageToBufferInf
 #ifdef NEEDS_UNWRAPPING_VkCopyImageToBufferInfo2
     VkCopyImageToBufferInfo2 _w_pCopyImageToBufferInfo = { 0 };
     pCopyImageToBufferInfo__ = &_w_pCopyImageToBufferInfo;
-    unwrap_VkCopyImageToBufferInfo2(base->device, (VkCopyImageToBufferInfo2 *) pCopyImageToBufferInfo__, pCopyImageToBufferInfo);
+    unwrap_VkCopyImageToBufferInfo2(&temp, base->device, (VkCopyImageToBufferInfo2 *) pCopyImageToBufferInfo__, pCopyImageToBufferInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdCopyImageToBuffer2
     VK_CMD_LOGA("  in: pCopyImageToBufferInfo: VkCopyImageToBufferInfo2*");
@@ -17683,6 +19772,7 @@ const VkCopyImageToBufferInfo2* pCopyImageToBufferInfo__ = pCopyImageToBufferInf
 #endif
     base->device->dispatch_table.CmdCopyImageToBuffer2(base->dispatch_handle, pCopyImageToBufferInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -17691,6 +19781,8 @@ wrapper_tramp_CmdResolveImage2(
     VkCommandBuffer commandBuffer,
     const VkResolveImageInfo2* pResolveImageInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdResolveImage2");
 WLOGA("CmdResolveImage2(commandBuffer: %p, pResolveImageInfo: %p)", commandBuffer, pResolveImageInfo);
@@ -17702,7 +19794,7 @@ const VkResolveImageInfo2* pResolveImageInfo__ = pResolveImageInfo;
 #ifdef NEEDS_UNWRAPPING_VkResolveImageInfo2
     VkResolveImageInfo2 _w_pResolveImageInfo = { 0 };
     pResolveImageInfo__ = &_w_pResolveImageInfo;
-    unwrap_VkResolveImageInfo2(base->device, (VkResolveImageInfo2 *) pResolveImageInfo__, pResolveImageInfo);
+    unwrap_VkResolveImageInfo2(&temp, base->device, (VkResolveImageInfo2 *) pResolveImageInfo__, pResolveImageInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdResolveImage2
     VK_CMD_LOGA("  in: pResolveImageInfo: VkResolveImageInfo2*");
@@ -17711,6 +19803,7 @@ const VkResolveImageInfo2* pResolveImageInfo__ = pResolveImageInfo;
 #endif
     base->device->dispatch_table.CmdResolveImage2(base->dispatch_handle, pResolveImageInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -17720,6 +19813,8 @@ wrapper_tramp_CmdSetFragmentShadingRateKHR(
     const VkExtent2D*                           pFragmentSize,
     const VkFragmentShadingRateCombinerOpKHR    combinerOps[2])
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetFragmentShadingRateKHR");
 WLOGA("CmdSetFragmentShadingRateKHR(commandBuffer: %p)", commandBuffer, pFragmentSize, combinerOps);
@@ -17729,6 +19824,7 @@ WLOGA("CmdSetFragmentShadingRateKHR(commandBuffer: %p)", commandBuffer, pFragmen
 #endif
     base->device->dispatch_table.CmdSetFragmentShadingRateKHR(base->dispatch_handle, pFragmentSize, combinerOps);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -17738,6 +19834,8 @@ wrapper_tramp_CmdSetFragmentShadingRateEnumNV(
     VkFragmentShadingRateNV                     shadingRate,
     const VkFragmentShadingRateCombinerOpKHR    combinerOps[2])
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetFragmentShadingRateEnumNV");
 WLOGA("CmdSetFragmentShadingRateEnumNV(commandBuffer: %p)", commandBuffer, shadingRate, combinerOps);
@@ -17747,6 +19845,7 @@ WLOGA("CmdSetFragmentShadingRateEnumNV(commandBuffer: %p)", commandBuffer, shadi
 #endif
     base->device->dispatch_table.CmdSetFragmentShadingRateEnumNV(base->dispatch_handle, shadingRate, combinerOps);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17758,6 +19857,8 @@ wrapper_tramp_GetAccelerationStructureBuildSizesKHR(
     const uint32_t*  pMaxPrimitiveCounts,
     VkAccelerationStructureBuildSizesInfoKHR*           pSizeInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetAccelerationStructureBuildSizesKHR");
 WLOGA("GetAccelerationStructureBuildSizesKHR(device: %p, buildType: %x, pBuildInfo: %p, pMaxPrimitiveCounts: %x, pSizeInfo: %p)", device, buildType, pBuildInfo, pMaxPrimitiveCounts, pSizeInfo);
@@ -17776,7 +19877,7 @@ const VkAccelerationStructureBuildGeometryInfoKHR*  pBuildInfo__ = pBuildInfo;
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureBuildGeometryInfoKHR
     VkAccelerationStructureBuildGeometryInfoKHR _w_pBuildInfo = { 0 };
     pBuildInfo__ = &_w_pBuildInfo;
-    unwrap_VkAccelerationStructureBuildGeometryInfoKHR(base, (VkAccelerationStructureBuildGeometryInfoKHR *) pBuildInfo__, pBuildInfo);
+    unwrap_VkAccelerationStructureBuildGeometryInfoKHR(&temp, base, (VkAccelerationStructureBuildGeometryInfoKHR *) pBuildInfo__, pBuildInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetAccelerationStructureBuildSizesKHR
     VK_CMD_LOGA("  in: pBuildInfo: VkAccelerationStructureBuildGeometryInfoKHR*");
@@ -17797,8 +19898,9 @@ const uint32_t*  pMaxPrimitiveCounts__ = pMaxPrimitiveCounts;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureBuildSizesInfoKHR
-#warning TODO: Repack struct+ptr+out GetAccelerationStructureBuildSizesKHR EntrypointParam(type='VkAccelerationStructureBuildSizesInfoKHR', name='pSizeInfo', decl='VkAccelerationStructureBuildSizesInfoKHR*           pSizeInfo', len=None, elem=<Element 'param' at 0x75c0e9376bb0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetAccelerationStructureBuildSizesKHR EntrypointParam(type='VkAccelerationStructureBuildSizesInfoKHR', name='pSizeInfo', decl='VkAccelerationStructureBuildSizesInfoKHR*           pSizeInfo', len=None, elem=<Element 'param' at 0x7f0cb3096b60>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17810,6 +19912,8 @@ wrapper_tramp_CmdSetVertexInputEXT(
     uint32_t vertexAttributeDescriptionCount,
     const VkVertexInputAttributeDescription2EXT* pVertexAttributeDescriptions)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetVertexInputEXT");
 WLOGA("CmdSetVertexInputEXT(commandBuffer: %p, vertexBindingDescriptionCount: %x, pVertexBindingDescriptions: %p, vertexAttributeDescriptionCount: %x, pVertexAttributeDescriptions: %p)", commandBuffer, vertexBindingDescriptionCount, pVertexBindingDescriptions, vertexAttributeDescriptionCount, pVertexAttributeDescriptions);
@@ -17828,7 +19932,7 @@ const VkVertexInputBindingDescription2EXT* pVertexBindingDescriptions__ = pVerte
 #ifdef NEEDS_UNWRAPPING_VkVertexInputBindingDescription2EXT
     pVertexBindingDescriptions__ = alloca(vertexBindingDescriptionCount * sizeof(VkVertexInputBindingDescription2EXT));
     for (int i = 0; i < vertexBindingDescriptionCount; i++)
-        unwrap_VkVertexInputBindingDescription2EXT(base->device, (VkVertexInputBindingDescription2EXT *) &pVertexBindingDescriptions__[i], &pVertexBindingDescriptions[i]);
+        unwrap_VkVertexInputBindingDescription2EXT(&temp, base->device, (VkVertexInputBindingDescription2EXT *) &pVertexBindingDescriptions__[i], &pVertexBindingDescriptions[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetVertexInputEXT
     VK_CMD_LOGA("  in: pVertexBindingDescriptions[]: VkVertexInputBindingDescription2EXT");
@@ -17849,7 +19953,7 @@ const VkVertexInputAttributeDescription2EXT* pVertexAttributeDescriptions__ = pV
 #ifdef NEEDS_UNWRAPPING_VkVertexInputAttributeDescription2EXT
     pVertexAttributeDescriptions__ = alloca(vertexAttributeDescriptionCount * sizeof(VkVertexInputAttributeDescription2EXT));
     for (int i = 0; i < vertexAttributeDescriptionCount; i++)
-        unwrap_VkVertexInputAttributeDescription2EXT(base->device, (VkVertexInputAttributeDescription2EXT *) &pVertexAttributeDescriptions__[i], &pVertexAttributeDescriptions[i]);
+        unwrap_VkVertexInputAttributeDescription2EXT(&temp, base->device, (VkVertexInputAttributeDescription2EXT *) &pVertexAttributeDescriptions__[i], &pVertexAttributeDescriptions[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetVertexInputEXT
     VK_CMD_LOGA("  in: pVertexAttributeDescriptions[]: VkVertexInputAttributeDescription2EXT");
@@ -17861,6 +19965,7 @@ const VkVertexInputAttributeDescription2EXT* pVertexAttributeDescriptions__ = pV
 #endif
     base->device->dispatch_table.CmdSetVertexInputEXT(base->dispatch_handle, vertexBindingDescriptionCount__, pVertexBindingDescriptions__, vertexAttributeDescriptionCount__, pVertexAttributeDescriptions__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17870,6 +19975,8 @@ wrapper_tramp_CmdSetColorWriteEnableEXT(
     uint32_t                                attachmentCount,
     const VkBool32*   pColorWriteEnables)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetColorWriteEnableEXT");
 WLOGA("CmdSetColorWriteEnableEXT(commandBuffer: %p, attachmentCount: %x, pColorWriteEnables: %x)", commandBuffer, attachmentCount, pColorWriteEnables);
@@ -17893,6 +20000,7 @@ const VkBool32*   pColorWriteEnables__ = pColorWriteEnables;
 #endif
     base->device->dispatch_table.CmdSetColorWriteEnableEXT(base->dispatch_handle, attachmentCount__, pColorWriteEnables__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -17902,6 +20010,8 @@ wrapper_tramp_CmdSetEvent2(
     VkEvent                                             event,
     const VkDependencyInfo*                             pDependencyInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetEvent2");
 WLOGA("CmdSetEvent2(commandBuffer: %p, event: %x, pDependencyInfo: %p)", commandBuffer, event, pDependencyInfo);
@@ -17920,7 +20030,7 @@ const VkDependencyInfo*                             pDependencyInfo__ = pDepende
 #ifdef NEEDS_UNWRAPPING_VkDependencyInfo
     VkDependencyInfo _w_pDependencyInfo = { 0 };
     pDependencyInfo__ = &_w_pDependencyInfo;
-    unwrap_VkDependencyInfo(base->device, (VkDependencyInfo *) pDependencyInfo__, pDependencyInfo);
+    unwrap_VkDependencyInfo(&temp, base->device, (VkDependencyInfo *) pDependencyInfo__, pDependencyInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetEvent2
     VK_CMD_LOGA("  in: pDependencyInfo: VkDependencyInfo*");
@@ -17929,6 +20039,7 @@ const VkDependencyInfo*                             pDependencyInfo__ = pDepende
 #endif
     base->device->dispatch_table.CmdSetEvent2(base->dispatch_handle, event__, pDependencyInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -17938,6 +20049,8 @@ wrapper_tramp_CmdResetEvent2(
     VkEvent                                             event,
     VkPipelineStageFlags2               stageMask)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdResetEvent2");
 WLOGA("CmdResetEvent2(commandBuffer: %p, event: %x, stageMask: %x)", commandBuffer, event, stageMask);
@@ -17961,6 +20074,7 @@ VkPipelineStageFlags2               stageMask__ = stageMask;
 #endif
     base->device->dispatch_table.CmdResetEvent2(base->dispatch_handle, event__, stageMask__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -17971,6 +20085,8 @@ wrapper_tramp_CmdWaitEvents2(
     const VkEvent*                     pEvents,
     const VkDependencyInfo*            pDependencyInfos)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdWaitEvents2");
 WLOGA("CmdWaitEvents2(commandBuffer: %p, eventCount: %x, pEvents: %x, pDependencyInfos: %p)", commandBuffer, eventCount, pEvents, pDependencyInfos);
@@ -17996,7 +20112,7 @@ const VkDependencyInfo*            pDependencyInfos__ = pDependencyInfos;
 #ifdef NEEDS_UNWRAPPING_VkDependencyInfo
     pDependencyInfos__ = alloca(eventCount * sizeof(VkDependencyInfo));
     for (int i = 0; i < eventCount; i++)
-        unwrap_VkDependencyInfo(base->device, (VkDependencyInfo *) &pDependencyInfos__[i], &pDependencyInfos[i]);
+        unwrap_VkDependencyInfo(&temp, base->device, (VkDependencyInfo *) &pDependencyInfos__[i], &pDependencyInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdWaitEvents2
     VK_CMD_LOGA("  in: pDependencyInfos[]: VkDependencyInfo");
@@ -18008,6 +20124,7 @@ const VkDependencyInfo*            pDependencyInfos__ = pDependencyInfos;
 #endif
     base->device->dispatch_table.CmdWaitEvents2(base->dispatch_handle, eventCount__, pEvents__, pDependencyInfos__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -18016,6 +20133,8 @@ wrapper_tramp_CmdPipelineBarrier2(
     VkCommandBuffer                   commandBuffer,
     const VkDependencyInfo*                             pDependencyInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdPipelineBarrier2");
 WLOGA("CmdPipelineBarrier2(commandBuffer: %p, pDependencyInfo: %p)", commandBuffer, pDependencyInfo);
@@ -18027,7 +20146,7 @@ const VkDependencyInfo*                             pDependencyInfo__ = pDepende
 #ifdef NEEDS_UNWRAPPING_VkDependencyInfo
     VkDependencyInfo _w_pDependencyInfo = { 0 };
     pDependencyInfo__ = &_w_pDependencyInfo;
-    unwrap_VkDependencyInfo(base->device, (VkDependencyInfo *) pDependencyInfo__, pDependencyInfo);
+    unwrap_VkDependencyInfo(&temp, base->device, (VkDependencyInfo *) pDependencyInfo__, pDependencyInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdPipelineBarrier2
     VK_CMD_LOGA("  in: pDependencyInfo: VkDependencyInfo*");
@@ -18036,6 +20155,7 @@ const VkDependencyInfo*                             pDependencyInfo__ = pDepende
 #endif
     base->device->dispatch_table.CmdPipelineBarrier2(base->dispatch_handle, pDependencyInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -18046,6 +20166,8 @@ wrapper_tramp_QueueSubmit2(
     const VkSubmitInfo2*              pSubmits,
     VkFence           fence)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_queue, base, queue);
     VK_CMD_LOG("QueueSubmit2");
 WLOGA("QueueSubmit2(queue: %p, submitCount: %x, pSubmits: %p, fence: %x)", queue, submitCount, pSubmits, fence);
@@ -18064,7 +20186,7 @@ const VkSubmitInfo2*              pSubmits__ = pSubmits;
 #ifdef NEEDS_UNWRAPPING_VkSubmitInfo2
     pSubmits__ = alloca(submitCount * sizeof(VkSubmitInfo2));
     for (int i = 0; i < submitCount; i++)
-        unwrap_VkSubmitInfo2(base->device, (VkSubmitInfo2 *) &pSubmits__[i], &pSubmits[i]);
+        unwrap_VkSubmitInfo2(&temp, base->device, (VkSubmitInfo2 *) &pSubmits__[i], &pSubmits[i]);
 #endif
 #ifdef NEEDS_PRINTING_QueueSubmit2
     VK_CMD_LOGA("  in: pSubmits[]: VkSubmitInfo2");
@@ -18082,7 +20204,14 @@ VkFence           fence__ = fence;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->device->dispatch_table.QueueSubmit2(base->dispatch_handle, submitCount__, pSubmits__, fence__);
-
+#ifdef NEEDS_PRINTING_QueueSubmit2
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to QueueSubmit2 with (queue: %p,submitCount: %x,pSubmits: %p,fence: %x) failed with result: %d", base->dispatch_handle,submitCount__,pSubmits__,fence__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -18093,6 +20222,8 @@ wrapper_tramp_CmdWriteTimestamp2(
     VkQueryPool                                         queryPool,
     uint32_t                                            query)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdWriteTimestamp2");
 WLOGA("CmdWriteTimestamp2(commandBuffer: %p, stage: %x, queryPool: %x, query: %x)", commandBuffer, stage, queryPool, query);
@@ -18123,6 +20254,7 @@ uint32_t                                            query__ = query;
 #endif
     base->device->dispatch_table.CmdWriteTimestamp2(base->dispatch_handle, stage__, queryPool__, query__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -18134,6 +20266,8 @@ wrapper_tramp_CmdWriteBufferMarker2AMD(
     VkDeviceSize                                        dstOffset,
     uint32_t                                            marker)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdWriteBufferMarker2AMD");
 WLOGA("CmdWriteBufferMarker2AMD(commandBuffer: %p, stage: %x, dstBuffer: %x, dstOffset: %x, marker: %x)", commandBuffer, stage, dstBuffer, dstOffset, marker);
@@ -18171,6 +20305,7 @@ uint32_t                                            marker__ = marker;
 #endif
     base->device->dispatch_table.CmdWriteBufferMarker2AMD(base->dispatch_handle, stage__, dstBuffer__, dstOffset__, marker__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -18180,6 +20315,8 @@ wrapper_tramp_GetQueueCheckpointData2NV(
     uint32_t* pCheckpointDataCount,
     VkCheckpointData2NV* pCheckpointData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_queue, base, queue);
     VK_CMD_LOG("GetQueueCheckpointData2NV");
 WLOGA("GetQueueCheckpointData2NV(queue: %p, pCheckpointDataCount: %p, pCheckpointData: %p)", queue, pCheckpointDataCount, pCheckpointData);
@@ -18203,8 +20340,9 @@ WLOGA("GetQueueCheckpointData2NV(queue: %p, pCheckpointDataCount: %p, pCheckpoin
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkCheckpointData2NV
-#warning TODO: Repack struct+array+out GetQueueCheckpointData2NV EntrypointParam(type='VkCheckpointData2NV', name='pCheckpointData', decl='VkCheckpointData2NV* pCheckpointData', len='pCheckpointDataCount', elem=<Element 'param' at 0x75c0e9382390>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetQueueCheckpointData2NV EntrypointParam(type='VkCheckpointData2NV', name='pCheckpointData', decl='VkCheckpointData2NV* pCheckpointData', len='pCheckpointDataCount', elem=<Element 'param' at 0x7f0cb30a2340>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -18213,6 +20351,8 @@ wrapper_tramp_CopyMemoryToImageEXT(
     VkDevice device,
     const VkCopyMemoryToImageInfoEXT* pCopyMemoryToImageInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CopyMemoryToImageEXT");
 WLOGA("CopyMemoryToImageEXT(device: %p, pCopyMemoryToImageInfo: %p)", device, pCopyMemoryToImageInfo);
@@ -18224,7 +20364,7 @@ const VkCopyMemoryToImageInfoEXT* pCopyMemoryToImageInfo__ = pCopyMemoryToImageI
 #ifdef NEEDS_UNWRAPPING_VkCopyMemoryToImageInfoEXT
     VkCopyMemoryToImageInfoEXT _w_pCopyMemoryToImageInfo = { 0 };
     pCopyMemoryToImageInfo__ = &_w_pCopyMemoryToImageInfo;
-    unwrap_VkCopyMemoryToImageInfoEXT(base, (VkCopyMemoryToImageInfoEXT *) pCopyMemoryToImageInfo__, pCopyMemoryToImageInfo);
+    unwrap_VkCopyMemoryToImageInfoEXT(&temp, base, (VkCopyMemoryToImageInfoEXT *) pCopyMemoryToImageInfo__, pCopyMemoryToImageInfo);
 #endif
 #ifdef NEEDS_PRINTING_CopyMemoryToImageEXT
     VK_CMD_LOGA("  in: pCopyMemoryToImageInfo: VkCopyMemoryToImageInfoEXT*");
@@ -18232,7 +20372,14 @@ const VkCopyMemoryToImageInfoEXT* pCopyMemoryToImageInfo__ = pCopyMemoryToImageI
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.CopyMemoryToImageEXT(base->dispatch_handle, pCopyMemoryToImageInfo__);
-
+#ifdef NEEDS_PRINTING_CopyMemoryToImageEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CopyMemoryToImageEXT with (device: %p,pCopyMemoryToImageInfo: %p) failed with result: %d", base->dispatch_handle,pCopyMemoryToImageInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -18241,6 +20388,8 @@ wrapper_tramp_CopyImageToMemoryEXT(
     VkDevice device,
     const VkCopyImageToMemoryInfoEXT* pCopyImageToMemoryInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CopyImageToMemoryEXT");
 WLOGA("CopyImageToMemoryEXT(device: %p, pCopyImageToMemoryInfo: %p)", device, pCopyImageToMemoryInfo);
@@ -18252,7 +20401,7 @@ const VkCopyImageToMemoryInfoEXT* pCopyImageToMemoryInfo__ = pCopyImageToMemoryI
 #ifdef NEEDS_UNWRAPPING_VkCopyImageToMemoryInfoEXT
     VkCopyImageToMemoryInfoEXT _w_pCopyImageToMemoryInfo = { 0 };
     pCopyImageToMemoryInfo__ = &_w_pCopyImageToMemoryInfo;
-    unwrap_VkCopyImageToMemoryInfoEXT(base, (VkCopyImageToMemoryInfoEXT *) pCopyImageToMemoryInfo__, pCopyImageToMemoryInfo);
+    unwrap_VkCopyImageToMemoryInfoEXT(&temp, base, (VkCopyImageToMemoryInfoEXT *) pCopyImageToMemoryInfo__, pCopyImageToMemoryInfo);
 #endif
 #ifdef NEEDS_PRINTING_CopyImageToMemoryEXT
     VK_CMD_LOGA("  in: pCopyImageToMemoryInfo: VkCopyImageToMemoryInfoEXT*");
@@ -18260,7 +20409,14 @@ const VkCopyImageToMemoryInfoEXT* pCopyImageToMemoryInfo__ = pCopyImageToMemoryI
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.CopyImageToMemoryEXT(base->dispatch_handle, pCopyImageToMemoryInfo__);
-
+#ifdef NEEDS_PRINTING_CopyImageToMemoryEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CopyImageToMemoryEXT with (device: %p,pCopyImageToMemoryInfo: %p) failed with result: %d", base->dispatch_handle,pCopyImageToMemoryInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -18269,6 +20425,8 @@ wrapper_tramp_CopyImageToImageEXT(
     VkDevice device,
     const VkCopyImageToImageInfoEXT* pCopyImageToImageInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CopyImageToImageEXT");
 WLOGA("CopyImageToImageEXT(device: %p, pCopyImageToImageInfo: %p)", device, pCopyImageToImageInfo);
@@ -18280,7 +20438,7 @@ const VkCopyImageToImageInfoEXT* pCopyImageToImageInfo__ = pCopyImageToImageInfo
 #ifdef NEEDS_UNWRAPPING_VkCopyImageToImageInfoEXT
     VkCopyImageToImageInfoEXT _w_pCopyImageToImageInfo = { 0 };
     pCopyImageToImageInfo__ = &_w_pCopyImageToImageInfo;
-    unwrap_VkCopyImageToImageInfoEXT(base, (VkCopyImageToImageInfoEXT *) pCopyImageToImageInfo__, pCopyImageToImageInfo);
+    unwrap_VkCopyImageToImageInfoEXT(&temp, base, (VkCopyImageToImageInfoEXT *) pCopyImageToImageInfo__, pCopyImageToImageInfo);
 #endif
 #ifdef NEEDS_PRINTING_CopyImageToImageEXT
     VK_CMD_LOGA("  in: pCopyImageToImageInfo: VkCopyImageToImageInfoEXT*");
@@ -18288,7 +20446,14 @@ const VkCopyImageToImageInfoEXT* pCopyImageToImageInfo__ = pCopyImageToImageInfo
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.CopyImageToImageEXT(base->dispatch_handle, pCopyImageToImageInfo__);
-
+#ifdef NEEDS_PRINTING_CopyImageToImageEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CopyImageToImageEXT with (device: %p,pCopyImageToImageInfo: %p) failed with result: %d", base->dispatch_handle,pCopyImageToImageInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -18298,6 +20463,8 @@ wrapper_tramp_TransitionImageLayoutEXT(
     uint32_t transitionCount,
     const VkHostImageLayoutTransitionInfoEXT* pTransitions)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("TransitionImageLayoutEXT");
 WLOGA("TransitionImageLayoutEXT(device: %p, transitionCount: %x, pTransitions: %p)", device, transitionCount, pTransitions);
@@ -18316,7 +20483,7 @@ const VkHostImageLayoutTransitionInfoEXT* pTransitions__ = pTransitions;
 #ifdef NEEDS_UNWRAPPING_VkHostImageLayoutTransitionInfoEXT
     pTransitions__ = alloca(transitionCount * sizeof(VkHostImageLayoutTransitionInfoEXT));
     for (int i = 0; i < transitionCount; i++)
-        unwrap_VkHostImageLayoutTransitionInfoEXT(base, (VkHostImageLayoutTransitionInfoEXT *) &pTransitions__[i], &pTransitions[i]);
+        unwrap_VkHostImageLayoutTransitionInfoEXT(&temp, base, (VkHostImageLayoutTransitionInfoEXT *) &pTransitions__[i], &pTransitions[i]);
 #endif
 #ifdef NEEDS_PRINTING_TransitionImageLayoutEXT
     VK_CMD_LOGA("  in: pTransitions[]: VkHostImageLayoutTransitionInfoEXT");
@@ -18327,7 +20494,14 @@ const VkHostImageLayoutTransitionInfoEXT* pTransitions__ = pTransitions;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.TransitionImageLayoutEXT(base->dispatch_handle, transitionCount__, pTransitions__);
-
+#ifdef NEEDS_PRINTING_TransitionImageLayoutEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to TransitionImageLayoutEXT with (device: %p,transitionCount: %x,pTransitions: %p) failed with result: %d", base->dispatch_handle,transitionCount__,pTransitions__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
             
@@ -18338,6 +20512,8 @@ wrapper_tramp_CreateVideoSessionKHR(
     const VkAllocationCallbacks* pAllocator,
     VkVideoSessionKHR* pVideoSession)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateVideoSessionKHR");
 WLOGA("CreateVideoSessionKHR(device: %p, pCreateInfo: %p, pAllocator: %p, pVideoSession: %p)", device, pCreateInfo, pAllocator, pVideoSession);
@@ -18349,7 +20525,7 @@ const VkVideoSessionCreateInfoKHR* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkVideoSessionCreateInfoKHR
     VkVideoSessionCreateInfoKHR _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkVideoSessionCreateInfoKHR(base, (VkVideoSessionCreateInfoKHR *) pCreateInfo__, pCreateInfo);
+    unwrap_VkVideoSessionCreateInfoKHR(&temp, base, (VkVideoSessionCreateInfoKHR *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateVideoSessionKHR
     VK_CMD_LOGA("  in: pCreateInfo: VkVideoSessionCreateInfoKHR*");
@@ -18360,7 +20536,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateVideoSessionKHR
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -18369,14 +20545,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateVideoSessionKHR(base->dispatch_handle, pCreateInfo__, pAllocator__, pVideoSession);
 #ifdef NEEDS_PRINTING_CreateVideoSessionKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateVideoSessionKHR
     VK_CMD_LOGA("  out: *pVideoSession: VkVideoSessionKHR = %x", (int64_t)*pVideoSession);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkVideoSessionKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateVideoSessionKHR with (device: %p,pCreateInfo: %p,pAllocator: %p,pVideoSession: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pVideoSession, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateVideoSessionKHR with (device: %p,pCreateInfo: %p,pAllocator: %p,pVideoSession: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pVideoSession, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -18386,6 +20567,8 @@ wrapper_tramp_DestroyVideoSessionKHR(
     VkVideoSessionKHR videoSession,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyVideoSessionKHR");
 WLOGA("DestroyVideoSessionKHR(device: %p, videoSession: %x, pAllocator: %p)", device, videoSession, pAllocator);
@@ -18404,7 +20587,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyVideoSessionKHR
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -18413,6 +20596,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyVideoSessionKHR(base->dispatch_handle, videoSession__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -18423,6 +20607,8 @@ wrapper_tramp_CreateVideoSessionParametersKHR(
     const VkAllocationCallbacks* pAllocator,
     VkVideoSessionParametersKHR* pVideoSessionParameters)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateVideoSessionParametersKHR");
 WLOGA("CreateVideoSessionParametersKHR(device: %p, pCreateInfo: %p, pAllocator: %p, pVideoSessionParameters: %p)", device, pCreateInfo, pAllocator, pVideoSessionParameters);
@@ -18434,7 +20620,7 @@ const VkVideoSessionParametersCreateInfoKHR* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkVideoSessionParametersCreateInfoKHR
     VkVideoSessionParametersCreateInfoKHR _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkVideoSessionParametersCreateInfoKHR(base, (VkVideoSessionParametersCreateInfoKHR *) pCreateInfo__, pCreateInfo);
+    unwrap_VkVideoSessionParametersCreateInfoKHR(&temp, base, (VkVideoSessionParametersCreateInfoKHR *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateVideoSessionParametersKHR
     VK_CMD_LOGA("  in: pCreateInfo: VkVideoSessionParametersCreateInfoKHR*");
@@ -18445,7 +20631,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateVideoSessionParametersKHR
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -18454,14 +20640,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateVideoSessionParametersKHR(base->dispatch_handle, pCreateInfo__, pAllocator__, pVideoSessionParameters);
 #ifdef NEEDS_PRINTING_CreateVideoSessionParametersKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateVideoSessionParametersKHR
     VK_CMD_LOGA("  out: *pVideoSessionParameters: VkVideoSessionParametersKHR = %x", (int64_t)*pVideoSessionParameters);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkVideoSessionParametersKHR
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateVideoSessionParametersKHR with (device: %p,pCreateInfo: %p,pAllocator: %p,pVideoSessionParameters: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pVideoSessionParameters, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateVideoSessionParametersKHR with (device: %p,pCreateInfo: %p,pAllocator: %p,pVideoSessionParameters: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pVideoSessionParameters, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -18471,6 +20662,8 @@ wrapper_tramp_UpdateVideoSessionParametersKHR(
     VkVideoSessionParametersKHR videoSessionParameters,
     const VkVideoSessionParametersUpdateInfoKHR* pUpdateInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("UpdateVideoSessionParametersKHR");
 WLOGA("UpdateVideoSessionParametersKHR(device: %p, videoSessionParameters: %x, pUpdateInfo: %p)", device, videoSessionParameters, pUpdateInfo);
@@ -18489,7 +20682,7 @@ const VkVideoSessionParametersUpdateInfoKHR* pUpdateInfo__ = pUpdateInfo;
 #ifdef NEEDS_UNWRAPPING_VkVideoSessionParametersUpdateInfoKHR
     VkVideoSessionParametersUpdateInfoKHR _w_pUpdateInfo = { 0 };
     pUpdateInfo__ = &_w_pUpdateInfo;
-    unwrap_VkVideoSessionParametersUpdateInfoKHR(base, (VkVideoSessionParametersUpdateInfoKHR *) pUpdateInfo__, pUpdateInfo);
+    unwrap_VkVideoSessionParametersUpdateInfoKHR(&temp, base, (VkVideoSessionParametersUpdateInfoKHR *) pUpdateInfo__, pUpdateInfo);
 #endif
 #ifdef NEEDS_PRINTING_UpdateVideoSessionParametersKHR
     VK_CMD_LOGA("  in: pUpdateInfo: VkVideoSessionParametersUpdateInfoKHR*");
@@ -18497,7 +20690,14 @@ const VkVideoSessionParametersUpdateInfoKHR* pUpdateInfo__ = pUpdateInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.UpdateVideoSessionParametersKHR(base->dispatch_handle, videoSessionParameters__, pUpdateInfo__);
-
+#ifdef NEEDS_PRINTING_UpdateVideoSessionParametersKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to UpdateVideoSessionParametersKHR with (device: %p,videoSessionParameters: %x,pUpdateInfo: %p) failed with result: %d", base->dispatch_handle,videoSessionParameters__,pUpdateInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -18509,6 +20709,8 @@ wrapper_tramp_GetEncodedVideoSessionParametersKHR(
     size_t* pDataSize,
     void* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetEncodedVideoSessionParametersKHR");
 WLOGA("GetEncodedVideoSessionParametersKHR(device: %p, pVideoSessionParametersInfo: %p, pFeedbackInfo: %p, pDataSize: %p, pData: %p)", device, pVideoSessionParametersInfo, pFeedbackInfo, pDataSize, pData);
@@ -18520,7 +20722,7 @@ const VkVideoEncodeSessionParametersGetInfoKHR* pVideoSessionParametersInfo__ = 
 #ifdef NEEDS_UNWRAPPING_VkVideoEncodeSessionParametersGetInfoKHR
     VkVideoEncodeSessionParametersGetInfoKHR _w_pVideoSessionParametersInfo = { 0 };
     pVideoSessionParametersInfo__ = &_w_pVideoSessionParametersInfo;
-    unwrap_VkVideoEncodeSessionParametersGetInfoKHR(base, (VkVideoEncodeSessionParametersGetInfoKHR *) pVideoSessionParametersInfo__, pVideoSessionParametersInfo);
+    unwrap_VkVideoEncodeSessionParametersGetInfoKHR(&temp, base, (VkVideoEncodeSessionParametersGetInfoKHR *) pVideoSessionParametersInfo__, pVideoSessionParametersInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetEncodedVideoSessionParametersKHR
     VK_CMD_LOGA("  in: pVideoSessionParametersInfo: VkVideoEncodeSessionParametersGetInfoKHR*");
@@ -18529,34 +20731,33 @@ const VkVideoEncodeSessionParametersGetInfoKHR* pVideoSessionParametersInfo__ = 
 #endif
     VkResult result = base->dispatch_table.GetEncodedVideoSessionParametersKHR(base->dispatch_handle, pVideoSessionParametersInfo__, pFeedbackInfo, pDataSize, pData);
 #ifdef NEEDS_PRINTING_GetEncodedVideoSessionParametersKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetEncodedVideoSessionParametersKHR
     VK_CMD_LOGA("  out: pFeedbackInfo: VkVideoEncodeSessionParametersFeedbackInfoKHR*");
     VK_PRINT_VkVideoEncodeSessionParametersFeedbackInfoKHR("    ", pFeedbackInfo);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkVideoEncodeSessionParametersFeedbackInfoKHR
-#warning TODO: Repack struct+ptr+out GetEncodedVideoSessionParametersKHR EntrypointParam(type='VkVideoEncodeSessionParametersFeedbackInfoKHR', name='pFeedbackInfo', decl='VkVideoEncodeSessionParametersFeedbackInfoKHR* pFeedbackInfo', len=None, elem=<Element 'param' at 0x75c0e9396160>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetEncodedVideoSessionParametersKHR EntrypointParam(type='VkVideoEncodeSessionParametersFeedbackInfoKHR', name='pFeedbackInfo', decl='VkVideoEncodeSessionParametersFeedbackInfoKHR* pFeedbackInfo', len=None, elem=<Element 'param' at 0x7f0cb30b6110>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetEncodedVideoSessionParametersKHR with (device: %p,pVideoSessionParametersInfo: %p,pFeedbackInfo: %p,pDataSize: %p,pData: %p) failed with result: %d", base->dispatch_handle,pVideoSessionParametersInfo__,pFeedbackInfo,pDataSize,pData, result);
-}
 #ifdef NEEDS_PRINTING_GetEncodedVideoSessionParametersKHR
     VK_CMD_LOGA("  out: *pDataSize: size_t = %x", (int64_t)*pDataSize);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_size_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetEncodedVideoSessionParametersKHR with (device: %p,pVideoSessionParametersInfo: %p,pFeedbackInfo: %p,pDataSize: %p,pData: %p) failed with result: %d", base->dispatch_handle,pVideoSessionParametersInfo__,pFeedbackInfo,pDataSize,pData, result);
-}
 #ifdef NEEDS_PRINTING_GetEncodedVideoSessionParametersKHR
     VK_CMD_LOGA("  out: *pData: void = %x", (int64_t)*pData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetEncodedVideoSessionParametersKHR with (device: %p,pVideoSessionParametersInfo: %p,pFeedbackInfo: %p,pDataSize: %p,pData: %p) failed with result: %d", base->dispatch_handle,pVideoSessionParametersInfo__,pFeedbackInfo,pDataSize,pData, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetEncodedVideoSessionParametersKHR with (device: %p,pVideoSessionParametersInfo: %p,pFeedbackInfo: %p,pDataSize: %p,pData: %p) failed with result: %d", base->dispatch_handle,pVideoSessionParametersInfo__,pFeedbackInfo,pDataSize,pData, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -18566,6 +20767,8 @@ wrapper_tramp_DestroyVideoSessionParametersKHR(
     VkVideoSessionParametersKHR videoSessionParameters,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyVideoSessionParametersKHR");
 WLOGA("DestroyVideoSessionParametersKHR(device: %p, videoSessionParameters: %x, pAllocator: %p)", device, videoSessionParameters, pAllocator);
@@ -18584,7 +20787,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyVideoSessionParametersKHR
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -18593,6 +20796,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyVideoSessionParametersKHR(base->dispatch_handle, videoSessionParameters__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -18603,6 +20807,8 @@ wrapper_tramp_GetVideoSessionMemoryRequirementsKHR(
     uint32_t* pMemoryRequirementsCount,
     VkVideoSessionMemoryRequirementsKHR* pMemoryRequirements)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetVideoSessionMemoryRequirementsKHR");
 WLOGA("GetVideoSessionMemoryRequirementsKHR(device: %p, videoSession: %x, pMemoryRequirementsCount: %p, pMemoryRequirements: %p)", device, videoSession, pMemoryRequirementsCount, pMemoryRequirements);
@@ -18619,14 +20825,15 @@ VkVideoSessionKHR videoSession__ = videoSession;
 #endif
     VkResult result = base->dispatch_table.GetVideoSessionMemoryRequirementsKHR(base->dispatch_handle, videoSession__, pMemoryRequirementsCount, pMemoryRequirements);
 #ifdef NEEDS_PRINTING_GetVideoSessionMemoryRequirementsKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetVideoSessionMemoryRequirementsKHR
     VK_CMD_LOGA("  out: *pMemoryRequirementsCount: uint32_t = %x", (int64_t)*pMemoryRequirementsCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetVideoSessionMemoryRequirementsKHR with (device: %p,videoSession: %x,pMemoryRequirementsCount: %p,pMemoryRequirements: %p) failed with result: %d", base->dispatch_handle,videoSession__,pMemoryRequirementsCount,pMemoryRequirements, result);
-}
 #ifdef NEEDS_PRINTING_GetVideoSessionMemoryRequirementsKHR
     VK_CMD_LOGA("  out: pMemoryRequirements[]: VkVideoSessionMemoryRequirementsKHR");
     for (int i = 0; i < pMemoryRequirementsCount; i++) {
@@ -18636,11 +20843,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkVideoSessionMemoryRequirementsKHR
-#warning TODO: Repack struct+array+out GetVideoSessionMemoryRequirementsKHR EntrypointParam(type='VkVideoSessionMemoryRequirementsKHR', name='pMemoryRequirements', decl='VkVideoSessionMemoryRequirementsKHR* pMemoryRequirements', len='pMemoryRequirementsCount', elem=<Element 'param' at 0x75c0e9396e30>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetVideoSessionMemoryRequirementsKHR EntrypointParam(type='VkVideoSessionMemoryRequirementsKHR', name='pMemoryRequirements', decl='VkVideoSessionMemoryRequirementsKHR* pMemoryRequirements', len='pMemoryRequirementsCount', elem=<Element 'param' at 0x7f0cb30b6de0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetVideoSessionMemoryRequirementsKHR with (device: %p,videoSession: %x,pMemoryRequirementsCount: %p,pMemoryRequirements: %p) failed with result: %d", base->dispatch_handle,videoSession__,pMemoryRequirementsCount,pMemoryRequirements, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetVideoSessionMemoryRequirementsKHR with (device: %p,videoSession: %x,pMemoryRequirementsCount: %p,pMemoryRequirements: %p) failed with result: %d", base->dispatch_handle,videoSession__,pMemoryRequirementsCount,pMemoryRequirements, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -18651,6 +20859,8 @@ wrapper_tramp_BindVideoSessionMemoryKHR(
     uint32_t bindSessionMemoryInfoCount,
     const VkBindVideoSessionMemoryInfoKHR* pBindSessionMemoryInfos)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("BindVideoSessionMemoryKHR");
 WLOGA("BindVideoSessionMemoryKHR(device: %p, videoSession: %x, bindSessionMemoryInfoCount: %x, pBindSessionMemoryInfos: %p)", device, videoSession, bindSessionMemoryInfoCount, pBindSessionMemoryInfos);
@@ -18676,7 +20886,7 @@ const VkBindVideoSessionMemoryInfoKHR* pBindSessionMemoryInfos__ = pBindSessionM
 #ifdef NEEDS_UNWRAPPING_VkBindVideoSessionMemoryInfoKHR
     pBindSessionMemoryInfos__ = alloca(bindSessionMemoryInfoCount * sizeof(VkBindVideoSessionMemoryInfoKHR));
     for (int i = 0; i < bindSessionMemoryInfoCount; i++)
-        unwrap_VkBindVideoSessionMemoryInfoKHR(base, (VkBindVideoSessionMemoryInfoKHR *) &pBindSessionMemoryInfos__[i], &pBindSessionMemoryInfos[i]);
+        unwrap_VkBindVideoSessionMemoryInfoKHR(&temp, base, (VkBindVideoSessionMemoryInfoKHR *) &pBindSessionMemoryInfos__[i], &pBindSessionMemoryInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_BindVideoSessionMemoryKHR
     VK_CMD_LOGA("  in: pBindSessionMemoryInfos[]: VkBindVideoSessionMemoryInfoKHR");
@@ -18687,7 +20897,14 @@ const VkBindVideoSessionMemoryInfoKHR* pBindSessionMemoryInfos__ = pBindSessionM
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.BindVideoSessionMemoryKHR(base->dispatch_handle, videoSession__, bindSessionMemoryInfoCount__, pBindSessionMemoryInfos__);
-
+#ifdef NEEDS_PRINTING_BindVideoSessionMemoryKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to BindVideoSessionMemoryKHR with (device: %p,videoSession: %x,bindSessionMemoryInfoCount: %x,pBindSessionMemoryInfos: %p) failed with result: %d", base->dispatch_handle,videoSession__,bindSessionMemoryInfoCount__,pBindSessionMemoryInfos__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -18696,6 +20913,8 @@ wrapper_tramp_CmdDecodeVideoKHR(
     VkCommandBuffer commandBuffer,
     const VkVideoDecodeInfoKHR* pDecodeInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDecodeVideoKHR");
 WLOGA("CmdDecodeVideoKHR(commandBuffer: %p, pDecodeInfo: %p)", commandBuffer, pDecodeInfo);
@@ -18707,7 +20926,7 @@ const VkVideoDecodeInfoKHR* pDecodeInfo__ = pDecodeInfo;
 #ifdef NEEDS_UNWRAPPING_VkVideoDecodeInfoKHR
     VkVideoDecodeInfoKHR _w_pDecodeInfo = { 0 };
     pDecodeInfo__ = &_w_pDecodeInfo;
-    unwrap_VkVideoDecodeInfoKHR(base->device, (VkVideoDecodeInfoKHR *) pDecodeInfo__, pDecodeInfo);
+    unwrap_VkVideoDecodeInfoKHR(&temp, base->device, (VkVideoDecodeInfoKHR *) pDecodeInfo__, pDecodeInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdDecodeVideoKHR
     VK_CMD_LOGA("  in: pDecodeInfo: VkVideoDecodeInfoKHR*");
@@ -18716,6 +20935,7 @@ const VkVideoDecodeInfoKHR* pDecodeInfo__ = pDecodeInfo;
 #endif
     base->device->dispatch_table.CmdDecodeVideoKHR(base->dispatch_handle, pDecodeInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -18724,6 +20944,8 @@ wrapper_tramp_CmdBeginVideoCodingKHR(
     VkCommandBuffer commandBuffer,
     const VkVideoBeginCodingInfoKHR* pBeginInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBeginVideoCodingKHR");
 WLOGA("CmdBeginVideoCodingKHR(commandBuffer: %p, pBeginInfo: %p)", commandBuffer, pBeginInfo);
@@ -18735,7 +20957,7 @@ const VkVideoBeginCodingInfoKHR* pBeginInfo__ = pBeginInfo;
 #ifdef NEEDS_UNWRAPPING_VkVideoBeginCodingInfoKHR
     VkVideoBeginCodingInfoKHR _w_pBeginInfo = { 0 };
     pBeginInfo__ = &_w_pBeginInfo;
-    unwrap_VkVideoBeginCodingInfoKHR(base->device, (VkVideoBeginCodingInfoKHR *) pBeginInfo__, pBeginInfo);
+    unwrap_VkVideoBeginCodingInfoKHR(&temp, base->device, (VkVideoBeginCodingInfoKHR *) pBeginInfo__, pBeginInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdBeginVideoCodingKHR
     VK_CMD_LOGA("  in: pBeginInfo: VkVideoBeginCodingInfoKHR*");
@@ -18744,6 +20966,7 @@ const VkVideoBeginCodingInfoKHR* pBeginInfo__ = pBeginInfo;
 #endif
     base->device->dispatch_table.CmdBeginVideoCodingKHR(base->dispatch_handle, pBeginInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -18752,6 +20975,8 @@ wrapper_tramp_CmdControlVideoCodingKHR(
     VkCommandBuffer commandBuffer,
     const VkVideoCodingControlInfoKHR* pCodingControlInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdControlVideoCodingKHR");
 WLOGA("CmdControlVideoCodingKHR(commandBuffer: %p, pCodingControlInfo: %p)", commandBuffer, pCodingControlInfo);
@@ -18763,7 +20988,7 @@ const VkVideoCodingControlInfoKHR* pCodingControlInfo__ = pCodingControlInfo;
 #ifdef NEEDS_UNWRAPPING_VkVideoCodingControlInfoKHR
     VkVideoCodingControlInfoKHR _w_pCodingControlInfo = { 0 };
     pCodingControlInfo__ = &_w_pCodingControlInfo;
-    unwrap_VkVideoCodingControlInfoKHR(base->device, (VkVideoCodingControlInfoKHR *) pCodingControlInfo__, pCodingControlInfo);
+    unwrap_VkVideoCodingControlInfoKHR(&temp, base->device, (VkVideoCodingControlInfoKHR *) pCodingControlInfo__, pCodingControlInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdControlVideoCodingKHR
     VK_CMD_LOGA("  in: pCodingControlInfo: VkVideoCodingControlInfoKHR*");
@@ -18772,6 +20997,7 @@ const VkVideoCodingControlInfoKHR* pCodingControlInfo__ = pCodingControlInfo;
 #endif
     base->device->dispatch_table.CmdControlVideoCodingKHR(base->dispatch_handle, pCodingControlInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -18780,6 +21006,8 @@ wrapper_tramp_CmdEndVideoCodingKHR(
     VkCommandBuffer commandBuffer,
     const VkVideoEndCodingInfoKHR* pEndCodingInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdEndVideoCodingKHR");
 WLOGA("CmdEndVideoCodingKHR(commandBuffer: %p, pEndCodingInfo: %p)", commandBuffer, pEndCodingInfo);
@@ -18791,7 +21019,7 @@ const VkVideoEndCodingInfoKHR* pEndCodingInfo__ = pEndCodingInfo;
 #ifdef NEEDS_UNWRAPPING_VkVideoEndCodingInfoKHR
     VkVideoEndCodingInfoKHR _w_pEndCodingInfo = { 0 };
     pEndCodingInfo__ = &_w_pEndCodingInfo;
-    unwrap_VkVideoEndCodingInfoKHR(base->device, (VkVideoEndCodingInfoKHR *) pEndCodingInfo__, pEndCodingInfo);
+    unwrap_VkVideoEndCodingInfoKHR(&temp, base->device, (VkVideoEndCodingInfoKHR *) pEndCodingInfo__, pEndCodingInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdEndVideoCodingKHR
     VK_CMD_LOGA("  in: pEndCodingInfo: VkVideoEndCodingInfoKHR*");
@@ -18800,6 +21028,7 @@ const VkVideoEndCodingInfoKHR* pEndCodingInfo__ = pEndCodingInfo;
 #endif
     base->device->dispatch_table.CmdEndVideoCodingKHR(base->dispatch_handle, pEndCodingInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -18808,6 +21037,8 @@ wrapper_tramp_CmdEncodeVideoKHR(
     VkCommandBuffer commandBuffer,
     const VkVideoEncodeInfoKHR* pEncodeInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdEncodeVideoKHR");
 WLOGA("CmdEncodeVideoKHR(commandBuffer: %p, pEncodeInfo: %p)", commandBuffer, pEncodeInfo);
@@ -18819,7 +21050,7 @@ const VkVideoEncodeInfoKHR* pEncodeInfo__ = pEncodeInfo;
 #ifdef NEEDS_UNWRAPPING_VkVideoEncodeInfoKHR
     VkVideoEncodeInfoKHR _w_pEncodeInfo = { 0 };
     pEncodeInfo__ = &_w_pEncodeInfo;
-    unwrap_VkVideoEncodeInfoKHR(base->device, (VkVideoEncodeInfoKHR *) pEncodeInfo__, pEncodeInfo);
+    unwrap_VkVideoEncodeInfoKHR(&temp, base->device, (VkVideoEncodeInfoKHR *) pEncodeInfo__, pEncodeInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdEncodeVideoKHR
     VK_CMD_LOGA("  in: pEncodeInfo: VkVideoEncodeInfoKHR*");
@@ -18828,6 +21059,7 @@ const VkVideoEncodeInfoKHR* pEncodeInfo__ = pEncodeInfo;
 #endif
     base->device->dispatch_table.CmdEncodeVideoKHR(base->dispatch_handle, pEncodeInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -18837,6 +21069,8 @@ wrapper_tramp_CmdDecompressMemoryNV(
     uint32_t decompressRegionCount,
     const VkDecompressMemoryRegionNV* pDecompressMemoryRegions)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDecompressMemoryNV");
 WLOGA("CmdDecompressMemoryNV(commandBuffer: %p, decompressRegionCount: %x, pDecompressMemoryRegions: %p)", commandBuffer, decompressRegionCount, pDecompressMemoryRegions);
@@ -18855,7 +21089,7 @@ const VkDecompressMemoryRegionNV* pDecompressMemoryRegions__ = pDecompressMemory
 #ifdef NEEDS_UNWRAPPING_VkDecompressMemoryRegionNV
     pDecompressMemoryRegions__ = alloca(decompressRegionCount * sizeof(VkDecompressMemoryRegionNV));
     for (int i = 0; i < decompressRegionCount; i++)
-        unwrap_VkDecompressMemoryRegionNV(base->device, (VkDecompressMemoryRegionNV *) &pDecompressMemoryRegions__[i], &pDecompressMemoryRegions[i]);
+        unwrap_VkDecompressMemoryRegionNV(&temp, base->device, (VkDecompressMemoryRegionNV *) &pDecompressMemoryRegions__[i], &pDecompressMemoryRegions[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdDecompressMemoryNV
     VK_CMD_LOGA("  in: pDecompressMemoryRegions[]: VkDecompressMemoryRegionNV");
@@ -18867,6 +21101,7 @@ const VkDecompressMemoryRegionNV* pDecompressMemoryRegions__ = pDecompressMemory
 #endif
     base->device->dispatch_table.CmdDecompressMemoryNV(base->dispatch_handle, decompressRegionCount__, pDecompressMemoryRegions__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -18877,6 +21112,8 @@ wrapper_tramp_CmdDecompressMemoryIndirectCountNV(
     VkDeviceAddress indirectCommandsCountAddress,
     uint32_t stride)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdDecompressMemoryIndirectCountNV");
 WLOGA("CmdDecompressMemoryIndirectCountNV(commandBuffer: %p, indirectCommandsAddress: %x, indirectCommandsCountAddress: %x, stride: %x)", commandBuffer, indirectCommandsAddress, indirectCommandsCountAddress, stride);
@@ -18907,6 +21144,7 @@ uint32_t stride__ = stride;
 #endif
     base->device->dispatch_table.CmdDecompressMemoryIndirectCountNV(base->dispatch_handle, indirectCommandsAddress__, indirectCommandsCountAddress__, stride__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -18917,6 +21155,8 @@ wrapper_tramp_CreateCuModuleNVX(
     const VkAllocationCallbacks* pAllocator,
     VkCuModuleNVX* pModule)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateCuModuleNVX");
 WLOGA("CreateCuModuleNVX(device: %p, pCreateInfo: %p, pAllocator: %p, pModule: %p)", device, pCreateInfo, pAllocator, pModule);
@@ -18928,7 +21168,7 @@ const VkCuModuleCreateInfoNVX* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkCuModuleCreateInfoNVX
     VkCuModuleCreateInfoNVX _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkCuModuleCreateInfoNVX(base, (VkCuModuleCreateInfoNVX *) pCreateInfo__, pCreateInfo);
+    unwrap_VkCuModuleCreateInfoNVX(&temp, base, (VkCuModuleCreateInfoNVX *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateCuModuleNVX
     VK_CMD_LOGA("  in: pCreateInfo: VkCuModuleCreateInfoNVX*");
@@ -18939,7 +21179,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateCuModuleNVX
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -18948,14 +21188,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateCuModuleNVX(base->dispatch_handle, pCreateInfo__, pAllocator__, pModule);
 #ifdef NEEDS_PRINTING_CreateCuModuleNVX
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateCuModuleNVX
     VK_CMD_LOGA("  out: *pModule: VkCuModuleNVX = %x", (int64_t)*pModule);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkCuModuleNVX
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateCuModuleNVX with (device: %p,pCreateInfo: %p,pAllocator: %p,pModule: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pModule, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateCuModuleNVX with (device: %p,pCreateInfo: %p,pAllocator: %p,pModule: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pModule, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -18966,6 +21211,8 @@ wrapper_tramp_CreateCuFunctionNVX(
     const VkAllocationCallbacks* pAllocator,
     VkCuFunctionNVX* pFunction)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateCuFunctionNVX");
 WLOGA("CreateCuFunctionNVX(device: %p, pCreateInfo: %p, pAllocator: %p, pFunction: %p)", device, pCreateInfo, pAllocator, pFunction);
@@ -18977,7 +21224,7 @@ const VkCuFunctionCreateInfoNVX* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkCuFunctionCreateInfoNVX
     VkCuFunctionCreateInfoNVX _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkCuFunctionCreateInfoNVX(base, (VkCuFunctionCreateInfoNVX *) pCreateInfo__, pCreateInfo);
+    unwrap_VkCuFunctionCreateInfoNVX(&temp, base, (VkCuFunctionCreateInfoNVX *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateCuFunctionNVX
     VK_CMD_LOGA("  in: pCreateInfo: VkCuFunctionCreateInfoNVX*");
@@ -18988,7 +21235,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateCuFunctionNVX
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -18997,14 +21244,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateCuFunctionNVX(base->dispatch_handle, pCreateInfo__, pAllocator__, pFunction);
 #ifdef NEEDS_PRINTING_CreateCuFunctionNVX
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateCuFunctionNVX
     VK_CMD_LOGA("  out: *pFunction: VkCuFunctionNVX = %x", (int64_t)*pFunction);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkCuFunctionNVX
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateCuFunctionNVX with (device: %p,pCreateInfo: %p,pAllocator: %p,pFunction: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pFunction, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateCuFunctionNVX with (device: %p,pCreateInfo: %p,pAllocator: %p,pFunction: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pFunction, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -19014,6 +21266,8 @@ wrapper_tramp_DestroyCuModuleNVX(
     VkCuModuleNVX module,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyCuModuleNVX");
 WLOGA("DestroyCuModuleNVX(device: %p, module: %x, pAllocator: %p)", device, module, pAllocator);
@@ -19032,7 +21286,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyCuModuleNVX
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -19041,6 +21295,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyCuModuleNVX(base->dispatch_handle, module__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -19050,6 +21305,8 @@ wrapper_tramp_DestroyCuFunctionNVX(
     VkCuFunctionNVX function,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyCuFunctionNVX");
 WLOGA("DestroyCuFunctionNVX(device: %p, function: %x, pAllocator: %p)", device, function, pAllocator);
@@ -19068,7 +21325,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyCuFunctionNVX
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -19077,6 +21334,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyCuFunctionNVX(base->dispatch_handle, function__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -19085,6 +21343,8 @@ wrapper_tramp_CmdCuLaunchKernelNVX(
     VkCommandBuffer commandBuffer,
     const VkCuLaunchInfoNVX* pLaunchInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCuLaunchKernelNVX");
 WLOGA("CmdCuLaunchKernelNVX(commandBuffer: %p, pLaunchInfo: %p)", commandBuffer, pLaunchInfo);
@@ -19096,7 +21356,7 @@ const VkCuLaunchInfoNVX* pLaunchInfo__ = pLaunchInfo;
 #ifdef NEEDS_UNWRAPPING_VkCuLaunchInfoNVX
     VkCuLaunchInfoNVX _w_pLaunchInfo = { 0 };
     pLaunchInfo__ = &_w_pLaunchInfo;
-    unwrap_VkCuLaunchInfoNVX(base->device, (VkCuLaunchInfoNVX *) pLaunchInfo__, pLaunchInfo);
+    unwrap_VkCuLaunchInfoNVX(&temp, base->device, (VkCuLaunchInfoNVX *) pLaunchInfo__, pLaunchInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdCuLaunchKernelNVX
     VK_CMD_LOGA("  in: pLaunchInfo: VkCuLaunchInfoNVX*");
@@ -19105,6 +21365,7 @@ const VkCuLaunchInfoNVX* pLaunchInfo__ = pLaunchInfo;
 #endif
     base->device->dispatch_table.CmdCuLaunchKernelNVX(base->dispatch_handle, pLaunchInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -19114,6 +21375,8 @@ wrapper_tramp_GetDescriptorSetLayoutSizeEXT(
     VkDescriptorSetLayout layout,
     VkDeviceSize* pLayoutSizeInBytes)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDescriptorSetLayoutSizeEXT");
 WLOGA("GetDescriptorSetLayoutSizeEXT(device: %p, layout: %x, pLayoutSizeInBytes: %p)", device, layout, pLayoutSizeInBytes);
@@ -19135,6 +21398,7 @@ VkDescriptorSetLayout layout__ = layout;
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDeviceSize
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -19145,6 +21409,8 @@ wrapper_tramp_GetDescriptorSetLayoutBindingOffsetEXT(
     uint32_t binding,
     VkDeviceSize* pOffset)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDescriptorSetLayoutBindingOffsetEXT");
 WLOGA("GetDescriptorSetLayoutBindingOffsetEXT(device: %p, layout: %x, binding: %x, pOffset: %p)", device, layout, binding, pOffset);
@@ -19173,6 +21439,7 @@ uint32_t binding__ = binding;
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDeviceSize
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -19183,6 +21450,8 @@ wrapper_tramp_GetDescriptorEXT(
     size_t dataSize,
     void* pDescriptor)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDescriptorEXT");
 WLOGA("GetDescriptorEXT(device: %p, pDescriptorInfo: %p, dataSize: %x, pDescriptor: %p)", device, pDescriptorInfo, dataSize, pDescriptor);
@@ -19194,7 +21463,7 @@ const VkDescriptorGetInfoEXT* pDescriptorInfo__ = pDescriptorInfo;
 #ifdef NEEDS_UNWRAPPING_VkDescriptorGetInfoEXT
     VkDescriptorGetInfoEXT _w_pDescriptorInfo = { 0 };
     pDescriptorInfo__ = &_w_pDescriptorInfo;
-    unwrap_VkDescriptorGetInfoEXT(base, (VkDescriptorGetInfoEXT *) pDescriptorInfo__, pDescriptorInfo);
+    unwrap_VkDescriptorGetInfoEXT(&temp, base, (VkDescriptorGetInfoEXT *) pDescriptorInfo__, pDescriptorInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetDescriptorEXT
     VK_CMD_LOGA("  in: pDescriptorInfo: VkDescriptorGetInfoEXT*");
@@ -19215,6 +21484,7 @@ size_t dataSize__ = dataSize;
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -19224,6 +21494,8 @@ wrapper_tramp_CmdBindDescriptorBuffersEXT(
     uint32_t bufferCount,
     const VkDescriptorBufferBindingInfoEXT* pBindingInfos)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBindDescriptorBuffersEXT");
 WLOGA("CmdBindDescriptorBuffersEXT(commandBuffer: %p, bufferCount: %x, pBindingInfos: %p)", commandBuffer, bufferCount, pBindingInfos);
@@ -19242,7 +21514,7 @@ const VkDescriptorBufferBindingInfoEXT* pBindingInfos__ = pBindingInfos;
 #ifdef NEEDS_UNWRAPPING_VkDescriptorBufferBindingInfoEXT
     pBindingInfos__ = alloca(bufferCount * sizeof(VkDescriptorBufferBindingInfoEXT));
     for (int i = 0; i < bufferCount; i++)
-        unwrap_VkDescriptorBufferBindingInfoEXT(base->device, (VkDescriptorBufferBindingInfoEXT *) &pBindingInfos__[i], &pBindingInfos[i]);
+        unwrap_VkDescriptorBufferBindingInfoEXT(&temp, base->device, (VkDescriptorBufferBindingInfoEXT *) &pBindingInfos__[i], &pBindingInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdBindDescriptorBuffersEXT
     VK_CMD_LOGA("  in: pBindingInfos[]: VkDescriptorBufferBindingInfoEXT");
@@ -19254,6 +21526,7 @@ const VkDescriptorBufferBindingInfoEXT* pBindingInfos__ = pBindingInfos;
 #endif
     base->device->dispatch_table.CmdBindDescriptorBuffersEXT(base->dispatch_handle, bufferCount__, pBindingInfos__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -19267,6 +21540,8 @@ wrapper_tramp_CmdSetDescriptorBufferOffsetsEXT(
     const uint32_t* pBufferIndices,
     const VkDeviceSize* pOffsets)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDescriptorBufferOffsetsEXT");
 WLOGA("CmdSetDescriptorBufferOffsetsEXT(commandBuffer: %p, pipelineBindPoint: %x, layout: %x, firstSet: %x, setCount: %x, pBufferIndices: %x, pOffsets: %x)", commandBuffer, pipelineBindPoint, layout, firstSet, setCount, pBufferIndices, pOffsets);
@@ -19318,6 +21593,7 @@ const VkDeviceSize* pOffsets__ = pOffsets;
 #endif
     base->device->dispatch_table.CmdSetDescriptorBufferOffsetsEXT(base->dispatch_handle, pipelineBindPoint__, layout__, firstSet__, setCount__, pBufferIndices__, pOffsets__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -19328,6 +21604,8 @@ wrapper_tramp_CmdBindDescriptorBufferEmbeddedSamplersEXT(
     VkPipelineLayout layout,
     uint32_t set)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBindDescriptorBufferEmbeddedSamplersEXT");
 WLOGA("CmdBindDescriptorBufferEmbeddedSamplersEXT(commandBuffer: %p, pipelineBindPoint: %x, layout: %x, set: %x)", commandBuffer, pipelineBindPoint, layout, set);
@@ -19358,6 +21636,7 @@ uint32_t set__ = set;
 #endif
     base->device->dispatch_table.CmdBindDescriptorBufferEmbeddedSamplersEXT(base->dispatch_handle, pipelineBindPoint__, layout__, set__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -19367,6 +21646,8 @@ wrapper_tramp_GetBufferOpaqueCaptureDescriptorDataEXT(
     const VkBufferCaptureDescriptorDataInfoEXT* pInfo,
     void* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetBufferOpaqueCaptureDescriptorDataEXT");
 WLOGA("GetBufferOpaqueCaptureDescriptorDataEXT(device: %p, pInfo: %p, pData: %p)", device, pInfo, pData);
@@ -19378,7 +21659,7 @@ const VkBufferCaptureDescriptorDataInfoEXT* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkBufferCaptureDescriptorDataInfoEXT
     VkBufferCaptureDescriptorDataInfoEXT _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkBufferCaptureDescriptorDataInfoEXT(base, (VkBufferCaptureDescriptorDataInfoEXT *) pInfo__, pInfo);
+    unwrap_VkBufferCaptureDescriptorDataInfoEXT(&temp, base, (VkBufferCaptureDescriptorDataInfoEXT *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetBufferOpaqueCaptureDescriptorDataEXT
     VK_CMD_LOGA("  in: pInfo: VkBufferCaptureDescriptorDataInfoEXT*");
@@ -19387,14 +21668,19 @@ const VkBufferCaptureDescriptorDataInfoEXT* pInfo__ = pInfo;
 #endif
     VkResult result = base->dispatch_table.GetBufferOpaqueCaptureDescriptorDataEXT(base->dispatch_handle, pInfo__, pData);
 #ifdef NEEDS_PRINTING_GetBufferOpaqueCaptureDescriptorDataEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetBufferOpaqueCaptureDescriptorDataEXT
     VK_CMD_LOGA("  out: *pData: void = %x", (int64_t)*pData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetBufferOpaqueCaptureDescriptorDataEXT with (device: %p,pInfo: %p,pData: %p) failed with result: %d", base->dispatch_handle,pInfo__,pData, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetBufferOpaqueCaptureDescriptorDataEXT with (device: %p,pInfo: %p,pData: %p) failed with result: %d", base->dispatch_handle,pInfo__,pData, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -19404,6 +21690,8 @@ wrapper_tramp_GetImageOpaqueCaptureDescriptorDataEXT(
     const VkImageCaptureDescriptorDataInfoEXT* pInfo,
     void* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetImageOpaqueCaptureDescriptorDataEXT");
 WLOGA("GetImageOpaqueCaptureDescriptorDataEXT(device: %p, pInfo: %p, pData: %p)", device, pInfo, pData);
@@ -19415,7 +21703,7 @@ const VkImageCaptureDescriptorDataInfoEXT* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkImageCaptureDescriptorDataInfoEXT
     VkImageCaptureDescriptorDataInfoEXT _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkImageCaptureDescriptorDataInfoEXT(base, (VkImageCaptureDescriptorDataInfoEXT *) pInfo__, pInfo);
+    unwrap_VkImageCaptureDescriptorDataInfoEXT(&temp, base, (VkImageCaptureDescriptorDataInfoEXT *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetImageOpaqueCaptureDescriptorDataEXT
     VK_CMD_LOGA("  in: pInfo: VkImageCaptureDescriptorDataInfoEXT*");
@@ -19424,14 +21712,19 @@ const VkImageCaptureDescriptorDataInfoEXT* pInfo__ = pInfo;
 #endif
     VkResult result = base->dispatch_table.GetImageOpaqueCaptureDescriptorDataEXT(base->dispatch_handle, pInfo__, pData);
 #ifdef NEEDS_PRINTING_GetImageOpaqueCaptureDescriptorDataEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetImageOpaqueCaptureDescriptorDataEXT
     VK_CMD_LOGA("  out: *pData: void = %x", (int64_t)*pData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetImageOpaqueCaptureDescriptorDataEXT with (device: %p,pInfo: %p,pData: %p) failed with result: %d", base->dispatch_handle,pInfo__,pData, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetImageOpaqueCaptureDescriptorDataEXT with (device: %p,pInfo: %p,pData: %p) failed with result: %d", base->dispatch_handle,pInfo__,pData, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -19441,6 +21734,8 @@ wrapper_tramp_GetImageViewOpaqueCaptureDescriptorDataEXT(
     const VkImageViewCaptureDescriptorDataInfoEXT* pInfo,
     void* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetImageViewOpaqueCaptureDescriptorDataEXT");
 WLOGA("GetImageViewOpaqueCaptureDescriptorDataEXT(device: %p, pInfo: %p, pData: %p)", device, pInfo, pData);
@@ -19452,7 +21747,7 @@ const VkImageViewCaptureDescriptorDataInfoEXT* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkImageViewCaptureDescriptorDataInfoEXT
     VkImageViewCaptureDescriptorDataInfoEXT _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkImageViewCaptureDescriptorDataInfoEXT(base, (VkImageViewCaptureDescriptorDataInfoEXT *) pInfo__, pInfo);
+    unwrap_VkImageViewCaptureDescriptorDataInfoEXT(&temp, base, (VkImageViewCaptureDescriptorDataInfoEXT *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetImageViewOpaqueCaptureDescriptorDataEXT
     VK_CMD_LOGA("  in: pInfo: VkImageViewCaptureDescriptorDataInfoEXT*");
@@ -19461,14 +21756,19 @@ const VkImageViewCaptureDescriptorDataInfoEXT* pInfo__ = pInfo;
 #endif
     VkResult result = base->dispatch_table.GetImageViewOpaqueCaptureDescriptorDataEXT(base->dispatch_handle, pInfo__, pData);
 #ifdef NEEDS_PRINTING_GetImageViewOpaqueCaptureDescriptorDataEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetImageViewOpaqueCaptureDescriptorDataEXT
     VK_CMD_LOGA("  out: *pData: void = %x", (int64_t)*pData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetImageViewOpaqueCaptureDescriptorDataEXT with (device: %p,pInfo: %p,pData: %p) failed with result: %d", base->dispatch_handle,pInfo__,pData, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetImageViewOpaqueCaptureDescriptorDataEXT with (device: %p,pInfo: %p,pData: %p) failed with result: %d", base->dispatch_handle,pInfo__,pData, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -19478,6 +21778,8 @@ wrapper_tramp_GetSamplerOpaqueCaptureDescriptorDataEXT(
     const VkSamplerCaptureDescriptorDataInfoEXT* pInfo,
     void* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetSamplerOpaqueCaptureDescriptorDataEXT");
 WLOGA("GetSamplerOpaqueCaptureDescriptorDataEXT(device: %p, pInfo: %p, pData: %p)", device, pInfo, pData);
@@ -19489,7 +21791,7 @@ const VkSamplerCaptureDescriptorDataInfoEXT* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkSamplerCaptureDescriptorDataInfoEXT
     VkSamplerCaptureDescriptorDataInfoEXT _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkSamplerCaptureDescriptorDataInfoEXT(base, (VkSamplerCaptureDescriptorDataInfoEXT *) pInfo__, pInfo);
+    unwrap_VkSamplerCaptureDescriptorDataInfoEXT(&temp, base, (VkSamplerCaptureDescriptorDataInfoEXT *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetSamplerOpaqueCaptureDescriptorDataEXT
     VK_CMD_LOGA("  in: pInfo: VkSamplerCaptureDescriptorDataInfoEXT*");
@@ -19498,14 +21800,19 @@ const VkSamplerCaptureDescriptorDataInfoEXT* pInfo__ = pInfo;
 #endif
     VkResult result = base->dispatch_table.GetSamplerOpaqueCaptureDescriptorDataEXT(base->dispatch_handle, pInfo__, pData);
 #ifdef NEEDS_PRINTING_GetSamplerOpaqueCaptureDescriptorDataEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetSamplerOpaqueCaptureDescriptorDataEXT
     VK_CMD_LOGA("  out: *pData: void = %x", (int64_t)*pData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetSamplerOpaqueCaptureDescriptorDataEXT with (device: %p,pInfo: %p,pData: %p) failed with result: %d", base->dispatch_handle,pInfo__,pData, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetSamplerOpaqueCaptureDescriptorDataEXT with (device: %p,pInfo: %p,pData: %p) failed with result: %d", base->dispatch_handle,pInfo__,pData, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -19515,6 +21822,8 @@ wrapper_tramp_GetAccelerationStructureOpaqueCaptureDescriptorDataEXT(
     const VkAccelerationStructureCaptureDescriptorDataInfoEXT* pInfo,
     void* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetAccelerationStructureOpaqueCaptureDescriptorDataEXT");
 WLOGA("GetAccelerationStructureOpaqueCaptureDescriptorDataEXT(device: %p, pInfo: %p, pData: %p)", device, pInfo, pData);
@@ -19526,7 +21835,7 @@ const VkAccelerationStructureCaptureDescriptorDataInfoEXT* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureCaptureDescriptorDataInfoEXT
     VkAccelerationStructureCaptureDescriptorDataInfoEXT _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkAccelerationStructureCaptureDescriptorDataInfoEXT(base, (VkAccelerationStructureCaptureDescriptorDataInfoEXT *) pInfo__, pInfo);
+    unwrap_VkAccelerationStructureCaptureDescriptorDataInfoEXT(&temp, base, (VkAccelerationStructureCaptureDescriptorDataInfoEXT *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetAccelerationStructureOpaqueCaptureDescriptorDataEXT
     VK_CMD_LOGA("  in: pInfo: VkAccelerationStructureCaptureDescriptorDataInfoEXT*");
@@ -19535,14 +21844,19 @@ const VkAccelerationStructureCaptureDescriptorDataInfoEXT* pInfo__ = pInfo;
 #endif
     VkResult result = base->dispatch_table.GetAccelerationStructureOpaqueCaptureDescriptorDataEXT(base->dispatch_handle, pInfo__, pData);
 #ifdef NEEDS_PRINTING_GetAccelerationStructureOpaqueCaptureDescriptorDataEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetAccelerationStructureOpaqueCaptureDescriptorDataEXT
     VK_CMD_LOGA("  out: *pData: void = %x", (int64_t)*pData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetAccelerationStructureOpaqueCaptureDescriptorDataEXT with (device: %p,pInfo: %p,pData: %p) failed with result: %d", base->dispatch_handle,pInfo__,pData, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetAccelerationStructureOpaqueCaptureDescriptorDataEXT with (device: %p,pInfo: %p,pData: %p) failed with result: %d", base->dispatch_handle,pInfo__,pData, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -19552,6 +21866,8 @@ wrapper_tramp_SetDeviceMemoryPriorityEXT(
     VkDeviceMemory memory,
     float          priority)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("SetDeviceMemoryPriorityEXT");
 WLOGA("SetDeviceMemoryPriorityEXT(device: %p, memory: %x, priority: %x)", device, memory, priority);
@@ -19575,6 +21891,7 @@ float          priority__ = priority;
 #endif
     base->dispatch_table.SetDeviceMemoryPriorityEXT(base->dispatch_handle, memory__, priority__);
 
+    free_temp_objects(&temp);
     return ;
 }
         
@@ -19585,6 +21902,8 @@ wrapper_tramp_WaitForPresentKHR(
     uint64_t presentId,
     uint64_t timeout)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("WaitForPresentKHR");
 WLOGA("WaitForPresentKHR(device: %p, swapchain: %x, presentId: %x, timeout: %x)", device, swapchain, presentId, timeout);
@@ -19614,7 +21933,14 @@ uint64_t timeout__ = timeout;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.WaitForPresentKHR(base->dispatch_handle, swapchain__, presentId__, timeout__);
-
+#ifdef NEEDS_PRINTING_WaitForPresentKHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to WaitForPresentKHR with (device: %p,swapchain: %x,presentId: %x,timeout: %x) failed with result: %d", base->dispatch_handle,swapchain__,presentId__,timeout__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #ifdef VK_USE_PLATFORM_FUCHSIA
@@ -19626,6 +21952,8 @@ wrapper_tramp_CreateBufferCollectionFUCHSIA(
     const VkAllocationCallbacks* pAllocator,
     VkBufferCollectionFUCHSIA* pCollection)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateBufferCollectionFUCHSIA");
 WLOGA("CreateBufferCollectionFUCHSIA(device: %p, pCreateInfo: %p, pAllocator: %p, pCollection: %p)", device, pCreateInfo, pAllocator, pCollection);
@@ -19637,7 +21965,7 @@ const VkBufferCollectionCreateInfoFUCHSIA* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkBufferCollectionCreateInfoFUCHSIA
     VkBufferCollectionCreateInfoFUCHSIA _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkBufferCollectionCreateInfoFUCHSIA(base, (VkBufferCollectionCreateInfoFUCHSIA *) pCreateInfo__, pCreateInfo);
+    unwrap_VkBufferCollectionCreateInfoFUCHSIA(&temp, base, (VkBufferCollectionCreateInfoFUCHSIA *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateBufferCollectionFUCHSIA
     VK_CMD_LOGA("  in: pCreateInfo: VkBufferCollectionCreateInfoFUCHSIA*");
@@ -19648,7 +21976,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateBufferCollectionFUCHSIA
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -19657,14 +21985,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateBufferCollectionFUCHSIA(base->dispatch_handle, pCreateInfo__, pAllocator__, pCollection);
 #ifdef NEEDS_PRINTING_CreateBufferCollectionFUCHSIA
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateBufferCollectionFUCHSIA
     VK_CMD_LOGA("  out: *pCollection: VkBufferCollectionFUCHSIA = %x", (int64_t)*pCollection);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkBufferCollectionFUCHSIA
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateBufferCollectionFUCHSIA with (device: %p,pCreateInfo: %p,pAllocator: %p,pCollection: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pCollection, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateBufferCollectionFUCHSIA with (device: %p,pCreateInfo: %p,pAllocator: %p,pCollection: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pCollection, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -19676,6 +22009,8 @@ wrapper_tramp_SetBufferCollectionBufferConstraintsFUCHSIA(
     VkBufferCollectionFUCHSIA collection,
     const VkBufferConstraintsInfoFUCHSIA* pBufferConstraintsInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("SetBufferCollectionBufferConstraintsFUCHSIA");
 WLOGA("SetBufferCollectionBufferConstraintsFUCHSIA(device: %p, collection: %x, pBufferConstraintsInfo: %p)", device, collection, pBufferConstraintsInfo);
@@ -19694,7 +22029,7 @@ const VkBufferConstraintsInfoFUCHSIA* pBufferConstraintsInfo__ = pBufferConstrai
 #ifdef NEEDS_UNWRAPPING_VkBufferConstraintsInfoFUCHSIA
     VkBufferConstraintsInfoFUCHSIA _w_pBufferConstraintsInfo = { 0 };
     pBufferConstraintsInfo__ = &_w_pBufferConstraintsInfo;
-    unwrap_VkBufferConstraintsInfoFUCHSIA(base, (VkBufferConstraintsInfoFUCHSIA *) pBufferConstraintsInfo__, pBufferConstraintsInfo);
+    unwrap_VkBufferConstraintsInfoFUCHSIA(&temp, base, (VkBufferConstraintsInfoFUCHSIA *) pBufferConstraintsInfo__, pBufferConstraintsInfo);
 #endif
 #ifdef NEEDS_PRINTING_SetBufferCollectionBufferConstraintsFUCHSIA
     VK_CMD_LOGA("  in: pBufferConstraintsInfo: VkBufferConstraintsInfoFUCHSIA*");
@@ -19702,7 +22037,14 @@ const VkBufferConstraintsInfoFUCHSIA* pBufferConstraintsInfo__ = pBufferConstrai
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.SetBufferCollectionBufferConstraintsFUCHSIA(base->dispatch_handle, collection__, pBufferConstraintsInfo__);
-
+#ifdef NEEDS_PRINTING_SetBufferCollectionBufferConstraintsFUCHSIA
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to SetBufferCollectionBufferConstraintsFUCHSIA with (device: %p,collection: %x,pBufferConstraintsInfo: %p) failed with result: %d", base->dispatch_handle,collection__,pBufferConstraintsInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -19714,6 +22056,8 @@ wrapper_tramp_SetBufferCollectionImageConstraintsFUCHSIA(
     VkBufferCollectionFUCHSIA collection,
     const VkImageConstraintsInfoFUCHSIA* pImageConstraintsInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("SetBufferCollectionImageConstraintsFUCHSIA");
 WLOGA("SetBufferCollectionImageConstraintsFUCHSIA(device: %p, collection: %x, pImageConstraintsInfo: %p)", device, collection, pImageConstraintsInfo);
@@ -19732,7 +22076,7 @@ const VkImageConstraintsInfoFUCHSIA* pImageConstraintsInfo__ = pImageConstraints
 #ifdef NEEDS_UNWRAPPING_VkImageConstraintsInfoFUCHSIA
     VkImageConstraintsInfoFUCHSIA _w_pImageConstraintsInfo = { 0 };
     pImageConstraintsInfo__ = &_w_pImageConstraintsInfo;
-    unwrap_VkImageConstraintsInfoFUCHSIA(base, (VkImageConstraintsInfoFUCHSIA *) pImageConstraintsInfo__, pImageConstraintsInfo);
+    unwrap_VkImageConstraintsInfoFUCHSIA(&temp, base, (VkImageConstraintsInfoFUCHSIA *) pImageConstraintsInfo__, pImageConstraintsInfo);
 #endif
 #ifdef NEEDS_PRINTING_SetBufferCollectionImageConstraintsFUCHSIA
     VK_CMD_LOGA("  in: pImageConstraintsInfo: VkImageConstraintsInfoFUCHSIA*");
@@ -19740,7 +22084,14 @@ const VkImageConstraintsInfoFUCHSIA* pImageConstraintsInfo__ = pImageConstraints
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.SetBufferCollectionImageConstraintsFUCHSIA(base->dispatch_handle, collection__, pImageConstraintsInfo__);
-
+#ifdef NEEDS_PRINTING_SetBufferCollectionImageConstraintsFUCHSIA
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to SetBufferCollectionImageConstraintsFUCHSIA with (device: %p,collection: %x,pImageConstraintsInfo: %p) failed with result: %d", base->dispatch_handle,collection__,pImageConstraintsInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -19752,6 +22103,8 @@ wrapper_tramp_DestroyBufferCollectionFUCHSIA(
     VkBufferCollectionFUCHSIA collection,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyBufferCollectionFUCHSIA");
 WLOGA("DestroyBufferCollectionFUCHSIA(device: %p, collection: %x, pAllocator: %p)", device, collection, pAllocator);
@@ -19770,7 +22123,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyBufferCollectionFUCHSIA
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -19779,6 +22132,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyBufferCollectionFUCHSIA(base->dispatch_handle, collection__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 #endif
@@ -19790,6 +22144,8 @@ wrapper_tramp_GetBufferCollectionPropertiesFUCHSIA(
     VkBufferCollectionFUCHSIA collection,
     VkBufferCollectionPropertiesFUCHSIA* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetBufferCollectionPropertiesFUCHSIA");
 WLOGA("GetBufferCollectionPropertiesFUCHSIA(device: %p, collection: %x, pProperties: %p)", device, collection, pProperties);
@@ -19806,16 +22162,21 @@ VkBufferCollectionFUCHSIA collection__ = collection;
 #endif
     VkResult result = base->dispatch_table.GetBufferCollectionPropertiesFUCHSIA(base->dispatch_handle, collection__, pProperties);
 #ifdef NEEDS_PRINTING_GetBufferCollectionPropertiesFUCHSIA
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetBufferCollectionPropertiesFUCHSIA
     VK_CMD_LOGA("  out: pProperties: VkBufferCollectionPropertiesFUCHSIA*");
     VK_PRINT_VkBufferCollectionPropertiesFUCHSIA("    ", pProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkBufferCollectionPropertiesFUCHSIA
-#warning TODO: Repack struct+ptr+out GetBufferCollectionPropertiesFUCHSIA EntrypointParam(type='VkBufferCollectionPropertiesFUCHSIA', name='pProperties', decl='VkBufferCollectionPropertiesFUCHSIA* pProperties', len=None, elem=<Element 'param' at 0x75c0e93b8770>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetBufferCollectionPropertiesFUCHSIA EntrypointParam(type='VkBufferCollectionPropertiesFUCHSIA', name='pProperties', decl='VkBufferCollectionPropertiesFUCHSIA* pProperties', len=None, elem=<Element 'param' at 0x7f0cb30d8720>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetBufferCollectionPropertiesFUCHSIA with (device: %p,collection: %x,pProperties: %p) failed with result: %d", base->dispatch_handle,collection__,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetBufferCollectionPropertiesFUCHSIA with (device: %p,collection: %x,pProperties: %p) failed with result: %d", base->dispatch_handle,collection__,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -19825,6 +22186,8 @@ wrapper_tramp_CmdBeginRendering(
     VkCommandBuffer                   commandBuffer,
     const VkRenderingInfo*                              pRenderingInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBeginRendering");
 WLOGA("CmdBeginRendering(commandBuffer: %p, pRenderingInfo: %p)", commandBuffer, pRenderingInfo);
@@ -19836,7 +22199,7 @@ const VkRenderingInfo*                              pRenderingInfo__ = pRenderin
 #ifdef NEEDS_UNWRAPPING_VkRenderingInfo
     VkRenderingInfo _w_pRenderingInfo = { 0 };
     pRenderingInfo__ = &_w_pRenderingInfo;
-    unwrap_VkRenderingInfo(base->device, (VkRenderingInfo *) pRenderingInfo__, pRenderingInfo);
+    unwrap_VkRenderingInfo(&temp, base->device, (VkRenderingInfo *) pRenderingInfo__, pRenderingInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdBeginRendering
     VK_CMD_LOGA("  in: pRenderingInfo: VkRenderingInfo*");
@@ -19845,6 +22208,7 @@ const VkRenderingInfo*                              pRenderingInfo__ = pRenderin
 #endif
     base->device->dispatch_table.CmdBeginRendering(base->dispatch_handle, pRenderingInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -19852,6 +22216,8 @@ static VKAPI_ATTR void VKAPI_CALL
 wrapper_tramp_CmdEndRendering(
     VkCommandBuffer                   commandBuffer)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdEndRendering");
 WLOGA("CmdEndRendering(commandBuffer: %p)", commandBuffer);
@@ -19861,6 +22227,7 @@ WLOGA("CmdEndRendering(commandBuffer: %p)", commandBuffer);
 #endif
     base->device->dispatch_table.CmdEndRendering(base->dispatch_handle);
 
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -19870,6 +22237,8 @@ wrapper_tramp_GetDescriptorSetLayoutHostMappingInfoVALVE(
     const VkDescriptorSetBindingReferenceVALVE* pBindingReference,
     VkDescriptorSetLayoutHostMappingInfoVALVE* pHostMapping)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDescriptorSetLayoutHostMappingInfoVALVE");
 WLOGA("GetDescriptorSetLayoutHostMappingInfoVALVE(device: %p, pBindingReference: %p, pHostMapping: %p)", device, pBindingReference, pHostMapping);
@@ -19881,7 +22250,7 @@ const VkDescriptorSetBindingReferenceVALVE* pBindingReference__ = pBindingRefere
 #ifdef NEEDS_UNWRAPPING_VkDescriptorSetBindingReferenceVALVE
     VkDescriptorSetBindingReferenceVALVE _w_pBindingReference = { 0 };
     pBindingReference__ = &_w_pBindingReference;
-    unwrap_VkDescriptorSetBindingReferenceVALVE(base, (VkDescriptorSetBindingReferenceVALVE *) pBindingReference__, pBindingReference);
+    unwrap_VkDescriptorSetBindingReferenceVALVE(&temp, base, (VkDescriptorSetBindingReferenceVALVE *) pBindingReference__, pBindingReference);
 #endif
 #ifdef NEEDS_PRINTING_GetDescriptorSetLayoutHostMappingInfoVALVE
     VK_CMD_LOGA("  in: pBindingReference: VkDescriptorSetBindingReferenceVALVE*");
@@ -19895,8 +22264,9 @@ const VkDescriptorSetBindingReferenceVALVE* pBindingReference__ = pBindingRefere
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDescriptorSetLayoutHostMappingInfoVALVE
-#warning TODO: Repack struct+ptr+out GetDescriptorSetLayoutHostMappingInfoVALVE EntrypointParam(type='VkDescriptorSetLayoutHostMappingInfoVALVE', name='pHostMapping', decl='VkDescriptorSetLayoutHostMappingInfoVALVE* pHostMapping', len=None, elem=<Element 'param' at 0x75c0e93bade0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDescriptorSetLayoutHostMappingInfoVALVE EntrypointParam(type='VkDescriptorSetLayoutHostMappingInfoVALVE', name='pHostMapping', decl='VkDescriptorSetLayoutHostMappingInfoVALVE* pHostMapping', len=None, elem=<Element 'param' at 0x7f0cb30dad90>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -19906,6 +22276,8 @@ wrapper_tramp_GetDescriptorSetHostMappingVALVE(
     VkDescriptorSet descriptorSet,
     void** ppData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDescriptorSetHostMappingVALVE");
 WLOGA("GetDescriptorSetHostMappingVALVE(device: %p, descriptorSet: %x, ppData: %p)", device, descriptorSet, ppData);
@@ -19927,6 +22299,7 @@ VkDescriptorSet descriptorSet__ = descriptorSet;
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -19937,6 +22310,8 @@ wrapper_tramp_CreateMicromapEXT(
     const VkAllocationCallbacks*       pAllocator,
     VkMicromapEXT*                        pMicromap)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateMicromapEXT");
 WLOGA("CreateMicromapEXT(device: %p, pCreateInfo: %p, pAllocator: %p, pMicromap: %p)", device, pCreateInfo, pAllocator, pMicromap);
@@ -19948,7 +22323,7 @@ const VkMicromapCreateInfoEXT*        pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkMicromapCreateInfoEXT
     VkMicromapCreateInfoEXT _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkMicromapCreateInfoEXT(base, (VkMicromapCreateInfoEXT *) pCreateInfo__, pCreateInfo);
+    unwrap_VkMicromapCreateInfoEXT(&temp, base, (VkMicromapCreateInfoEXT *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateMicromapEXT
     VK_CMD_LOGA("  in: pCreateInfo: VkMicromapCreateInfoEXT*");
@@ -19959,7 +22334,7 @@ const VkAllocationCallbacks*       pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateMicromapEXT
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -19968,14 +22343,19 @@ const VkAllocationCallbacks*       pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateMicromapEXT(base->dispatch_handle, pCreateInfo__, pAllocator__, pMicromap);
 #ifdef NEEDS_PRINTING_CreateMicromapEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateMicromapEXT
     VK_CMD_LOGA("  out: *pMicromap: VkMicromapEXT = %x", (int64_t)*pMicromap);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMicromapEXT
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateMicromapEXT with (device: %p,pCreateInfo: %p,pAllocator: %p,pMicromap: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pMicromap, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateMicromapEXT with (device: %p,pCreateInfo: %p,pAllocator: %p,pMicromap: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pMicromap, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -19985,6 +22365,8 @@ wrapper_tramp_CmdBuildMicromapsEXT(
     uint32_t infoCount,
     const VkMicromapBuildInfoEXT* pInfos)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBuildMicromapsEXT");
 WLOGA("CmdBuildMicromapsEXT(commandBuffer: %p, infoCount: %x, pInfos: %p)", commandBuffer, infoCount, pInfos);
@@ -20003,7 +22385,7 @@ const VkMicromapBuildInfoEXT* pInfos__ = pInfos;
 #ifdef NEEDS_UNWRAPPING_VkMicromapBuildInfoEXT
     pInfos__ = alloca(infoCount * sizeof(VkMicromapBuildInfoEXT));
     for (int i = 0; i < infoCount; i++)
-        unwrap_VkMicromapBuildInfoEXT(base->device, (VkMicromapBuildInfoEXT *) &pInfos__[i], &pInfos[i]);
+        unwrap_VkMicromapBuildInfoEXT(&temp, base->device, (VkMicromapBuildInfoEXT *) &pInfos__[i], &pInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_CmdBuildMicromapsEXT
     VK_CMD_LOGA("  in: pInfos[]: VkMicromapBuildInfoEXT");
@@ -20015,6 +22397,7 @@ const VkMicromapBuildInfoEXT* pInfos__ = pInfos;
 #endif
     base->device->dispatch_table.CmdBuildMicromapsEXT(base->dispatch_handle, infoCount__, pInfos__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -20025,6 +22408,8 @@ wrapper_tramp_BuildMicromapsEXT(
     uint32_t infoCount,
     const VkMicromapBuildInfoEXT* pInfos)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("BuildMicromapsEXT");
 WLOGA("BuildMicromapsEXT(device: %p, deferredOperation: %x, infoCount: %x, pInfos: %p)", device, deferredOperation, infoCount, pInfos);
@@ -20050,7 +22435,7 @@ const VkMicromapBuildInfoEXT* pInfos__ = pInfos;
 #ifdef NEEDS_UNWRAPPING_VkMicromapBuildInfoEXT
     pInfos__ = alloca(infoCount * sizeof(VkMicromapBuildInfoEXT));
     for (int i = 0; i < infoCount; i++)
-        unwrap_VkMicromapBuildInfoEXT(base, (VkMicromapBuildInfoEXT *) &pInfos__[i], &pInfos[i]);
+        unwrap_VkMicromapBuildInfoEXT(&temp, base, (VkMicromapBuildInfoEXT *) &pInfos__[i], &pInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_BuildMicromapsEXT
     VK_CMD_LOGA("  in: pInfos[]: VkMicromapBuildInfoEXT");
@@ -20061,7 +22446,14 @@ const VkMicromapBuildInfoEXT* pInfos__ = pInfos;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.BuildMicromapsEXT(base->dispatch_handle, deferredOperation__, infoCount__, pInfos__);
-
+#ifdef NEEDS_PRINTING_BuildMicromapsEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to BuildMicromapsEXT with (device: %p,deferredOperation: %x,infoCount: %x,pInfos: %p) failed with result: %d", base->dispatch_handle,deferredOperation__,infoCount__,pInfos__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -20071,6 +22463,8 @@ wrapper_tramp_DestroyMicromapEXT(
     VkMicromapEXT micromap,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyMicromapEXT");
 WLOGA("DestroyMicromapEXT(device: %p, micromap: %x, pAllocator: %p)", device, micromap, pAllocator);
@@ -20089,7 +22483,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyMicromapEXT
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -20098,6 +22492,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyMicromapEXT(base->dispatch_handle, micromap__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -20106,6 +22501,8 @@ wrapper_tramp_CmdCopyMicromapEXT(
     VkCommandBuffer commandBuffer,
     const VkCopyMicromapInfoEXT* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyMicromapEXT");
 WLOGA("CmdCopyMicromapEXT(commandBuffer: %p, pInfo: %p)", commandBuffer, pInfo);
@@ -20117,7 +22514,7 @@ const VkCopyMicromapInfoEXT* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkCopyMicromapInfoEXT
     VkCopyMicromapInfoEXT _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkCopyMicromapInfoEXT(base->device, (VkCopyMicromapInfoEXT *) pInfo__, pInfo);
+    unwrap_VkCopyMicromapInfoEXT(&temp, base->device, (VkCopyMicromapInfoEXT *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdCopyMicromapEXT
     VK_CMD_LOGA("  in: pInfo: VkCopyMicromapInfoEXT*");
@@ -20126,6 +22523,7 @@ const VkCopyMicromapInfoEXT* pInfo__ = pInfo;
 #endif
     base->device->dispatch_table.CmdCopyMicromapEXT(base->dispatch_handle, pInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -20135,6 +22533,8 @@ wrapper_tramp_CopyMicromapEXT(
     VkDeferredOperationKHR deferredOperation,
     const VkCopyMicromapInfoEXT* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CopyMicromapEXT");
 WLOGA("CopyMicromapEXT(device: %p, deferredOperation: %x, pInfo: %p)", device, deferredOperation, pInfo);
@@ -20153,7 +22553,7 @@ const VkCopyMicromapInfoEXT* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkCopyMicromapInfoEXT
     VkCopyMicromapInfoEXT _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkCopyMicromapInfoEXT(base, (VkCopyMicromapInfoEXT *) pInfo__, pInfo);
+    unwrap_VkCopyMicromapInfoEXT(&temp, base, (VkCopyMicromapInfoEXT *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_CopyMicromapEXT
     VK_CMD_LOGA("  in: pInfo: VkCopyMicromapInfoEXT*");
@@ -20161,7 +22561,14 @@ const VkCopyMicromapInfoEXT* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.CopyMicromapEXT(base->dispatch_handle, deferredOperation__, pInfo__);
-
+#ifdef NEEDS_PRINTING_CopyMicromapEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CopyMicromapEXT with (device: %p,deferredOperation: %x,pInfo: %p) failed with result: %d", base->dispatch_handle,deferredOperation__,pInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -20170,6 +22577,8 @@ wrapper_tramp_CmdCopyMicromapToMemoryEXT(
     VkCommandBuffer commandBuffer,
     const VkCopyMicromapToMemoryInfoEXT* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyMicromapToMemoryEXT");
 WLOGA("CmdCopyMicromapToMemoryEXT(commandBuffer: %p, pInfo: %p)", commandBuffer, pInfo);
@@ -20181,7 +22590,7 @@ const VkCopyMicromapToMemoryInfoEXT* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkCopyMicromapToMemoryInfoEXT
     VkCopyMicromapToMemoryInfoEXT _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkCopyMicromapToMemoryInfoEXT(base->device, (VkCopyMicromapToMemoryInfoEXT *) pInfo__, pInfo);
+    unwrap_VkCopyMicromapToMemoryInfoEXT(&temp, base->device, (VkCopyMicromapToMemoryInfoEXT *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdCopyMicromapToMemoryEXT
     VK_CMD_LOGA("  in: pInfo: VkCopyMicromapToMemoryInfoEXT*");
@@ -20190,6 +22599,7 @@ const VkCopyMicromapToMemoryInfoEXT* pInfo__ = pInfo;
 #endif
     base->device->dispatch_table.CmdCopyMicromapToMemoryEXT(base->dispatch_handle, pInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -20199,6 +22609,8 @@ wrapper_tramp_CopyMicromapToMemoryEXT(
     VkDeferredOperationKHR deferredOperation,
     const VkCopyMicromapToMemoryInfoEXT* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CopyMicromapToMemoryEXT");
 WLOGA("CopyMicromapToMemoryEXT(device: %p, deferredOperation: %x, pInfo: %p)", device, deferredOperation, pInfo);
@@ -20217,7 +22629,7 @@ const VkCopyMicromapToMemoryInfoEXT* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkCopyMicromapToMemoryInfoEXT
     VkCopyMicromapToMemoryInfoEXT _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkCopyMicromapToMemoryInfoEXT(base, (VkCopyMicromapToMemoryInfoEXT *) pInfo__, pInfo);
+    unwrap_VkCopyMicromapToMemoryInfoEXT(&temp, base, (VkCopyMicromapToMemoryInfoEXT *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_CopyMicromapToMemoryEXT
     VK_CMD_LOGA("  in: pInfo: VkCopyMicromapToMemoryInfoEXT*");
@@ -20225,7 +22637,14 @@ const VkCopyMicromapToMemoryInfoEXT* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.CopyMicromapToMemoryEXT(base->dispatch_handle, deferredOperation__, pInfo__);
-
+#ifdef NEEDS_PRINTING_CopyMicromapToMemoryEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CopyMicromapToMemoryEXT with (device: %p,deferredOperation: %x,pInfo: %p) failed with result: %d", base->dispatch_handle,deferredOperation__,pInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -20234,6 +22653,8 @@ wrapper_tramp_CmdCopyMemoryToMicromapEXT(
     VkCommandBuffer commandBuffer,
     const VkCopyMemoryToMicromapInfoEXT* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdCopyMemoryToMicromapEXT");
 WLOGA("CmdCopyMemoryToMicromapEXT(commandBuffer: %p, pInfo: %p)", commandBuffer, pInfo);
@@ -20245,7 +22666,7 @@ const VkCopyMemoryToMicromapInfoEXT* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkCopyMemoryToMicromapInfoEXT
     VkCopyMemoryToMicromapInfoEXT _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkCopyMemoryToMicromapInfoEXT(base->device, (VkCopyMemoryToMicromapInfoEXT *) pInfo__, pInfo);
+    unwrap_VkCopyMemoryToMicromapInfoEXT(&temp, base->device, (VkCopyMemoryToMicromapInfoEXT *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdCopyMemoryToMicromapEXT
     VK_CMD_LOGA("  in: pInfo: VkCopyMemoryToMicromapInfoEXT*");
@@ -20254,6 +22675,7 @@ const VkCopyMemoryToMicromapInfoEXT* pInfo__ = pInfo;
 #endif
     base->device->dispatch_table.CmdCopyMemoryToMicromapEXT(base->dispatch_handle, pInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -20263,6 +22685,8 @@ wrapper_tramp_CopyMemoryToMicromapEXT(
     VkDeferredOperationKHR deferredOperation,
     const VkCopyMemoryToMicromapInfoEXT* pInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CopyMemoryToMicromapEXT");
 WLOGA("CopyMemoryToMicromapEXT(device: %p, deferredOperation: %x, pInfo: %p)", device, deferredOperation, pInfo);
@@ -20281,7 +22705,7 @@ const VkCopyMemoryToMicromapInfoEXT* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkCopyMemoryToMicromapInfoEXT
     VkCopyMemoryToMicromapInfoEXT _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkCopyMemoryToMicromapInfoEXT(base, (VkCopyMemoryToMicromapInfoEXT *) pInfo__, pInfo);
+    unwrap_VkCopyMemoryToMicromapInfoEXT(&temp, base, (VkCopyMemoryToMicromapInfoEXT *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_CopyMemoryToMicromapEXT
     VK_CMD_LOGA("  in: pInfo: VkCopyMemoryToMicromapInfoEXT*");
@@ -20289,7 +22713,14 @@ const VkCopyMemoryToMicromapInfoEXT* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.CopyMemoryToMicromapEXT(base->dispatch_handle, deferredOperation__, pInfo__);
-
+#ifdef NEEDS_PRINTING_CopyMemoryToMicromapEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CopyMemoryToMicromapEXT with (device: %p,deferredOperation: %x,pInfo: %p) failed with result: %d", base->dispatch_handle,deferredOperation__,pInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -20302,6 +22733,8 @@ wrapper_tramp_CmdWriteMicromapsPropertiesEXT(
     VkQueryPool queryPool,
     uint32_t firstQuery)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdWriteMicromapsPropertiesEXT");
 WLOGA("CmdWriteMicromapsPropertiesEXT(commandBuffer: %p, micromapCount: %x, pMicromaps: %x, queryType: %x, queryPool: %x, firstQuery: %x)", commandBuffer, micromapCount, pMicromaps, queryType, queryPool, firstQuery);
@@ -20346,6 +22779,7 @@ uint32_t firstQuery__ = firstQuery;
 #endif
     base->device->dispatch_table.CmdWriteMicromapsPropertiesEXT(base->dispatch_handle, micromapCount__, pMicromaps__, queryType__, queryPool__, firstQuery__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -20359,6 +22793,8 @@ wrapper_tramp_WriteMicromapsPropertiesEXT(
     void* pData,
     size_t stride)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("WriteMicromapsPropertiesEXT");
 WLOGA("WriteMicromapsPropertiesEXT(device: %p, micromapCount: %x, pMicromaps: %x, queryType: %x, dataSize: %x, pData: %p, stride: %x)", device, micromapCount, pMicromaps, queryType, dataSize, pData, stride);
@@ -20403,14 +22839,19 @@ size_t stride__ = stride;
 #endif
     VkResult result = base->dispatch_table.WriteMicromapsPropertiesEXT(base->dispatch_handle, micromapCount__, pMicromaps__, queryType__, dataSize__, pData, stride__);
 #ifdef NEEDS_PRINTING_WriteMicromapsPropertiesEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_WriteMicromapsPropertiesEXT
     VK_CMD_LOGA("  out: *pData: void = %x", (int64_t)*pData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to WriteMicromapsPropertiesEXT with (device: %p,micromapCount: %x,pMicromaps: %x,queryType: %x,dataSize: %x,pData: %p,stride: %x) failed with result: %d", base->dispatch_handle,micromapCount__,pMicromaps__,queryType__,dataSize__,pData,stride__, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to WriteMicromapsPropertiesEXT with (device: %p,micromapCount: %x,pMicromaps: %x,queryType: %x,dataSize: %x,pData: %p,stride: %x) failed with result: %d", base->dispatch_handle,micromapCount__,pMicromaps__,queryType__,dataSize__,pData,stride__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -20420,6 +22861,8 @@ wrapper_tramp_GetDeviceMicromapCompatibilityEXT(
     const VkMicromapVersionInfoEXT* pVersionInfo,
     VkAccelerationStructureCompatibilityKHR* pCompatibility)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceMicromapCompatibilityEXT");
 WLOGA("GetDeviceMicromapCompatibilityEXT(device: %p, pVersionInfo: %p, pCompatibility: %p)", device, pVersionInfo, pCompatibility);
@@ -20431,7 +22874,7 @@ const VkMicromapVersionInfoEXT* pVersionInfo__ = pVersionInfo;
 #ifdef NEEDS_UNWRAPPING_VkMicromapVersionInfoEXT
     VkMicromapVersionInfoEXT _w_pVersionInfo = { 0 };
     pVersionInfo__ = &_w_pVersionInfo;
-    unwrap_VkMicromapVersionInfoEXT(base, (VkMicromapVersionInfoEXT *) pVersionInfo__, pVersionInfo);
+    unwrap_VkMicromapVersionInfoEXT(&temp, base, (VkMicromapVersionInfoEXT *) pVersionInfo__, pVersionInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetDeviceMicromapCompatibilityEXT
     VK_CMD_LOGA("  in: pVersionInfo: VkMicromapVersionInfoEXT*");
@@ -20445,6 +22888,7 @@ const VkMicromapVersionInfoEXT* pVersionInfo__ = pVersionInfo;
 #endif
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureCompatibilityKHR
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -20455,6 +22899,8 @@ wrapper_tramp_GetMicromapBuildSizesEXT(
     const VkMicromapBuildInfoEXT*  pBuildInfo,
     VkMicromapBuildSizesInfoEXT*           pSizeInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetMicromapBuildSizesEXT");
 WLOGA("GetMicromapBuildSizesEXT(device: %p, buildType: %x, pBuildInfo: %p, pSizeInfo: %p)", device, buildType, pBuildInfo, pSizeInfo);
@@ -20473,7 +22919,7 @@ const VkMicromapBuildInfoEXT*  pBuildInfo__ = pBuildInfo;
 #ifdef NEEDS_UNWRAPPING_VkMicromapBuildInfoEXT
     VkMicromapBuildInfoEXT _w_pBuildInfo = { 0 };
     pBuildInfo__ = &_w_pBuildInfo;
-    unwrap_VkMicromapBuildInfoEXT(base, (VkMicromapBuildInfoEXT *) pBuildInfo__, pBuildInfo);
+    unwrap_VkMicromapBuildInfoEXT(&temp, base, (VkMicromapBuildInfoEXT *) pBuildInfo__, pBuildInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetMicromapBuildSizesEXT
     VK_CMD_LOGA("  in: pBuildInfo: VkMicromapBuildInfoEXT*");
@@ -20487,8 +22933,9 @@ const VkMicromapBuildInfoEXT*  pBuildInfo__ = pBuildInfo;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkMicromapBuildSizesInfoEXT
-#warning TODO: Repack struct+ptr+out GetMicromapBuildSizesEXT EntrypointParam(type='VkMicromapBuildSizesInfoEXT', name='pSizeInfo', decl='VkMicromapBuildSizesInfoEXT*           pSizeInfo', len=None, elem=<Element 'param' at 0x75c0e93c7740>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetMicromapBuildSizesEXT EntrypointParam(type='VkMicromapBuildSizesInfoEXT', name='pSizeInfo', decl='VkMicromapBuildSizesInfoEXT*           pSizeInfo', len=None, elem=<Element 'param' at 0x7f0cb30e36f0>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -20498,6 +22945,8 @@ wrapper_tramp_GetShaderModuleIdentifierEXT(
     VkShaderModule shaderModule,
     VkShaderModuleIdentifierEXT* pIdentifier)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetShaderModuleIdentifierEXT");
 WLOGA("GetShaderModuleIdentifierEXT(device: %p, shaderModule: %x, pIdentifier: %p)", device, shaderModule, pIdentifier);
@@ -20519,8 +22968,9 @@ VkShaderModule shaderModule__ = shaderModule;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkShaderModuleIdentifierEXT
-#warning TODO: Repack struct+ptr+out GetShaderModuleIdentifierEXT EntrypointParam(type='VkShaderModuleIdentifierEXT', name='pIdentifier', decl='VkShaderModuleIdentifierEXT* pIdentifier', len=None, elem=<Element 'param' at 0x75c0e93c7bf0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetShaderModuleIdentifierEXT EntrypointParam(type='VkShaderModuleIdentifierEXT', name='pIdentifier', decl='VkShaderModuleIdentifierEXT* pIdentifier', len=None, elem=<Element 'param' at 0x7f0cb30e3ba0>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -20530,6 +22980,8 @@ wrapper_tramp_GetShaderModuleCreateInfoIdentifierEXT(
     const VkShaderModuleCreateInfo* pCreateInfo,
     VkShaderModuleIdentifierEXT* pIdentifier)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetShaderModuleCreateInfoIdentifierEXT");
 WLOGA("GetShaderModuleCreateInfoIdentifierEXT(device: %p, pCreateInfo: %p, pIdentifier: %p)", device, pCreateInfo, pIdentifier);
@@ -20541,7 +22993,7 @@ const VkShaderModuleCreateInfo* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkShaderModuleCreateInfo
     VkShaderModuleCreateInfo _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkShaderModuleCreateInfo(base, (VkShaderModuleCreateInfo *) pCreateInfo__, pCreateInfo);
+    unwrap_VkShaderModuleCreateInfo(&temp, base, (VkShaderModuleCreateInfo *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetShaderModuleCreateInfoIdentifierEXT
     VK_CMD_LOGA("  in: pCreateInfo: VkShaderModuleCreateInfo*");
@@ -20555,8 +23007,9 @@ const VkShaderModuleCreateInfo* pCreateInfo__ = pCreateInfo;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkShaderModuleIdentifierEXT
-#warning TODO: Repack struct+ptr+out GetShaderModuleCreateInfoIdentifierEXT EntrypointParam(type='VkShaderModuleIdentifierEXT', name='pIdentifier', decl='VkShaderModuleIdentifierEXT* pIdentifier', len=None, elem=<Element 'param' at 0x75c0e93d40e0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetShaderModuleCreateInfoIdentifierEXT EntrypointParam(type='VkShaderModuleIdentifierEXT', name='pIdentifier', decl='VkShaderModuleIdentifierEXT* pIdentifier', len=None, elem=<Element 'param' at 0x7f0cb2ef8090>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -20567,6 +23020,8 @@ wrapper_tramp_GetImageSubresourceLayout2KHR(
     const VkImageSubresource2KHR* pSubresource,
     VkSubresourceLayout2KHR* pLayout)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetImageSubresourceLayout2KHR");
 WLOGA("GetImageSubresourceLayout2KHR(device: %p, image: %x, pSubresource: %p, pLayout: %p)", device, image, pSubresource, pLayout);
@@ -20585,7 +23040,7 @@ const VkImageSubresource2KHR* pSubresource__ = pSubresource;
 #ifdef NEEDS_UNWRAPPING_VkImageSubresource2KHR
     VkImageSubresource2KHR _w_pSubresource = { 0 };
     pSubresource__ = &_w_pSubresource;
-    unwrap_VkImageSubresource2KHR(base, (VkImageSubresource2KHR *) pSubresource__, pSubresource);
+    unwrap_VkImageSubresource2KHR(&temp, base, (VkImageSubresource2KHR *) pSubresource__, pSubresource);
 #endif
 #ifdef NEEDS_PRINTING_GetImageSubresourceLayout2KHR
     VK_CMD_LOGA("  in: pSubresource: VkImageSubresource2KHR*");
@@ -20599,8 +23054,9 @@ const VkImageSubresource2KHR* pSubresource__ = pSubresource;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSubresourceLayout2KHR
-#warning TODO: Repack struct+ptr+out GetImageSubresourceLayout2KHR EntrypointParam(type='VkSubresourceLayout2KHR', name='pLayout', decl='VkSubresourceLayout2KHR* pLayout', len=None, elem=<Element 'param' at 0x75c0e93d4680>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetImageSubresourceLayout2KHR EntrypointParam(type='VkSubresourceLayout2KHR', name='pLayout', decl='VkSubresourceLayout2KHR* pLayout', len=None, elem=<Element 'param' at 0x7f0cb2ef8630>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
     
@@ -20610,6 +23066,8 @@ wrapper_tramp_GetPipelinePropertiesEXT(
     const VkPipelineInfoEXT* pPipelineInfo,
     VkBaseOutStructure* pPipelineProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetPipelinePropertiesEXT");
 WLOGA("GetPipelinePropertiesEXT(device: %p, pPipelineInfo: %p, pPipelineProperties: %p)", device, pPipelineInfo, pPipelineProperties);
@@ -20621,7 +23079,7 @@ const VkPipelineInfoEXT* pPipelineInfo__ = pPipelineInfo;
 #ifdef NEEDS_UNWRAPPING_VkPipelineInfoEXT
     VkPipelineInfoEXT _w_pPipelineInfo = { 0 };
     pPipelineInfo__ = &_w_pPipelineInfo;
-    unwrap_VkPipelineInfoEXT(base, (VkPipelineInfoEXT *) pPipelineInfo__, pPipelineInfo);
+    unwrap_VkPipelineInfoEXT(&temp, base, (VkPipelineInfoEXT *) pPipelineInfo__, pPipelineInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetPipelinePropertiesEXT
     VK_CMD_LOGA("  in: pPipelineInfo: VkPipelineInfoEXT*");
@@ -20630,16 +23088,21 @@ const VkPipelineInfoEXT* pPipelineInfo__ = pPipelineInfo;
 #endif
     VkResult result = base->dispatch_table.GetPipelinePropertiesEXT(base->dispatch_handle, pPipelineInfo__, pPipelineProperties);
 #ifdef NEEDS_PRINTING_GetPipelinePropertiesEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetPipelinePropertiesEXT
     VK_CMD_LOGA("  out: pPipelineProperties: VkBaseOutStructure*");
     VK_PRINT_VkBaseOutStructure("    ", pPipelineProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkBaseOutStructure
-#warning TODO: Repack struct+ptr+out GetPipelinePropertiesEXT EntrypointParam(type='VkBaseOutStructure', name='pPipelineProperties', decl='VkBaseOutStructure* pPipelineProperties', len=None, elem=<Element 'param' at 0x75c0e93d4c70>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPipelinePropertiesEXT EntrypointParam(type='VkBaseOutStructure', name='pPipelineProperties', decl='VkBaseOutStructure* pPipelineProperties', len=None, elem=<Element 'param' at 0x7f0cb2ef8c20>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetPipelinePropertiesEXT with (device: %p,pPipelineInfo: %p,pPipelineProperties: %p) failed with result: %d", base->dispatch_handle,pPipelineInfo__,pPipelineProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetPipelinePropertiesEXT with (device: %p,pPipelineInfo: %p,pPipelineProperties: %p) failed with result: %d", base->dispatch_handle,pPipelineInfo__,pPipelineProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #ifdef VK_USE_PLATFORM_METAL_EXT
@@ -20649,6 +23112,8 @@ wrapper_tramp_ExportMetalObjectsEXT(
     VkDevice device,
     VkExportMetalObjectsInfoEXT* pMetalObjectsInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("ExportMetalObjectsEXT");
 WLOGA("ExportMetalObjectsEXT(device: %p, pMetalObjectsInfo: %p)", device, pMetalObjectsInfo);
@@ -20663,6 +23128,7 @@ WLOGA("ExportMetalObjectsEXT(device: %p, pMetalObjectsInfo: %p)", device, pMetal
 #endif
 #ifdef NEEDS_UNWRAPPING_VkExportMetalObjectsInfoEXT
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 #endif
@@ -20674,6 +23140,8 @@ wrapper_tramp_GetFramebufferTilePropertiesQCOM(
     uint32_t* pPropertiesCount,
     VkTilePropertiesQCOM* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetFramebufferTilePropertiesQCOM");
 WLOGA("GetFramebufferTilePropertiesQCOM(device: %p, framebuffer: %x, pPropertiesCount: %p, pProperties: %p)", device, framebuffer, pPropertiesCount, pProperties);
@@ -20690,14 +23158,15 @@ VkFramebuffer framebuffer__ = framebuffer;
 #endif
     VkResult result = base->dispatch_table.GetFramebufferTilePropertiesQCOM(base->dispatch_handle, framebuffer__, pPropertiesCount, pProperties);
 #ifdef NEEDS_PRINTING_GetFramebufferTilePropertiesQCOM
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetFramebufferTilePropertiesQCOM
     VK_CMD_LOGA("  out: *pPropertiesCount: uint32_t = %x", (int64_t)*pPropertiesCount);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetFramebufferTilePropertiesQCOM with (device: %p,framebuffer: %x,pPropertiesCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,framebuffer__,pPropertiesCount,pProperties, result);
-}
 #ifdef NEEDS_PRINTING_GetFramebufferTilePropertiesQCOM
     VK_CMD_LOGA("  out: pProperties[]: VkTilePropertiesQCOM");
     for (int i = 0; i < pPropertiesCount; i++) {
@@ -20707,11 +23176,12 @@ if (result != VK_SUCCESS) {
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkTilePropertiesQCOM
-#warning TODO: Repack struct+array+out GetFramebufferTilePropertiesQCOM EntrypointParam(type='VkTilePropertiesQCOM', name='pProperties', decl='VkTilePropertiesQCOM* pProperties', len='pPropertiesCount', elem=<Element 'param' at 0x75c0e93d5580>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetFramebufferTilePropertiesQCOM EntrypointParam(type='VkTilePropertiesQCOM', name='pProperties', decl='VkTilePropertiesQCOM* pProperties', len='pPropertiesCount', elem=<Element 'param' at 0x7f0cb2ef9530>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetFramebufferTilePropertiesQCOM with (device: %p,framebuffer: %x,pPropertiesCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,framebuffer__,pPropertiesCount,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetFramebufferTilePropertiesQCOM with (device: %p,framebuffer: %x,pPropertiesCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,framebuffer__,pPropertiesCount,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -20721,6 +23191,8 @@ wrapper_tramp_GetDynamicRenderingTilePropertiesQCOM(
     const VkRenderingInfo* pRenderingInfo,
     VkTilePropertiesQCOM* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDynamicRenderingTilePropertiesQCOM");
 WLOGA("GetDynamicRenderingTilePropertiesQCOM(device: %p, pRenderingInfo: %p, pProperties: %p)", device, pRenderingInfo, pProperties);
@@ -20732,7 +23204,7 @@ const VkRenderingInfo* pRenderingInfo__ = pRenderingInfo;
 #ifdef NEEDS_UNWRAPPING_VkRenderingInfo
     VkRenderingInfo _w_pRenderingInfo = { 0 };
     pRenderingInfo__ = &_w_pRenderingInfo;
-    unwrap_VkRenderingInfo(base, (VkRenderingInfo *) pRenderingInfo__, pRenderingInfo);
+    unwrap_VkRenderingInfo(&temp, base, (VkRenderingInfo *) pRenderingInfo__, pRenderingInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetDynamicRenderingTilePropertiesQCOM
     VK_CMD_LOGA("  in: pRenderingInfo: VkRenderingInfo*");
@@ -20741,16 +23213,21 @@ const VkRenderingInfo* pRenderingInfo__ = pRenderingInfo;
 #endif
     VkResult result = base->dispatch_table.GetDynamicRenderingTilePropertiesQCOM(base->dispatch_handle, pRenderingInfo__, pProperties);
 #ifdef NEEDS_PRINTING_GetDynamicRenderingTilePropertiesQCOM
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetDynamicRenderingTilePropertiesQCOM
     VK_CMD_LOGA("  out: pProperties: VkTilePropertiesQCOM*");
     VK_PRINT_VkTilePropertiesQCOM("    ", pProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkTilePropertiesQCOM
-#warning TODO: Repack struct+ptr+out GetDynamicRenderingTilePropertiesQCOM EntrypointParam(type='VkTilePropertiesQCOM', name='pProperties', decl='VkTilePropertiesQCOM* pProperties', len=None, elem=<Element 'param' at 0x75c0e93d59e0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDynamicRenderingTilePropertiesQCOM EntrypointParam(type='VkTilePropertiesQCOM', name='pProperties', decl='VkTilePropertiesQCOM* pProperties', len=None, elem=<Element 'param' at 0x7f0cb2ef9990>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDynamicRenderingTilePropertiesQCOM with (device: %p,pRenderingInfo: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pRenderingInfo__,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetDynamicRenderingTilePropertiesQCOM with (device: %p,pRenderingInfo: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pRenderingInfo__,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
     
@@ -20761,6 +23238,8 @@ wrapper_tramp_CreateOpticalFlowSessionNV(
     const VkAllocationCallbacks* pAllocator,
     VkOpticalFlowSessionNV* pSession)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateOpticalFlowSessionNV");
 WLOGA("CreateOpticalFlowSessionNV(device: %p, pCreateInfo: %p, pAllocator: %p, pSession: %p)", device, pCreateInfo, pAllocator, pSession);
@@ -20772,7 +23251,7 @@ const VkOpticalFlowSessionCreateInfoNV* pCreateInfo__ = pCreateInfo;
 #ifdef NEEDS_UNWRAPPING_VkOpticalFlowSessionCreateInfoNV
     VkOpticalFlowSessionCreateInfoNV _w_pCreateInfo = { 0 };
     pCreateInfo__ = &_w_pCreateInfo;
-    unwrap_VkOpticalFlowSessionCreateInfoNV(base, (VkOpticalFlowSessionCreateInfoNV *) pCreateInfo__, pCreateInfo);
+    unwrap_VkOpticalFlowSessionCreateInfoNV(&temp, base, (VkOpticalFlowSessionCreateInfoNV *) pCreateInfo__, pCreateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CreateOpticalFlowSessionNV
     VK_CMD_LOGA("  in: pCreateInfo: VkOpticalFlowSessionCreateInfoNV*");
@@ -20783,7 +23262,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateOpticalFlowSessionNV
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -20792,14 +23271,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateOpticalFlowSessionNV(base->dispatch_handle, pCreateInfo__, pAllocator__, pSession);
 #ifdef NEEDS_PRINTING_CreateOpticalFlowSessionNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateOpticalFlowSessionNV
     VK_CMD_LOGA("  out: *pSession: VkOpticalFlowSessionNV = %x", (int64_t)*pSession);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkOpticalFlowSessionNV
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateOpticalFlowSessionNV with (device: %p,pCreateInfo: %p,pAllocator: %p,pSession: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pSession, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateOpticalFlowSessionNV with (device: %p,pCreateInfo: %p,pAllocator: %p,pSession: %p) failed with result: %d", base->dispatch_handle,pCreateInfo__,pAllocator__,pSession, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -20809,6 +23293,8 @@ wrapper_tramp_DestroyOpticalFlowSessionNV(
     VkOpticalFlowSessionNV session,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyOpticalFlowSessionNV");
 WLOGA("DestroyOpticalFlowSessionNV(device: %p, session: %x, pAllocator: %p)", device, session, pAllocator);
@@ -20827,7 +23313,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyOpticalFlowSessionNV
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -20836,6 +23322,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyOpticalFlowSessionNV(base->dispatch_handle, session__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -20847,6 +23334,8 @@ wrapper_tramp_BindOpticalFlowSessionImageNV(
     VkImageView view,
     VkImageLayout layout)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("BindOpticalFlowSessionImageNV");
 WLOGA("BindOpticalFlowSessionImageNV(device: %p, session: %x, bindingPoint: %x, view: %x, layout: %x)", device, session, bindingPoint, view, layout);
@@ -20883,7 +23372,14 @@ VkImageLayout layout__ = layout;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.BindOpticalFlowSessionImageNV(base->dispatch_handle, session__, bindingPoint__, view__, layout__);
-
+#ifdef NEEDS_PRINTING_BindOpticalFlowSessionImageNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to BindOpticalFlowSessionImageNV with (device: %p,session: %x,bindingPoint: %x,view: %x,layout: %x) failed with result: %d", base->dispatch_handle,session__,bindingPoint__,view__,layout__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -20893,6 +23389,8 @@ wrapper_tramp_CmdOpticalFlowExecuteNV(
     VkOpticalFlowSessionNV session,
     const VkOpticalFlowExecuteInfoNV* pExecuteInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdOpticalFlowExecuteNV");
 WLOGA("CmdOpticalFlowExecuteNV(commandBuffer: %p, session: %x, pExecuteInfo: %p)", commandBuffer, session, pExecuteInfo);
@@ -20911,7 +23409,7 @@ const VkOpticalFlowExecuteInfoNV* pExecuteInfo__ = pExecuteInfo;
 #ifdef NEEDS_UNWRAPPING_VkOpticalFlowExecuteInfoNV
     VkOpticalFlowExecuteInfoNV _w_pExecuteInfo = { 0 };
     pExecuteInfo__ = &_w_pExecuteInfo;
-    unwrap_VkOpticalFlowExecuteInfoNV(base->device, (VkOpticalFlowExecuteInfoNV *) pExecuteInfo__, pExecuteInfo);
+    unwrap_VkOpticalFlowExecuteInfoNV(&temp, base->device, (VkOpticalFlowExecuteInfoNV *) pExecuteInfo__, pExecuteInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdOpticalFlowExecuteNV
     VK_CMD_LOGA("  in: pExecuteInfo: VkOpticalFlowExecuteInfoNV*");
@@ -20920,6 +23418,7 @@ const VkOpticalFlowExecuteInfoNV* pExecuteInfo__ = pExecuteInfo;
 #endif
     base->device->dispatch_table.CmdOpticalFlowExecuteNV(base->dispatch_handle, session__, pExecuteInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -20929,6 +23428,8 @@ wrapper_tramp_GetDeviceFaultInfoEXT(
     VkDeviceFaultCountsEXT* pFaultCounts,
     VkDeviceFaultInfoEXT* pFaultInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceFaultInfoEXT");
 WLOGA("GetDeviceFaultInfoEXT(device: %p, pFaultCounts: %p, pFaultInfo: %p)", device, pFaultCounts, pFaultInfo);
@@ -20938,27 +23439,29 @@ WLOGA("GetDeviceFaultInfoEXT(device: %p, pFaultCounts: %p, pFaultInfo: %p)", dev
 #endif
     VkResult result = base->dispatch_table.GetDeviceFaultInfoEXT(base->dispatch_handle, pFaultCounts, pFaultInfo);
 #ifdef NEEDS_PRINTING_GetDeviceFaultInfoEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetDeviceFaultInfoEXT
     VK_CMD_LOGA("  out: pFaultCounts: VkDeviceFaultCountsEXT*");
     VK_PRINT_VkDeviceFaultCountsEXT("    ", pFaultCounts);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDeviceFaultCountsEXT
-#warning TODO: Repack struct+ptr+out GetDeviceFaultInfoEXT EntrypointParam(type='VkDeviceFaultCountsEXT', name='pFaultCounts', decl='VkDeviceFaultCountsEXT* pFaultCounts', len=None, elem=<Element 'param' at 0x75c0e93d7920>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDeviceFaultInfoEXT EntrypointParam(type='VkDeviceFaultCountsEXT', name='pFaultCounts', decl='VkDeviceFaultCountsEXT* pFaultCounts', len=None, elem=<Element 'param' at 0x7f0cb2efb8d0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDeviceFaultInfoEXT with (device: %p,pFaultCounts: %p,pFaultInfo: %p) failed with result: %d", base->dispatch_handle,pFaultCounts,pFaultInfo, result);
-}
 #ifdef NEEDS_PRINTING_GetDeviceFaultInfoEXT
     VK_CMD_LOGA("  out: pFaultInfo: VkDeviceFaultInfoEXT*");
     VK_PRINT_VkDeviceFaultInfoEXT("    ", pFaultInfo);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDeviceFaultInfoEXT
-#warning TODO: Repack struct+ptr+out GetDeviceFaultInfoEXT EntrypointParam(type='VkDeviceFaultInfoEXT', name='pFaultInfo', decl='VkDeviceFaultInfoEXT* pFaultInfo', len=None, elem=<Element 'param' at 0x75c0e93d7a10>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDeviceFaultInfoEXT EntrypointParam(type='VkDeviceFaultInfoEXT', name='pFaultInfo', decl='VkDeviceFaultInfoEXT* pFaultInfo', len=None, elem=<Element 'param' at 0x7f0cb2efb9c0>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetDeviceFaultInfoEXT with (device: %p,pFaultCounts: %p,pFaultInfo: %p) failed with result: %d", base->dispatch_handle,pFaultCounts,pFaultInfo, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetDeviceFaultInfoEXT with (device: %p,pFaultCounts: %p,pFaultInfo: %p) failed with result: %d", base->dispatch_handle,pFaultCounts,pFaultInfo, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -20967,6 +23470,8 @@ wrapper_tramp_CmdSetDepthBias2EXT(
     VkCommandBuffer commandBuffer,
     const VkDepthBiasInfoEXT*         pDepthBiasInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDepthBias2EXT");
 WLOGA("CmdSetDepthBias2EXT(commandBuffer: %p, pDepthBiasInfo: %p)", commandBuffer, pDepthBiasInfo);
@@ -20978,7 +23483,7 @@ const VkDepthBiasInfoEXT*         pDepthBiasInfo__ = pDepthBiasInfo;
 #ifdef NEEDS_UNWRAPPING_VkDepthBiasInfoEXT
     VkDepthBiasInfoEXT _w_pDepthBiasInfo = { 0 };
     pDepthBiasInfo__ = &_w_pDepthBiasInfo;
-    unwrap_VkDepthBiasInfoEXT(base->device, (VkDepthBiasInfoEXT *) pDepthBiasInfo__, pDepthBiasInfo);
+    unwrap_VkDepthBiasInfoEXT(&temp, base->device, (VkDepthBiasInfoEXT *) pDepthBiasInfo__, pDepthBiasInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetDepthBias2EXT
     VK_CMD_LOGA("  in: pDepthBiasInfo: VkDepthBiasInfoEXT*");
@@ -20987,6 +23492,7 @@ const VkDepthBiasInfoEXT*         pDepthBiasInfo__ = pDepthBiasInfo;
 #endif
     base->device->dispatch_table.CmdSetDepthBias2EXT(base->dispatch_handle, pDepthBiasInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -20995,6 +23501,8 @@ wrapper_tramp_ReleaseSwapchainImagesEXT(
     VkDevice device,
     const VkReleaseSwapchainImagesInfoEXT* pReleaseInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("ReleaseSwapchainImagesEXT");
 WLOGA("ReleaseSwapchainImagesEXT(device: %p, pReleaseInfo: %p)", device, pReleaseInfo);
@@ -21006,7 +23514,7 @@ const VkReleaseSwapchainImagesInfoEXT* pReleaseInfo__ = pReleaseInfo;
 #ifdef NEEDS_UNWRAPPING_VkReleaseSwapchainImagesInfoEXT
     VkReleaseSwapchainImagesInfoEXT _w_pReleaseInfo = { 0 };
     pReleaseInfo__ = &_w_pReleaseInfo;
-    unwrap_VkReleaseSwapchainImagesInfoEXT(base, (VkReleaseSwapchainImagesInfoEXT *) pReleaseInfo__, pReleaseInfo);
+    unwrap_VkReleaseSwapchainImagesInfoEXT(&temp, base, (VkReleaseSwapchainImagesInfoEXT *) pReleaseInfo__, pReleaseInfo);
 #endif
 #ifdef NEEDS_PRINTING_ReleaseSwapchainImagesEXT
     VK_CMD_LOGA("  in: pReleaseInfo: VkReleaseSwapchainImagesInfoEXT*");
@@ -21014,7 +23522,14 @@ const VkReleaseSwapchainImagesInfoEXT* pReleaseInfo__ = pReleaseInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.ReleaseSwapchainImagesEXT(base->dispatch_handle, pReleaseInfo__);
-
+#ifdef NEEDS_PRINTING_ReleaseSwapchainImagesEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to ReleaseSwapchainImagesEXT with (device: %p,pReleaseInfo: %p) failed with result: %d", base->dispatch_handle,pReleaseInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -21024,6 +23539,8 @@ wrapper_tramp_GetDeviceImageSubresourceLayoutKHR(
     const VkDeviceImageSubresourceInfoKHR* pInfo,
     VkSubresourceLayout2KHR* pLayout)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetDeviceImageSubresourceLayoutKHR");
 WLOGA("GetDeviceImageSubresourceLayoutKHR(device: %p, pInfo: %p, pLayout: %p)", device, pInfo, pLayout);
@@ -21035,7 +23552,7 @@ const VkDeviceImageSubresourceInfoKHR* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_VkDeviceImageSubresourceInfoKHR
     VkDeviceImageSubresourceInfoKHR _w_pInfo = { 0 };
     pInfo__ = &_w_pInfo;
-    unwrap_VkDeviceImageSubresourceInfoKHR(base, (VkDeviceImageSubresourceInfoKHR *) pInfo__, pInfo);
+    unwrap_VkDeviceImageSubresourceInfoKHR(&temp, base, (VkDeviceImageSubresourceInfoKHR *) pInfo__, pInfo);
 #endif
 #ifdef NEEDS_PRINTING_GetDeviceImageSubresourceLayoutKHR
     VK_CMD_LOGA("  in: pInfo: VkDeviceImageSubresourceInfoKHR*");
@@ -21049,8 +23566,9 @@ const VkDeviceImageSubresourceInfoKHR* pInfo__ = pInfo;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSubresourceLayout2KHR
-#warning TODO: Repack struct+ptr+out GetDeviceImageSubresourceLayoutKHR EntrypointParam(type='VkSubresourceLayout2KHR', name='pLayout', decl='VkSubresourceLayout2KHR* pLayout', len=None, elem=<Element 'param' at 0x75c0e93dc630>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDeviceImageSubresourceLayoutKHR EntrypointParam(type='VkSubresourceLayout2KHR', name='pLayout', decl='VkSubresourceLayout2KHR* pLayout', len=None, elem=<Element 'param' at 0x7f0cb2f005e0>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -21060,6 +23578,8 @@ wrapper_tramp_MapMemory2KHR(
     const VkMemoryMapInfoKHR* pMemoryMapInfo,
     void** ppData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("MapMemory2KHR");
 WLOGA("MapMemory2KHR(device: %p, pMemoryMapInfo: %p, ppData: %p)", device, pMemoryMapInfo, ppData);
@@ -21071,7 +23591,7 @@ const VkMemoryMapInfoKHR* pMemoryMapInfo__ = pMemoryMapInfo;
 #ifdef NEEDS_UNWRAPPING_VkMemoryMapInfoKHR
     VkMemoryMapInfoKHR _w_pMemoryMapInfo = { 0 };
     pMemoryMapInfo__ = &_w_pMemoryMapInfo;
-    unwrap_VkMemoryMapInfoKHR(base, (VkMemoryMapInfoKHR *) pMemoryMapInfo__, pMemoryMapInfo);
+    unwrap_VkMemoryMapInfoKHR(&temp, base, (VkMemoryMapInfoKHR *) pMemoryMapInfo__, pMemoryMapInfo);
 #endif
 #ifdef NEEDS_PRINTING_MapMemory2KHR
     VK_CMD_LOGA("  in: pMemoryMapInfo: VkMemoryMapInfoKHR*");
@@ -21080,14 +23600,19 @@ const VkMemoryMapInfoKHR* pMemoryMapInfo__ = pMemoryMapInfo;
 #endif
     VkResult result = base->dispatch_table.MapMemory2KHR(base->dispatch_handle, pMemoryMapInfo__, ppData);
 #ifdef NEEDS_PRINTING_MapMemory2KHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_MapMemory2KHR
     VK_CMD_LOGA("  out: *ppData: void = %x", (int64_t)*ppData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to MapMemory2KHR with (device: %p,pMemoryMapInfo: %p,ppData: %p) failed with result: %d", base->dispatch_handle,pMemoryMapInfo__,ppData, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to MapMemory2KHR with (device: %p,pMemoryMapInfo: %p,ppData: %p) failed with result: %d", base->dispatch_handle,pMemoryMapInfo__,ppData, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -21096,6 +23621,8 @@ wrapper_tramp_UnmapMemory2KHR(
     VkDevice device,
     const VkMemoryUnmapInfoKHR* pMemoryUnmapInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("UnmapMemory2KHR");
 WLOGA("UnmapMemory2KHR(device: %p, pMemoryUnmapInfo: %p)", device, pMemoryUnmapInfo);
@@ -21107,7 +23634,7 @@ const VkMemoryUnmapInfoKHR* pMemoryUnmapInfo__ = pMemoryUnmapInfo;
 #ifdef NEEDS_UNWRAPPING_VkMemoryUnmapInfoKHR
     VkMemoryUnmapInfoKHR _w_pMemoryUnmapInfo = { 0 };
     pMemoryUnmapInfo__ = &_w_pMemoryUnmapInfo;
-    unwrap_VkMemoryUnmapInfoKHR(base, (VkMemoryUnmapInfoKHR *) pMemoryUnmapInfo__, pMemoryUnmapInfo);
+    unwrap_VkMemoryUnmapInfoKHR(&temp, base, (VkMemoryUnmapInfoKHR *) pMemoryUnmapInfo__, pMemoryUnmapInfo);
 #endif
 #ifdef NEEDS_PRINTING_UnmapMemory2KHR
     VK_CMD_LOGA("  in: pMemoryUnmapInfo: VkMemoryUnmapInfoKHR*");
@@ -21115,7 +23642,14 @@ const VkMemoryUnmapInfoKHR* pMemoryUnmapInfo__ = pMemoryUnmapInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.UnmapMemory2KHR(base->dispatch_handle, pMemoryUnmapInfo__);
-
+#ifdef NEEDS_PRINTING_UnmapMemory2KHR
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to UnmapMemory2KHR with (device: %p,pMemoryUnmapInfo: %p) failed with result: %d", base->dispatch_handle,pMemoryUnmapInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -21127,6 +23661,8 @@ wrapper_tramp_CreateShadersEXT(
     const VkAllocationCallbacks* pAllocator,
     VkShaderEXT* pShaders)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("CreateShadersEXT");
 WLOGA("CreateShadersEXT(device: %p, createInfoCount: %x, pCreateInfos: %p, pAllocator: %p, pShaders: %p)", device, createInfoCount, pCreateInfos, pAllocator, pShaders);
@@ -21145,7 +23681,7 @@ const VkShaderCreateInfoEXT* pCreateInfos__ = pCreateInfos;
 #ifdef NEEDS_UNWRAPPING_VkShaderCreateInfoEXT
     pCreateInfos__ = alloca(createInfoCount * sizeof(VkShaderCreateInfoEXT));
     for (int i = 0; i < createInfoCount; i++)
-        unwrap_VkShaderCreateInfoEXT(base, (VkShaderCreateInfoEXT *) &pCreateInfos__[i], &pCreateInfos[i]);
+        unwrap_VkShaderCreateInfoEXT(&temp, base, (VkShaderCreateInfoEXT *) &pCreateInfos__[i], &pCreateInfos[i]);
 #endif
 #ifdef NEEDS_PRINTING_CreateShadersEXT
     VK_CMD_LOGA("  in: pCreateInfos[]: VkShaderCreateInfoEXT");
@@ -21159,7 +23695,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_CreateShadersEXT
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -21168,14 +23704,19 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     VkResult result = base->dispatch_table.CreateShadersEXT(base->dispatch_handle, createInfoCount__, pCreateInfos__, pAllocator__, pShaders);
 #ifdef NEEDS_PRINTING_CreateShadersEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_CreateShadersEXT
     VK_CMD_LOGA("  out: *pShaders: VkShaderEXT = %x", (int64_t)*pShaders);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkShaderEXT
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to CreateShadersEXT with (device: %p,createInfoCount: %x,pCreateInfos: %p,pAllocator: %p,pShaders: %p) failed with result: %d", base->dispatch_handle,createInfoCount__,pCreateInfos__,pAllocator__,pShaders, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to CreateShadersEXT with (device: %p,createInfoCount: %x,pCreateInfos: %p,pAllocator: %p,pShaders: %p) failed with result: %d", base->dispatch_handle,createInfoCount__,pCreateInfos__,pAllocator__,pShaders, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -21185,6 +23726,8 @@ wrapper_tramp_DestroyShaderEXT(
     VkShaderEXT shader,
     const VkAllocationCallbacks* pAllocator)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("DestroyShaderEXT");
 WLOGA("DestroyShaderEXT(device: %p, shader: %x, pAllocator: %p)", device, shader, pAllocator);
@@ -21203,7 +23746,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #ifdef NEEDS_UNWRAPPING_VkAllocationCallbacks
     VkAllocationCallbacks _w_pAllocator = { 0 };
     pAllocator__ = &_w_pAllocator;
-    unwrap_VkAllocationCallbacks(base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
+    unwrap_VkAllocationCallbacks(&temp, base, (VkAllocationCallbacks *) pAllocator__, pAllocator);
 #endif
 #ifdef NEEDS_PRINTING_DestroyShaderEXT
     VK_CMD_LOGA("  in: pAllocator: VkAllocationCallbacks*");
@@ -21212,6 +23755,7 @@ const VkAllocationCallbacks* pAllocator__ = pAllocator;
 #endif
     base->dispatch_table.DestroyShaderEXT(base->dispatch_handle, shader__, pAllocator__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -21222,6 +23766,8 @@ wrapper_tramp_GetShaderBinaryDataEXT(
     size_t* pDataSize,
     void* pData)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetShaderBinaryDataEXT");
 WLOGA("GetShaderBinaryDataEXT(device: %p, shader: %x, pDataSize: %p, pData: %p)", device, shader, pDataSize, pData);
@@ -21238,23 +23784,25 @@ VkShaderEXT shader__ = shader;
 #endif
     VkResult result = base->dispatch_table.GetShaderBinaryDataEXT(base->dispatch_handle, shader__, pDataSize, pData);
 #ifdef NEEDS_PRINTING_GetShaderBinaryDataEXT
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetShaderBinaryDataEXT
     VK_CMD_LOGA("  out: *pDataSize: size_t = %x", (int64_t)*pDataSize);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_size_t
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetShaderBinaryDataEXT with (device: %p,shader: %x,pDataSize: %p,pData: %p) failed with result: %d", base->dispatch_handle,shader__,pDataSize,pData, result);
-}
 #ifdef NEEDS_PRINTING_GetShaderBinaryDataEXT
     VK_CMD_LOGA("  out: *pData: void = %x", (int64_t)*pData);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_void
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetShaderBinaryDataEXT with (device: %p,shader: %x,pDataSize: %p,pData: %p) failed with result: %d", base->dispatch_handle,shader__,pDataSize,pData, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetShaderBinaryDataEXT with (device: %p,shader: %x,pDataSize: %p,pData: %p) failed with result: %d", base->dispatch_handle,shader__,pDataSize,pData, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -21265,6 +23813,8 @@ wrapper_tramp_CmdBindShadersEXT(
     const VkShaderStageFlagBits* pStages,
     const VkShaderEXT* pShaders)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBindShadersEXT");
 WLOGA("CmdBindShadersEXT(commandBuffer: %p, stageCount: %x, pStages: %x, pShaders: %x)", commandBuffer, stageCount, pStages, pShaders);
@@ -21295,6 +23845,7 @@ const VkShaderEXT* pShaders__ = pShaders;
 #endif
     base->device->dispatch_table.CmdBindShadersEXT(base->dispatch_handle, stageCount__, pStages__, pShaders__);
 
+    free_temp_objects(&temp);
     return ;
 }
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
@@ -21305,6 +23856,8 @@ wrapper_tramp_GetScreenBufferPropertiesQNX(
     const struct _screen_buffer* buffer,
     VkScreenBufferPropertiesQNX* pProperties)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetScreenBufferPropertiesQNX");
 WLOGA("GetScreenBufferPropertiesQNX(device: %p, buffer: %x, pProperties: %p)", device, buffer, pProperties);
@@ -21321,16 +23874,21 @@ const struct _screen_buffer* buffer__ = buffer;
 #endif
     VkResult result = base->dispatch_table.GetScreenBufferPropertiesQNX(base->dispatch_handle, buffer__, pProperties);
 #ifdef NEEDS_PRINTING_GetScreenBufferPropertiesQNX
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+#ifdef NEEDS_PRINTING_GetScreenBufferPropertiesQNX
     VK_CMD_LOGA("  out: pProperties: VkScreenBufferPropertiesQNX*");
     VK_PRINT_VkScreenBufferPropertiesQNX("    ", pProperties);
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkScreenBufferPropertiesQNX
-#warning TODO: Repack struct+ptr+out GetScreenBufferPropertiesQNX EntrypointParam(type='VkScreenBufferPropertiesQNX', name='pProperties', decl='VkScreenBufferPropertiesQNX* pProperties', len=None, elem=<Element 'param' at 0x75c0e93de6b0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetScreenBufferPropertiesQNX EntrypointParam(type='VkScreenBufferPropertiesQNX', name='pProperties', decl='VkScreenBufferPropertiesQNX* pProperties', len=None, elem=<Element 'param' at 0x7f0cb2f02660>, is_const=False, num_pointers=1)
 #endif
-if (result != VK_SUCCESS) {
-    WLOGE("Call to GetScreenBufferPropertiesQNX with (device: %p,buffer: %x,pProperties: %p) failed with result: %d", base->dispatch_handle,buffer__,pProperties, result);
-}
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to GetScreenBufferPropertiesQNX with (device: %p,buffer: %x,pProperties: %p) failed with result: %d", base->dispatch_handle,buffer__,pProperties, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 #endif
@@ -21340,6 +23898,8 @@ wrapper_tramp_CmdBindDescriptorSets2KHR(
     VkCommandBuffer commandBuffer,
     const VkBindDescriptorSetsInfoKHR* pBindDescriptorSetsInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBindDescriptorSets2KHR");
 WLOGA("CmdBindDescriptorSets2KHR(commandBuffer: %p, pBindDescriptorSetsInfo: %p)", commandBuffer, pBindDescriptorSetsInfo);
@@ -21351,7 +23911,7 @@ const VkBindDescriptorSetsInfoKHR* pBindDescriptorSetsInfo__ = pBindDescriptorSe
 #ifdef NEEDS_UNWRAPPING_VkBindDescriptorSetsInfoKHR
     VkBindDescriptorSetsInfoKHR _w_pBindDescriptorSetsInfo = { 0 };
     pBindDescriptorSetsInfo__ = &_w_pBindDescriptorSetsInfo;
-    unwrap_VkBindDescriptorSetsInfoKHR(base->device, (VkBindDescriptorSetsInfoKHR *) pBindDescriptorSetsInfo__, pBindDescriptorSetsInfo);
+    unwrap_VkBindDescriptorSetsInfoKHR(&temp, base->device, (VkBindDescriptorSetsInfoKHR *) pBindDescriptorSetsInfo__, pBindDescriptorSetsInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdBindDescriptorSets2KHR
     VK_CMD_LOGA("  in: pBindDescriptorSetsInfo: VkBindDescriptorSetsInfoKHR*");
@@ -21360,6 +23920,7 @@ const VkBindDescriptorSetsInfoKHR* pBindDescriptorSetsInfo__ = pBindDescriptorSe
 #endif
     base->device->dispatch_table.CmdBindDescriptorSets2KHR(base->dispatch_handle, pBindDescriptorSetsInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -21368,6 +23929,8 @@ wrapper_tramp_CmdPushConstants2KHR(
     VkCommandBuffer commandBuffer,
     const VkPushConstantsInfoKHR* pPushConstantsInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdPushConstants2KHR");
 WLOGA("CmdPushConstants2KHR(commandBuffer: %p, pPushConstantsInfo: %p)", commandBuffer, pPushConstantsInfo);
@@ -21379,7 +23942,7 @@ const VkPushConstantsInfoKHR* pPushConstantsInfo__ = pPushConstantsInfo;
 #ifdef NEEDS_UNWRAPPING_VkPushConstantsInfoKHR
     VkPushConstantsInfoKHR _w_pPushConstantsInfo = { 0 };
     pPushConstantsInfo__ = &_w_pPushConstantsInfo;
-    unwrap_VkPushConstantsInfoKHR(base->device, (VkPushConstantsInfoKHR *) pPushConstantsInfo__, pPushConstantsInfo);
+    unwrap_VkPushConstantsInfoKHR(&temp, base->device, (VkPushConstantsInfoKHR *) pPushConstantsInfo__, pPushConstantsInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdPushConstants2KHR
     VK_CMD_LOGA("  in: pPushConstantsInfo: VkPushConstantsInfoKHR*");
@@ -21388,6 +23951,7 @@ const VkPushConstantsInfoKHR* pPushConstantsInfo__ = pPushConstantsInfo;
 #endif
     base->device->dispatch_table.CmdPushConstants2KHR(base->dispatch_handle, pPushConstantsInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -21396,6 +23960,8 @@ wrapper_tramp_CmdPushDescriptorSet2KHR(
     VkCommandBuffer commandBuffer,
     const VkPushDescriptorSetInfoKHR* pPushDescriptorSetInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdPushDescriptorSet2KHR");
 WLOGA("CmdPushDescriptorSet2KHR(commandBuffer: %p, pPushDescriptorSetInfo: %p)", commandBuffer, pPushDescriptorSetInfo);
@@ -21407,7 +23973,7 @@ const VkPushDescriptorSetInfoKHR* pPushDescriptorSetInfo__ = pPushDescriptorSetI
 #ifdef NEEDS_UNWRAPPING_VkPushDescriptorSetInfoKHR
     VkPushDescriptorSetInfoKHR _w_pPushDescriptorSetInfo = { 0 };
     pPushDescriptorSetInfo__ = &_w_pPushDescriptorSetInfo;
-    unwrap_VkPushDescriptorSetInfoKHR(base->device, (VkPushDescriptorSetInfoKHR *) pPushDescriptorSetInfo__, pPushDescriptorSetInfo);
+    unwrap_VkPushDescriptorSetInfoKHR(&temp, base->device, (VkPushDescriptorSetInfoKHR *) pPushDescriptorSetInfo__, pPushDescriptorSetInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdPushDescriptorSet2KHR
     VK_CMD_LOGA("  in: pPushDescriptorSetInfo: VkPushDescriptorSetInfoKHR*");
@@ -21416,6 +23982,7 @@ const VkPushDescriptorSetInfoKHR* pPushDescriptorSetInfo__ = pPushDescriptorSetI
 #endif
     base->device->dispatch_table.CmdPushDescriptorSet2KHR(base->dispatch_handle, pPushDescriptorSetInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -21424,6 +23991,8 @@ wrapper_tramp_CmdPushDescriptorSetWithTemplate2KHR(
     VkCommandBuffer commandBuffer,
     const VkPushDescriptorSetWithTemplateInfoKHR* pPushDescriptorSetWithTemplateInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdPushDescriptorSetWithTemplate2KHR");
 WLOGA("CmdPushDescriptorSetWithTemplate2KHR(commandBuffer: %p, pPushDescriptorSetWithTemplateInfo: %p)", commandBuffer, pPushDescriptorSetWithTemplateInfo);
@@ -21435,7 +24004,7 @@ const VkPushDescriptorSetWithTemplateInfoKHR* pPushDescriptorSetWithTemplateInfo
 #ifdef NEEDS_UNWRAPPING_VkPushDescriptorSetWithTemplateInfoKHR
     VkPushDescriptorSetWithTemplateInfoKHR _w_pPushDescriptorSetWithTemplateInfo = { 0 };
     pPushDescriptorSetWithTemplateInfo__ = &_w_pPushDescriptorSetWithTemplateInfo;
-    unwrap_VkPushDescriptorSetWithTemplateInfoKHR(base->device, (VkPushDescriptorSetWithTemplateInfoKHR *) pPushDescriptorSetWithTemplateInfo__, pPushDescriptorSetWithTemplateInfo);
+    unwrap_VkPushDescriptorSetWithTemplateInfoKHR(&temp, base->device, (VkPushDescriptorSetWithTemplateInfoKHR *) pPushDescriptorSetWithTemplateInfo__, pPushDescriptorSetWithTemplateInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdPushDescriptorSetWithTemplate2KHR
     VK_CMD_LOGA("  in: pPushDescriptorSetWithTemplateInfo: VkPushDescriptorSetWithTemplateInfoKHR*");
@@ -21444,6 +24013,7 @@ const VkPushDescriptorSetWithTemplateInfoKHR* pPushDescriptorSetWithTemplateInfo
 #endif
     base->device->dispatch_table.CmdPushDescriptorSetWithTemplate2KHR(base->dispatch_handle, pPushDescriptorSetWithTemplateInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -21452,6 +24022,8 @@ wrapper_tramp_CmdSetDescriptorBufferOffsets2EXT(
     VkCommandBuffer commandBuffer,
     const VkSetDescriptorBufferOffsetsInfoEXT* pSetDescriptorBufferOffsetsInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetDescriptorBufferOffsets2EXT");
 WLOGA("CmdSetDescriptorBufferOffsets2EXT(commandBuffer: %p, pSetDescriptorBufferOffsetsInfo: %p)", commandBuffer, pSetDescriptorBufferOffsetsInfo);
@@ -21463,7 +24035,7 @@ const VkSetDescriptorBufferOffsetsInfoEXT* pSetDescriptorBufferOffsetsInfo__ = p
 #ifdef NEEDS_UNWRAPPING_VkSetDescriptorBufferOffsetsInfoEXT
     VkSetDescriptorBufferOffsetsInfoEXT _w_pSetDescriptorBufferOffsetsInfo = { 0 };
     pSetDescriptorBufferOffsetsInfo__ = &_w_pSetDescriptorBufferOffsetsInfo;
-    unwrap_VkSetDescriptorBufferOffsetsInfoEXT(base->device, (VkSetDescriptorBufferOffsetsInfoEXT *) pSetDescriptorBufferOffsetsInfo__, pSetDescriptorBufferOffsetsInfo);
+    unwrap_VkSetDescriptorBufferOffsetsInfoEXT(&temp, base->device, (VkSetDescriptorBufferOffsetsInfoEXT *) pSetDescriptorBufferOffsetsInfo__, pSetDescriptorBufferOffsetsInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetDescriptorBufferOffsets2EXT
     VK_CMD_LOGA("  in: pSetDescriptorBufferOffsetsInfo: VkSetDescriptorBufferOffsetsInfoEXT*");
@@ -21472,6 +24044,7 @@ const VkSetDescriptorBufferOffsetsInfoEXT* pSetDescriptorBufferOffsetsInfo__ = p
 #endif
     base->device->dispatch_table.CmdSetDescriptorBufferOffsets2EXT(base->dispatch_handle, pSetDescriptorBufferOffsetsInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -21480,6 +24053,8 @@ wrapper_tramp_CmdBindDescriptorBufferEmbeddedSamplers2EXT(
     VkCommandBuffer commandBuffer,
     const VkBindDescriptorBufferEmbeddedSamplersInfoEXT* pBindDescriptorBufferEmbeddedSamplersInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdBindDescriptorBufferEmbeddedSamplers2EXT");
 WLOGA("CmdBindDescriptorBufferEmbeddedSamplers2EXT(commandBuffer: %p, pBindDescriptorBufferEmbeddedSamplersInfo: %p)", commandBuffer, pBindDescriptorBufferEmbeddedSamplersInfo);
@@ -21491,7 +24066,7 @@ const VkBindDescriptorBufferEmbeddedSamplersInfoEXT* pBindDescriptorBufferEmbedd
 #ifdef NEEDS_UNWRAPPING_VkBindDescriptorBufferEmbeddedSamplersInfoEXT
     VkBindDescriptorBufferEmbeddedSamplersInfoEXT _w_pBindDescriptorBufferEmbeddedSamplersInfo = { 0 };
     pBindDescriptorBufferEmbeddedSamplersInfo__ = &_w_pBindDescriptorBufferEmbeddedSamplersInfo;
-    unwrap_VkBindDescriptorBufferEmbeddedSamplersInfoEXT(base->device, (VkBindDescriptorBufferEmbeddedSamplersInfoEXT *) pBindDescriptorBufferEmbeddedSamplersInfo__, pBindDescriptorBufferEmbeddedSamplersInfo);
+    unwrap_VkBindDescriptorBufferEmbeddedSamplersInfoEXT(&temp, base->device, (VkBindDescriptorBufferEmbeddedSamplersInfoEXT *) pBindDescriptorBufferEmbeddedSamplersInfo__, pBindDescriptorBufferEmbeddedSamplersInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdBindDescriptorBufferEmbeddedSamplers2EXT
     VK_CMD_LOGA("  in: pBindDescriptorBufferEmbeddedSamplersInfo: VkBindDescriptorBufferEmbeddedSamplersInfoEXT*");
@@ -21500,6 +24075,7 @@ const VkBindDescriptorBufferEmbeddedSamplersInfoEXT* pBindDescriptorBufferEmbedd
 #endif
     base->device->dispatch_table.CmdBindDescriptorBufferEmbeddedSamplers2EXT(base->dispatch_handle, pBindDescriptorBufferEmbeddedSamplersInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -21509,6 +24085,8 @@ wrapper_tramp_SetLatencySleepModeNV(
     VkSwapchainKHR swapchain,
     const VkLatencySleepModeInfoNV* pSleepModeInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("SetLatencySleepModeNV");
 WLOGA("SetLatencySleepModeNV(device: %p, swapchain: %x, pSleepModeInfo: %p)", device, swapchain, pSleepModeInfo);
@@ -21527,7 +24105,7 @@ const VkLatencySleepModeInfoNV* pSleepModeInfo__ = pSleepModeInfo;
 #ifdef NEEDS_UNWRAPPING_VkLatencySleepModeInfoNV
     VkLatencySleepModeInfoNV _w_pSleepModeInfo = { 0 };
     pSleepModeInfo__ = &_w_pSleepModeInfo;
-    unwrap_VkLatencySleepModeInfoNV(base, (VkLatencySleepModeInfoNV *) pSleepModeInfo__, pSleepModeInfo);
+    unwrap_VkLatencySleepModeInfoNV(&temp, base, (VkLatencySleepModeInfoNV *) pSleepModeInfo__, pSleepModeInfo);
 #endif
 #ifdef NEEDS_PRINTING_SetLatencySleepModeNV
     VK_CMD_LOGA("  in: pSleepModeInfo: VkLatencySleepModeInfoNV*");
@@ -21535,7 +24113,14 @@ const VkLatencySleepModeInfoNV* pSleepModeInfo__ = pSleepModeInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.SetLatencySleepModeNV(base->dispatch_handle, swapchain__, pSleepModeInfo__);
-
+#ifdef NEEDS_PRINTING_SetLatencySleepModeNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to SetLatencySleepModeNV with (device: %p,swapchain: %x,pSleepModeInfo: %p) failed with result: %d", base->dispatch_handle,swapchain__,pSleepModeInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -21545,6 +24130,8 @@ wrapper_tramp_LatencySleepNV(
     VkSwapchainKHR swapchain,
     const VkLatencySleepInfoNV* pSleepInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("LatencySleepNV");
 WLOGA("LatencySleepNV(device: %p, swapchain: %x, pSleepInfo: %p)", device, swapchain, pSleepInfo);
@@ -21563,7 +24150,7 @@ const VkLatencySleepInfoNV* pSleepInfo__ = pSleepInfo;
 #ifdef NEEDS_UNWRAPPING_VkLatencySleepInfoNV
     VkLatencySleepInfoNV _w_pSleepInfo = { 0 };
     pSleepInfo__ = &_w_pSleepInfo;
-    unwrap_VkLatencySleepInfoNV(base, (VkLatencySleepInfoNV *) pSleepInfo__, pSleepInfo);
+    unwrap_VkLatencySleepInfoNV(&temp, base, (VkLatencySleepInfoNV *) pSleepInfo__, pSleepInfo);
 #endif
 #ifdef NEEDS_PRINTING_LatencySleepNV
     VK_CMD_LOGA("  in: pSleepInfo: VkLatencySleepInfoNV*");
@@ -21571,7 +24158,14 @@ const VkLatencySleepInfoNV* pSleepInfo__ = pSleepInfo;
     VK_CMD_FLUSH();
 #endif
     VkResult result = base->dispatch_table.LatencySleepNV(base->dispatch_handle, swapchain__, pSleepInfo__);
-
+#ifdef NEEDS_PRINTING_LatencySleepNV
+    VK_CMD_LOGA("  out: result: VkResult = %d", (int64_t) result);
+    VK_CMD_FLUSH();
+#endif
+    if (result != VK_SUCCESS) {
+        WLOGE("Call to LatencySleepNV with (device: %p,swapchain: %x,pSleepInfo: %p) failed with result: %d", base->dispatch_handle,swapchain__,pSleepInfo__, result);
+    }
+    free_temp_objects(&temp);
     return result;
 }
 
@@ -21581,6 +24175,8 @@ wrapper_tramp_SetLatencyMarkerNV(
     VkSwapchainKHR swapchain,
     const VkSetLatencyMarkerInfoNV* pLatencyMarkerInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("SetLatencyMarkerNV");
 WLOGA("SetLatencyMarkerNV(device: %p, swapchain: %x, pLatencyMarkerInfo: %p)", device, swapchain, pLatencyMarkerInfo);
@@ -21599,7 +24195,7 @@ const VkSetLatencyMarkerInfoNV* pLatencyMarkerInfo__ = pLatencyMarkerInfo;
 #ifdef NEEDS_UNWRAPPING_VkSetLatencyMarkerInfoNV
     VkSetLatencyMarkerInfoNV _w_pLatencyMarkerInfo = { 0 };
     pLatencyMarkerInfo__ = &_w_pLatencyMarkerInfo;
-    unwrap_VkSetLatencyMarkerInfoNV(base, (VkSetLatencyMarkerInfoNV *) pLatencyMarkerInfo__, pLatencyMarkerInfo);
+    unwrap_VkSetLatencyMarkerInfoNV(&temp, base, (VkSetLatencyMarkerInfoNV *) pLatencyMarkerInfo__, pLatencyMarkerInfo);
 #endif
 #ifdef NEEDS_PRINTING_SetLatencyMarkerNV
     VK_CMD_LOGA("  in: pLatencyMarkerInfo: VkSetLatencyMarkerInfoNV*");
@@ -21608,6 +24204,7 @@ const VkSetLatencyMarkerInfoNV* pLatencyMarkerInfo__ = pLatencyMarkerInfo;
 #endif
     base->dispatch_table.SetLatencyMarkerNV(base->dispatch_handle, swapchain__, pLatencyMarkerInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -21617,6 +24214,8 @@ wrapper_tramp_GetLatencyTimingsNV(
     VkSwapchainKHR swapchain,
     VkGetLatencyMarkerInfoNV* pLatencyMarkerInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_device, base, device);
     VK_CMD_LOG("GetLatencyTimingsNV");
 WLOGA("GetLatencyTimingsNV(device: %p, swapchain: %x, pLatencyMarkerInfo: %p)", device, swapchain, pLatencyMarkerInfo);
@@ -21638,8 +24237,9 @@ VkSwapchainKHR swapchain__ = swapchain;
     VK_CMD_FLUSH();
 #endif
 #ifdef NEEDS_UNWRAPPING_VkGetLatencyMarkerInfoNV
-#warning TODO: Repack struct+ptr+out GetLatencyTimingsNV EntrypointParam(type='VkGetLatencyMarkerInfoNV', name='pLatencyMarkerInfo', decl='VkGetLatencyMarkerInfoNV* pLatencyMarkerInfo', len=None, elem=<Element 'param' at 0x75c0e93eb920>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetLatencyTimingsNV EntrypointParam(type='VkGetLatencyMarkerInfoNV', name='pLatencyMarkerInfo', decl='VkGetLatencyMarkerInfoNV* pLatencyMarkerInfo', len=None, elem=<Element 'param' at 0x7f0cb2f0b8d0>, is_const=False, num_pointers=1)
 #endif
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -21648,6 +24248,8 @@ wrapper_tramp_QueueNotifyOutOfBandNV(
     VkQueue queue,
     const VkOutOfBandQueueTypeInfoNV* pQueueTypeInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_queue, base, queue);
     VK_CMD_LOG("QueueNotifyOutOfBandNV");
 WLOGA("QueueNotifyOutOfBandNV(queue: %p, pQueueTypeInfo: %p)", queue, pQueueTypeInfo);
@@ -21659,7 +24261,7 @@ const VkOutOfBandQueueTypeInfoNV* pQueueTypeInfo__ = pQueueTypeInfo;
 #ifdef NEEDS_UNWRAPPING_VkOutOfBandQueueTypeInfoNV
     VkOutOfBandQueueTypeInfoNV _w_pQueueTypeInfo = { 0 };
     pQueueTypeInfo__ = &_w_pQueueTypeInfo;
-    unwrap_VkOutOfBandQueueTypeInfoNV(base->device, (VkOutOfBandQueueTypeInfoNV *) pQueueTypeInfo__, pQueueTypeInfo);
+    unwrap_VkOutOfBandQueueTypeInfoNV(&temp, base->device, (VkOutOfBandQueueTypeInfoNV *) pQueueTypeInfo__, pQueueTypeInfo);
 #endif
 #ifdef NEEDS_PRINTING_QueueNotifyOutOfBandNV
     VK_CMD_LOGA("  in: pQueueTypeInfo: VkOutOfBandQueueTypeInfoNV*");
@@ -21668,6 +24270,7 @@ const VkOutOfBandQueueTypeInfoNV* pQueueTypeInfo__ = pQueueTypeInfo;
 #endif
     base->device->dispatch_table.QueueNotifyOutOfBandNV(base->dispatch_handle, pQueueTypeInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -21676,6 +24279,8 @@ wrapper_tramp_CmdSetRenderingAttachmentLocationsKHR(
     VkCommandBuffer commandBuffer,
     const VkRenderingAttachmentLocationInfoKHR* pLocationInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetRenderingAttachmentLocationsKHR");
 WLOGA("CmdSetRenderingAttachmentLocationsKHR(commandBuffer: %p, pLocationInfo: %p)", commandBuffer, pLocationInfo);
@@ -21687,7 +24292,7 @@ const VkRenderingAttachmentLocationInfoKHR* pLocationInfo__ = pLocationInfo;
 #ifdef NEEDS_UNWRAPPING_VkRenderingAttachmentLocationInfoKHR
     VkRenderingAttachmentLocationInfoKHR _w_pLocationInfo = { 0 };
     pLocationInfo__ = &_w_pLocationInfo;
-    unwrap_VkRenderingAttachmentLocationInfoKHR(base->device, (VkRenderingAttachmentLocationInfoKHR *) pLocationInfo__, pLocationInfo);
+    unwrap_VkRenderingAttachmentLocationInfoKHR(&temp, base->device, (VkRenderingAttachmentLocationInfoKHR *) pLocationInfo__, pLocationInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetRenderingAttachmentLocationsKHR
     VK_CMD_LOGA("  in: pLocationInfo: VkRenderingAttachmentLocationInfoKHR*");
@@ -21696,6 +24301,7 @@ const VkRenderingAttachmentLocationInfoKHR* pLocationInfo__ = pLocationInfo;
 #endif
     base->device->dispatch_table.CmdSetRenderingAttachmentLocationsKHR(base->dispatch_handle, pLocationInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 
@@ -21704,6 +24310,8 @@ wrapper_tramp_CmdSetRenderingInputAttachmentIndicesKHR(
     VkCommandBuffer commandBuffer,
     const VkRenderingInputAttachmentIndexInfoKHR* pInputAttachmentIndexInfo)
 {
+    struct temporary_objects temp;
+    list_inithead(&temp.objects);
     VK_FROM_HANDLE(wrapper_command_buffer, base, commandBuffer);
     VK_CMD_LOG("CmdSetRenderingInputAttachmentIndicesKHR");
 WLOGA("CmdSetRenderingInputAttachmentIndicesKHR(commandBuffer: %p, pInputAttachmentIndexInfo: %p)", commandBuffer, pInputAttachmentIndexInfo);
@@ -21715,7 +24323,7 @@ const VkRenderingInputAttachmentIndexInfoKHR* pInputAttachmentIndexInfo__ = pInp
 #ifdef NEEDS_UNWRAPPING_VkRenderingInputAttachmentIndexInfoKHR
     VkRenderingInputAttachmentIndexInfoKHR _w_pInputAttachmentIndexInfo = { 0 };
     pInputAttachmentIndexInfo__ = &_w_pInputAttachmentIndexInfo;
-    unwrap_VkRenderingInputAttachmentIndexInfoKHR(base->device, (VkRenderingInputAttachmentIndexInfoKHR *) pInputAttachmentIndexInfo__, pInputAttachmentIndexInfo);
+    unwrap_VkRenderingInputAttachmentIndexInfoKHR(&temp, base->device, (VkRenderingInputAttachmentIndexInfoKHR *) pInputAttachmentIndexInfo__, pInputAttachmentIndexInfo);
 #endif
 #ifdef NEEDS_PRINTING_CmdSetRenderingInputAttachmentIndicesKHR
     VK_CMD_LOGA("  in: pInputAttachmentIndexInfo: VkRenderingInputAttachmentIndexInfoKHR*");
@@ -21724,6 +24332,7 @@ const VkRenderingInputAttachmentIndexInfoKHR* pInputAttachmentIndexInfo__ = pInp
 #endif
     base->device->dispatch_table.CmdSetRenderingInputAttachmentIndicesKHR(base->dispatch_handle, pInputAttachmentIndexInfo__);
 
+    free_temp_objects(&temp);
     return ;
 }
 

@@ -1,127 +1,347 @@
+diff --git a/src/vulkan/wrapper/vk_entrypoints.py b/src/vulkan/wrapper/vk_entrypoints.py
+index 99fc271f7aa..93d24e0b894 100644
+--- a/src/vulkan/wrapper/vk_entrypoints.py
++++ b/src/vulkan/wrapper/vk_entrypoints.py
+@@ -77,6 +77,13 @@ COMMAND_BLACKLIST = [
+ ]
+ 
+ def print_param(command, param, mode='input'):
++    if param == 'result':
++        return [
++            f"#ifdef NEEDS_PRINTING_{command.name}",
++            f"    VK_CMD_LOGA(\"  out: result: VkResult = %d\", (int64_t) result);",
++            f"    VK_CMD_FLUSH();",
++            f"#endif",
++        ]
+     is_input = param.num_pointers == 0 or param.is_const
+     if mode == 'input' and not is_input:
+         return
+@@ -114,7 +121,7 @@ def print_param(command, param, mode='input'):
+         elif param.num_pointers:
+             output.append(f"    VK_CMD_LOGA(\"  {token}: {param.name}: {param.type}{'*' * param.num_pointers} = %x\", (int64_t){param.name});")
+         else:
+-            output.append(f"    VK_CMD_LOGA(\"  {token}: {param.name}: {param.type} = %x\", (int64_t){param.name})");
++            output.append(f"    VK_CMD_LOGA(\"  {token}: {param.name}: {param.type} = %x\", (int64_t){param.name});");
+             pass
+     output.append("    VK_CMD_FLUSH();")
+     output.append("#endif")
+@@ -232,6 +239,8 @@ def _generate_trampoline(command, dispatch_table="device->dispatch_table"):
+ 
+     # Output + freeing (WIP)
+     handle_wrap_logic = []
++    if command.return_type == 'VkResult':
++        handle_wrap_logic += print_param(command, 'result', mode='output')
+     for param in params[1:]:
+         if command.name in COMMAND_BLACKLIST:
+             continue
+@@ -279,12 +288,14 @@ def _generate_trampoline(command, dispatch_table="device->dispatch_table"):
+             else:
+                 handle_wrap_logic.append(f"#error: Unhandled special+ptr2 {command.name} {param}")
+         handle_wrap_logic.append(f"#endif")
+-        # Print if result failed
+-        if command.return_type == 'VkResult' and command.name != "AllocateDescriptorSets":
+-            logger = "WLOGE" if command.name not in ("AllocateDescriptorSets", "GetPhysicalDeviceImageFormatProperties") else "WLOG"
+-            handle_wrap_logic.append(f"if (result != VK_SUCCESS) {{")
+-            handle_wrap_logic.append(f"    {logger}(\"Call to {command.name} with ({",".join(types)}) failed with result: %d\", {",".join(call)}, result);")
+-            handle_wrap_logic.append(f"}}")
++    
++    # Print if result failed
++    SPAMMY_COMMANDS = set(['AllocateDescriptorSets', 'GetPhysicalDeviceImageFormatProperties', 'GetEventStatus', 'GetQueryPoolResults'])
++    if command.return_type == 'VkResult' and command.name not in SPAMMY_COMMANDS:
++        logger = "WLOGE" if command.name not in ("AllocateDescriptorSets", "GetPhysicalDeviceImageFormatProperties") else "WLOG"
++        handle_wrap_logic.append(f"    if (result != VK_SUCCESS) {{")
++        handle_wrap_logic.append(f"        {logger}(\"Call to {command.name} with ({",".join(types)}) failed with result: %d\", {",".join(call)}, result);")
++        handle_wrap_logic.append(f"    }}")
+ 
+     return_block = "" if command.return_type == 'void' else "result"
+     assign_block = "" if command.return_type == 'void' else f"{command.return_type} result = "
 diff --git a/src/vulkan/wrapper/wrapper_device.c b/src/vulkan/wrapper/wrapper_device.c
-index befa6635484..a8605be525c 100644
+index f5404ecb184..4a96143e60e 100644
 --- a/src/vulkan/wrapper/wrapper_device.c
 +++ b/src/vulkan/wrapper/wrapper_device.c
-@@ -287,26 +287,20 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
-    vk_device_dispatch_table_from_entrypoints(
-       &dispatch_table, &wrapper_device_trampolines, false);
- 
--#define DISABLE_EXT(extension, type, clear) \
--   if (!physical_device->base_supported_extensions.extension) { \
-+#define DISABLE_EXT(extension, type, feature) \
-+   if (!physical_device->base_supported_features.feature) { \
-       VK_STRUCTURE_TYPE_##type##_cast *ext = (VK_STRUCTURE_TYPE_##type##_cast *) vk_find_struct_const(pCreateInfo, type); \
-       if (ext) { \
--         WLOG("Faking extension support for " #extension); \
--         clear; \
-+         WLOG("Faking extension support for " #extension "->" #feature); \
-+         ext->feature = ext->feature & physical_device->base_supported_features.feature; \
-       } \
-    }
- 
--   DISABLE_EXT(EXT_transform_feedback, PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_FEATURES_EXT, {
--      ext->geometryStreams = false;
--      ext->transformFeedback = false;
--   });
--   DISABLE_EXT(EXT_host_query_reset, PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES_EXT, {
--      ext->hostQueryReset = false;
--   });
--   DISABLE_EXT(EXT_custom_border_color, PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_FEATURES_EXT, {
--      ext->customBorderColors = false;
--      ext->customBorderColorWithoutFormat = false;
--   });
-+   DISABLE_EXT(EXT_transform_feedback, PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_FEATURES_EXT, geometryStreams);
-+   DISABLE_EXT(EXT_transform_feedback, PHYSICAL_DEVICE_TRANSFORM_FEEDBACK_FEATURES_EXT, transformFeedback);
-+   DISABLE_EXT(EXT_host_query_reset, PHYSICAL_DEVICE_HOST_QUERY_RESET_FEATURES_EXT, hostQueryReset);
-+   DISABLE_EXT(EXT_custom_border_color, PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_FEATURES_EXT, customBorderColors);
-+   DISABLE_EXT(EXT_custom_border_color, PHYSICAL_DEVICE_CUSTOM_BORDER_COLOR_FEATURES_EXT, customBorderColorWithoutFormat);
- 
-    result = vk_device_init(&device->vk, &physical_device->vk,
-                            &dispatch_table, pCreateInfo, pAllocator);
-@@ -331,10 +325,8 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
-    pdf2 = __vk_find_struct((void *)pCreateInfo->pNext,
-             VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2);
-    
--#define DISABLE_FEAT(feature) \
--   if (!physical_device->base_supported_features.feature) { \
--      WLOG("Faking feature support for " #feature); \
--   } \
-+   #define DISABLE_FEATURE(feature) \
-+   if (!physical_device->base_supported_features.feature) WLOG("Faking feature support for " #feature); \
-    if (pdf && pdf->feature) { \
-       pdf->feature &= physical_device->base_supported_features.feature; \
-    } \
-@@ -342,32 +334,14 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
-       pdf2->features.feature &= physical_device->base_supported_features.feature; \
-    }
-    
--   DISABLE_FEAT(textureCompressionBC);
--   DISABLE_FEAT(multiViewport);
--   DISABLE_FEAT(logicOp);
--   DISABLE_FEAT(variableMultisampleRate);
--   DISABLE_FEAT(fillModeNonSolid);
--   DISABLE_FEAT(samplerAnisotropy);
--   DISABLE_FEAT(shaderImageGatherExtended);
--   DISABLE_FEAT(vertexPipelineStoresAndAtomics);
--   DISABLE_FEAT(dualSrcBlend);
--   DISABLE_FEAT(multiDrawIndirect);
--   DISABLE_FEAT(shaderCullDistance);
--   DISABLE_FEAT(shaderClipDistance);
--   DISABLE_FEAT(geometryShader);
--   DISABLE_FEAT(robustBufferAccess);
--   DISABLE_FEAT(tessellationShader);
--   DISABLE_FEAT(depthClamp);
--   DISABLE_FEAT(depthBiasClamp);
--   DISABLE_FEAT(shaderStorageImageExtendedFormats);
--   DISABLE_FEAT(shaderStorageImageWriteWithoutFormat);
--   DISABLE_FEAT(sampleRateShading);
--   DISABLE_FEAT(occlusionQueryPrecise);
--   DISABLE_FEAT(independentBlend);
--   DISABLE_FEAT(fullDrawIndexUint32);
--   DISABLE_FEAT(imageCubeArray);
--   DISABLE_FEAT(drawIndirectFirstInstance);
--   DISABLE_FEAT(fragmentStoresAndAtomics);
-+   DISABLE_FEATURE(textureCompressionBC);
-+   DISABLE_FEATURE(multiViewport);
-+   DISABLE_FEATURE(depthClamp);
-+   DISABLE_FEATURE(depthBiasClamp);
-+   DISABLE_FEATURE(fillModeNonSolid);
-+   DISABLE_FEATURE(shaderClipDistance);
-+   DISABLE_FEATURE(shaderCullDistance);
-+   
+@@ -353,9 +353,9 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+    DISABLE_FEATURE(shaderCullDistance);
+    DISABLE_FEATURE(dualSrcBlend);
+    DISABLE_FEATURE(multiDrawIndirect); // Missing on G57 r32p1
+-   DISABLE_FEATURE(logicOp); // Missing on G57 r32p1
++   // DISABLE_FEATURE(logicOp); // Missing on G57 r32p1
+    DISABLE_FEATURE(vertexPipelineStoresAndAtomics); // Missing on G57 r32p1
+-   DISABLE_FEATURE(variableMultisampleRate); // Missing on G57 r32p1
++   // DISABLE_FEATURE(variableMultisampleRate); // Missing on G57 r32p1
     
     result = physical_device->dispatch_table.CreateDevice(
        physical_device->dispatch_handle, &wrapper_create_info,
-diff --git a/src/vulkan/wrapper/wrapper_physical_device.c b/src/vulkan/wrapper/wrapper_physical_device.c
-index 6c302650b79..fcb0ffe2006 100644
---- a/src/vulkan/wrapper/wrapper_physical_device.c
-+++ b/src/vulkan/wrapper/wrapper_physical_device.c
-@@ -64,6 +64,11 @@ wrapper_setup_device_extensions(struct wrapper_physical_device *pdevice) {
-       }
+@@ -465,37 +465,43 @@ static VkResult SubmitSecondaryBcnCommandBuffer(VkQueue queue, struct wrapper_co
+    // Introduced minor pipeline bubbles with each command submission
+    VkResult result;
+    
+-   result = CHECK(EndCommandBuffer(wcb->bcnBuffer));
++   simple_mtx_lock(&wcb->resource_mutex);
++   VkCommandBuffer commandBuffer = wcb->bcnBuffer;
++   wcb->bcnBuffer = VK_NULL_HANDLE;
++   VkFence fence = wcb->bcnBufferFinished;
++   wcb->bcnBufferFinished = VK_NULL_HANDLE;
++   VkSemaphore semaphore = wcb->bcnBufferFinishedSemaphore;
++   wcb->bcnBufferFinishedSemaphore = VK_NULL_HANDLE;
++   wcb->bcnCommands = 0;
++   simple_mtx_unlock(&wcb->resource_mutex);
++
++   result = CHECK(EndCommandBuffer(commandBuffer));
+    if (result != VK_SUCCESS) {
+-      return result;
++      goto failure;
     }
  
-+   // Needed by dxvk
-+   exts->EXT_transform_feedback = true;
-+   exts->EXT_host_query_reset = true;
-+   exts->EXT_custom_border_color = true;
-+
-    return VK_SUCCESS;
+    VkSubmitInfo submitInfo = { 0 };
+    submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+    submitInfo.commandBufferCount = 1;
+-   submitInfo.pCommandBuffers = &wcb->bcnBuffer;
++   submitInfo.pCommandBuffers = &commandBuffer;
+ 
+    WLOGD("Submitting secondary command buffer");
+-   result = wrapper_QueueSubmit((VkQueue) queue, 1, &submitInfo, wcb->bcnBufferFinished);
++   result = CHECK(QueueSubmit((VkQueue) queue, 1, &submitInfo, fence));
+    if (result != VK_SUCCESS) {
+-      return result;
++      goto failure;
+    }
+ 
+-   CHECK(WaitForFences((VkDevice) wcb->device, 1, &wcb->bcnBufferFinished, VK_TRUE, UINT64_MAX));
++   result = CHECK(WaitForFences((VkDevice) wcb->device, 1, &fence, VK_TRUE, UINT64_MAX));
+    if (result != VK_SUCCESS) {
+-      return result;
++      goto failure;
+    }
+    WLOGD("+ secondary BCn commands flushed");
+ 
+-   CHECKV(DestroyFence((VkDevice) wcb->device, wcb->bcnBufferFinished, NULL));
+-   CHECKV(DestroySemaphore((VkDevice) wcb->device, wcb->bcnBufferFinishedSemaphore, NULL));
+-   wrapper_FreeCommandBuffers((VkDevice) wcb->device, wcb->device->computePool, 1, &wcb->bcnBuffer);
+-
+-   wcb->bcnBuffer = VK_NULL_HANDLE;
+-   wcb->bcnBufferFinished = VK_NULL_HANDLE;
+-   wcb->bcnBufferFinishedSemaphore = VK_NULL_HANDLE;
+-   wcb->bcnCommands = 0;
+-   return VK_SUCCESS;
++   CHECKV(DestroyFence((VkDevice) wcb->device, fence, NULL));
++   CHECKV(DestroySemaphore((VkDevice) wcb->device, semaphore, NULL));
++   wrapper_FreeCommandBuffers((VkDevice) wcb->device, wcb->device->computePool, 1, &commandBuffer);
++failure:
++   return result;
  }
  
-@@ -157,6 +162,16 @@ VkResult enumerate_physical_device(struct vk_instance *_instance)
-       supported_features->swapchainMaintenance1 = true;
-       supported_features->imageCompressionControlSwapchain = false;
+ VKAPI_ATTR VkResult VKAPI_CALL
+@@ -1784,6 +1790,7 @@ static void CmdComputeShaderForDecompression(
+ }
  
-+      // dxvk extension features support
-+      supported_features->geometryStreams = true;
-+      supported_features->transformFeedback = true;
-+      supported_features->hostQueryReset = true;
-+      supported_features->customBorderColors = true;
-+      supported_features->customBorderColorWithoutFormat = true;
+ static VkResult CreateBcnCommandBuffer(struct wrapper_device* device, struct wrapper_command_buffer* wcb) {
 +
-+      // DEBUG:
-+      // pdevice->base_supported_features.geometryStreams = false;
+    VkResult result;
+    VkCommandBufferAllocateInfo allocInfo = { 0 };
+    allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
+@@ -1791,10 +1798,14 @@ static VkResult CreateBcnCommandBuffer(struct wrapper_device* device, struct wra
+    allocInfo.commandPool = device->computePool;
+    allocInfo.commandBufferCount = 1;
+ 
+-   result = wrapper_AllocateCommandBuffers((VkDevice) device, &allocInfo, &wcb->bcnBuffer);
++   VkCommandBuffer bcnBuffer;
++   VkFence bcnBufferFinished;
++   VkSemaphore bcnBufferFinishedSemaphore;
 +
-       if (check_flag("FORCE_BCN_EMULATION", false)) {
-          if (pdevice->base_supported_features.textureCompressionBC) {
-             WLOG("Forcing BCn emulation (disable by setting FORCE_BCN_EMULATION=0)");
++   result = wrapper_AllocateCommandBuffers((VkDevice) device, &allocInfo, &bcnBuffer);
+    if (result != VK_SUCCESS) {
+       WLOGE("Failed to allocate bcnBuffer command buffers");
+-      return result;
++      goto failure;
+    }
+ 
+    VkCommandBufferBeginInfo beginInfo = { 0 };
+@@ -1803,20 +1814,28 @@ static VkResult CreateBcnCommandBuffer(struct wrapper_device* device, struct wra
+ 
+    VkFenceCreateInfo fenceInfo = { 0 };
+    fenceInfo.sType = VK_STRUCTURE_TYPE_FENCE_CREATE_INFO;
+-   result = CHECK(CreateFence((VkDevice) device, &fenceInfo, NULL, &wcb->bcnBufferFinished));
++   result = CHECK(CreateFence((VkDevice) device, &fenceInfo, NULL, &bcnBufferFinished));
+    if (result != VK_SUCCESS) {
+-      return result;
++      goto failure;
+    }
+ 
+    VkSemaphoreCreateInfo semaphoreInfo = {
+       .sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO,
+    };
+-   result = CHECK(CreateSemaphore((VkDevice) device, &semaphoreInfo, NULL, &wcb->bcnBufferFinishedSemaphore));
++   result = CHECK(CreateSemaphore((VkDevice) device, &semaphoreInfo, NULL, &bcnBufferFinishedSemaphore));
+    if (result != VK_SUCCESS) {
+-      return result;
++      goto failure;
+    }
+ 
++   simple_mtx_lock(&wcb->resource_mutex);
++   wcb->bcnBuffer = bcnBuffer;
++   wcb->bcnBufferFinished = bcnBufferFinished;
++   wcb->bcnBufferFinishedSemaphore = bcnBufferFinishedSemaphore;
++   wcb->bcnCommands = 0;
++   simple_mtx_unlock(&wcb->resource_mutex);
++
+    result = CHECK(BeginCommandBuffer(wcb->bcnBuffer, &beginInfo));
++failure:
+    return result;
+ }
+ 
+@@ -1861,6 +1880,7 @@ wrapper_CmdCopyBufferToImage(VkCommandBuffer _commandBuffer,
+    bool use_image_view = use_image_view_mode() && !use_cpu_bcn;
+    
+    bool inline_command_buffer = false;
++   struct wrapper_command_buffer* wcb2 = NULL;
+    
+    // Check if the queues are the same
+    struct wrapper_command_pool *pool = get_wrapper_command_pool(_device, wcb->pool);
+@@ -1877,6 +1897,7 @@ wrapper_CmdCopyBufferToImage(VkCommandBuffer _commandBuffer,
+       // Initialize the bcnCommandBuffer if it's not already
+       if (wcb->bcnBuffer == VK_NULL_HANDLE) {
+          result = CreateBcnCommandBuffer(_device, wcb);
++         wcb2 = (struct wrapper_command_buffer*) wcb->bcnBuffer;
+          if (result != VK_SUCCESS) {
+             WLOGE("Failed to create bcnCommandBuffer");
+             return;
+@@ -1910,7 +1931,6 @@ wrapper_CmdCopyBufferToImage(VkCommandBuffer _commandBuffer,
+          }
+ 
+          if (!inline_command_buffer) {
+-            VK_FROM_HANDLE(wrapper_command_buffer, wcb2, wcb->bcnBuffer);
+             WLOGD("Tracking new stagingBuffer for secondary cmdBuffer %d", wcb2->obj_id);
+             TRACK_STAGING(_device, BUFFER, stagingBuffer, wcb2);
+             TRACK_STAGING(_device, DEVICE_MEMORY, stagingBufferMemory, wcb2);
+@@ -1951,7 +1971,7 @@ wrapper_CmdCopyBufferToImage(VkCommandBuffer _commandBuffer,
+       }
+ 
+       if (!use_image_view) {
+-         VkCommandBuffer targetCommandBuffer = !inline_command_buffer ? wcb->bcnBuffer : _commandBuffer;
++         VkCommandBuffer targetCommandBuffer = !inline_command_buffer ? wcb2 : _commandBuffer;
+          VkBufferMemoryBarrier bufferBarrier = {
+             .sType = VK_STRUCTURE_TYPE_BUFFER_MEMORY_BARRIER,
+             .srcAccessMask = VK_ACCESS_SHADER_WRITE_BIT, // Source access mask for shader write
+@@ -1979,13 +1999,13 @@ wrapper_CmdCopyBufferToImage(VkCommandBuffer _commandBuffer,
+       }
+ 
+       // Speculatively flush the Bcn emulation commands if the buffer is full by calling 
+-      if (wcb->bcnCommands >= 64) {
+-         WLOGD("Preemptively flushing BCn emulation command buffer for %d images", wcb->bcnCommands);
+-         result = SubmitSecondaryBcnCommandBuffer((VkQueue) _device->graphics_queue, wcb);
+-         if (result != VK_SUCCESS) {
+-            WLOGE("Failed to pre-emptively submit secondary BCn command buffer.");
+-            return;
+-         }
+-      }
++      // TODO: fix the synchronization scheme here to have n-way buffering needed to properly support this
++      // if (wcb->bcnCommands >= 64) {
++      //    WLOGD("Preemptively flushing BCn emulation command buffer for %d images", wcb->bcnCommands);
++      //    result = SubmitSecondaryBcnCommandBuffer((VkQueue) _device->graphics_queue, wcb);
++      //    if (result != VK_SUCCESS) {
++      //       WLOGE("Failed to pre-emptively submit secondary BCn command buffer.");
++      //    }
++      // }
+    }
+ }
+diff --git a/src/vulkan/wrapper/wrapper_physical_device.c b/src/vulkan/wrapper/wrapper_physical_device.c
+index 6043250c538..a34291836bf 100644
+--- a/src/vulkan/wrapper/wrapper_physical_device.c
++++ b/src/vulkan/wrapper/wrapper_physical_device.c
+@@ -29,7 +29,7 @@ wrapper_setup_device_extensions(struct wrapper_physical_device *pdevice) {
+    
+    static bool has_already_logged_properties = false;
+    if (!has_already_logged_properties) {
+-      has_already_logged_properties = true;
++      // has_already_logged_properties = true;
+       WLOGD("EnumerateDeviceExtensionProperties:");
+       for (int i = 0; i < pdevice_extension_count; i++) {
+          LOG_STRUCT(VkExtensionProperties, &pdevice_extensions[i]);
+@@ -68,6 +68,8 @@ wrapper_setup_device_extensions(struct wrapper_physical_device *pdevice) {
+    exts->EXT_transform_feedback = true;
+    exts->EXT_host_query_reset = true;
+    exts->EXT_custom_border_color = true;
++   // DEBUG: Disable VK_KHR_external_memory_fd to avoid dxvk assuming it has VK_KHR_external_memory_win32
++   // exts->KHR_external_memory_fd = false;
+ 
+    return VK_SUCCESS;
+ }
+@@ -169,10 +171,10 @@ VkResult enumerate_physical_device(struct vk_instance *_instance)
+       supported_features->customBorderColors = true;
+       supported_features->customBorderColorWithoutFormat = true;
+       supported_features->dualSrcBlend = true; // Missing on G715 r38p1
+-      supported_features->logicOp = true; // Missing on G57 r32p1
++      // supported_features->logicOp = true; // Missing on G57 r32p1
+       supported_features->multiDrawIndirect = true; // Missing on G57 r32p1
+       supported_features->vertexPipelineStoresAndAtomics = true; // Missing on G57 r32p1
+-      supported_features->variableMultisampleRate = true; // Missing on G57 r32p1
++      // supported_features->variableMultisampleRate = true; // Missing on G57 r32p1
+ 
+       // DEBUG:
+       // pdevice->base_supported_features.geometryStreams = false;
+@@ -259,10 +261,17 @@ wrapper_EnumerateDeviceExtensionProperties(VkPhysicalDevice physicalDevice,
+                                            uint32_t* pPropertyCount,
+                                            VkExtensionProperties* pProperties)
+ {
+-   return vk_common_EnumerateDeviceExtensionProperties(physicalDevice,
++   VkResult result = vk_common_EnumerateDeviceExtensionProperties(physicalDevice,
+                                                        pLayerName,
+                                                        pPropertyCount,
+                                                        pProperties);
++
++   // WLOGE("wrapper_EnumerateDeviceExtensionProperties called for %s:", pLayerName);
++   // for (int i = 0; i < *pPropertyCount; i++) {
++   //    LOG_STRUCT(VkExtensionProperties, &pProperties[i]);
++   // }
++   
++   return result;
+ }
+ 
+ VKAPI_ATTR void VKAPI_CALL
+diff --git a/src/vulkan/wrapper/wrapper_private.h b/src/vulkan/wrapper/wrapper_private.h
+index 5f8e3372572..c32b313af87 100644
+--- a/src/vulkan/wrapper/wrapper_private.h
++++ b/src/vulkan/wrapper/wrapper_private.h
+@@ -75,7 +75,8 @@ void adrenotools_set_turbo(bool turbo);
+ 
+ // #define NEEDS_PRINTING_CmdCopyBuffer 1;
+ // #define NEEDS_PRINTING_AllocateDescriptorSets 1;
+-// #define NEEDS_PRINTING_BindBufferMemory 1;
++#define NEEDS_PRINTING_BindBufferMemory 1
++#define NEEDS_PRINTING_BindBufferMemory2 1
+ // #define NEEDS_PRINTING_CmdBeginRenderPass 1;
+ // #define NEEDS_PRINTING_CmdBindDescriptorSets 1;
+ // #define NEEDS_PRINTING_CmdBindIndexBuffer 1;
+@@ -100,20 +101,23 @@ void adrenotools_set_turbo(bool turbo);
+ // #define NEEDS_PRINTING_MapMemory 1;
+ // #define NEEDS_PRINTING_UpdateDescriptorSetWithTemplate 1;
+ // #define NEEDS_PRINTING_CmdCopyBufferToImage 1;
+-// #define NEEDS_PRINTING_CreateImage 1
++#define NEEDS_PRINTING_CreateImage 1
+ // #define NEEDS_PRINTING_DestroyImage 1
+ // #define NEEDS_PRINTING_CreateImageView 1;
+ // #define NEEDS_PRINTING_GetAndroidHardwareBufferPropertiesANDROID 1;
+-// #define NEEDS_PRINTING_CreateBuffer 1;
++#define NEEDS_PRINTING_CreateBuffer 1
+ // #define NEEDS_PRINTING_WaitForFences 1;
+-// #define NEEDS_PRINTING_GetBufferMemoryRequirements2 1;
+-// #define NEEDS_PRINTING_GetImageMemoryRequirements2 1;
+-// #define NEEDS_PRINTING_GetImageMemoryRequirements 1
+-// #define NEEDS_PRINTING_BindImageMemory 1;
+-#define NEEDS_PRINTING_QueueSubmit2 1;
+-// #define NEEDS_PRINTING_AllocateMemory 1;
++#define NEEDS_PRINTING_GetBufferMemoryRequirements2 1
++#define NEEDS_PRINTING_GetImageMemoryRequirements2 1
++#define NEEDS_PRINTING_GetImageMemoryRequirements 1
++#define NEEDS_PRINTING_BindImageMemory 1
++// #define NEEDS_PRINTING_QueueSubmit2 1;
++#define NEEDS_PRINTING_AllocateMemory 1
+ // #define NEEDS_PRINTING_GetPhysicalDeviceImageFormatProperties2 1
+-// #define NEEDS_PRINTING_AllocateDescriptorSets 1;
++#define NEEDS_PRINTING_GetMemoryFdKHR 1
++#define NEEDS_PRINTING_GetMemoryFd 1
++#define NEEDS_PRINTING_GetPhysicalDeviceMemoryProperties 1
++#define NEEDS_PRINTING_GetPhysicalDeviceMemoryProperties2 1
+ 
+ extern const struct vk_instance_extension_table wrapper_instance_extensions;
+ extern const struct vk_device_extension_table wrapper_device_extensions;
