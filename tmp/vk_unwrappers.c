@@ -7,8 +7,8 @@
 #include "vulkan/runtime/vk_log.h"
 #include "vulkan/util/vk_util.h"
 
-#define VK_ALLOC(type) VK_ALLOC2(type, sizeof(type))
-#define VK_ALLOC2(type, size) ({     type* __output = device ?     ((type *) vk_zalloc(&device->vk.alloc, size, alignof(type), VK_SYSTEM_ALLOCATION_SCOPE_OBJECT)) :     ((type *) malloc(size));     if (__output) {         struct temp_object_node *node = device ?             vk_alloc(&device->vk.alloc, sizeof(struct temp_object_node), 8, VK_SYSTEM_ALLOCATION_SCOPE_OBJECT)             : malloc(sizeof(struct temp_object_node));         node->ptr = __output;         node->device = device;         list_addtail(&node->link, &temp->objects);     }     __output; })
+#define __VK_ALLOC(type) __VK_ALLOC2(type, sizeof(type))
+#define __VK_ALLOC2(type, size) ({     type* __output = device ?     ((type *) vk_zalloc(&device->vk.alloc, size, alignof(type), VK_SYSTEM_ALLOCATION_SCOPE_OBJECT)) :     ((type *) malloc(size));     if (__output) {         struct temp_object_node *node = device ?             vk_alloc(&device->vk.alloc, sizeof(struct temp_object_node), 8, VK_SYSTEM_ALLOCATION_SCOPE_OBJECT)             : malloc(sizeof(struct temp_object_node));         node->ptr = __output;         node->device = device;         list_addtail(&node->link, &temp->objects);     }     __output; })
 
 /*
     Inductive logic for unwrapping objects (if tainted):
@@ -33,7 +33,7 @@
         void** x: x
         cstr[n]* x: x
 
-    Tainted: {'VkCommandBuffer': ['VkCommandBuffer'], 'VkPhysicalDevice': ['VkPhysicalDevice'], 'VkQueue': ['VkQueue'], 'VkInstance': ['VkInstance'], 'VkDevice': ['VkDevice'], 'VkSubmitInfo': ['VkCommandBuffer'], 'VkDeviceGroupDeviceCreateInfo': ['VkPhysicalDevice'], 'VkCommandBufferSubmitInfo': ['VkCommandBuffer'], 'VkSubmitInfo2': ['VkCommandBufferSubmitInfo'], 'VkDeviceCreateInfo': ['VkDeviceGroupDeviceCreateInfo']}
+    Tainted: {'VkCommandBuffer': ['VkCommandBuffer'], 'VkQueue': ['VkQueue'], 'VkPhysicalDevice': ['VkPhysicalDevice'], 'VkInstance': ['VkInstance'], 'VkDevice': ['VkDevice'], 'VkSubmitInfo': ['VkCommandBuffer'], 'VkDeviceGroupDeviceCreateInfo': ['VkPhysicalDevice'], 'VkCommandBufferSubmitInfo': ['VkCommandBuffer'], 'VkSubmitInfo2': ['VkCommandBufferSubmitInfo'], 'VkDeviceCreateInfo': ['VkDeviceGroupDeviceCreateInfo']}
 */
 
 
@@ -66,6 +66,7 @@ void unwrap_VkAccelerationStructureBuildSizesInfoKHR(struct temporary_objects* t
         return;
 
     unwrap_VkAccelerationStructureBuildSizesInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -99,6 +100,7 @@ void unwrap_VkAccelerationStructureCaptureDescriptorDataInfoEXT(struct temporary
         return;
 
     unwrap_VkAccelerationStructureCaptureDescriptorDataInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -136,19 +138,21 @@ void unwrap_VkAccelerationStructureCreateInfoKHR(struct temporary_objects* temp,
         return;
 
     unwrap_VkAccelerationStructureCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkOpaqueCaptureDescriptorDataCreateInfoEXT, VkAccelerationStructureMotionInfoNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkAccelerationStructureCreateInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -198,19 +202,21 @@ void unwrap_VkAccelerationStructureCreateInfoNV(struct temporary_objects* temp, 
         return;
 
     unwrap_VkAccelerationStructureCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkOpaqueCaptureDescriptorDataCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkAccelerationStructureCreateInfoNV pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -259,6 +265,7 @@ void unwrap_VkAccelerationStructureDeviceAddressInfoKHR(struct temporary_objects
         return;
 
     unwrap_VkAccelerationStructureDeviceAddressInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -292,6 +299,7 @@ void unwrap_VkAccelerationStructureGeometryAabbsDataKHR(struct temporary_objects
         return;
 
     unwrap_VkAccelerationStructureGeometryAabbsDataKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -325,6 +333,7 @@ void unwrap_VkAccelerationStructureGeometryInstancesDataKHR(struct temporary_obj
         return;
 
     unwrap_VkAccelerationStructureGeometryInstancesDataKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -359,6 +368,7 @@ void unwrap_VkAccelerationStructureGeometryKHR(struct temporary_objects* temp, s
         return;
 
     unwrap_VkAccelerationStructureGeometryKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -391,6 +401,7 @@ void unwrap_VkAccelerationStructureGeometryMotionTrianglesDataNV(struct temporar
         return;
 
     unwrap_VkAccelerationStructureGeometryMotionTrianglesDataNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -429,19 +440,21 @@ void unwrap_VkAccelerationStructureGeometryTrianglesDataKHR(struct temporary_obj
         return;
 
     unwrap_VkAccelerationStructureGeometryTrianglesDataKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkAccelerationStructureGeometryMotionTrianglesDataNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkAccelerationStructureGeometryTrianglesDataKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -494,6 +507,7 @@ void unwrap_VkAccelerationStructureInfoNV(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkAccelerationStructureInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -527,6 +541,7 @@ void unwrap_VkAccelerationStructureMemoryRequirementsInfoNV(struct temporary_obj
         return;
 
     unwrap_VkAccelerationStructureMemoryRequirementsInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -560,6 +575,7 @@ void unwrap_VkAccelerationStructureMotionInfoNV(struct temporary_objects* temp, 
         return;
 
     unwrap_VkAccelerationStructureMotionInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -596,6 +612,7 @@ void unwrap_VkAcquireNextImageInfoKHR(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkAcquireNextImageInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -629,6 +646,7 @@ void unwrap_VkAcquireProfilingLockInfoKHR(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkAcquireProfilingLockInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -662,6 +680,7 @@ void unwrap_VkAmigoProfilingSubmitInfoSEC(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkAmigoProfilingSubmitInfoSEC_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -701,6 +720,7 @@ void unwrap_VkAndroidHardwareBufferFormatProperties2ANDROID(struct temporary_obj
         return;
 
     unwrap_VkAndroidHardwareBufferFormatProperties2ANDROID_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -740,6 +760,7 @@ void unwrap_VkAndroidHardwareBufferFormatPropertiesANDROID(struct temporary_obje
         return;
 
     unwrap_VkAndroidHardwareBufferFormatPropertiesANDROID_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -772,6 +793,7 @@ void unwrap_VkAndroidHardwareBufferFormatResolvePropertiesANDROID(struct tempora
         return;
 
     unwrap_VkAndroidHardwareBufferFormatResolvePropertiesANDROID_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -805,19 +827,21 @@ void unwrap_VkAndroidHardwareBufferPropertiesANDROID(struct temporary_objects* t
         return;
 
     unwrap_VkAndroidHardwareBufferPropertiesANDROID_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkAndroidHardwareBufferFormatPropertiesANDROID, VkAndroidHardwareBufferFormatProperties2ANDROID, VkAndroidHardwareBufferFormatResolvePropertiesANDROID]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkAndroidHardwareBufferPropertiesANDROID pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -866,6 +890,7 @@ void unwrap_VkAndroidHardwareBufferUsageANDROID(struct temporary_objects* temp, 
         return;
 
     unwrap_VkAndroidHardwareBufferUsageANDROID_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -899,6 +924,7 @@ void unwrap_VkAndroidSurfaceCreateInfoKHR(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkAndroidSurfaceCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -935,6 +961,7 @@ void unwrap_VkApplicationInfo(struct temporary_objects* temp, struct wrapper_dev
         return;
 
     unwrap_VkApplicationInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -975,19 +1002,21 @@ void unwrap_VkAttachmentDescription2(struct temporary_objects* temp, struct wrap
         return;
 
     unwrap_VkAttachmentDescription2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkExternalFormatANDROID, VkAttachmentDescriptionStencilLayout]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkAttachmentDescription2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -1037,6 +1066,7 @@ void unwrap_VkAttachmentDescriptionStencilLayout(struct temporary_objects* temp,
         return;
 
     unwrap_VkAttachmentDescriptionStencilLayout_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -1071,19 +1101,21 @@ void unwrap_VkAttachmentReference2(struct temporary_objects* temp, struct wrappe
         return;
 
     unwrap_VkAttachmentReference2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkAttachmentReferenceStencilLayout]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkAttachmentReference2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -1132,6 +1164,7 @@ void unwrap_VkAttachmentReferenceStencilLayout(struct temporary_objects* temp, s
         return;
 
     unwrap_VkAttachmentReferenceStencilLayout_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -1166,6 +1199,7 @@ void unwrap_VkAttachmentSampleCountInfoAMD(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkAttachmentSampleCountInfoAMD_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -1202,6 +1236,7 @@ void unwrap_VkBindAccelerationStructureMemoryInfoNV(struct temporary_objects* te
         return;
 
     unwrap_VkBindAccelerationStructureMemoryInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -1235,6 +1270,7 @@ void unwrap_VkBindBufferMemoryDeviceGroupInfo(struct temporary_objects* temp, st
         return;
 
     unwrap_VkBindBufferMemoryDeviceGroupInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -1269,19 +1305,21 @@ void unwrap_VkBindBufferMemoryInfo(struct temporary_objects* temp, struct wrappe
         return;
 
     unwrap_VkBindBufferMemoryInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkBindBufferMemoryDeviceGroupInfo, VkBindMemoryStatusKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkBindBufferMemoryInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -1332,19 +1370,21 @@ void unwrap_VkBindDescriptorBufferEmbeddedSamplersInfoEXT(struct temporary_objec
         return;
 
     unwrap_VkBindDescriptorBufferEmbeddedSamplersInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPipelineLayoutCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkBindDescriptorBufferEmbeddedSamplersInfoEXT pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -1399,19 +1439,21 @@ void unwrap_VkBindDescriptorSetsInfoKHR(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkBindDescriptorSetsInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPipelineLayoutCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkBindDescriptorSetsInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -1463,6 +1505,7 @@ void unwrap_VkBindImageMemoryDeviceGroupInfo(struct temporary_objects* temp, str
         return;
 
     unwrap_VkBindImageMemoryDeviceGroupInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -1497,19 +1540,21 @@ void unwrap_VkBindImageMemoryInfo(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkBindImageMemoryInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkBindImageMemoryDeviceGroupInfo, VkBindImageMemorySwapchainInfoKHR, VkBindImagePlaneMemoryInfo, VkBindMemoryStatusKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkBindImageMemoryInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -1559,6 +1604,7 @@ void unwrap_VkBindImageMemorySwapchainInfoKHR(struct temporary_objects* temp, st
         return;
 
     unwrap_VkBindImageMemorySwapchainInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -1591,6 +1637,7 @@ void unwrap_VkBindImagePlaneMemoryInfo(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkBindImagePlaneMemoryInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -1623,6 +1670,7 @@ void unwrap_VkBindMemoryStatusKHR(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkBindMemoryStatusKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -1664,19 +1712,21 @@ void unwrap_VkBindSparseInfo(struct temporary_objects* temp, struct wrapper_devi
         return;
 
     unwrap_VkBindSparseInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDeviceGroupBindSparseInfo, VkTimelineSemaphoreSubmitInfo, VkFrameBoundaryEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkBindSparseInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -1728,6 +1778,7 @@ void unwrap_VkBindVideoSessionMemoryInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkBindVideoSessionMemoryInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -1760,6 +1811,7 @@ void unwrap_VkBlitImageCubicWeightsInfoQCOM(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkBlitImageCubicWeightsInfoQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -1798,19 +1850,21 @@ void unwrap_VkBlitImageInfo2(struct temporary_objects* temp, struct wrapper_devi
         return;
 
     unwrap_VkBlitImageInfo2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkBlitImageCubicWeightsInfoQCOM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkBlitImageInfo2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -1859,6 +1913,7 @@ void unwrap_VkBufferCaptureDescriptorDataInfoEXT(struct temporary_objects* temp,
         return;
 
     unwrap_VkBufferCaptureDescriptorDataInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -1893,6 +1948,7 @@ void unwrap_VkBufferCopy2(struct temporary_objects* temp, struct wrapper_device 
         return;
 
     unwrap_VkBufferCopy2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -1930,19 +1986,21 @@ void unwrap_VkBufferCreateInfo(struct temporary_objects* temp, struct wrapper_de
         return;
 
     unwrap_VkBufferCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkBufferUsageFlags2CreateInfoKHR, VkDedicatedAllocationBufferCreateInfoNV, VkExternalMemoryBufferCreateInfo, VkBufferOpaqueCaptureAddressCreateInfo, VkBufferDeviceAddressCreateInfoEXT, VkVideoProfileListInfoKHR, VkOpaqueCaptureDescriptorDataCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkBufferCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -1991,6 +2049,7 @@ void unwrap_VkBufferDeviceAddressCreateInfoEXT(struct temporary_objects* temp, s
         return;
 
     unwrap_VkBufferDeviceAddressCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -2023,6 +2082,7 @@ void unwrap_VkBufferDeviceAddressInfo(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkBufferDeviceAddressInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -2060,19 +2120,21 @@ void unwrap_VkBufferImageCopy2(struct temporary_objects* temp, struct wrapper_de
         return;
 
     unwrap_VkBufferImageCopy2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkCopyCommandTransformInfoQCOM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkBufferImageCopy2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -2127,19 +2189,21 @@ void unwrap_VkBufferMemoryBarrier(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkBufferMemoryBarrier_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkExternalMemoryAcquireUnmodifiedEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkBufferMemoryBarrier pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -2196,19 +2260,21 @@ void unwrap_VkBufferMemoryBarrier2(struct temporary_objects* temp, struct wrappe
         return;
 
     unwrap_VkBufferMemoryBarrier2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkExternalMemoryAcquireUnmodifiedEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkBufferMemoryBarrier2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -2257,6 +2323,7 @@ void unwrap_VkBufferMemoryRequirementsInfo2(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkBufferMemoryRequirementsInfo2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -2289,6 +2356,7 @@ void unwrap_VkBufferOpaqueCaptureAddressCreateInfo(struct temporary_objects* tem
         return;
 
     unwrap_VkBufferOpaqueCaptureAddressCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -2321,6 +2389,7 @@ void unwrap_VkBufferUsageFlags2CreateInfoKHR(struct temporary_objects* temp, str
         return;
 
     unwrap_VkBufferUsageFlags2CreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -2357,19 +2426,21 @@ void unwrap_VkBufferViewCreateInfo(struct temporary_objects* temp, struct wrappe
         return;
 
     unwrap_VkBufferViewCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkBufferUsageFlags2CreateInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkBufferViewCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -2418,6 +2489,7 @@ void unwrap_VkCalibratedTimestampInfoKHR(struct temporary_objects* temp, struct 
         return;
 
     unwrap_VkCalibratedTimestampInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -2451,6 +2523,7 @@ void unwrap_VkCheckpointData2NV(struct temporary_objects* temp, struct wrapper_d
         return;
 
     unwrap_VkCheckpointData2NV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -2484,6 +2557,7 @@ void unwrap_VkCheckpointDataNV(struct temporary_objects* temp, struct wrapper_de
         return;
 
     unwrap_VkCheckpointDataNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -2518,6 +2592,7 @@ void unwrap_VkCommandBufferAllocateInfo(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkCommandBufferAllocateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -2551,19 +2626,21 @@ void unwrap_VkCommandBufferBeginInfo(struct temporary_objects* temp, struct wrap
         return;
 
     unwrap_VkCommandBufferBeginInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDeviceGroupCommandBufferBeginInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkCommandBufferBeginInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -2612,6 +2689,7 @@ void unwrap_VkCommandBufferInheritanceConditionalRenderingInfoEXT(struct tempora
         return;
 
     unwrap_VkCommandBufferInheritanceConditionalRenderingInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -2649,19 +2727,21 @@ void unwrap_VkCommandBufferInheritanceInfo(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkCommandBufferInheritanceInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkCommandBufferInheritanceConditionalRenderingInfoEXT, VkExternalFormatANDROID, VkCommandBufferInheritanceRenderPassTransformInfoQCOM, VkCommandBufferInheritanceViewportScissorInfoNV, VkCommandBufferInheritanceRenderingInfo, VkAttachmentSampleCountInfoAMD, VkMultiviewPerViewAttributesInfoNVX, VkRenderingAttachmentLocationInfoKHR, VkRenderingInputAttachmentIndexInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkCommandBufferInheritanceInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -2711,6 +2791,7 @@ void unwrap_VkCommandBufferInheritanceRenderPassTransformInfoQCOM(struct tempora
         return;
 
     unwrap_VkCommandBufferInheritanceRenderPassTransformInfoQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -2749,6 +2830,7 @@ void unwrap_VkCommandBufferInheritanceRenderingInfo(struct temporary_objects* te
         return;
 
     unwrap_VkCommandBufferInheritanceRenderingInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -2783,6 +2865,7 @@ void unwrap_VkCommandBufferInheritanceViewportScissorInfoNV(struct temporary_obj
         return;
 
     unwrap_VkCommandBufferInheritanceViewportScissorInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -2822,19 +2905,21 @@ void unwrap_VkCommandBufferSubmitInfo(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkCommandBufferSubmitInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkRenderPassStripeSubmitInfoARM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkCommandBufferSubmitInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -2884,6 +2969,7 @@ void unwrap_VkCommandPoolCreateInfo(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkCommandPoolCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -2920,19 +3006,21 @@ void unwrap_VkComputePipelineCreateInfo(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkComputePipelineCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkComputePipelineIndirectBufferInfoNV, VkPipelineCreateFlags2CreateInfoKHR, VkSubpassShadingPipelineCreateInfoHUAWEI, VkPipelineCompilerControlCreateInfoAMD, VkPipelineRobustnessCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkComputePipelineCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -2983,6 +3071,7 @@ void unwrap_VkComputePipelineIndirectBufferInfoNV(struct temporary_objects* temp
         return;
 
     unwrap_VkComputePipelineIndirectBufferInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3017,6 +3106,7 @@ void unwrap_VkConditionalRenderingBeginInfoEXT(struct temporary_objects* temp, s
         return;
 
     unwrap_VkConditionalRenderingBeginInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3057,6 +3147,7 @@ void unwrap_VkCooperativeMatrixPropertiesKHR(struct temporary_objects* temp, str
         return;
 
     unwrap_VkCooperativeMatrixPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3096,6 +3187,7 @@ void unwrap_VkCooperativeMatrixPropertiesNV(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkCooperativeMatrixPropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3130,6 +3222,7 @@ void unwrap_VkCopyAccelerationStructureInfoKHR(struct temporary_objects* temp, s
         return;
 
     unwrap_VkCopyAccelerationStructureInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3164,6 +3257,7 @@ void unwrap_VkCopyAccelerationStructureToMemoryInfoKHR(struct temporary_objects*
         return;
 
     unwrap_VkCopyAccelerationStructureToMemoryInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3199,6 +3293,7 @@ void unwrap_VkCopyBufferInfo2(struct temporary_objects* temp, struct wrapper_dev
         return;
 
     unwrap_VkCopyBufferInfo2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3235,6 +3330,7 @@ void unwrap_VkCopyBufferToImageInfo2(struct temporary_objects* temp, struct wrap
         return;
 
     unwrap_VkCopyBufferToImageInfo2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3267,6 +3363,7 @@ void unwrap_VkCopyCommandTransformInfoQCOM(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkCopyCommandTransformInfoQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3305,6 +3402,7 @@ void unwrap_VkCopyDescriptorSet(struct temporary_objects* temp, struct wrapper_d
         return;
 
     unwrap_VkCopyDescriptorSet_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3342,6 +3440,7 @@ void unwrap_VkCopyImageInfo2(struct temporary_objects* temp, struct wrapper_devi
         return;
 
     unwrap_VkCopyImageInfo2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3378,6 +3477,7 @@ void unwrap_VkCopyImageToBufferInfo2(struct temporary_objects* temp, struct wrap
         return;
 
     unwrap_VkCopyImageToBufferInfo2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3416,6 +3516,7 @@ void unwrap_VkCopyImageToImageInfoEXT(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkCopyImageToImageInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3452,6 +3553,7 @@ void unwrap_VkCopyImageToMemoryInfoEXT(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkCopyImageToMemoryInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3486,6 +3588,7 @@ void unwrap_VkCopyMemoryToAccelerationStructureInfoKHR(struct temporary_objects*
         return;
 
     unwrap_VkCopyMemoryToAccelerationStructureInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3522,6 +3625,7 @@ void unwrap_VkCopyMemoryToImageInfoEXT(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkCopyMemoryToImageInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3556,6 +3660,7 @@ void unwrap_VkCopyMemoryToMicromapInfoEXT(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkCopyMemoryToMicromapInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3590,6 +3695,7 @@ void unwrap_VkCopyMicromapInfoEXT(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkCopyMicromapInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3624,6 +3730,7 @@ void unwrap_VkCopyMicromapToMemoryInfoEXT(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkCopyMicromapToMemoryInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3657,6 +3764,7 @@ void unwrap_VkCuFunctionCreateInfoNVX(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkCuFunctionCreateInfoNVX_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3690,6 +3798,7 @@ void unwrap_VkCuModuleCreateInfoNVX(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkCuModuleCreateInfoNVX_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3723,6 +3832,7 @@ void unwrap_VkCudaFunctionCreateInfoNV(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkCudaFunctionCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3756,6 +3866,7 @@ void unwrap_VkCudaModuleCreateInfoNV(struct temporary_objects* temp, struct wrap
         return;
 
     unwrap_VkCudaModuleCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3789,6 +3900,7 @@ void unwrap_VkDebugMarkerMarkerInfoEXT(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkDebugMarkerMarkerInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3823,6 +3935,7 @@ void unwrap_VkDebugMarkerObjectNameInfoEXT(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkDebugMarkerObjectNameInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3859,6 +3972,7 @@ void unwrap_VkDebugMarkerObjectTagInfoEXT(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkDebugMarkerObjectTagInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3893,6 +4007,7 @@ void unwrap_VkDebugReportCallbackCreateInfoEXT(struct temporary_objects* temp, s
         return;
 
     unwrap_VkDebugReportCallbackCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3926,6 +4041,7 @@ void unwrap_VkDebugUtilsLabelEXT(struct temporary_objects* temp, struct wrapper_
         return;
 
     unwrap_VkDebugUtilsLabelEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -3967,19 +4083,21 @@ void unwrap_VkDebugUtilsMessengerCallbackDataEXT(struct temporary_objects* temp,
         return;
 
     unwrap_VkDebugUtilsMessengerCallbackDataEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDeviceAddressBindingCallbackDataEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkDebugUtilsMessengerCallbackDataEXT pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -4032,6 +4150,7 @@ void unwrap_VkDebugUtilsMessengerCreateInfoEXT(struct temporary_objects* temp, s
         return;
 
     unwrap_VkDebugUtilsMessengerCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4066,6 +4185,7 @@ void unwrap_VkDebugUtilsObjectNameInfoEXT(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkDebugUtilsObjectNameInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4102,6 +4222,7 @@ void unwrap_VkDebugUtilsObjectTagInfoEXT(struct temporary_objects* temp, struct 
         return;
 
     unwrap_VkDebugUtilsObjectTagInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4134,6 +4255,7 @@ void unwrap_VkDedicatedAllocationBufferCreateInfoNV(struct temporary_objects* te
         return;
 
     unwrap_VkDedicatedAllocationBufferCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4166,6 +4288,7 @@ void unwrap_VkDedicatedAllocationImageCreateInfoNV(struct temporary_objects* tem
         return;
 
     unwrap_VkDedicatedAllocationImageCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4199,6 +4322,7 @@ void unwrap_VkDedicatedAllocationMemoryAllocateInfoNV(struct temporary_objects* 
         return;
 
     unwrap_VkDedicatedAllocationMemoryAllocateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4237,6 +4361,7 @@ void unwrap_VkDependencyInfo(struct temporary_objects* temp, struct wrapper_devi
         return;
 
     unwrap_VkDependencyInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4271,19 +4396,21 @@ void unwrap_VkDepthBiasInfoEXT(struct temporary_objects* temp, struct wrapper_de
         return;
 
     unwrap_VkDepthBiasInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDepthBiasRepresentationInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkDepthBiasInfoEXT pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -4333,6 +4460,7 @@ void unwrap_VkDepthBiasRepresentationInfoEXT(struct temporary_objects* temp, str
         return;
 
     unwrap_VkDepthBiasRepresentationInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4367,6 +4495,7 @@ void unwrap_VkDescriptorAddressInfoEXT(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkDescriptorAddressInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4400,19 +4529,21 @@ void unwrap_VkDescriptorBufferBindingInfoEXT(struct temporary_objects* temp, str
         return;
 
     unwrap_VkDescriptorBufferBindingInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkBufferUsageFlags2CreateInfoKHR, VkDescriptorBufferBindingPushDescriptorBufferHandleEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkDescriptorBufferBindingInfoEXT pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -4461,6 +4592,7 @@ void unwrap_VkDescriptorBufferBindingPushDescriptorBufferHandleEXT(struct tempor
         return;
 
     unwrap_VkDescriptorBufferBindingPushDescriptorBufferHandleEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4494,6 +4626,7 @@ void unwrap_VkDescriptorGetInfoEXT(struct temporary_objects* temp, struct wrappe
         return;
 
     unwrap_VkDescriptorGetInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4529,19 +4662,21 @@ void unwrap_VkDescriptorPoolCreateInfo(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkDescriptorPoolCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDescriptorPoolInlineUniformBlockCreateInfo, VkMutableDescriptorTypeCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkDescriptorPoolCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -4590,6 +4725,7 @@ void unwrap_VkDescriptorPoolInlineUniformBlockCreateInfo(struct temporary_object
         return;
 
     unwrap_VkDescriptorPoolInlineUniformBlockCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4624,19 +4760,21 @@ void unwrap_VkDescriptorSetAllocateInfo(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkDescriptorSetAllocateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDescriptorSetVariableDescriptorCountAllocateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkDescriptorSetAllocateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -4686,6 +4824,7 @@ void unwrap_VkDescriptorSetBindingReferenceVALVE(struct temporary_objects* temp,
         return;
 
     unwrap_VkDescriptorSetBindingReferenceVALVE_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4719,6 +4858,7 @@ void unwrap_VkDescriptorSetLayoutBindingFlagsCreateInfo(struct temporary_objects
         return;
 
     unwrap_VkDescriptorSetLayoutBindingFlagsCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4753,19 +4893,21 @@ void unwrap_VkDescriptorSetLayoutCreateInfo(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkDescriptorSetLayoutCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDescriptorSetLayoutBindingFlagsCreateInfo, VkMutableDescriptorTypeCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkDescriptorSetLayoutCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -4815,6 +4957,7 @@ void unwrap_VkDescriptorSetLayoutHostMappingInfoVALVE(struct temporary_objects* 
         return;
 
     unwrap_VkDescriptorSetLayoutHostMappingInfoVALVE_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4847,19 +4990,21 @@ void unwrap_VkDescriptorSetLayoutSupport(struct temporary_objects* temp, struct 
         return;
 
     unwrap_VkDescriptorSetLayoutSupport_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDescriptorSetVariableDescriptorCountLayoutSupport]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkDescriptorSetLayoutSupport pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -4909,6 +5054,7 @@ void unwrap_VkDescriptorSetVariableDescriptorCountAllocateInfo(struct temporary_
         return;
 
     unwrap_VkDescriptorSetVariableDescriptorCountAllocateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4941,6 +5087,7 @@ void unwrap_VkDescriptorSetVariableDescriptorCountLayoutSupport(struct temporary
         return;
 
     unwrap_VkDescriptorSetVariableDescriptorCountLayoutSupport_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -4980,6 +5127,7 @@ void unwrap_VkDescriptorUpdateTemplateCreateInfo(struct temporary_objects* temp,
         return;
 
     unwrap_VkDescriptorUpdateTemplateCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5015,6 +5163,7 @@ void unwrap_VkDeviceAddressBindingCallbackDataEXT(struct temporary_objects* temp
         return;
 
     unwrap_VkDeviceAddressBindingCallbackDataEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5047,6 +5196,7 @@ void unwrap_VkDeviceBufferMemoryRequirements(struct temporary_objects* temp, str
         return;
 
     unwrap_VkDeviceBufferMemoryRequirements_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5085,19 +5235,21 @@ void unwrap_VkDeviceCreateInfo(struct temporary_objects* temp, struct wrapper_de
         return;
 
     unwrap_VkDeviceCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV, VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV, VkDevicePrivateDataCreateInfo, VkPhysicalDevicePrivateDataFeatures, VkPhysicalDeviceFeatures2, VkPhysicalDeviceVariablePointersFeatures, VkPhysicalDeviceMultiviewFeatures, VkDeviceGroupDeviceCreateInfo, VkPhysicalDevicePresentIdFeaturesKHR, VkPhysicalDevicePresentWaitFeaturesKHR, VkPhysicalDevice16BitStorageFeatures, VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures, VkPhysicalDeviceSamplerYcbcrConversionFeatures, VkPhysicalDeviceProtectedMemoryFeatures, VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT, VkPhysicalDeviceMultiDrawFeaturesEXT, VkPhysicalDeviceInlineUniformBlockFeatures, VkPhysicalDeviceMaintenance4Features, VkPhysicalDeviceMaintenance5FeaturesKHR, VkPhysicalDeviceMaintenance6FeaturesKHR, VkPhysicalDeviceMaintenance7FeaturesKHR, VkPhysicalDeviceShaderDrawParametersFeatures, VkPhysicalDeviceShaderFloat16Int8Features, VkPhysicalDeviceHostQueryResetFeatures, VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR, VkPhysicalDeviceDeviceMemoryReportFeaturesEXT, VkDeviceDeviceMemoryReportCreateInfoEXT, VkPhysicalDeviceDescriptorIndexingFeatures, VkPhysicalDeviceTimelineSemaphoreFeatures, VkPhysicalDevice8BitStorageFeatures, VkPhysicalDeviceConditionalRenderingFeaturesEXT, VkPhysicalDeviceVulkanMemoryModelFeatures, VkPhysicalDeviceShaderAtomicInt64Features, VkPhysicalDeviceShaderAtomicFloatFeaturesEXT, VkPhysicalDeviceShaderAtomicFloat2FeaturesEXT, VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR, VkPhysicalDeviceASTCDecodeFeaturesEXT, VkPhysicalDeviceTransformFeedbackFeaturesEXT, VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV, VkPhysicalDeviceExclusiveScissorFeaturesNV, VkPhysicalDeviceCornerSampledImageFeaturesNV, VkPhysicalDeviceComputeShaderDerivativesFeaturesNV, VkPhysicalDeviceShaderImageFootprintFeaturesNV, VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV, VkPhysicalDeviceCopyMemoryIndirectFeaturesNV, VkPhysicalDeviceMemoryDecompressionFeaturesNV, VkPhysicalDeviceShadingRateImageFeaturesNV, VkPhysicalDeviceInvocationMaskFeaturesHUAWEI, VkPhysicalDeviceMeshShaderFeaturesNV, VkPhysicalDeviceMeshShaderFeaturesEXT, VkPhysicalDeviceAccelerationStructureFeaturesKHR, VkPhysicalDeviceRayTracingPipelineFeaturesKHR, VkPhysicalDeviceRayQueryFeaturesKHR, VkPhysicalDeviceRayTracingMaintenance1FeaturesKHR, VkDeviceMemoryOverallocationCreateInfoAMD, VkPhysicalDeviceFragmentDensityMapFeaturesEXT, VkPhysicalDeviceFragmentDensityMap2FeaturesEXT, VkPhysicalDeviceFragmentDensityMapOffsetFeaturesQCOM, VkPhysicalDeviceScalarBlockLayoutFeatures, VkPhysicalDeviceUniformBufferStandardLayoutFeatures, VkPhysicalDeviceDepthClipEnableFeaturesEXT, VkPhysicalDeviceMemoryPriorityFeaturesEXT, VkPhysicalDevicePageableDeviceLocalMemoryFeaturesEXT, VkPhysicalDeviceBufferDeviceAddressFeatures, VkPhysicalDeviceBufferDeviceAddressFeaturesEXT, VkPhysicalDeviceImagelessFramebufferFeatures, VkPhysicalDeviceTextureCompressionASTCHDRFeatures, VkPhysicalDeviceCooperativeMatrixFeaturesNV, VkPhysicalDeviceYcbcrImageArraysFeaturesEXT, VkPhysicalDevicePresentBarrierFeaturesNV, VkPhysicalDevicePerformanceQueryFeaturesKHR, VkPhysicalDeviceCoverageReductionModeFeaturesNV, VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL, VkPhysicalDeviceShaderClockFeaturesKHR, VkPhysicalDeviceIndexTypeUint8FeaturesKHR, VkPhysicalDeviceShaderSMBuiltinsFeaturesNV, VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT, VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures, VkPhysicalDevicePrimitiveTopologyListRestartFeaturesEXT, VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR, VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures, VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT, VkPhysicalDeviceSubgroupSizeControlFeatures, VkPhysicalDeviceLineRasterizationFeaturesKHR, VkPhysicalDevicePipelineCreationCacheControlFeatures, VkPhysicalDeviceVulkan11Features, VkPhysicalDeviceVulkan12Features, VkPhysicalDeviceVulkan13Features, VkPhysicalDeviceCoherentMemoryFeaturesAMD, VkPhysicalDeviceCustomBorderColorFeaturesEXT, VkPhysicalDeviceBorderColorSwizzleFeaturesEXT, VkPhysicalDeviceExtendedDynamicStateFeaturesEXT, VkPhysicalDeviceExtendedDynamicState2FeaturesEXT, VkPhysicalDeviceExtendedDynamicState3FeaturesEXT, VkPhysicalDeviceDiagnosticsConfigFeaturesNV, VkDeviceDiagnosticsConfigCreateInfoNV, VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures, VkPhysicalDeviceShaderSubgroupUniformControlFlowFeaturesKHR, VkPhysicalDeviceRobustness2FeaturesEXT, VkPhysicalDeviceImageRobustnessFeatures, VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR, VkPhysicalDevice4444FormatsFeaturesEXT, VkPhysicalDeviceSubpassShadingFeaturesHUAWEI, VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI, VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT, VkPhysicalDeviceFragmentShadingRateFeaturesKHR, VkPhysicalDeviceShaderTerminateInvocationFeatures, VkPhysicalDeviceFragmentShadingRateEnumsFeaturesNV, VkPhysicalDeviceImage2DViewOf3DFeaturesEXT, VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT, VkPhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT, VkPhysicalDeviceLegacyVertexAttributesFeaturesEXT, VkPhysicalDeviceMutableDescriptorTypeFeaturesEXT, VkPhysicalDeviceDepthClipControlFeaturesEXT, VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT, VkPhysicalDeviceExternalMemoryRDMAFeaturesNV, VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR, VkPhysicalDeviceColorWriteEnableFeaturesEXT, VkPhysicalDeviceSynchronization2Features, VkPhysicalDeviceHostImageCopyFeaturesEXT, VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT, VkPhysicalDeviceLegacyDitheringFeaturesEXT, VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT, VkPhysicalDevicePipelineProtectedAccessFeaturesEXT, VkPhysicalDeviceVideoMaintenance1FeaturesKHR, VkPhysicalDeviceInheritedViewportScissorFeaturesNV, VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT, VkPhysicalDeviceProvokingVertexFeaturesEXT, VkPhysicalDeviceDescriptorBufferFeaturesEXT, VkPhysicalDeviceShaderIntegerDotProductFeatures, VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR, VkPhysicalDeviceRayTracingMotionBlurFeaturesNV, VkPhysicalDeviceRayTracingValidationFeaturesNV, VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT, VkPhysicalDeviceDynamicRenderingFeatures, VkPhysicalDeviceImageViewMinLodFeaturesEXT, VkPhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT, VkPhysicalDeviceLinearColorAttachmentFeaturesNV, VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT, VkPhysicalDeviceDescriptorSetHostMappingFeaturesVALVE, VkPhysicalDeviceNestedCommandBufferFeaturesEXT, VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT, VkPhysicalDeviceImageCompressionControlFeaturesEXT, VkPhysicalDeviceImageCompressionControlSwapchainFeaturesEXT, VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT, VkPhysicalDeviceOpacityMicromapFeaturesEXT, VkPhysicalDevicePipelinePropertiesFeaturesEXT, VkPhysicalDeviceShaderEarlyAndLateFragmentTestsFeaturesAMD, VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT, VkPhysicalDevicePipelineRobustnessFeaturesEXT, VkPhysicalDeviceImageProcessingFeaturesQCOM, VkPhysicalDeviceTilePropertiesFeaturesQCOM, VkPhysicalDeviceAmigoProfilingFeaturesSEC, VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT, VkPhysicalDeviceDepthClampZeroOneFeaturesEXT, VkPhysicalDeviceAddressBindingReportFeaturesEXT, VkPhysicalDeviceOpticalFlowFeaturesNV, VkPhysicalDeviceFaultFeaturesEXT, VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT, VkPhysicalDeviceShaderCoreBuiltinsFeaturesARM, VkPhysicalDeviceFrameBoundaryFeaturesEXT, VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT, VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT, VkPhysicalDeviceDepthBiasControlFeaturesEXT, VkPhysicalDeviceRayTracingInvocationReorderFeaturesNV, VkPhysicalDeviceExtendedSparseAddressSpaceFeaturesNV, VkPhysicalDeviceMultiviewPerViewViewportsFeaturesQCOM, VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR, VkPhysicalDeviceMultiviewPerViewRenderAreasFeaturesQCOM, VkPhysicalDeviceShaderObjectFeaturesEXT, VkPhysicalDeviceShaderTileImageFeaturesEXT, VkPhysicalDeviceCooperativeMatrixFeaturesKHR, VkPhysicalDeviceCubicClampFeaturesQCOM, VkPhysicalDeviceYcbcrDegammaFeaturesQCOM, VkPhysicalDeviceCubicWeightsFeaturesQCOM, VkPhysicalDeviceImageProcessing2FeaturesQCOM, VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV, VkPhysicalDevicePerStageDescriptorSetFeaturesNV, VkPhysicalDeviceExternalFormatResolveFeaturesANDROID, VkPhysicalDeviceCudaKernelLaunchFeaturesNV, VkDeviceQueueShaderCoreControlCreateInfoARM, VkPhysicalDeviceSchedulingControlsFeaturesARM, VkPhysicalDeviceRelaxedLineRasterizationFeaturesIMG, VkPhysicalDeviceRenderPassStripedFeaturesARM, VkPhysicalDeviceShaderMaximalReconvergenceFeaturesKHR, VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR, VkPhysicalDeviceShaderExpectAssumeFeaturesKHR, VkPhysicalDeviceShaderFloatControls2FeaturesKHR, VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR, VkPhysicalDeviceShaderQuadControlFeaturesKHR, VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV, VkPhysicalDeviceMapMemoryPlacedFeaturesEXT, VkPhysicalDeviceRawAccessChainsFeaturesNV, VkPhysicalDeviceImageAlignmentControlFeaturesMESA, VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkDeviceCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -5152,6 +5304,7 @@ void unwrap_VkDeviceDeviceMemoryReportCreateInfoEXT(struct temporary_objects* te
         return;
 
     unwrap_VkDeviceDeviceMemoryReportCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5184,6 +5337,7 @@ void unwrap_VkDeviceDiagnosticsConfigCreateInfoNV(struct temporary_objects* temp
         return;
 
     unwrap_VkDeviceDiagnosticsConfigCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5216,6 +5370,7 @@ void unwrap_VkDeviceEventInfoEXT(struct temporary_objects* temp, struct wrapper_
         return;
 
     unwrap_VkDeviceEventInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5250,6 +5405,7 @@ void unwrap_VkDeviceFaultCountsEXT(struct temporary_objects* temp, struct wrappe
         return;
 
     unwrap_VkDeviceFaultCountsEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5285,6 +5441,7 @@ void unwrap_VkDeviceFaultInfoEXT(struct temporary_objects* temp, struct wrapper_
         return;
 
     unwrap_VkDeviceFaultInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5318,6 +5475,7 @@ void unwrap_VkDeviceGroupBindSparseInfo(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkDeviceGroupBindSparseInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5350,6 +5508,7 @@ void unwrap_VkDeviceGroupCommandBufferBeginInfo(struct temporary_objects* temp, 
         return;
 
     unwrap_VkDeviceGroupCommandBufferBeginInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5375,7 +5534,7 @@ unwrap_VkDeviceGroupDeviceCreateInfo_members_only(struct temporary_objects* temp
     //   Uses these types that must be unwrapped: ['VkPhysicalDevice']
 
     if (in_info->pPhysicalDevices) {
-        out_info->pPhysicalDevices = VK_ALLOC2(VkPhysicalDevice, in_info->physicalDeviceCount * sizeof(VkPhysicalDevice));
+        out_info->pPhysicalDevices = __VK_ALLOC2(VkPhysicalDevice, in_info->physicalDeviceCount * sizeof(VkPhysicalDevice));
         for (uint32_t i = 0; i < in_info->physicalDeviceCount; i++) {
             VK_FROM_HANDLE(wrapper_physical_device, wrapper_obj, in_info->pPhysicalDevices[i]);
             ((VkPhysicalDevice *) out_info->pPhysicalDevices)[i] = wrapper_obj ? wrapper_obj->dispatch_handle : VK_NULL_HANDLE;
@@ -5392,6 +5551,7 @@ void unwrap_VkDeviceGroupDeviceCreateInfo(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkDeviceGroupDeviceCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5425,6 +5585,7 @@ void unwrap_VkDeviceGroupPresentCapabilitiesKHR(struct temporary_objects* temp, 
         return;
 
     unwrap_VkDeviceGroupPresentCapabilitiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5459,6 +5620,7 @@ void unwrap_VkDeviceGroupPresentInfoKHR(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkDeviceGroupPresentInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5493,6 +5655,7 @@ void unwrap_VkDeviceGroupRenderPassBeginInfo(struct temporary_objects* temp, str
         return;
 
     unwrap_VkDeviceGroupRenderPassBeginInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5530,6 +5693,7 @@ void unwrap_VkDeviceGroupSubmitInfo(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkDeviceGroupSubmitInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5562,6 +5726,7 @@ void unwrap_VkDeviceGroupSwapchainCreateInfoKHR(struct temporary_objects* temp, 
         return;
 
     unwrap_VkDeviceGroupSwapchainCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5595,6 +5760,7 @@ void unwrap_VkDeviceImageMemoryRequirements(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkDeviceImageMemoryRequirements_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5628,6 +5794,7 @@ void unwrap_VkDeviceImageSubresourceInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkDeviceImageSubresourceInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5660,6 +5827,7 @@ void unwrap_VkDeviceMemoryOpaqueCaptureAddressInfo(struct temporary_objects* tem
         return;
 
     unwrap_VkDeviceMemoryOpaqueCaptureAddressInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5692,6 +5860,7 @@ void unwrap_VkDeviceMemoryOverallocationCreateInfoAMD(struct temporary_objects* 
         return;
 
     unwrap_VkDeviceMemoryOverallocationCreateInfoAMD_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5730,6 +5899,7 @@ void unwrap_VkDeviceMemoryReportCallbackDataEXT(struct temporary_objects* temp, 
         return;
 
     unwrap_VkDeviceMemoryReportCallbackDataEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5762,6 +5932,7 @@ void unwrap_VkDevicePrivateDataCreateInfo(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkDevicePrivateDataCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5797,19 +5968,21 @@ void unwrap_VkDeviceQueueCreateInfo(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkDeviceQueueCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDeviceQueueGlobalPriorityCreateInfoKHR, VkDeviceQueueShaderCoreControlCreateInfoARM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkDeviceQueueCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -5858,6 +6031,7 @@ void unwrap_VkDeviceQueueGlobalPriorityCreateInfoKHR(struct temporary_objects* t
         return;
 
     unwrap_VkDeviceQueueGlobalPriorityCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5892,6 +6066,7 @@ void unwrap_VkDeviceQueueInfo2(struct temporary_objects* temp, struct wrapper_de
         return;
 
     unwrap_VkDeviceQueueInfo2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5924,6 +6099,7 @@ void unwrap_VkDeviceQueueShaderCoreControlCreateInfoARM(struct temporary_objects
         return;
 
     unwrap_VkDeviceQueueShaderCoreControlCreateInfoARM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5957,6 +6133,7 @@ void unwrap_VkDirectDriverLoadingInfoLUNARG(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkDirectDriverLoadingInfoLUNARG_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -5991,6 +6168,7 @@ void unwrap_VkDirectDriverLoadingListLUNARG(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkDirectDriverLoadingListLUNARG_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6023,6 +6201,7 @@ void unwrap_VkDisplayEventInfoEXT(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkDisplayEventInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6056,6 +6235,7 @@ void unwrap_VkDisplayModeCreateInfoKHR(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkDisplayModeCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6088,6 +6268,7 @@ void unwrap_VkDisplayModeProperties2KHR(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkDisplayModeProperties2KHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6120,6 +6301,7 @@ void unwrap_VkDisplayNativeHdrSurfaceCapabilitiesAMD(struct temporary_objects* t
         return;
 
     unwrap_VkDisplayNativeHdrSurfaceCapabilitiesAMD_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6152,6 +6334,7 @@ void unwrap_VkDisplayPlaneCapabilities2KHR(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkDisplayPlaneCapabilities2KHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6185,6 +6368,7 @@ void unwrap_VkDisplayPlaneInfo2KHR(struct temporary_objects* temp, struct wrappe
         return;
 
     unwrap_VkDisplayPlaneInfo2KHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6217,6 +6401,7 @@ void unwrap_VkDisplayPlaneProperties2KHR(struct temporary_objects* temp, struct 
         return;
 
     unwrap_VkDisplayPlaneProperties2KHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6249,6 +6434,7 @@ void unwrap_VkDisplayPowerInfoEXT(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkDisplayPowerInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6283,6 +6469,7 @@ void unwrap_VkDisplayPresentInfoKHR(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkDisplayPresentInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6315,6 +6502,7 @@ void unwrap_VkDisplayProperties2KHR(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkDisplayProperties2KHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6354,6 +6542,7 @@ void unwrap_VkDisplaySurfaceCreateInfoKHR(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkDisplaySurfaceCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6387,6 +6576,7 @@ void unwrap_VkDrmFormatModifierPropertiesList2EXT(struct temporary_objects* temp
         return;
 
     unwrap_VkDrmFormatModifierPropertiesList2EXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6420,6 +6610,7 @@ void unwrap_VkDrmFormatModifierPropertiesListEXT(struct temporary_objects* temp,
         return;
 
     unwrap_VkDrmFormatModifierPropertiesListEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6452,6 +6643,7 @@ void unwrap_VkEventCreateInfo(struct temporary_objects* temp, struct wrapper_dev
         return;
 
     unwrap_VkEventCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6484,6 +6676,7 @@ void unwrap_VkExportFenceCreateInfo(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkExportFenceCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6516,6 +6709,7 @@ void unwrap_VkExportMemoryAllocateInfo(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkExportMemoryAllocateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6548,6 +6742,7 @@ void unwrap_VkExportMemoryAllocateInfoNV(struct temporary_objects* temp, struct 
         return;
 
     unwrap_VkExportMemoryAllocateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6580,6 +6775,7 @@ void unwrap_VkExportSemaphoreCreateInfo(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkExportSemaphoreCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6612,6 +6808,7 @@ void unwrap_VkExternalBufferProperties(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkExternalBufferProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6646,6 +6843,7 @@ void unwrap_VkExternalFenceProperties(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkExternalFenceProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6678,6 +6876,7 @@ void unwrap_VkExternalFormatANDROID(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkExternalFormatANDROID_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6710,6 +6909,7 @@ void unwrap_VkExternalImageFormatProperties(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkExternalImageFormatProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6742,6 +6942,7 @@ void unwrap_VkExternalMemoryAcquireUnmodifiedEXT(struct temporary_objects* temp,
         return;
 
     unwrap_VkExternalMemoryAcquireUnmodifiedEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6774,6 +6975,7 @@ void unwrap_VkExternalMemoryBufferCreateInfo(struct temporary_objects* temp, str
         return;
 
     unwrap_VkExternalMemoryBufferCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6806,6 +7008,7 @@ void unwrap_VkExternalMemoryImageCreateInfo(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkExternalMemoryImageCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6838,6 +7041,7 @@ void unwrap_VkExternalMemoryImageCreateInfoNV(struct temporary_objects* temp, st
         return;
 
     unwrap_VkExternalMemoryImageCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6872,6 +7076,7 @@ void unwrap_VkExternalSemaphoreProperties(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkExternalSemaphoreProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6904,19 +7109,21 @@ void unwrap_VkFenceCreateInfo(struct temporary_objects* temp, struct wrapper_dev
         return;
 
     unwrap_VkFenceCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkExportFenceCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkFenceCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -6966,6 +7173,7 @@ void unwrap_VkFenceGetFdInfoKHR(struct temporary_objects* temp, struct wrapper_d
         return;
 
     unwrap_VkFenceGetFdInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -6999,6 +7207,7 @@ void unwrap_VkFilterCubicImageViewImageFormatPropertiesEXT(struct temporary_obje
         return;
 
     unwrap_VkFilterCubicImageViewImageFormatPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7031,19 +7240,21 @@ void unwrap_VkFormatProperties2(struct temporary_objects* temp, struct wrapper_d
         return;
 
     unwrap_VkFormatProperties2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDrmFormatModifierPropertiesListEXT, VkSubpassResolvePerformanceQueryEXT, VkFormatProperties3, VkDrmFormatModifierPropertiesList2EXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkFormatProperties2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -7094,6 +7305,7 @@ void unwrap_VkFormatProperties3(struct temporary_objects* temp, struct wrapper_d
         return;
 
     unwrap_VkFormatProperties3_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7127,6 +7339,7 @@ void unwrap_VkFragmentShadingRateAttachmentInfoKHR(struct temporary_objects* tem
         return;
 
     unwrap_VkFragmentShadingRateAttachmentInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7167,6 +7380,7 @@ void unwrap_VkFrameBoundaryEXT(struct temporary_objects* temp, struct wrapper_de
         return;
 
     unwrap_VkFrameBoundaryEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7205,6 +7419,7 @@ void unwrap_VkFramebufferAttachmentImageInfo(struct temporary_objects* temp, str
         return;
 
     unwrap_VkFramebufferAttachmentImageInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7238,6 +7453,7 @@ void unwrap_VkFramebufferAttachmentsCreateInfo(struct temporary_objects* temp, s
         return;
 
     unwrap_VkFramebufferAttachmentsCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7276,19 +7492,21 @@ void unwrap_VkFramebufferCreateInfo(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkFramebufferCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkFramebufferAttachmentsCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkFramebufferCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -7340,6 +7558,7 @@ void unwrap_VkFramebufferMixedSamplesCombinationNV(struct temporary_objects* tem
         return;
 
     unwrap_VkFramebufferMixedSamplesCombinationNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7384,6 +7603,7 @@ void unwrap_VkGeneratedCommandsInfoNV(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkGeneratedCommandsInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7419,6 +7639,7 @@ void unwrap_VkGeneratedCommandsMemoryRequirementsInfoNV(struct temporary_objects
         return;
 
     unwrap_VkGeneratedCommandsMemoryRequirementsInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7454,6 +7675,7 @@ void unwrap_VkGeometryAABBNV(struct temporary_objects* temp, struct wrapper_devi
         return;
 
     unwrap_VkGeometryAABBNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7488,6 +7710,7 @@ void unwrap_VkGeometryNV(struct temporary_objects* temp, struct wrapper_device *
         return;
 
     unwrap_VkGeometryNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7530,6 +7753,7 @@ void unwrap_VkGeometryTrianglesNV(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkGeometryTrianglesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7563,6 +7787,7 @@ void unwrap_VkGetLatencyMarkerInfoNV(struct temporary_objects* temp, struct wrap
         return;
 
     unwrap_VkGetLatencyMarkerInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7611,19 +7836,21 @@ void unwrap_VkGraphicsPipelineCreateInfo(struct temporary_objects* temp, struct 
         return;
 
     unwrap_VkGraphicsPipelineCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPipelineCreateFlags2CreateInfoKHR, VkGraphicsPipelineShaderGroupsCreateInfoNV, VkPipelineDiscardRectangleStateCreateInfoEXT, VkExternalFormatANDROID, VkPipelineRepresentativeFragmentTestStateCreateInfoNV, VkPipelineCompilerControlCreateInfoAMD, VkPipelineLibraryCreateInfoKHR, VkPipelineFragmentShadingRateStateCreateInfoKHR, VkPipelineFragmentShadingRateEnumStateCreateInfoNV, VkPipelineRenderingCreateInfo, VkAttachmentSampleCountInfoAMD, VkMultiviewPerViewAttributesInfoNVX, VkGraphicsPipelineLibraryCreateInfoEXT, VkPipelineRobustnessCreateInfoEXT, VkRenderingAttachmentLocationInfoKHR, VkRenderingInputAttachmentIndexInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkGraphicsPipelineCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -7672,6 +7899,7 @@ void unwrap_VkGraphicsPipelineLibraryCreateInfoEXT(struct temporary_objects* tem
         return;
 
     unwrap_VkGraphicsPipelineLibraryCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7707,6 +7935,7 @@ void unwrap_VkGraphicsPipelineShaderGroupsCreateInfoNV(struct temporary_objects*
         return;
 
     unwrap_VkGraphicsPipelineShaderGroupsCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7742,6 +7971,7 @@ void unwrap_VkGraphicsShaderGroupCreateInfoNV(struct temporary_objects* temp, st
         return;
 
     unwrap_VkGraphicsShaderGroupCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7781,6 +8011,7 @@ void unwrap_VkHdrMetadataEXT(struct temporary_objects* temp, struct wrapper_devi
         return;
 
     unwrap_VkHdrMetadataEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7813,6 +8044,7 @@ void unwrap_VkHeadlessSurfaceCreateInfoEXT(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkHeadlessSurfaceCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7846,6 +8078,7 @@ void unwrap_VkHostImageCopyDevicePerformanceQueryEXT(struct temporary_objects* t
         return;
 
     unwrap_VkHostImageCopyDevicePerformanceQueryEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7881,6 +8114,7 @@ void unwrap_VkHostImageLayoutTransitionInfoEXT(struct temporary_objects* temp, s
         return;
 
     unwrap_VkHostImageLayoutTransitionInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7913,6 +8147,7 @@ void unwrap_VkImageAlignmentControlCreateInfoMESA(struct temporary_objects* temp
         return;
 
     unwrap_VkImageAlignmentControlCreateInfoMESA_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -7948,19 +8183,21 @@ void unwrap_VkImageBlit2(struct temporary_objects* temp, struct wrapper_device *
         return;
 
     unwrap_VkImageBlit2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkCopyCommandTransformInfoQCOM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkImageBlit2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -8009,6 +8246,7 @@ void unwrap_VkImageCaptureDescriptorDataInfoEXT(struct temporary_objects* temp, 
         return;
 
     unwrap_VkImageCaptureDescriptorDataInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8043,6 +8281,7 @@ void unwrap_VkImageCompressionControlEXT(struct temporary_objects* temp, struct 
         return;
 
     unwrap_VkImageCompressionControlEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8076,6 +8315,7 @@ void unwrap_VkImageCompressionPropertiesEXT(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkImageCompressionPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8112,6 +8352,7 @@ void unwrap_VkImageCopy2(struct temporary_objects* temp, struct wrapper_device *
         return;
 
     unwrap_VkImageCopy2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8156,19 +8397,21 @@ void unwrap_VkImageCreateInfo(struct temporary_objects* temp, struct wrapper_dev
         return;
 
     unwrap_VkImageCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDedicatedAllocationImageCreateInfoNV, VkExternalMemoryImageCreateInfoNV, VkExternalMemoryImageCreateInfo, VkImageSwapchainCreateInfoKHR, VkImageFormatListCreateInfo, VkExternalFormatANDROID, VkImageDrmFormatModifierListCreateInfoEXT, VkImageDrmFormatModifierExplicitCreateInfoEXT, VkImageStencilUsageCreateInfo, VkVideoProfileListInfoKHR, VkOpaqueCaptureDescriptorDataCreateInfoEXT, VkImageCompressionControlEXT, VkOpticalFlowImageFormatInfoNV, VkImageAlignmentControlCreateInfoMESA]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkImageCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -8219,6 +8462,7 @@ void unwrap_VkImageDrmFormatModifierExplicitCreateInfoEXT(struct temporary_objec
         return;
 
     unwrap_VkImageDrmFormatModifierExplicitCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8252,6 +8496,7 @@ void unwrap_VkImageDrmFormatModifierListCreateInfoEXT(struct temporary_objects* 
         return;
 
     unwrap_VkImageDrmFormatModifierListCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8284,6 +8529,7 @@ void unwrap_VkImageDrmFormatModifierPropertiesEXT(struct temporary_objects* temp
         return;
 
     unwrap_VkImageDrmFormatModifierPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8317,6 +8563,7 @@ void unwrap_VkImageFormatListCreateInfo(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkImageFormatListCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8349,19 +8596,21 @@ void unwrap_VkImageFormatProperties2(struct temporary_objects* temp, struct wrap
         return;
 
     unwrap_VkImageFormatProperties2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkExternalImageFormatProperties, VkSamplerYcbcrConversionImageFormatProperties, VkTextureLODGatherFormatPropertiesAMD, VkAndroidHardwareBufferUsageANDROID, VkFilterCubicImageViewImageFormatPropertiesEXT, VkHostImageCopyDevicePerformanceQueryEXT, VkImageCompressionPropertiesEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkImageFormatProperties2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -8417,19 +8666,21 @@ void unwrap_VkImageMemoryBarrier(struct temporary_objects* temp, struct wrapper_
         return;
 
     unwrap_VkImageMemoryBarrier_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkSampleLocationsInfoEXT, VkExternalMemoryAcquireUnmodifiedEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkImageMemoryBarrier pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -8487,19 +8738,21 @@ void unwrap_VkImageMemoryBarrier2(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkImageMemoryBarrier2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkSampleLocationsInfoEXT, VkExternalMemoryAcquireUnmodifiedEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkImageMemoryBarrier2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -8548,19 +8801,21 @@ void unwrap_VkImageMemoryRequirementsInfo2(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkImageMemoryRequirementsInfo2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkImagePlaneMemoryRequirementsInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkImageMemoryRequirementsInfo2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -8609,6 +8864,7 @@ void unwrap_VkImagePlaneMemoryRequirementsInfo(struct temporary_objects* temp, s
         return;
 
     unwrap_VkImagePlaneMemoryRequirementsInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8645,6 +8901,7 @@ void unwrap_VkImageResolve2(struct temporary_objects* temp, struct wrapper_devic
         return;
 
     unwrap_VkImageResolve2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8677,6 +8934,7 @@ void unwrap_VkImageSparseMemoryRequirementsInfo2(struct temporary_objects* temp,
         return;
 
     unwrap_VkImageSparseMemoryRequirementsInfo2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8709,6 +8967,7 @@ void unwrap_VkImageStencilUsageCreateInfo(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkImageStencilUsageCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8741,6 +9000,7 @@ void unwrap_VkImageSubresource2KHR(struct temporary_objects* temp, struct wrappe
         return;
 
     unwrap_VkImageSubresource2KHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8773,6 +9033,7 @@ void unwrap_VkImageSwapchainCreateInfoKHR(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkImageSwapchainCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8810,6 +9071,7 @@ void unwrap_VkImageToMemoryCopyEXT(struct temporary_objects* temp, struct wrappe
         return;
 
     unwrap_VkImageToMemoryCopyEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8842,6 +9104,7 @@ void unwrap_VkImageViewASTCDecodeModeEXT(struct temporary_objects* temp, struct 
         return;
 
     unwrap_VkImageViewASTCDecodeModeEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8875,6 +9138,7 @@ void unwrap_VkImageViewAddressPropertiesNVX(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkImageViewAddressPropertiesNVX_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8907,6 +9171,7 @@ void unwrap_VkImageViewCaptureDescriptorDataInfoEXT(struct temporary_objects* te
         return;
 
     unwrap_VkImageViewCaptureDescriptorDataInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -8944,19 +9209,21 @@ void unwrap_VkImageViewCreateInfo(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkImageViewCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkImageViewUsageCreateInfo, VkImageViewSlicedCreateInfoEXT, VkSamplerYcbcrConversionInfo, VkImageViewASTCDecodeModeEXT, VkOpaqueCaptureDescriptorDataCreateInfoEXT, VkImageViewMinLodCreateInfoEXT, VkImageViewSampleWeightCreateInfoQCOM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkImageViewCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -9007,6 +9274,7 @@ void unwrap_VkImageViewHandleInfoNVX(struct temporary_objects* temp, struct wrap
         return;
 
     unwrap_VkImageViewHandleInfoNVX_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9039,6 +9307,7 @@ void unwrap_VkImageViewMinLodCreateInfoEXT(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkImageViewMinLodCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9073,6 +9342,7 @@ void unwrap_VkImageViewSampleWeightCreateInfoQCOM(struct temporary_objects* temp
         return;
 
     unwrap_VkImageViewSampleWeightCreateInfoQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9106,6 +9376,7 @@ void unwrap_VkImageViewSlicedCreateInfoEXT(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkImageViewSlicedCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9138,6 +9409,7 @@ void unwrap_VkImageViewUsageCreateInfo(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkImageViewUsageCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9170,6 +9442,7 @@ void unwrap_VkImportAndroidHardwareBufferInfoANDROID(struct temporary_objects* t
         return;
 
     unwrap_VkImportAndroidHardwareBufferInfoANDROID_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9205,6 +9478,7 @@ void unwrap_VkImportFenceFdInfoKHR(struct temporary_objects* temp, struct wrappe
         return;
 
     unwrap_VkImportFenceFdInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9238,6 +9512,7 @@ void unwrap_VkImportMemoryFdInfoKHR(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkImportMemoryFdInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9271,6 +9546,7 @@ void unwrap_VkImportMemoryHostPointerInfoEXT(struct temporary_objects* temp, str
         return;
 
     unwrap_VkImportMemoryHostPointerInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9306,6 +9582,7 @@ void unwrap_VkImportSemaphoreFdInfoKHR(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkImportSemaphoreFdInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9343,6 +9620,7 @@ void unwrap_VkIndirectCommandsLayoutCreateInfoNV(struct temporary_objects* temp,
         return;
 
     unwrap_VkIndirectCommandsLayoutCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9387,6 +9665,7 @@ void unwrap_VkIndirectCommandsLayoutTokenNV(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkIndirectCommandsLayoutTokenNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9419,6 +9698,7 @@ void unwrap_VkInitializePerformanceApiInfoINTEL(struct temporary_objects* temp, 
         return;
 
     unwrap_VkInitializePerformanceApiInfoINTEL_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9452,6 +9732,7 @@ void unwrap_VkLatencySleepInfoNV(struct temporary_objects* temp, struct wrapper_
         return;
 
     unwrap_VkLatencySleepInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9486,6 +9767,7 @@ void unwrap_VkLatencySleepModeInfoNV(struct temporary_objects* temp, struct wrap
         return;
 
     unwrap_VkLatencySleepModeInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9518,6 +9800,7 @@ void unwrap_VkLatencySubmissionPresentIdNV(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkLatencySubmissionPresentIdNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9551,6 +9834,7 @@ void unwrap_VkLatencySurfaceCapabilitiesNV(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkLatencySurfaceCapabilitiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9596,6 +9880,7 @@ void unwrap_VkLatencyTimingsFrameReportNV(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkLatencyTimingsFrameReportNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9629,6 +9914,7 @@ void unwrap_VkLayerSettingsCreateInfoEXT(struct temporary_objects* temp, struct 
         return;
 
     unwrap_VkLayerSettingsCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9663,6 +9949,7 @@ void unwrap_VkMappedMemoryRange(struct temporary_objects* temp, struct wrapper_d
         return;
 
     unwrap_VkMappedMemoryRange_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9696,6 +9983,7 @@ void unwrap_VkMemoryAllocateFlagsInfo(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkMemoryAllocateFlagsInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9729,19 +10017,21 @@ void unwrap_VkMemoryAllocateInfo(struct temporary_objects* temp, struct wrapper_
         return;
 
     unwrap_VkMemoryAllocateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDedicatedAllocationMemoryAllocateInfoNV, VkExportMemoryAllocateInfoNV, VkExportMemoryAllocateInfo, VkImportMemoryFdInfoKHR, VkMemoryAllocateFlagsInfo, VkMemoryDedicatedAllocateInfo, VkImportMemoryHostPointerInfoEXT, VkImportAndroidHardwareBufferInfoANDROID, VkMemoryPriorityAllocateInfoEXT, VkMemoryOpaqueCaptureAddressAllocateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkMemoryAllocateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -9791,6 +10081,7 @@ void unwrap_VkMemoryBarrier(struct temporary_objects* temp, struct wrapper_devic
         return;
 
     unwrap_VkMemoryBarrier_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9826,6 +10117,7 @@ void unwrap_VkMemoryBarrier2(struct temporary_objects* temp, struct wrapper_devi
         return;
 
     unwrap_VkMemoryBarrier2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9859,6 +10151,7 @@ void unwrap_VkMemoryDedicatedAllocateInfo(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkMemoryDedicatedAllocateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9892,6 +10185,7 @@ void unwrap_VkMemoryDedicatedRequirements(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkMemoryDedicatedRequirements_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9924,6 +10218,7 @@ void unwrap_VkMemoryFdPropertiesKHR(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkMemoryFdPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9956,6 +10251,7 @@ void unwrap_VkMemoryGetAndroidHardwareBufferInfoANDROID(struct temporary_objects
         return;
 
     unwrap_VkMemoryGetAndroidHardwareBufferInfoANDROID_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -9989,6 +10285,7 @@ void unwrap_VkMemoryGetFdInfoKHR(struct temporary_objects* temp, struct wrapper_
         return;
 
     unwrap_VkMemoryGetFdInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10022,6 +10319,7 @@ void unwrap_VkMemoryGetRemoteAddressInfoNV(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkMemoryGetRemoteAddressInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10054,6 +10352,7 @@ void unwrap_VkMemoryHostPointerPropertiesEXT(struct temporary_objects* temp, str
         return;
 
     unwrap_VkMemoryHostPointerPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10089,19 +10388,21 @@ void unwrap_VkMemoryMapInfoKHR(struct temporary_objects* temp, struct wrapper_de
         return;
 
     unwrap_VkMemoryMapInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkMemoryMapPlacedInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkMemoryMapInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -10150,6 +10451,7 @@ void unwrap_VkMemoryMapPlacedInfoEXT(struct temporary_objects* temp, struct wrap
         return;
 
     unwrap_VkMemoryMapPlacedInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10182,6 +10484,7 @@ void unwrap_VkMemoryOpaqueCaptureAddressAllocateInfo(struct temporary_objects* t
         return;
 
     unwrap_VkMemoryOpaqueCaptureAddressAllocateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10214,6 +10517,7 @@ void unwrap_VkMemoryPriorityAllocateInfoEXT(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkMemoryPriorityAllocateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10246,19 +10550,21 @@ void unwrap_VkMemoryRequirements2(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkMemoryRequirements2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkMemoryDedicatedRequirements]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkMemoryRequirements2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -10312,6 +10618,7 @@ void unwrap_VkMemoryToImageCopyEXT(struct temporary_objects* temp, struct wrappe
         return;
 
     unwrap_VkMemoryToImageCopyEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10345,6 +10652,7 @@ void unwrap_VkMemoryUnmapInfoKHR(struct temporary_objects* temp, struct wrapper_
         return;
 
     unwrap_VkMemoryUnmapInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10379,6 +10687,7 @@ void unwrap_VkMicromapBuildSizesInfoEXT(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkMicromapBuildSizesInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10416,6 +10725,7 @@ void unwrap_VkMicromapCreateInfoEXT(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkMicromapCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10448,6 +10758,7 @@ void unwrap_VkMultisamplePropertiesEXT(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkMultisamplePropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10481,6 +10792,7 @@ void unwrap_VkMultisampledRenderToSingleSampledInfoEXT(struct temporary_objects*
         return;
 
     unwrap_VkMultisampledRenderToSingleSampledInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10514,6 +10826,7 @@ void unwrap_VkMultiviewPerViewAttributesInfoNVX(struct temporary_objects* temp, 
         return;
 
     unwrap_VkMultiviewPerViewAttributesInfoNVX_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10547,6 +10860,7 @@ void unwrap_VkMultiviewPerViewRenderAreasRenderPassBeginInfoQCOM(struct temporar
         return;
 
     unwrap_VkMultiviewPerViewRenderAreasRenderPassBeginInfoQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10580,6 +10894,7 @@ void unwrap_VkMutableDescriptorTypeCreateInfoEXT(struct temporary_objects* temp,
         return;
 
     unwrap_VkMutableDescriptorTypeCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10616,6 +10931,7 @@ void unwrap_VkNativeBufferANDROID(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkNativeBufferANDROID_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10648,6 +10964,7 @@ void unwrap_VkOpaqueCaptureDescriptorDataCreateInfoEXT(struct temporary_objects*
         return;
 
     unwrap_VkOpaqueCaptureDescriptorDataCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10682,6 +10999,7 @@ void unwrap_VkOpticalFlowExecuteInfoNV(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkOpticalFlowExecuteInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10714,6 +11032,7 @@ void unwrap_VkOpticalFlowImageFormatInfoNV(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkOpticalFlowImageFormatInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10746,6 +11065,7 @@ void unwrap_VkOpticalFlowImageFormatPropertiesNV(struct temporary_objects* temp,
         return;
 
     unwrap_VkOpticalFlowImageFormatPropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10786,19 +11106,21 @@ void unwrap_VkOpticalFlowSessionCreateInfoNV(struct temporary_objects* temp, str
         return;
 
     unwrap_VkOpticalFlowSessionCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkOpticalFlowSessionCreatePrivateDataInfoNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkOpticalFlowSessionCreateInfoNV pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -10849,6 +11171,7 @@ void unwrap_VkOpticalFlowSessionCreatePrivateDataInfoNV(struct temporary_objects
         return;
 
     unwrap_VkOpticalFlowSessionCreatePrivateDataInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10881,6 +11204,7 @@ void unwrap_VkOutOfBandQueueTypeInfoNV(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkOutOfBandQueueTypeInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10913,6 +11237,7 @@ void unwrap_VkPerformanceConfigurationAcquireInfoINTEL(struct temporary_objects*
         return;
 
     unwrap_VkPerformanceConfigurationAcquireInfoINTEL_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10948,6 +11273,7 @@ void unwrap_VkPerformanceCounterDescriptionKHR(struct temporary_objects* temp, s
         return;
 
     unwrap_VkPerformanceCounterDescriptionKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -10983,6 +11309,7 @@ void unwrap_VkPerformanceCounterKHR(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkPerformanceCounterKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11015,6 +11342,7 @@ void unwrap_VkPerformanceMarkerInfoINTEL(struct temporary_objects* temp, struct 
         return;
 
     unwrap_VkPerformanceMarkerInfoINTEL_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11049,6 +11377,7 @@ void unwrap_VkPerformanceOverrideInfoINTEL(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkPerformanceOverrideInfoINTEL_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11081,6 +11410,7 @@ void unwrap_VkPerformanceQuerySubmitInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkPerformanceQuerySubmitInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11113,6 +11443,7 @@ void unwrap_VkPerformanceStreamMarkerInfoINTEL(struct temporary_objects* temp, s
         return;
 
     unwrap_VkPerformanceStreamMarkerInfoINTEL_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11148,6 +11479,7 @@ void unwrap_VkPhysicalDevice16BitStorageFeatures(struct temporary_objects* temp,
         return;
 
     unwrap_VkPhysicalDevice16BitStorageFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11181,6 +11513,7 @@ void unwrap_VkPhysicalDevice4444FormatsFeaturesEXT(struct temporary_objects* tem
         return;
 
     unwrap_VkPhysicalDevice4444FormatsFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11215,6 +11548,7 @@ void unwrap_VkPhysicalDevice8BitStorageFeatures(struct temporary_objects* temp, 
         return;
 
     unwrap_VkPhysicalDevice8BitStorageFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11247,6 +11581,7 @@ void unwrap_VkPhysicalDeviceASTCDecodeFeaturesEXT(struct temporary_objects* temp
         return;
 
     unwrap_VkPhysicalDeviceASTCDecodeFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11283,6 +11618,7 @@ void unwrap_VkPhysicalDeviceAccelerationStructureFeaturesKHR(struct temporary_ob
         return;
 
     unwrap_VkPhysicalDeviceAccelerationStructureFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11322,6 +11658,7 @@ void unwrap_VkPhysicalDeviceAccelerationStructurePropertiesKHR(struct temporary_
         return;
 
     unwrap_VkPhysicalDeviceAccelerationStructurePropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11354,6 +11691,7 @@ void unwrap_VkPhysicalDeviceAddressBindingReportFeaturesEXT(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceAddressBindingReportFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11386,6 +11724,7 @@ void unwrap_VkPhysicalDeviceAmigoProfilingFeaturesSEC(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceAmigoProfilingFeaturesSEC_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11418,6 +11757,7 @@ void unwrap_VkPhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT(struct
         return;
 
     unwrap_VkPhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11450,6 +11790,7 @@ void unwrap_VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT(struct tempo
         return;
 
     unwrap_VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11482,6 +11823,7 @@ void unwrap_VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT(struct temporary_o
         return;
 
     unwrap_VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11519,6 +11861,7 @@ void unwrap_VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT(struct temporary
         return;
 
     unwrap_VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11552,6 +11895,7 @@ void unwrap_VkPhysicalDeviceBorderColorSwizzleFeaturesEXT(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceBorderColorSwizzleFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11586,6 +11930,7 @@ void unwrap_VkPhysicalDeviceBufferDeviceAddressFeatures(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDeviceBufferDeviceAddressFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11620,6 +11965,7 @@ void unwrap_VkPhysicalDeviceBufferDeviceAddressFeaturesEXT(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceBufferDeviceAddressFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11653,19 +11999,21 @@ void unwrap_VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI(struct temporary_
         return;
 
     unwrap_VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPhysicalDeviceClusterCullingShaderVrsFeaturesHUAWEI]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -11717,6 +12065,7 @@ void unwrap_VkPhysicalDeviceClusterCullingShaderPropertiesHUAWEI(struct temporar
         return;
 
     unwrap_VkPhysicalDeviceClusterCullingShaderPropertiesHUAWEI_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11749,6 +12098,7 @@ void unwrap_VkPhysicalDeviceClusterCullingShaderVrsFeaturesHUAWEI(struct tempora
         return;
 
     unwrap_VkPhysicalDeviceClusterCullingShaderVrsFeaturesHUAWEI_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11781,6 +12131,7 @@ void unwrap_VkPhysicalDeviceCoherentMemoryFeaturesAMD(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceCoherentMemoryFeaturesAMD_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11813,6 +12164,7 @@ void unwrap_VkPhysicalDeviceColorWriteEnableFeaturesEXT(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDeviceColorWriteEnableFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11846,6 +12198,7 @@ void unwrap_VkPhysicalDeviceComputeShaderDerivativesFeaturesNV(struct temporary_
         return;
 
     unwrap_VkPhysicalDeviceComputeShaderDerivativesFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11879,6 +12232,7 @@ void unwrap_VkPhysicalDeviceConditionalRenderingFeaturesEXT(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceConditionalRenderingFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11919,6 +12273,7 @@ void unwrap_VkPhysicalDeviceConservativeRasterizationPropertiesEXT(struct tempor
         return;
 
     unwrap_VkPhysicalDeviceConservativeRasterizationPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11952,6 +12307,7 @@ void unwrap_VkPhysicalDeviceCooperativeMatrixFeaturesKHR(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceCooperativeMatrixFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -11985,6 +12341,7 @@ void unwrap_VkPhysicalDeviceCooperativeMatrixFeaturesNV(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDeviceCooperativeMatrixFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12017,6 +12374,7 @@ void unwrap_VkPhysicalDeviceCooperativeMatrixPropertiesKHR(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceCooperativeMatrixPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12049,6 +12407,7 @@ void unwrap_VkPhysicalDeviceCooperativeMatrixPropertiesNV(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceCooperativeMatrixPropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12081,6 +12440,7 @@ void unwrap_VkPhysicalDeviceCopyMemoryIndirectFeaturesNV(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceCopyMemoryIndirectFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12113,6 +12473,7 @@ void unwrap_VkPhysicalDeviceCopyMemoryIndirectPropertiesNV(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceCopyMemoryIndirectPropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12145,6 +12506,7 @@ void unwrap_VkPhysicalDeviceCornerSampledImageFeaturesNV(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceCornerSampledImageFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12177,6 +12539,7 @@ void unwrap_VkPhysicalDeviceCoverageReductionModeFeaturesNV(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceCoverageReductionModeFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12209,6 +12572,7 @@ void unwrap_VkPhysicalDeviceCubicClampFeaturesQCOM(struct temporary_objects* tem
         return;
 
     unwrap_VkPhysicalDeviceCubicClampFeaturesQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12241,6 +12605,7 @@ void unwrap_VkPhysicalDeviceCubicWeightsFeaturesQCOM(struct temporary_objects* t
         return;
 
     unwrap_VkPhysicalDeviceCubicWeightsFeaturesQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12273,6 +12638,7 @@ void unwrap_VkPhysicalDeviceCudaKernelLaunchFeaturesNV(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceCudaKernelLaunchFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12306,6 +12672,7 @@ void unwrap_VkPhysicalDeviceCudaKernelLaunchPropertiesNV(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceCudaKernelLaunchPropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12339,6 +12706,7 @@ void unwrap_VkPhysicalDeviceCustomBorderColorFeaturesEXT(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceCustomBorderColorFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12371,6 +12739,7 @@ void unwrap_VkPhysicalDeviceCustomBorderColorPropertiesEXT(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceCustomBorderColorPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12403,6 +12772,7 @@ void unwrap_VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV(struct te
         return;
 
     unwrap_VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12438,6 +12808,7 @@ void unwrap_VkPhysicalDeviceDepthBiasControlFeaturesEXT(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDeviceDepthBiasControlFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12470,6 +12841,7 @@ void unwrap_VkPhysicalDeviceDepthClampZeroOneFeaturesEXT(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceDepthClampZeroOneFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12502,6 +12874,7 @@ void unwrap_VkPhysicalDeviceDepthClipControlFeaturesEXT(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDeviceDepthClipControlFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12534,6 +12907,7 @@ void unwrap_VkPhysicalDeviceDepthClipEnableFeaturesEXT(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceDepthClipEnableFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12569,6 +12943,7 @@ void unwrap_VkPhysicalDeviceDepthStencilResolveProperties(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceDepthStencilResolveProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12601,6 +12976,7 @@ void unwrap_VkPhysicalDeviceDescriptorBufferDensityMapPropertiesEXT(struct tempo
         return;
 
     unwrap_VkPhysicalDeviceDescriptorBufferDensityMapPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12636,6 +13012,7 @@ void unwrap_VkPhysicalDeviceDescriptorBufferFeaturesEXT(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDeviceDescriptorBufferFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12700,6 +13077,7 @@ void unwrap_VkPhysicalDeviceDescriptorBufferPropertiesEXT(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceDescriptorBufferPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12751,6 +13129,7 @@ void unwrap_VkPhysicalDeviceDescriptorIndexingFeatures(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceDescriptorIndexingFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12805,6 +13184,7 @@ void unwrap_VkPhysicalDeviceDescriptorIndexingProperties(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceDescriptorIndexingProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12837,6 +13217,7 @@ void unwrap_VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV(struct tempor
         return;
 
     unwrap_VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12869,6 +13250,7 @@ void unwrap_VkPhysicalDeviceDescriptorSetHostMappingFeaturesVALVE(struct tempora
         return;
 
     unwrap_VkPhysicalDeviceDescriptorSetHostMappingFeaturesVALVE_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12903,6 +13285,7 @@ void unwrap_VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV(struct temp
         return;
 
     unwrap_VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12935,6 +13318,7 @@ void unwrap_VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV(struct temporary_o
         return;
 
     unwrap_VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -12975,6 +13359,7 @@ void unwrap_VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV(struct temporary
         return;
 
     unwrap_VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13007,6 +13392,7 @@ void unwrap_VkPhysicalDeviceDeviceMemoryReportFeaturesEXT(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceDeviceMemoryReportFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13039,6 +13425,7 @@ void unwrap_VkPhysicalDeviceDiagnosticsConfigFeaturesNV(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDeviceDiagnosticsConfigFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13071,6 +13458,7 @@ void unwrap_VkPhysicalDeviceDiscardRectanglePropertiesEXT(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceDiscardRectanglePropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13106,6 +13494,7 @@ void unwrap_VkPhysicalDeviceDriverProperties(struct temporary_objects* temp, str
         return;
 
     unwrap_VkPhysicalDeviceDriverProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13143,6 +13532,7 @@ void unwrap_VkPhysicalDeviceDrmPropertiesEXT(struct temporary_objects* temp, str
         return;
 
     unwrap_VkPhysicalDeviceDrmPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13175,6 +13565,7 @@ void unwrap_VkPhysicalDeviceDynamicRenderingFeatures(struct temporary_objects* t
         return;
 
     unwrap_VkPhysicalDeviceDynamicRenderingFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13207,6 +13598,7 @@ void unwrap_VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR(struct temporar
         return;
 
     unwrap_VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13239,6 +13631,7 @@ void unwrap_VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT(struct 
         return;
 
     unwrap_VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13271,6 +13664,7 @@ void unwrap_VkPhysicalDeviceExclusiveScissorFeaturesNV(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceExclusiveScissorFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13305,6 +13699,7 @@ void unwrap_VkPhysicalDeviceExtendedDynamicState2FeaturesEXT(struct temporary_ob
         return;
 
     unwrap_VkPhysicalDeviceExtendedDynamicState2FeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13367,6 +13762,7 @@ void unwrap_VkPhysicalDeviceExtendedDynamicState3FeaturesEXT(struct temporary_ob
         return;
 
     unwrap_VkPhysicalDeviceExtendedDynamicState3FeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13399,6 +13795,7 @@ void unwrap_VkPhysicalDeviceExtendedDynamicState3PropertiesEXT(struct temporary_
         return;
 
     unwrap_VkPhysicalDeviceExtendedDynamicState3PropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13431,6 +13828,7 @@ void unwrap_VkPhysicalDeviceExtendedDynamicStateFeaturesEXT(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceExtendedDynamicStateFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13463,6 +13861,7 @@ void unwrap_VkPhysicalDeviceExtendedSparseAddressSpaceFeaturesNV(struct temporar
         return;
 
     unwrap_VkPhysicalDeviceExtendedSparseAddressSpaceFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13497,6 +13896,7 @@ void unwrap_VkPhysicalDeviceExtendedSparseAddressSpacePropertiesNV(struct tempor
         return;
 
     unwrap_VkPhysicalDeviceExtendedSparseAddressSpacePropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13531,19 +13931,21 @@ void unwrap_VkPhysicalDeviceExternalBufferInfo(struct temporary_objects* temp, s
         return;
 
     unwrap_VkPhysicalDeviceExternalBufferInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkBufferUsageFlags2CreateInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPhysicalDeviceExternalBufferInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -13592,6 +13994,7 @@ void unwrap_VkPhysicalDeviceExternalFenceInfo(struct temporary_objects* temp, st
         return;
 
     unwrap_VkPhysicalDeviceExternalFenceInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13624,6 +14027,7 @@ void unwrap_VkPhysicalDeviceExternalFormatResolveFeaturesANDROID(struct temporar
         return;
 
     unwrap_VkPhysicalDeviceExternalFormatResolveFeaturesANDROID_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13658,6 +14062,7 @@ void unwrap_VkPhysicalDeviceExternalFormatResolvePropertiesANDROID(struct tempor
         return;
 
     unwrap_VkPhysicalDeviceExternalFormatResolvePropertiesANDROID_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13690,6 +14095,7 @@ void unwrap_VkPhysicalDeviceExternalImageFormatInfo(struct temporary_objects* te
         return;
 
     unwrap_VkPhysicalDeviceExternalImageFormatInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13722,6 +14128,7 @@ void unwrap_VkPhysicalDeviceExternalMemoryHostPropertiesEXT(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceExternalMemoryHostPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13754,6 +14161,7 @@ void unwrap_VkPhysicalDeviceExternalMemoryRDMAFeaturesNV(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceExternalMemoryRDMAFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13786,19 +14194,21 @@ void unwrap_VkPhysicalDeviceExternalSemaphoreInfo(struct temporary_objects* temp
         return;
 
     unwrap_VkPhysicalDeviceExternalSemaphoreInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkSemaphoreTypeCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPhysicalDeviceExternalSemaphoreInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -13848,6 +14258,7 @@ void unwrap_VkPhysicalDeviceFaultFeaturesEXT(struct temporary_objects* temp, str
         return;
 
     unwrap_VkPhysicalDeviceFaultFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13880,19 +14291,21 @@ void unwrap_VkPhysicalDeviceFeatures2(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkPhysicalDeviceFeatures2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV, VkPhysicalDeviceDeviceGeneratedCommandsComputeFeaturesNV, VkPhysicalDevicePrivateDataFeatures, VkPhysicalDeviceVariablePointersFeatures, VkPhysicalDeviceMultiviewFeatures, VkPhysicalDevicePresentIdFeaturesKHR, VkPhysicalDevicePresentWaitFeaturesKHR, VkPhysicalDevice16BitStorageFeatures, VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures, VkPhysicalDeviceSamplerYcbcrConversionFeatures, VkPhysicalDeviceProtectedMemoryFeatures, VkPhysicalDeviceBlendOperationAdvancedFeaturesEXT, VkPhysicalDeviceMultiDrawFeaturesEXT, VkPhysicalDeviceInlineUniformBlockFeatures, VkPhysicalDeviceMaintenance4Features, VkPhysicalDeviceMaintenance5FeaturesKHR, VkPhysicalDeviceMaintenance6FeaturesKHR, VkPhysicalDeviceMaintenance7FeaturesKHR, VkPhysicalDeviceShaderDrawParametersFeatures, VkPhysicalDeviceShaderFloat16Int8Features, VkPhysicalDeviceHostQueryResetFeatures, VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR, VkPhysicalDeviceDeviceMemoryReportFeaturesEXT, VkPhysicalDeviceDescriptorIndexingFeatures, VkPhysicalDeviceTimelineSemaphoreFeatures, VkPhysicalDevice8BitStorageFeatures, VkPhysicalDeviceConditionalRenderingFeaturesEXT, VkPhysicalDeviceVulkanMemoryModelFeatures, VkPhysicalDeviceShaderAtomicInt64Features, VkPhysicalDeviceShaderAtomicFloatFeaturesEXT, VkPhysicalDeviceShaderAtomicFloat2FeaturesEXT, VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR, VkPhysicalDeviceASTCDecodeFeaturesEXT, VkPhysicalDeviceTransformFeedbackFeaturesEXT, VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV, VkPhysicalDeviceExclusiveScissorFeaturesNV, VkPhysicalDeviceCornerSampledImageFeaturesNV, VkPhysicalDeviceComputeShaderDerivativesFeaturesNV, VkPhysicalDeviceShaderImageFootprintFeaturesNV, VkPhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV, VkPhysicalDeviceCopyMemoryIndirectFeaturesNV, VkPhysicalDeviceMemoryDecompressionFeaturesNV, VkPhysicalDeviceShadingRateImageFeaturesNV, VkPhysicalDeviceInvocationMaskFeaturesHUAWEI, VkPhysicalDeviceMeshShaderFeaturesNV, VkPhysicalDeviceMeshShaderFeaturesEXT, VkPhysicalDeviceAccelerationStructureFeaturesKHR, VkPhysicalDeviceRayTracingPipelineFeaturesKHR, VkPhysicalDeviceRayQueryFeaturesKHR, VkPhysicalDeviceRayTracingMaintenance1FeaturesKHR, VkPhysicalDeviceFragmentDensityMapFeaturesEXT, VkPhysicalDeviceFragmentDensityMap2FeaturesEXT, VkPhysicalDeviceFragmentDensityMapOffsetFeaturesQCOM, VkPhysicalDeviceScalarBlockLayoutFeatures, VkPhysicalDeviceUniformBufferStandardLayoutFeatures, VkPhysicalDeviceDepthClipEnableFeaturesEXT, VkPhysicalDeviceMemoryPriorityFeaturesEXT, VkPhysicalDevicePageableDeviceLocalMemoryFeaturesEXT, VkPhysicalDeviceBufferDeviceAddressFeatures, VkPhysicalDeviceBufferDeviceAddressFeaturesEXT, VkPhysicalDeviceImagelessFramebufferFeatures, VkPhysicalDeviceTextureCompressionASTCHDRFeatures, VkPhysicalDeviceCooperativeMatrixFeaturesNV, VkPhysicalDeviceYcbcrImageArraysFeaturesEXT, VkPhysicalDevicePresentBarrierFeaturesNV, VkPhysicalDevicePerformanceQueryFeaturesKHR, VkPhysicalDeviceCoverageReductionModeFeaturesNV, VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL, VkPhysicalDeviceShaderClockFeaturesKHR, VkPhysicalDeviceIndexTypeUint8FeaturesKHR, VkPhysicalDeviceShaderSMBuiltinsFeaturesNV, VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT, VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures, VkPhysicalDevicePrimitiveTopologyListRestartFeaturesEXT, VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR, VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures, VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT, VkPhysicalDeviceSubgroupSizeControlFeatures, VkPhysicalDeviceLineRasterizationFeaturesKHR, VkPhysicalDevicePipelineCreationCacheControlFeatures, VkPhysicalDeviceVulkan11Features, VkPhysicalDeviceVulkan12Features, VkPhysicalDeviceVulkan13Features, VkPhysicalDeviceCoherentMemoryFeaturesAMD, VkPhysicalDeviceCustomBorderColorFeaturesEXT, VkPhysicalDeviceBorderColorSwizzleFeaturesEXT, VkPhysicalDeviceExtendedDynamicStateFeaturesEXT, VkPhysicalDeviceExtendedDynamicState2FeaturesEXT, VkPhysicalDeviceExtendedDynamicState3FeaturesEXT, VkPhysicalDeviceDiagnosticsConfigFeaturesNV, VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures, VkPhysicalDeviceShaderSubgroupUniformControlFlowFeaturesKHR, VkPhysicalDeviceRobustness2FeaturesEXT, VkPhysicalDeviceImageRobustnessFeatures, VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR, VkPhysicalDevice4444FormatsFeaturesEXT, VkPhysicalDeviceSubpassShadingFeaturesHUAWEI, VkPhysicalDeviceClusterCullingShaderFeaturesHUAWEI, VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT, VkPhysicalDeviceFragmentShadingRateFeaturesKHR, VkPhysicalDeviceShaderTerminateInvocationFeatures, VkPhysicalDeviceFragmentShadingRateEnumsFeaturesNV, VkPhysicalDeviceImage2DViewOf3DFeaturesEXT, VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT, VkPhysicalDeviceAttachmentFeedbackLoopDynamicStateFeaturesEXT, VkPhysicalDeviceLegacyVertexAttributesFeaturesEXT, VkPhysicalDeviceMutableDescriptorTypeFeaturesEXT, VkPhysicalDeviceDepthClipControlFeaturesEXT, VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT, VkPhysicalDeviceExternalMemoryRDMAFeaturesNV, VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR, VkPhysicalDeviceColorWriteEnableFeaturesEXT, VkPhysicalDeviceSynchronization2Features, VkPhysicalDeviceHostImageCopyFeaturesEXT, VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT, VkPhysicalDeviceLegacyDitheringFeaturesEXT, VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT, VkPhysicalDevicePipelineProtectedAccessFeaturesEXT, VkPhysicalDeviceVideoMaintenance1FeaturesKHR, VkPhysicalDeviceInheritedViewportScissorFeaturesNV, VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT, VkPhysicalDeviceProvokingVertexFeaturesEXT, VkPhysicalDeviceDescriptorBufferFeaturesEXT, VkPhysicalDeviceShaderIntegerDotProductFeatures, VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR, VkPhysicalDeviceRayTracingMotionBlurFeaturesNV, VkPhysicalDeviceRayTracingValidationFeaturesNV, VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT, VkPhysicalDeviceDynamicRenderingFeatures, VkPhysicalDeviceImageViewMinLodFeaturesEXT, VkPhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT, VkPhysicalDeviceLinearColorAttachmentFeaturesNV, VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT, VkPhysicalDeviceDescriptorSetHostMappingFeaturesVALVE, VkPhysicalDeviceNestedCommandBufferFeaturesEXT, VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT, VkPhysicalDeviceImageCompressionControlFeaturesEXT, VkPhysicalDeviceImageCompressionControlSwapchainFeaturesEXT, VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT, VkPhysicalDeviceOpacityMicromapFeaturesEXT, VkPhysicalDevicePipelinePropertiesFeaturesEXT, VkPhysicalDeviceShaderEarlyAndLateFragmentTestsFeaturesAMD, VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT, VkPhysicalDevicePipelineRobustnessFeaturesEXT, VkPhysicalDeviceImageProcessingFeaturesQCOM, VkPhysicalDeviceTilePropertiesFeaturesQCOM, VkPhysicalDeviceAmigoProfilingFeaturesSEC, VkPhysicalDeviceAttachmentFeedbackLoopLayoutFeaturesEXT, VkPhysicalDeviceDepthClampZeroOneFeaturesEXT, VkPhysicalDeviceAddressBindingReportFeaturesEXT, VkPhysicalDeviceOpticalFlowFeaturesNV, VkPhysicalDeviceFaultFeaturesEXT, VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT, VkPhysicalDeviceShaderCoreBuiltinsFeaturesARM, VkPhysicalDeviceFrameBoundaryFeaturesEXT, VkPhysicalDeviceDynamicRenderingUnusedAttachmentsFeaturesEXT, VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT, VkPhysicalDeviceDepthBiasControlFeaturesEXT, VkPhysicalDeviceRayTracingInvocationReorderFeaturesNV, VkPhysicalDeviceExtendedSparseAddressSpaceFeaturesNV, VkPhysicalDeviceMultiviewPerViewViewportsFeaturesQCOM, VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR, VkPhysicalDeviceMultiviewPerViewRenderAreasFeaturesQCOM, VkPhysicalDeviceShaderObjectFeaturesEXT, VkPhysicalDeviceShaderTileImageFeaturesEXT, VkPhysicalDeviceCooperativeMatrixFeaturesKHR, VkPhysicalDeviceCubicClampFeaturesQCOM, VkPhysicalDeviceYcbcrDegammaFeaturesQCOM, VkPhysicalDeviceCubicWeightsFeaturesQCOM, VkPhysicalDeviceImageProcessing2FeaturesQCOM, VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV, VkPhysicalDevicePerStageDescriptorSetFeaturesNV, VkPhysicalDeviceExternalFormatResolveFeaturesANDROID, VkPhysicalDeviceCudaKernelLaunchFeaturesNV, VkPhysicalDeviceSchedulingControlsFeaturesARM, VkPhysicalDeviceRelaxedLineRasterizationFeaturesIMG, VkPhysicalDeviceRenderPassStripedFeaturesARM, VkPhysicalDeviceShaderMaximalReconvergenceFeaturesKHR, VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR, VkPhysicalDeviceShaderExpectAssumeFeaturesKHR, VkPhysicalDeviceShaderFloatControls2FeaturesKHR, VkPhysicalDeviceDynamicRenderingLocalReadFeaturesKHR, VkPhysicalDeviceShaderQuadControlFeaturesKHR, VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV, VkPhysicalDeviceMapMemoryPlacedFeaturesEXT, VkPhysicalDeviceRawAccessChainsFeaturesNV, VkPhysicalDeviceImageAlignmentControlFeaturesMESA, VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPhysicalDeviceFeatures2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -13957,6 +14370,7 @@ void unwrap_VkPhysicalDeviceFloatControlsProperties(struct temporary_objects* te
         return;
 
     unwrap_VkPhysicalDeviceFloatControlsProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -13989,6 +14403,7 @@ void unwrap_VkPhysicalDeviceFragmentDensityMap2FeaturesEXT(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceFragmentDensityMap2FeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14024,6 +14439,7 @@ void unwrap_VkPhysicalDeviceFragmentDensityMap2PropertiesEXT(struct temporary_ob
         return;
 
     unwrap_VkPhysicalDeviceFragmentDensityMap2PropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14058,6 +14474,7 @@ void unwrap_VkPhysicalDeviceFragmentDensityMapFeaturesEXT(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceFragmentDensityMapFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14090,6 +14507,7 @@ void unwrap_VkPhysicalDeviceFragmentDensityMapOffsetFeaturesQCOM(struct temporar
         return;
 
     unwrap_VkPhysicalDeviceFragmentDensityMapOffsetFeaturesQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14122,6 +14540,7 @@ void unwrap_VkPhysicalDeviceFragmentDensityMapOffsetPropertiesQCOM(struct tempor
         return;
 
     unwrap_VkPhysicalDeviceFragmentDensityMapOffsetPropertiesQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14156,6 +14575,7 @@ void unwrap_VkPhysicalDeviceFragmentDensityMapPropertiesEXT(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceFragmentDensityMapPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14188,6 +14608,7 @@ void unwrap_VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR(struct temporar
         return;
 
     unwrap_VkPhysicalDeviceFragmentShaderBarycentricFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14220,6 +14641,7 @@ void unwrap_VkPhysicalDeviceFragmentShaderBarycentricPropertiesKHR(struct tempor
         return;
 
     unwrap_VkPhysicalDeviceFragmentShaderBarycentricPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14254,6 +14676,7 @@ void unwrap_VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT(struct temporary_
         return;
 
     unwrap_VkPhysicalDeviceFragmentShaderInterlockFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14288,6 +14711,7 @@ void unwrap_VkPhysicalDeviceFragmentShadingRateEnumsFeaturesNV(struct temporary_
         return;
 
     unwrap_VkPhysicalDeviceFragmentShadingRateEnumsFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14320,6 +14744,7 @@ void unwrap_VkPhysicalDeviceFragmentShadingRateEnumsPropertiesNV(struct temporar
         return;
 
     unwrap_VkPhysicalDeviceFragmentShadingRateEnumsPropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14354,6 +14779,7 @@ void unwrap_VkPhysicalDeviceFragmentShadingRateFeaturesKHR(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceFragmentShadingRateFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14387,6 +14813,7 @@ void unwrap_VkPhysicalDeviceFragmentShadingRateKHR(struct temporary_objects* tem
         return;
 
     unwrap_VkPhysicalDeviceFragmentShadingRateKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14435,6 +14862,7 @@ void unwrap_VkPhysicalDeviceFragmentShadingRatePropertiesKHR(struct temporary_ob
         return;
 
     unwrap_VkPhysicalDeviceFragmentShadingRatePropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14467,6 +14895,7 @@ void unwrap_VkPhysicalDeviceFrameBoundaryFeaturesEXT(struct temporary_objects* t
         return;
 
     unwrap_VkPhysicalDeviceFrameBoundaryFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14499,6 +14928,7 @@ void unwrap_VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceGlobalPriorityQueryFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14531,6 +14961,7 @@ void unwrap_VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT(struct temporary_
         return;
 
     unwrap_VkPhysicalDeviceGraphicsPipelineLibraryFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14564,6 +14995,7 @@ void unwrap_VkPhysicalDeviceGraphicsPipelineLibraryPropertiesEXT(struct temporar
         return;
 
     unwrap_VkPhysicalDeviceGraphicsPipelineLibraryPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14596,6 +15028,7 @@ void unwrap_VkPhysicalDeviceHostImageCopyFeaturesEXT(struct temporary_objects* t
         return;
 
     unwrap_VkPhysicalDeviceHostImageCopyFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14633,6 +15066,7 @@ void unwrap_VkPhysicalDeviceHostImageCopyPropertiesEXT(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceHostImageCopyPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14665,6 +15099,7 @@ void unwrap_VkPhysicalDeviceHostQueryResetFeatures(struct temporary_objects* tem
         return;
 
     unwrap_VkPhysicalDeviceHostQueryResetFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14701,6 +15136,7 @@ void unwrap_VkPhysicalDeviceIDProperties(struct temporary_objects* temp, struct 
         return;
 
     unwrap_VkPhysicalDeviceIDProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14734,6 +15170,7 @@ void unwrap_VkPhysicalDeviceImage2DViewOf3DFeaturesEXT(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceImage2DViewOf3DFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14766,6 +15203,7 @@ void unwrap_VkPhysicalDeviceImageAlignmentControlFeaturesMESA(struct temporary_o
         return;
 
     unwrap_VkPhysicalDeviceImageAlignmentControlFeaturesMESA_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14798,6 +15236,7 @@ void unwrap_VkPhysicalDeviceImageAlignmentControlPropertiesMESA(struct temporary
         return;
 
     unwrap_VkPhysicalDeviceImageAlignmentControlPropertiesMESA_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14830,6 +15269,7 @@ void unwrap_VkPhysicalDeviceImageCompressionControlFeaturesEXT(struct temporary_
         return;
 
     unwrap_VkPhysicalDeviceImageCompressionControlFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14862,6 +15302,7 @@ void unwrap_VkPhysicalDeviceImageCompressionControlSwapchainFeaturesEXT(struct t
         return;
 
     unwrap_VkPhysicalDeviceImageCompressionControlSwapchainFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14897,6 +15338,7 @@ void unwrap_VkPhysicalDeviceImageDrmFormatModifierInfoEXT(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceImageDrmFormatModifierInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -14933,19 +15375,21 @@ void unwrap_VkPhysicalDeviceImageFormatInfo2(struct temporary_objects* temp, str
         return;
 
     unwrap_VkPhysicalDeviceImageFormatInfo2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPhysicalDeviceExternalImageFormatInfo, VkImageFormatListCreateInfo, VkPhysicalDeviceImageDrmFormatModifierInfoEXT, VkImageStencilUsageCreateInfo, VkPhysicalDeviceImageViewImageFormatInfoEXT, VkVideoProfileListInfoKHR, VkImageCompressionControlEXT, VkOpticalFlowImageFormatInfoNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPhysicalDeviceImageFormatInfo2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -14994,6 +15438,7 @@ void unwrap_VkPhysicalDeviceImageProcessing2FeaturesQCOM(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceImageProcessing2FeaturesQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15026,6 +15471,7 @@ void unwrap_VkPhysicalDeviceImageProcessing2PropertiesQCOM(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceImageProcessing2PropertiesQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15060,6 +15506,7 @@ void unwrap_VkPhysicalDeviceImageProcessingFeaturesQCOM(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDeviceImageProcessingFeaturesQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15095,6 +15542,7 @@ void unwrap_VkPhysicalDeviceImageProcessingPropertiesQCOM(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceImageProcessingPropertiesQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15127,6 +15575,7 @@ void unwrap_VkPhysicalDeviceImageRobustnessFeatures(struct temporary_objects* te
         return;
 
     unwrap_VkPhysicalDeviceImageRobustnessFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15159,6 +15608,7 @@ void unwrap_VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceImageSlicedViewOf3DFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15191,6 +15641,7 @@ void unwrap_VkPhysicalDeviceImageViewImageFormatInfoEXT(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDeviceImageViewImageFormatInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15223,6 +15674,7 @@ void unwrap_VkPhysicalDeviceImageViewMinLodFeaturesEXT(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceImageViewMinLodFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15255,6 +15707,7 @@ void unwrap_VkPhysicalDeviceImagelessFramebufferFeatures(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceImagelessFramebufferFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15287,6 +15740,7 @@ void unwrap_VkPhysicalDeviceIndexTypeUint8FeaturesKHR(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceIndexTypeUint8FeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15319,6 +15773,7 @@ void unwrap_VkPhysicalDeviceInheritedViewportScissorFeaturesNV(struct temporary_
         return;
 
     unwrap_VkPhysicalDeviceInheritedViewportScissorFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15352,6 +15807,7 @@ void unwrap_VkPhysicalDeviceInlineUniformBlockFeatures(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceInlineUniformBlockFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15388,6 +15844,7 @@ void unwrap_VkPhysicalDeviceInlineUniformBlockProperties(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceInlineUniformBlockProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15420,6 +15877,7 @@ void unwrap_VkPhysicalDeviceInvocationMaskFeaturesHUAWEI(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceInvocationMaskFeaturesHUAWEI_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15455,19 +15913,21 @@ void unwrap_VkPhysicalDeviceLayeredApiPropertiesKHR(struct temporary_objects* te
         return;
 
     unwrap_VkPhysicalDeviceLayeredApiPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPhysicalDeviceLayeredApiVulkanPropertiesKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPhysicalDeviceLayeredApiPropertiesKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -15517,6 +15977,7 @@ void unwrap_VkPhysicalDeviceLayeredApiPropertiesListKHR(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDeviceLayeredApiPropertiesListKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15549,6 +16010,7 @@ void unwrap_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15581,6 +16043,7 @@ void unwrap_VkPhysicalDeviceLayeredDriverPropertiesMSFT(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDeviceLayeredDriverPropertiesMSFT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15613,6 +16076,7 @@ void unwrap_VkPhysicalDeviceLegacyDitheringFeaturesEXT(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceLegacyDitheringFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15645,6 +16109,7 @@ void unwrap_VkPhysicalDeviceLegacyVertexAttributesFeaturesEXT(struct temporary_o
         return;
 
     unwrap_VkPhysicalDeviceLegacyVertexAttributesFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15677,6 +16142,7 @@ void unwrap_VkPhysicalDeviceLegacyVertexAttributesPropertiesEXT(struct temporary
         return;
 
     unwrap_VkPhysicalDeviceLegacyVertexAttributesPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15714,6 +16180,7 @@ void unwrap_VkPhysicalDeviceLineRasterizationFeaturesKHR(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceLineRasterizationFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15746,6 +16213,7 @@ void unwrap_VkPhysicalDeviceLineRasterizationPropertiesKHR(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceLineRasterizationPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15778,6 +16246,7 @@ void unwrap_VkPhysicalDeviceLinearColorAttachmentFeaturesNV(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceLinearColorAttachmentFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15811,6 +16280,7 @@ void unwrap_VkPhysicalDeviceMaintenance3Properties(struct temporary_objects* tem
         return;
 
     unwrap_VkPhysicalDeviceMaintenance3Properties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15843,6 +16313,7 @@ void unwrap_VkPhysicalDeviceMaintenance4Features(struct temporary_objects* temp,
         return;
 
     unwrap_VkPhysicalDeviceMaintenance4Features_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15875,6 +16346,7 @@ void unwrap_VkPhysicalDeviceMaintenance4Properties(struct temporary_objects* tem
         return;
 
     unwrap_VkPhysicalDeviceMaintenance4Properties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15907,6 +16379,7 @@ void unwrap_VkPhysicalDeviceMaintenance5FeaturesKHR(struct temporary_objects* te
         return;
 
     unwrap_VkPhysicalDeviceMaintenance5FeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15944,6 +16417,7 @@ void unwrap_VkPhysicalDeviceMaintenance5PropertiesKHR(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceMaintenance5PropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -15976,6 +16450,7 @@ void unwrap_VkPhysicalDeviceMaintenance6FeaturesKHR(struct temporary_objects* te
         return;
 
     unwrap_VkPhysicalDeviceMaintenance6FeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16010,6 +16485,7 @@ void unwrap_VkPhysicalDeviceMaintenance6PropertiesKHR(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceMaintenance6PropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16042,6 +16518,7 @@ void unwrap_VkPhysicalDeviceMaintenance7FeaturesKHR(struct temporary_objects* te
         return;
 
     unwrap_VkPhysicalDeviceMaintenance7FeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16081,6 +16558,7 @@ void unwrap_VkPhysicalDeviceMaintenance7PropertiesKHR(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceMaintenance7PropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16115,6 +16593,7 @@ void unwrap_VkPhysicalDeviceMapMemoryPlacedFeaturesEXT(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceMapMemoryPlacedFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16147,6 +16626,7 @@ void unwrap_VkPhysicalDeviceMapMemoryPlacedPropertiesEXT(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceMapMemoryPlacedPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16180,6 +16660,7 @@ void unwrap_VkPhysicalDeviceMemoryBudgetPropertiesEXT(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceMemoryBudgetPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16212,6 +16693,7 @@ void unwrap_VkPhysicalDeviceMemoryDecompressionFeaturesNV(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceMemoryDecompressionFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16245,6 +16727,7 @@ void unwrap_VkPhysicalDeviceMemoryDecompressionPropertiesNV(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceMemoryDecompressionPropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16277,6 +16760,7 @@ void unwrap_VkPhysicalDeviceMemoryPriorityFeaturesEXT(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceMemoryPriorityFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16309,19 +16793,21 @@ void unwrap_VkPhysicalDeviceMemoryProperties2(struct temporary_objects* temp, st
         return;
 
     unwrap_VkPhysicalDeviceMemoryProperties2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPhysicalDeviceMemoryBudgetPropertiesEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPhysicalDeviceMemoryProperties2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -16374,6 +16860,7 @@ void unwrap_VkPhysicalDeviceMeshShaderFeaturesEXT(struct temporary_objects* temp
         return;
 
     unwrap_VkPhysicalDeviceMeshShaderFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16407,6 +16894,7 @@ void unwrap_VkPhysicalDeviceMeshShaderFeaturesNV(struct temporary_objects* temp,
         return;
 
     unwrap_VkPhysicalDeviceMeshShaderFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16466,6 +16954,7 @@ void unwrap_VkPhysicalDeviceMeshShaderPropertiesEXT(struct temporary_objects* te
         return;
 
     unwrap_VkPhysicalDeviceMeshShaderPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16510,6 +16999,7 @@ void unwrap_VkPhysicalDeviceMeshShaderPropertiesNV(struct temporary_objects* tem
         return;
 
     unwrap_VkPhysicalDeviceMeshShaderPropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16542,6 +17032,7 @@ void unwrap_VkPhysicalDeviceMultiDrawFeaturesEXT(struct temporary_objects* temp,
         return;
 
     unwrap_VkPhysicalDeviceMultiDrawFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16574,6 +17065,7 @@ void unwrap_VkPhysicalDeviceMultiDrawPropertiesEXT(struct temporary_objects* tem
         return;
 
     unwrap_VkPhysicalDeviceMultiDrawPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16606,6 +17098,7 @@ void unwrap_VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT(struct 
         return;
 
     unwrap_VkPhysicalDeviceMultisampledRenderToSingleSampledFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16640,6 +17133,7 @@ void unwrap_VkPhysicalDeviceMultiviewFeatures(struct temporary_objects* temp, st
         return;
 
     unwrap_VkPhysicalDeviceMultiviewFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16672,6 +17166,7 @@ void unwrap_VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX(struct tempo
         return;
 
     unwrap_VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16704,6 +17199,7 @@ void unwrap_VkPhysicalDeviceMultiviewPerViewRenderAreasFeaturesQCOM(struct tempo
         return;
 
     unwrap_VkPhysicalDeviceMultiviewPerViewRenderAreasFeaturesQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16736,6 +17232,7 @@ void unwrap_VkPhysicalDeviceMultiviewPerViewViewportsFeaturesQCOM(struct tempora
         return;
 
     unwrap_VkPhysicalDeviceMultiviewPerViewViewportsFeaturesQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16769,6 +17266,7 @@ void unwrap_VkPhysicalDeviceMultiviewProperties(struct temporary_objects* temp, 
         return;
 
     unwrap_VkPhysicalDeviceMultiviewProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16801,6 +17299,7 @@ void unwrap_VkPhysicalDeviceMutableDescriptorTypeFeaturesEXT(struct temporary_ob
         return;
 
     unwrap_VkPhysicalDeviceMutableDescriptorTypeFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16835,6 +17334,7 @@ void unwrap_VkPhysicalDeviceNestedCommandBufferFeaturesEXT(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceNestedCommandBufferFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16867,6 +17367,7 @@ void unwrap_VkPhysicalDeviceNestedCommandBufferPropertiesEXT(struct temporary_ob
         return;
 
     unwrap_VkPhysicalDeviceNestedCommandBufferPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16899,6 +17400,7 @@ void unwrap_VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceNonSeamlessCubeMapFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16933,6 +17435,7 @@ void unwrap_VkPhysicalDeviceOpacityMicromapFeaturesEXT(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceOpacityMicromapFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16966,6 +17469,7 @@ void unwrap_VkPhysicalDeviceOpacityMicromapPropertiesEXT(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceOpacityMicromapPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -16998,6 +17502,7 @@ void unwrap_VkPhysicalDeviceOpticalFlowFeaturesNV(struct temporary_objects* temp
         return;
 
     unwrap_VkPhysicalDeviceOpticalFlowFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17040,6 +17545,7 @@ void unwrap_VkPhysicalDeviceOpticalFlowPropertiesNV(struct temporary_objects* te
         return;
 
     unwrap_VkPhysicalDeviceOpticalFlowPropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17075,6 +17581,7 @@ void unwrap_VkPhysicalDevicePCIBusInfoPropertiesEXT(struct temporary_objects* te
         return;
 
     unwrap_VkPhysicalDevicePCIBusInfoPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17107,6 +17614,7 @@ void unwrap_VkPhysicalDevicePageableDeviceLocalMemoryFeaturesEXT(struct temporar
         return;
 
     unwrap_VkPhysicalDevicePageableDeviceLocalMemoryFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17140,6 +17648,7 @@ void unwrap_VkPhysicalDevicePerStageDescriptorSetFeaturesNV(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDevicePerStageDescriptorSetFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17173,6 +17682,7 @@ void unwrap_VkPhysicalDevicePerformanceQueryFeaturesKHR(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDevicePerformanceQueryFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17205,6 +17715,7 @@ void unwrap_VkPhysicalDevicePerformanceQueryPropertiesKHR(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDevicePerformanceQueryPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17237,6 +17748,7 @@ void unwrap_VkPhysicalDevicePipelineCreationCacheControlFeatures(struct temporar
         return;
 
     unwrap_VkPhysicalDevicePipelineCreationCacheControlFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17269,6 +17781,7 @@ void unwrap_VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR(struct tempo
         return;
 
     unwrap_VkPhysicalDevicePipelineExecutablePropertiesFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17301,6 +17814,7 @@ void unwrap_VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT(struct tempor
         return;
 
     unwrap_VkPhysicalDevicePipelineLibraryGroupHandlesFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17333,6 +17847,7 @@ void unwrap_VkPhysicalDevicePipelinePropertiesFeaturesEXT(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDevicePipelinePropertiesFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17365,6 +17880,7 @@ void unwrap_VkPhysicalDevicePipelineProtectedAccessFeaturesEXT(struct temporary_
         return;
 
     unwrap_VkPhysicalDevicePipelineProtectedAccessFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17397,6 +17913,7 @@ void unwrap_VkPhysicalDevicePipelineRobustnessFeaturesEXT(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDevicePipelineRobustnessFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17432,6 +17949,7 @@ void unwrap_VkPhysicalDevicePipelineRobustnessPropertiesEXT(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDevicePipelineRobustnessPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17464,6 +17982,7 @@ void unwrap_VkPhysicalDevicePointClippingProperties(struct temporary_objects* te
         return;
 
     unwrap_VkPhysicalDevicePointClippingProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17496,6 +18015,7 @@ void unwrap_VkPhysicalDevicePresentBarrierFeaturesNV(struct temporary_objects* t
         return;
 
     unwrap_VkPhysicalDevicePresentBarrierFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17528,6 +18048,7 @@ void unwrap_VkPhysicalDevicePresentIdFeaturesKHR(struct temporary_objects* temp,
         return;
 
     unwrap_VkPhysicalDevicePresentIdFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17560,6 +18081,7 @@ void unwrap_VkPhysicalDevicePresentWaitFeaturesKHR(struct temporary_objects* tem
         return;
 
     unwrap_VkPhysicalDevicePresentWaitFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17592,6 +18114,7 @@ void unwrap_VkPhysicalDevicePresentationPropertiesANDROID(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDevicePresentationPropertiesANDROID_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17625,6 +18148,7 @@ void unwrap_VkPhysicalDevicePrimitiveTopologyListRestartFeaturesEXT(struct tempo
         return;
 
     unwrap_VkPhysicalDevicePrimitiveTopologyListRestartFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17659,6 +18183,7 @@ void unwrap_VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT(struct temporary
         return;
 
     unwrap_VkPhysicalDevicePrimitivesGeneratedQueryFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17691,6 +18216,7 @@ void unwrap_VkPhysicalDevicePrivateDataFeatures(struct temporary_objects* temp, 
         return;
 
     unwrap_VkPhysicalDevicePrivateDataFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17723,19 +18249,21 @@ void unwrap_VkPhysicalDeviceProperties2(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkPhysicalDeviceProperties2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV, VkPhysicalDeviceMultiDrawPropertiesEXT, VkPhysicalDevicePushDescriptorPropertiesKHR, VkPhysicalDeviceDriverProperties, VkPhysicalDeviceIDProperties, VkPhysicalDeviceMultiviewProperties, VkPhysicalDeviceDiscardRectanglePropertiesEXT, VkPhysicalDeviceMultiviewPerViewAttributesPropertiesNVX, VkPhysicalDeviceSubgroupProperties, VkPhysicalDevicePointClippingProperties, VkPhysicalDeviceProtectedMemoryProperties, VkPhysicalDeviceSamplerFilterMinmaxProperties, VkPhysicalDeviceSampleLocationsPropertiesEXT, VkPhysicalDeviceBlendOperationAdvancedPropertiesEXT, VkPhysicalDeviceInlineUniformBlockProperties, VkPhysicalDeviceMaintenance3Properties, VkPhysicalDeviceMaintenance4Properties, VkPhysicalDeviceMaintenance5PropertiesKHR, VkPhysicalDeviceMaintenance6PropertiesKHR, VkPhysicalDeviceMaintenance7PropertiesKHR, VkPhysicalDeviceLayeredApiPropertiesListKHR, VkPhysicalDeviceFloatControlsProperties, VkPhysicalDeviceExternalMemoryHostPropertiesEXT, VkPhysicalDeviceConservativeRasterizationPropertiesEXT, VkPhysicalDeviceShaderCorePropertiesAMD, VkPhysicalDeviceShaderCoreProperties2AMD, VkPhysicalDeviceDescriptorIndexingProperties, VkPhysicalDeviceTimelineSemaphoreProperties, VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT, VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR, VkPhysicalDevicePCIBusInfoPropertiesEXT, VkPhysicalDeviceDepthStencilResolveProperties, VkPhysicalDeviceTransformFeedbackPropertiesEXT, VkPhysicalDeviceCopyMemoryIndirectPropertiesNV, VkPhysicalDeviceMemoryDecompressionPropertiesNV, VkPhysicalDeviceShadingRateImagePropertiesNV, VkPhysicalDeviceMeshShaderPropertiesNV, VkPhysicalDeviceMeshShaderPropertiesEXT, VkPhysicalDeviceAccelerationStructurePropertiesKHR, VkPhysicalDeviceRayTracingPipelinePropertiesKHR, VkPhysicalDeviceRayTracingPropertiesNV, VkPhysicalDeviceFragmentDensityMapPropertiesEXT, VkPhysicalDeviceFragmentDensityMap2PropertiesEXT, VkPhysicalDeviceFragmentDensityMapOffsetPropertiesQCOM, VkPhysicalDeviceCooperativeMatrixPropertiesNV, VkPhysicalDevicePerformanceQueryPropertiesKHR, VkPhysicalDeviceShaderSMBuiltinsPropertiesNV, VkPhysicalDeviceTexelBufferAlignmentProperties, VkPhysicalDeviceSubgroupSizeControlProperties, VkPhysicalDeviceSubpassShadingPropertiesHUAWEI, VkPhysicalDeviceClusterCullingShaderPropertiesHUAWEI, VkPhysicalDeviceLineRasterizationPropertiesKHR, VkPhysicalDeviceVulkan11Properties, VkPhysicalDeviceVulkan12Properties, VkPhysicalDeviceVulkan13Properties, VkPhysicalDeviceCustomBorderColorPropertiesEXT, VkPhysicalDeviceExtendedDynamicState3PropertiesEXT, VkPhysicalDeviceRobustness2PropertiesEXT, VkPhysicalDeviceFragmentShadingRatePropertiesKHR, VkPhysicalDeviceFragmentShadingRateEnumsPropertiesNV, VkPhysicalDeviceLegacyVertexAttributesPropertiesEXT, VkPhysicalDeviceHostImageCopyPropertiesEXT, VkPhysicalDeviceProvokingVertexPropertiesEXT, VkPhysicalDeviceDescriptorBufferPropertiesEXT, VkPhysicalDeviceDescriptorBufferDensityMapPropertiesEXT, VkPhysicalDeviceShaderIntegerDotProductProperties, VkPhysicalDeviceDrmPropertiesEXT, VkPhysicalDeviceFragmentShaderBarycentricPropertiesKHR, VkPhysicalDeviceGraphicsPipelineLibraryPropertiesEXT, VkPhysicalDeviceNestedCommandBufferPropertiesEXT, VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT, VkPhysicalDeviceOpacityMicromapPropertiesEXT, VkPhysicalDevicePipelineRobustnessPropertiesEXT, VkPhysicalDeviceImageProcessingPropertiesQCOM, VkPhysicalDeviceOpticalFlowPropertiesNV, VkPhysicalDeviceShaderCoreBuiltinsPropertiesARM, VkPhysicalDeviceRayTracingInvocationReorderPropertiesNV, VkPhysicalDeviceExtendedSparseAddressSpacePropertiesNV, VkPhysicalDeviceShaderCorePropertiesARM, VkPhysicalDeviceShaderObjectPropertiesEXT, VkPhysicalDeviceShaderTileImagePropertiesEXT, VkPhysicalDeviceCooperativeMatrixPropertiesKHR, VkPhysicalDeviceImageProcessing2PropertiesQCOM, VkPhysicalDeviceLayeredDriverPropertiesMSFT, VkPhysicalDeviceExternalFormatResolvePropertiesANDROID, VkPhysicalDeviceCudaKernelLaunchPropertiesNV, VkPhysicalDeviceSchedulingControlsPropertiesARM, VkPhysicalDeviceRenderPassStripedPropertiesARM, VkPhysicalDeviceMapMemoryPlacedPropertiesEXT, VkPhysicalDeviceImageAlignmentControlPropertiesMESA]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPhysicalDeviceProperties2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -17784,6 +18312,7 @@ void unwrap_VkPhysicalDeviceProtectedMemoryFeatures(struct temporary_objects* te
         return;
 
     unwrap_VkPhysicalDeviceProtectedMemoryFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17816,6 +18345,7 @@ void unwrap_VkPhysicalDeviceProtectedMemoryProperties(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceProtectedMemoryProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17849,6 +18379,7 @@ void unwrap_VkPhysicalDeviceProvokingVertexFeaturesEXT(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceProvokingVertexFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17882,6 +18413,7 @@ void unwrap_VkPhysicalDeviceProvokingVertexPropertiesEXT(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceProvokingVertexPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17914,6 +18446,7 @@ void unwrap_VkPhysicalDevicePushDescriptorPropertiesKHR(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDevicePushDescriptorPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17946,6 +18479,7 @@ void unwrap_VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceRGBA10X6FormatsFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -17980,6 +18514,7 @@ void unwrap_VkPhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT(struct
         return;
 
     unwrap_VkPhysicalDeviceRasterizationOrderAttachmentAccessFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18012,6 +18547,7 @@ void unwrap_VkPhysicalDeviceRawAccessChainsFeaturesNV(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceRawAccessChainsFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18044,6 +18580,7 @@ void unwrap_VkPhysicalDeviceRayQueryFeaturesKHR(struct temporary_objects* temp, 
         return;
 
     unwrap_VkPhysicalDeviceRayQueryFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18076,6 +18613,7 @@ void unwrap_VkPhysicalDeviceRayTracingInvocationReorderFeaturesNV(struct tempora
         return;
 
     unwrap_VkPhysicalDeviceRayTracingInvocationReorderFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18108,6 +18646,7 @@ void unwrap_VkPhysicalDeviceRayTracingInvocationReorderPropertiesNV(struct tempo
         return;
 
     unwrap_VkPhysicalDeviceRayTracingInvocationReorderPropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18141,6 +18680,7 @@ void unwrap_VkPhysicalDeviceRayTracingMaintenance1FeaturesKHR(struct temporary_o
         return;
 
     unwrap_VkPhysicalDeviceRayTracingMaintenance1FeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18174,6 +18714,7 @@ void unwrap_VkPhysicalDeviceRayTracingMotionBlurFeaturesNV(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceRayTracingMotionBlurFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18210,6 +18751,7 @@ void unwrap_VkPhysicalDeviceRayTracingPipelineFeaturesKHR(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceRayTracingPipelineFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18249,6 +18791,7 @@ void unwrap_VkPhysicalDeviceRayTracingPipelinePropertiesKHR(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceRayTracingPipelinePropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18281,6 +18824,7 @@ void unwrap_VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR(struct temporary_
         return;
 
     unwrap_VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18320,6 +18864,7 @@ void unwrap_VkPhysicalDeviceRayTracingPropertiesNV(struct temporary_objects* tem
         return;
 
     unwrap_VkPhysicalDeviceRayTracingPropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18352,6 +18897,7 @@ void unwrap_VkPhysicalDeviceRayTracingValidationFeaturesNV(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceRayTracingValidationFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18384,6 +18930,7 @@ void unwrap_VkPhysicalDeviceRelaxedLineRasterizationFeaturesIMG(struct temporary
         return;
 
     unwrap_VkPhysicalDeviceRelaxedLineRasterizationFeaturesIMG_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18416,6 +18963,7 @@ void unwrap_VkPhysicalDeviceRenderPassStripedFeaturesARM(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceRenderPassStripedFeaturesARM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18449,6 +18997,7 @@ void unwrap_VkPhysicalDeviceRenderPassStripedPropertiesARM(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceRenderPassStripedPropertiesARM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18481,6 +19030,7 @@ void unwrap_VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV(struct temporar
         return;
 
     unwrap_VkPhysicalDeviceRepresentativeFragmentTestFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18515,6 +19065,7 @@ void unwrap_VkPhysicalDeviceRobustness2FeaturesEXT(struct temporary_objects* tem
         return;
 
     unwrap_VkPhysicalDeviceRobustness2FeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18548,6 +19099,7 @@ void unwrap_VkPhysicalDeviceRobustness2PropertiesEXT(struct temporary_objects* t
         return;
 
     unwrap_VkPhysicalDeviceRobustness2PropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18584,6 +19136,7 @@ void unwrap_VkPhysicalDeviceSampleLocationsPropertiesEXT(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceSampleLocationsPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18617,6 +19170,7 @@ void unwrap_VkPhysicalDeviceSamplerFilterMinmaxProperties(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceSamplerFilterMinmaxProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18649,6 +19203,7 @@ void unwrap_VkPhysicalDeviceSamplerYcbcrConversionFeatures(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceSamplerYcbcrConversionFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18681,6 +19236,7 @@ void unwrap_VkPhysicalDeviceScalarBlockLayoutFeatures(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceScalarBlockLayoutFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18713,6 +19269,7 @@ void unwrap_VkPhysicalDeviceSchedulingControlsFeaturesARM(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceSchedulingControlsFeaturesARM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18745,6 +19302,7 @@ void unwrap_VkPhysicalDeviceSchedulingControlsPropertiesARM(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceSchedulingControlsPropertiesARM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18777,6 +19335,7 @@ void unwrap_VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures(struct temporary
         return;
 
     unwrap_VkPhysicalDeviceSeparateDepthStencilLayoutsFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18809,6 +19368,7 @@ void unwrap_VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV(struct temporary
         return;
 
     unwrap_VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18852,6 +19412,7 @@ void unwrap_VkPhysicalDeviceShaderAtomicFloat2FeaturesEXT(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceShaderAtomicFloat2FeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18895,6 +19456,7 @@ void unwrap_VkPhysicalDeviceShaderAtomicFloatFeaturesEXT(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceShaderAtomicFloatFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18928,6 +19490,7 @@ void unwrap_VkPhysicalDeviceShaderAtomicInt64Features(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceShaderAtomicInt64Features_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18961,6 +19524,7 @@ void unwrap_VkPhysicalDeviceShaderClockFeaturesKHR(struct temporary_objects* tem
         return;
 
     unwrap_VkPhysicalDeviceShaderClockFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -18993,6 +19557,7 @@ void unwrap_VkPhysicalDeviceShaderCoreBuiltinsFeaturesARM(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceShaderCoreBuiltinsFeaturesARM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19027,6 +19592,7 @@ void unwrap_VkPhysicalDeviceShaderCoreBuiltinsPropertiesARM(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceShaderCoreBuiltinsPropertiesARM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19060,6 +19626,7 @@ void unwrap_VkPhysicalDeviceShaderCoreProperties2AMD(struct temporary_objects* t
         return;
 
     unwrap_VkPhysicalDeviceShaderCoreProperties2AMD_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19105,6 +19672,7 @@ void unwrap_VkPhysicalDeviceShaderCorePropertiesAMD(struct temporary_objects* te
         return;
 
     unwrap_VkPhysicalDeviceShaderCorePropertiesAMD_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19139,6 +19707,7 @@ void unwrap_VkPhysicalDeviceShaderCorePropertiesARM(struct temporary_objects* te
         return;
 
     unwrap_VkPhysicalDeviceShaderCorePropertiesARM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19171,6 +19740,7 @@ void unwrap_VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures(struct tempor
         return;
 
     unwrap_VkPhysicalDeviceShaderDemoteToHelperInvocationFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19203,6 +19773,7 @@ void unwrap_VkPhysicalDeviceShaderDrawParametersFeatures(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceShaderDrawParametersFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19235,6 +19806,7 @@ void unwrap_VkPhysicalDeviceShaderEarlyAndLateFragmentTestsFeaturesAMD(struct te
         return;
 
     unwrap_VkPhysicalDeviceShaderEarlyAndLateFragmentTestsFeaturesAMD_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19267,6 +19839,7 @@ void unwrap_VkPhysicalDeviceShaderExpectAssumeFeaturesKHR(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceShaderExpectAssumeFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19300,6 +19873,7 @@ void unwrap_VkPhysicalDeviceShaderFloat16Int8Features(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceShaderFloat16Int8Features_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19332,6 +19906,7 @@ void unwrap_VkPhysicalDeviceShaderFloatControls2FeaturesKHR(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceShaderFloatControls2FeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19365,6 +19940,7 @@ void unwrap_VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT(struct temporary_o
         return;
 
     unwrap_VkPhysicalDeviceShaderImageAtomicInt64FeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19397,6 +19973,7 @@ void unwrap_VkPhysicalDeviceShaderImageFootprintFeaturesNV(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceShaderImageFootprintFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19429,6 +20006,7 @@ void unwrap_VkPhysicalDeviceShaderIntegerDotProductFeatures(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceShaderIntegerDotProductFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19490,6 +20068,7 @@ void unwrap_VkPhysicalDeviceShaderIntegerDotProductProperties(struct temporary_o
         return;
 
     unwrap_VkPhysicalDeviceShaderIntegerDotProductProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19522,6 +20101,7 @@ void unwrap_VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL(struct temporar
         return;
 
     unwrap_VkPhysicalDeviceShaderIntegerFunctions2FeaturesINTEL_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19554,6 +20134,7 @@ void unwrap_VkPhysicalDeviceShaderMaximalReconvergenceFeaturesKHR(struct tempora
         return;
 
     unwrap_VkPhysicalDeviceShaderMaximalReconvergenceFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19586,6 +20167,7 @@ void unwrap_VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT(struct temporary_o
         return;
 
     unwrap_VkPhysicalDeviceShaderModuleIdentifierFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19618,6 +20200,7 @@ void unwrap_VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT(struct temporary
         return;
 
     unwrap_VkPhysicalDeviceShaderModuleIdentifierPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19650,6 +20233,7 @@ void unwrap_VkPhysicalDeviceShaderObjectFeaturesEXT(struct temporary_objects* te
         return;
 
     unwrap_VkPhysicalDeviceShaderObjectFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19683,6 +20267,7 @@ void unwrap_VkPhysicalDeviceShaderObjectPropertiesEXT(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceShaderObjectPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19715,6 +20300,7 @@ void unwrap_VkPhysicalDeviceShaderQuadControlFeaturesKHR(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceShaderQuadControlFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19747,6 +20333,7 @@ void unwrap_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR(struct t
         return;
 
     unwrap_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19779,6 +20366,7 @@ void unwrap_VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT(struct tempora
         return;
 
     unwrap_VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19811,6 +20399,7 @@ void unwrap_VkPhysicalDeviceShaderSMBuiltinsFeaturesNV(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceShaderSMBuiltinsFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19844,6 +20433,7 @@ void unwrap_VkPhysicalDeviceShaderSMBuiltinsPropertiesNV(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceShaderSMBuiltinsPropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19876,6 +20466,7 @@ void unwrap_VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures(struct temporary
         return;
 
     unwrap_VkPhysicalDeviceShaderSubgroupExtendedTypesFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19909,6 +20500,7 @@ void unwrap_VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceShaderSubgroupRotateFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19941,6 +20533,7 @@ void unwrap_VkPhysicalDeviceShaderSubgroupUniformControlFlowFeaturesKHR(struct t
         return;
 
     unwrap_VkPhysicalDeviceShaderSubgroupUniformControlFlowFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -19973,6 +20566,7 @@ void unwrap_VkPhysicalDeviceShaderTerminateInvocationFeatures(struct temporary_o
         return;
 
     unwrap_VkPhysicalDeviceShaderTerminateInvocationFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20007,6 +20601,7 @@ void unwrap_VkPhysicalDeviceShaderTileImageFeaturesEXT(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceShaderTileImageFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20041,6 +20636,7 @@ void unwrap_VkPhysicalDeviceShaderTileImagePropertiesEXT(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceShaderTileImagePropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20074,6 +20670,7 @@ void unwrap_VkPhysicalDeviceShadingRateImageFeaturesNV(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceShadingRateImageFeaturesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20108,6 +20705,7 @@ void unwrap_VkPhysicalDeviceShadingRateImagePropertiesNV(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceShadingRateImagePropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20144,6 +20742,7 @@ void unwrap_VkPhysicalDeviceSparseImageFormatInfo2(struct temporary_objects* tem
         return;
 
     unwrap_VkPhysicalDeviceSparseImageFormatInfo2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20179,6 +20778,7 @@ void unwrap_VkPhysicalDeviceSubgroupProperties(struct temporary_objects* temp, s
         return;
 
     unwrap_VkPhysicalDeviceSubgroupProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20212,6 +20812,7 @@ void unwrap_VkPhysicalDeviceSubgroupSizeControlFeatures(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDeviceSubgroupSizeControlFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20247,6 +20848,7 @@ void unwrap_VkPhysicalDeviceSubgroupSizeControlProperties(struct temporary_objec
         return;
 
     unwrap_VkPhysicalDeviceSubgroupSizeControlProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20279,6 +20881,7 @@ void unwrap_VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceSubpassMergeFeedbackFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20311,6 +20914,7 @@ void unwrap_VkPhysicalDeviceSubpassShadingFeaturesHUAWEI(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceSubpassShadingFeaturesHUAWEI_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20343,6 +20947,7 @@ void unwrap_VkPhysicalDeviceSubpassShadingPropertiesHUAWEI(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceSubpassShadingPropertiesHUAWEI_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20375,19 +20980,21 @@ void unwrap_VkPhysicalDeviceSurfaceInfo2KHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkPhysicalDeviceSurfaceInfo2KHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkSurfacePresentModeEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPhysicalDeviceSurfaceInfo2KHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -20436,6 +21043,7 @@ void unwrap_VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT(struct temporary_ob
         return;
 
     unwrap_VkPhysicalDeviceSwapchainMaintenance1FeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20468,6 +21076,7 @@ void unwrap_VkPhysicalDeviceSynchronization2Features(struct temporary_objects* t
         return;
 
     unwrap_VkPhysicalDeviceSynchronization2Features_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20500,6 +21109,7 @@ void unwrap_VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT(struct temporary_obj
         return;
 
     unwrap_VkPhysicalDeviceTexelBufferAlignmentFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20535,6 +21145,7 @@ void unwrap_VkPhysicalDeviceTexelBufferAlignmentProperties(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceTexelBufferAlignmentProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20567,6 +21178,7 @@ void unwrap_VkPhysicalDeviceTextureCompressionASTCHDRFeatures(struct temporary_o
         return;
 
     unwrap_VkPhysicalDeviceTextureCompressionASTCHDRFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20599,6 +21211,7 @@ void unwrap_VkPhysicalDeviceTilePropertiesFeaturesQCOM(struct temporary_objects*
         return;
 
     unwrap_VkPhysicalDeviceTilePropertiesFeaturesQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20631,6 +21244,7 @@ void unwrap_VkPhysicalDeviceTimelineSemaphoreFeatures(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceTimelineSemaphoreFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20663,6 +21277,7 @@ void unwrap_VkPhysicalDeviceTimelineSemaphoreProperties(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDeviceTimelineSemaphoreProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20699,6 +21314,7 @@ void unwrap_VkPhysicalDeviceToolProperties(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkPhysicalDeviceToolProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20732,6 +21348,7 @@ void unwrap_VkPhysicalDeviceTransformFeedbackFeaturesEXT(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceTransformFeedbackFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20773,6 +21390,7 @@ void unwrap_VkPhysicalDeviceTransformFeedbackPropertiesEXT(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceTransformFeedbackPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20805,6 +21423,7 @@ void unwrap_VkPhysicalDeviceUniformBufferStandardLayoutFeatures(struct temporary
         return;
 
     unwrap_VkPhysicalDeviceUniformBufferStandardLayoutFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20838,6 +21457,7 @@ void unwrap_VkPhysicalDeviceVariablePointersFeatures(struct temporary_objects* t
         return;
 
     unwrap_VkPhysicalDeviceVariablePointersFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20871,6 +21491,7 @@ void unwrap_VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR(struct temporary_o
         return;
 
     unwrap_VkPhysicalDeviceVertexAttributeDivisorFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20903,6 +21524,7 @@ void unwrap_VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT(struct temporary
         return;
 
     unwrap_VkPhysicalDeviceVertexAttributeDivisorPropertiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20936,6 +21558,7 @@ void unwrap_VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR(struct temporary
         return;
 
     unwrap_VkPhysicalDeviceVertexAttributeDivisorPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -20968,6 +21591,7 @@ void unwrap_VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT(struct temporary_
         return;
 
     unwrap_VkPhysicalDeviceVertexInputDynamicStateFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21001,6 +21625,7 @@ void unwrap_VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR(struct temporary_obje
         return;
 
     unwrap_VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21033,19 +21658,21 @@ void unwrap_VkPhysicalDeviceVideoFormatInfoKHR(struct temporary_objects* temp, s
         return;
 
     unwrap_VkPhysicalDeviceVideoFormatInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkVideoProfileListInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPhysicalDeviceVideoFormatInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -21094,6 +21721,7 @@ void unwrap_VkPhysicalDeviceVideoMaintenance1FeaturesKHR(struct temporary_object
         return;
 
     unwrap_VkPhysicalDeviceVideoMaintenance1FeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21137,6 +21765,7 @@ void unwrap_VkPhysicalDeviceVulkan11Features(struct temporary_objects* temp, str
         return;
 
     unwrap_VkPhysicalDeviceVulkan11Features_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21183,6 +21812,7 @@ void unwrap_VkPhysicalDeviceVulkan11Properties(struct temporary_objects* temp, s
         return;
 
     unwrap_VkPhysicalDeviceVulkan11Properties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21261,6 +21891,7 @@ void unwrap_VkPhysicalDeviceVulkan12Features(struct temporary_objects* temp, str
         return;
 
     unwrap_VkPhysicalDeviceVulkan12Features_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21344,6 +21975,7 @@ void unwrap_VkPhysicalDeviceVulkan12Properties(struct temporary_objects* temp, s
         return;
 
     unwrap_VkPhysicalDeviceVulkan12Properties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21390,6 +22022,7 @@ void unwrap_VkPhysicalDeviceVulkan13Features(struct temporary_objects* temp, str
         return;
 
     unwrap_VkPhysicalDeviceVulkan13Features_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21466,6 +22099,7 @@ void unwrap_VkPhysicalDeviceVulkan13Properties(struct temporary_objects* temp, s
         return;
 
     unwrap_VkPhysicalDeviceVulkan13Properties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21500,6 +22134,7 @@ void unwrap_VkPhysicalDeviceVulkanMemoryModelFeatures(struct temporary_objects* 
         return;
 
     unwrap_VkPhysicalDeviceVulkanMemoryModelFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21535,6 +22170,7 @@ void unwrap_VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR(struct temp
         return;
 
     unwrap_VkPhysicalDeviceWorkgroupMemoryExplicitLayoutFeaturesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21567,6 +22203,7 @@ void unwrap_VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT(struct temporary_ob
         return;
 
     unwrap_VkPhysicalDeviceYcbcr2Plane444FormatsFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21599,6 +22236,7 @@ void unwrap_VkPhysicalDeviceYcbcrDegammaFeaturesQCOM(struct temporary_objects* t
         return;
 
     unwrap_VkPhysicalDeviceYcbcrDegammaFeaturesQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21631,6 +22269,7 @@ void unwrap_VkPhysicalDeviceYcbcrImageArraysFeaturesEXT(struct temporary_objects
         return;
 
     unwrap_VkPhysicalDeviceYcbcrImageArraysFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21663,6 +22302,7 @@ void unwrap_VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures(struct tempora
         return;
 
     unwrap_VkPhysicalDeviceZeroInitializeWorkgroupMemoryFeatures_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21697,6 +22337,7 @@ void unwrap_VkPipelineCacheCreateInfo(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkPipelineCacheCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21731,6 +22372,7 @@ void unwrap_VkPipelineColorBlendAdvancedStateCreateInfoEXT(struct temporary_obje
         return;
 
     unwrap_VkPipelineColorBlendAdvancedStateCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21768,19 +22410,21 @@ void unwrap_VkPipelineColorBlendStateCreateInfo(struct temporary_objects* temp, 
         return;
 
     unwrap_VkPipelineColorBlendStateCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPipelineColorBlendAdvancedStateCreateInfoEXT, VkPipelineColorWriteCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPipelineColorBlendStateCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -21830,6 +22474,7 @@ void unwrap_VkPipelineColorWriteCreateInfoEXT(struct temporary_objects* temp, st
         return;
 
     unwrap_VkPipelineColorWriteCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21862,6 +22507,7 @@ void unwrap_VkPipelineCompilerControlCreateInfoAMD(struct temporary_objects* tem
         return;
 
     unwrap_VkPipelineCompilerControlCreateInfoAMD_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21898,6 +22544,7 @@ void unwrap_VkPipelineCoverageModulationStateCreateInfoNV(struct temporary_objec
         return;
 
     unwrap_VkPipelineCoverageModulationStateCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21931,6 +22578,7 @@ void unwrap_VkPipelineCoverageReductionStateCreateInfoNV(struct temporary_object
         return;
 
     unwrap_VkPipelineCoverageReductionStateCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21965,6 +22613,7 @@ void unwrap_VkPipelineCoverageToColorStateCreateInfoNV(struct temporary_objects*
         return;
 
     unwrap_VkPipelineCoverageToColorStateCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -21997,6 +22646,7 @@ void unwrap_VkPipelineCreateFlags2CreateInfoKHR(struct temporary_objects* temp, 
         return;
 
     unwrap_VkPipelineCreateFlags2CreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22038,6 +22688,7 @@ void unwrap_VkPipelineDepthStencilStateCreateInfo(struct temporary_objects* temp
         return;
 
     unwrap_VkPipelineDepthStencilStateCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22073,6 +22724,7 @@ void unwrap_VkPipelineDiscardRectangleStateCreateInfoEXT(struct temporary_object
         return;
 
     unwrap_VkPipelineDiscardRectangleStateCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22107,6 +22759,7 @@ void unwrap_VkPipelineDynamicStateCreateInfo(struct temporary_objects* temp, str
         return;
 
     unwrap_VkPipelineDynamicStateCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22140,6 +22793,7 @@ void unwrap_VkPipelineExecutableInfoKHR(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkPipelineExecutableInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22176,6 +22830,7 @@ void unwrap_VkPipelineExecutableInternalRepresentationKHR(struct temporary_objec
         return;
 
     unwrap_VkPipelineExecutableInternalRepresentationKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22211,6 +22866,7 @@ void unwrap_VkPipelineExecutablePropertiesKHR(struct temporary_objects* temp, st
         return;
 
     unwrap_VkPipelineExecutablePropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22246,6 +22902,7 @@ void unwrap_VkPipelineExecutableStatisticKHR(struct temporary_objects* temp, str
         return;
 
     unwrap_VkPipelineExecutableStatisticKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22280,6 +22937,7 @@ void unwrap_VkPipelineFragmentShadingRateEnumStateCreateInfoNV(struct temporary_
         return;
 
     unwrap_VkPipelineFragmentShadingRateEnumStateCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22313,6 +22971,7 @@ void unwrap_VkPipelineFragmentShadingRateStateCreateInfoKHR(struct temporary_obj
         return;
 
     unwrap_VkPipelineFragmentShadingRateStateCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22346,6 +23005,7 @@ void unwrap_VkPipelineIndirectDeviceAddressInfoNV(struct temporary_objects* temp
         return;
 
     unwrap_VkPipelineIndirectDeviceAddressInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22378,6 +23038,7 @@ void unwrap_VkPipelineInfoKHR(struct temporary_objects* temp, struct wrapper_dev
         return;
 
     unwrap_VkPipelineInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22412,6 +23073,7 @@ void unwrap_VkPipelineInputAssemblyStateCreateInfo(struct temporary_objects* tem
         return;
 
     unwrap_VkPipelineInputAssemblyStateCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22448,6 +23110,7 @@ void unwrap_VkPipelineLayoutCreateInfo(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkPipelineLayoutCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22481,6 +23144,7 @@ void unwrap_VkPipelineLibraryCreateInfoKHR(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkPipelineLibraryCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22513,6 +23177,7 @@ void unwrap_VkPipelinePropertiesIdentifierEXT(struct temporary_objects* temp, st
         return;
 
     unwrap_VkPipelinePropertiesIdentifierEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22547,6 +23212,7 @@ void unwrap_VkPipelineRasterizationConservativeStateCreateInfoEXT(struct tempora
         return;
 
     unwrap_VkPipelineRasterizationConservativeStateCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22580,6 +23246,7 @@ void unwrap_VkPipelineRasterizationDepthClipStateCreateInfoEXT(struct temporary_
         return;
 
     unwrap_VkPipelineRasterizationDepthClipStateCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22615,6 +23282,7 @@ void unwrap_VkPipelineRasterizationLineStateCreateInfoKHR(struct temporary_objec
         return;
 
     unwrap_VkPipelineRasterizationLineStateCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22647,6 +23315,7 @@ void unwrap_VkPipelineRasterizationProvokingVertexStateCreateInfoEXT(struct temp
         return;
 
     unwrap_VkPipelineRasterizationProvokingVertexStateCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22689,19 +23358,21 @@ void unwrap_VkPipelineRasterizationStateCreateInfo(struct temporary_objects* tem
         return;
 
     unwrap_VkPipelineRasterizationStateCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPipelineRasterizationStateRasterizationOrderAMD, VkPipelineRasterizationConservativeStateCreateInfoEXT, VkPipelineRasterizationStateStreamCreateInfoEXT, VkPipelineRasterizationDepthClipStateCreateInfoEXT, VkPipelineRasterizationLineStateCreateInfoKHR, VkPipelineRasterizationProvokingVertexStateCreateInfoEXT, VkDepthBiasRepresentationInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPipelineRasterizationStateCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -22750,6 +23421,7 @@ void unwrap_VkPipelineRasterizationStateRasterizationOrderAMD(struct temporary_o
         return;
 
     unwrap_VkPipelineRasterizationStateRasterizationOrderAMD_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22783,6 +23455,7 @@ void unwrap_VkPipelineRasterizationStateStreamCreateInfoEXT(struct temporary_obj
         return;
 
     unwrap_VkPipelineRasterizationStateStreamCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22819,6 +23492,7 @@ void unwrap_VkPipelineRenderingCreateInfo(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkPipelineRenderingCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22851,6 +23525,7 @@ void unwrap_VkPipelineRepresentativeFragmentTestStateCreateInfoNV(struct tempora
         return;
 
     unwrap_VkPipelineRepresentativeFragmentTestStateCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22886,6 +23561,7 @@ void unwrap_VkPipelineRobustnessCreateInfoEXT(struct temporary_objects* temp, st
         return;
 
     unwrap_VkPipelineRobustnessCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22919,6 +23595,7 @@ void unwrap_VkPipelineSampleLocationsStateCreateInfoEXT(struct temporary_objects
         return;
 
     unwrap_VkPipelineSampleLocationsStateCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -22955,19 +23632,21 @@ void unwrap_VkPipelineShaderStageCreateInfo(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkPipelineShaderStageCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkShaderModuleValidationCacheCreateInfoEXT, VkDebugUtilsObjectNameInfoEXT, VkPipelineShaderStageRequiredSubgroupSizeCreateInfo, VkPipelineShaderStageModuleIdentifierCreateInfoEXT, VkPipelineRobustnessCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPipelineShaderStageCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -23017,6 +23696,7 @@ void unwrap_VkPipelineShaderStageModuleIdentifierCreateInfoEXT(struct temporary_
         return;
 
     unwrap_VkPipelineShaderStageModuleIdentifierCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23049,6 +23729,7 @@ void unwrap_VkPipelineShaderStageRequiredSubgroupSizeCreateInfo(struct temporary
         return;
 
     unwrap_VkPipelineShaderStageRequiredSubgroupSizeCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23081,6 +23762,7 @@ void unwrap_VkPipelineTessellationDomainOriginStateCreateInfo(struct temporary_o
         return;
 
     unwrap_VkPipelineTessellationDomainOriginStateCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23114,19 +23796,21 @@ void unwrap_VkPipelineTessellationStateCreateInfo(struct temporary_objects* temp
         return;
 
     unwrap_VkPipelineTessellationStateCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPipelineTessellationDomainOriginStateCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPipelineTessellationStateCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -23176,6 +23860,7 @@ void unwrap_VkPipelineVertexInputDivisorStateCreateInfoKHR(struct temporary_obje
         return;
 
     unwrap_VkPipelineVertexInputDivisorStateCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23212,19 +23897,21 @@ void unwrap_VkPipelineVertexInputStateCreateInfo(struct temporary_objects* temp,
         return;
 
     unwrap_VkPipelineVertexInputStateCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPipelineVertexInputDivisorStateCreateInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPipelineVertexInputStateCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -23275,6 +23962,7 @@ void unwrap_VkPipelineViewportCoarseSampleOrderStateCreateInfoNV(struct temporar
         return;
 
     unwrap_VkPipelineViewportCoarseSampleOrderStateCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23307,6 +23995,7 @@ void unwrap_VkPipelineViewportDepthClipControlCreateInfoEXT(struct temporary_obj
         return;
 
     unwrap_VkPipelineViewportDepthClipControlCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23340,6 +24029,7 @@ void unwrap_VkPipelineViewportExclusiveScissorStateCreateInfoNV(struct temporary
         return;
 
     unwrap_VkPipelineViewportExclusiveScissorStateCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23374,6 +24064,7 @@ void unwrap_VkPipelineViewportShadingRateImageStateCreateInfoNV(struct temporary
         return;
 
     unwrap_VkPipelineViewportShadingRateImageStateCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23410,19 +24101,21 @@ void unwrap_VkPipelineViewportStateCreateInfo(struct temporary_objects* temp, st
         return;
 
     unwrap_VkPipelineViewportStateCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPipelineViewportWScalingStateCreateInfoNV, VkPipelineViewportSwizzleStateCreateInfoNV, VkPipelineViewportExclusiveScissorStateCreateInfoNV, VkPipelineViewportShadingRateImageStateCreateInfoNV, VkPipelineViewportCoarseSampleOrderStateCreateInfoNV, VkPipelineViewportDepthClipControlCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPipelineViewportStateCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -23473,6 +24166,7 @@ void unwrap_VkPipelineViewportSwizzleStateCreateInfoNV(struct temporary_objects*
         return;
 
     unwrap_VkPipelineViewportSwizzleStateCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23507,6 +24201,7 @@ void unwrap_VkPipelineViewportWScalingStateCreateInfoNV(struct temporary_objects
         return;
 
     unwrap_VkPipelineViewportWScalingStateCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23540,6 +24235,7 @@ void unwrap_VkPresentIdKHR(struct temporary_objects* temp, struct wrapper_device
         return;
 
     unwrap_VkPresentIdKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23577,19 +24273,21 @@ void unwrap_VkPresentInfoKHR(struct temporary_objects* temp, struct wrapper_devi
         return;
 
     unwrap_VkPresentInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDisplayPresentInfoKHR, VkPresentRegionsKHR, VkDeviceGroupPresentInfoKHR, VkPresentIdKHR, VkPresentTimesInfoGOOGLE, VkFrameBoundaryEXT, VkSwapchainPresentFenceInfoEXT, VkSwapchainPresentModeInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPresentInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -23639,6 +24337,7 @@ void unwrap_VkPresentRegionsKHR(struct temporary_objects* temp, struct wrapper_d
         return;
 
     unwrap_VkPresentRegionsKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23672,6 +24371,7 @@ void unwrap_VkPresentTimesInfoGOOGLE(struct temporary_objects* temp, struct wrap
         return;
 
     unwrap_VkPresentTimesInfoGOOGLE_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23704,6 +24404,7 @@ void unwrap_VkPrivateDataSlotCreateInfo(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkPrivateDataSlotCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23736,6 +24437,7 @@ void unwrap_VkProtectedSubmitInfo(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkProtectedSubmitInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23772,19 +24474,21 @@ void unwrap_VkPushConstantsInfoKHR(struct temporary_objects* temp, struct wrappe
         return;
 
     unwrap_VkPushConstantsInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPipelineLayoutCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPushConstantsInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -23837,19 +24541,21 @@ void unwrap_VkPushDescriptorSetInfoKHR(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkPushDescriptorSetInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPipelineLayoutCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPushDescriptorSetInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -23901,19 +24607,21 @@ void unwrap_VkPushDescriptorSetWithTemplateInfoKHR(struct temporary_objects* tem
         return;
 
     unwrap_VkPushDescriptorSetWithTemplateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPipelineLayoutCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkPushDescriptorSetWithTemplateInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -23962,6 +24670,7 @@ void unwrap_VkQueryLowLatencySupportNV(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkQueryLowLatencySupportNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -23997,19 +24706,21 @@ void unwrap_VkQueryPoolCreateInfo(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkQueryPoolCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkQueryPoolPerformanceCreateInfoKHR, VkQueryPoolPerformanceQueryCreateInfoINTEL, VkVideoProfileInfoKHR, VkVideoDecodeUsageInfoKHR, VkVideoDecodeH264ProfileInfoKHR, VkVideoDecodeH265ProfileInfoKHR, VkVideoDecodeAV1ProfileInfoKHR, VkVideoEncodeUsageInfoKHR, VkQueryPoolVideoEncodeFeedbackCreateInfoKHR, VkVideoEncodeH264ProfileInfoKHR, VkVideoEncodeH265ProfileInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkQueryPoolCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -24060,6 +24771,7 @@ void unwrap_VkQueryPoolPerformanceCreateInfoKHR(struct temporary_objects* temp, 
         return;
 
     unwrap_VkQueryPoolPerformanceCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24092,6 +24804,7 @@ void unwrap_VkQueryPoolPerformanceQueryCreateInfoINTEL(struct temporary_objects*
         return;
 
     unwrap_VkQueryPoolPerformanceQueryCreateInfoINTEL_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24124,6 +24837,7 @@ void unwrap_VkQueryPoolVideoEncodeFeedbackCreateInfoKHR(struct temporary_objects
         return;
 
     unwrap_VkQueryPoolVideoEncodeFeedbackCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24156,6 +24870,7 @@ void unwrap_VkQueueFamilyCheckpointProperties2NV(struct temporary_objects* temp,
         return;
 
     unwrap_VkQueueFamilyCheckpointProperties2NV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24188,6 +24903,7 @@ void unwrap_VkQueueFamilyCheckpointPropertiesNV(struct temporary_objects* temp, 
         return;
 
     unwrap_VkQueueFamilyCheckpointPropertiesNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24221,6 +24937,7 @@ void unwrap_VkQueueFamilyGlobalPriorityPropertiesKHR(struct temporary_objects* t
         return;
 
     unwrap_VkQueueFamilyGlobalPriorityPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24253,19 +24970,21 @@ void unwrap_VkQueueFamilyProperties2(struct temporary_objects* temp, struct wrap
         return;
 
     unwrap_VkQueueFamilyProperties2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkQueueFamilyGlobalPriorityPropertiesKHR, VkQueueFamilyCheckpointPropertiesNV, VkQueueFamilyCheckpointProperties2NV, VkQueueFamilyVideoPropertiesKHR, VkQueueFamilyQueryResultStatusPropertiesKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkQueueFamilyProperties2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -24314,6 +25033,7 @@ void unwrap_VkQueueFamilyQueryResultStatusPropertiesKHR(struct temporary_objects
         return;
 
     unwrap_VkQueueFamilyQueryResultStatusPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24346,6 +25066,7 @@ void unwrap_VkQueueFamilyVideoPropertiesKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkQueueFamilyVideoPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24389,19 +25110,21 @@ void unwrap_VkRayTracingPipelineCreateInfoKHR(struct temporary_objects* temp, st
         return;
 
     unwrap_VkRayTracingPipelineCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPipelineCreateFlags2CreateInfoKHR, VkPipelineRobustnessCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkRayTracingPipelineCreateInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -24458,19 +25181,21 @@ void unwrap_VkRayTracingPipelineCreateInfoNV(struct temporary_objects* temp, str
         return;
 
     unwrap_VkRayTracingPipelineCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPipelineCreateFlags2CreateInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkRayTracingPipelineCreateInfoNV pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -24520,6 +25245,7 @@ void unwrap_VkRayTracingPipelineInterfaceCreateInfoKHR(struct temporary_objects*
         return;
 
     unwrap_VkRayTracingPipelineInterfaceCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24557,6 +25283,7 @@ void unwrap_VkRayTracingShaderGroupCreateInfoKHR(struct temporary_objects* temp,
         return;
 
     unwrap_VkRayTracingShaderGroupCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24593,6 +25320,7 @@ void unwrap_VkRayTracingShaderGroupCreateInfoNV(struct temporary_objects* temp, 
         return;
 
     unwrap_VkRayTracingShaderGroupCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24627,6 +25355,7 @@ void unwrap_VkReleaseSwapchainImagesInfoEXT(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkReleaseSwapchainImagesInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24660,6 +25389,7 @@ void unwrap_VkRenderPassAttachmentBeginInfo(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkRenderPassAttachmentBeginInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24696,19 +25426,21 @@ void unwrap_VkRenderPassBeginInfo(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkRenderPassBeginInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDeviceGroupRenderPassBeginInfo, VkRenderPassSampleLocationsBeginInfoEXT, VkRenderPassAttachmentBeginInfo, VkRenderPassTransformBeginInfoQCOM, VkMultiviewPerViewRenderAreasRenderPassBeginInfoQCOM, VkRenderPassStripeBeginInfoARM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkRenderPassBeginInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -24763,19 +25495,21 @@ void unwrap_VkRenderPassCreateInfo(struct temporary_objects* temp, struct wrappe
         return;
 
     unwrap_VkRenderPassCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkRenderPassMultiviewCreateInfo, VkRenderPassInputAttachmentAspectCreateInfo, VkRenderPassFragmentDensityMapCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkRenderPassCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -24832,19 +25566,21 @@ void unwrap_VkRenderPassCreateInfo2(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkRenderPassCreateInfo2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkRenderPassFragmentDensityMapCreateInfoEXT, VkRenderPassCreationControlEXT, VkRenderPassCreationFeedbackCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkRenderPassCreateInfo2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -24893,6 +25629,7 @@ void unwrap_VkRenderPassCreationControlEXT(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkRenderPassCreationControlEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24925,6 +25662,7 @@ void unwrap_VkRenderPassCreationFeedbackCreateInfoEXT(struct temporary_objects* 
         return;
 
     unwrap_VkRenderPassCreationFeedbackCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24957,6 +25695,7 @@ void unwrap_VkRenderPassFragmentDensityMapCreateInfoEXT(struct temporary_objects
         return;
 
     unwrap_VkRenderPassFragmentDensityMapCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -24990,6 +25729,7 @@ void unwrap_VkRenderPassInputAttachmentAspectCreateInfo(struct temporary_objects
         return;
 
     unwrap_VkRenderPassInputAttachmentAspectCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25027,6 +25767,7 @@ void unwrap_VkRenderPassMultiviewCreateInfo(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkRenderPassMultiviewCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25062,6 +25803,7 @@ void unwrap_VkRenderPassSampleLocationsBeginInfoEXT(struct temporary_objects* te
         return;
 
     unwrap_VkRenderPassSampleLocationsBeginInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25095,6 +25837,7 @@ void unwrap_VkRenderPassStripeBeginInfoARM(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkRenderPassStripeBeginInfoARM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25127,6 +25870,7 @@ void unwrap_VkRenderPassStripeInfoARM(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkRenderPassStripeInfoARM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25160,6 +25904,7 @@ void unwrap_VkRenderPassStripeSubmitInfoARM(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkRenderPassStripeSubmitInfoARM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25192,6 +25937,7 @@ void unwrap_VkRenderPassSubpassFeedbackCreateInfoEXT(struct temporary_objects* t
         return;
 
     unwrap_VkRenderPassSubpassFeedbackCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25224,6 +25970,7 @@ void unwrap_VkRenderPassTransformBeginInfoQCOM(struct temporary_objects* temp, s
         return;
 
     unwrap_VkRenderPassTransformBeginInfoQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25260,6 +26007,7 @@ void unwrap_VkRenderingAreaInfoKHR(struct temporary_objects* temp, struct wrappe
         return;
 
     unwrap_VkRenderingAreaInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25299,6 +26047,7 @@ void unwrap_VkRenderingAttachmentInfo(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkRenderingAttachmentInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25332,6 +26081,7 @@ void unwrap_VkRenderingAttachmentLocationInfoKHR(struct temporary_objects* temp,
         return;
 
     unwrap_VkRenderingAttachmentLocationInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25365,6 +26115,7 @@ void unwrap_VkRenderingFragmentDensityMapAttachmentInfoEXT(struct temporary_obje
         return;
 
     unwrap_VkRenderingFragmentDensityMapAttachmentInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25399,6 +26150,7 @@ void unwrap_VkRenderingFragmentShadingRateAttachmentInfoKHR(struct temporary_obj
         return;
 
     unwrap_VkRenderingFragmentShadingRateAttachmentInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25438,19 +26190,21 @@ void unwrap_VkRenderingInfo(struct temporary_objects* temp, struct wrapper_devic
         return;
 
     unwrap_VkRenderingInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDeviceGroupRenderPassBeginInfo, VkMultisampledRenderToSingleSampledInfoEXT, VkRenderingFragmentShadingRateAttachmentInfoKHR, VkRenderingFragmentDensityMapAttachmentInfoEXT, VkMultiviewPerViewAttributesInfoNVX, VkMultiviewPerViewRenderAreasRenderPassBeginInfoQCOM, VkRenderPassStripeBeginInfoARM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkRenderingInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -25502,6 +26256,7 @@ void unwrap_VkRenderingInputAttachmentIndexInfoKHR(struct temporary_objects* tem
         return;
 
     unwrap_VkRenderingInputAttachmentIndexInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25539,6 +26294,7 @@ void unwrap_VkResolveImageInfo2(struct temporary_objects* temp, struct wrapper_d
         return;
 
     unwrap_VkResolveImageInfo2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25574,6 +26330,7 @@ void unwrap_VkSampleLocationsInfoEXT(struct temporary_objects* temp, struct wrap
         return;
 
     unwrap_VkSampleLocationsInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25607,6 +26364,7 @@ void unwrap_VkSamplerBlockMatchWindowCreateInfoQCOM(struct temporary_objects* te
         return;
 
     unwrap_VkSamplerBlockMatchWindowCreateInfoQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25640,6 +26398,7 @@ void unwrap_VkSamplerBorderColorComponentMappingCreateInfoEXT(struct temporary_o
         return;
 
     unwrap_VkSamplerBorderColorComponentMappingCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25672,6 +26431,7 @@ void unwrap_VkSamplerCaptureDescriptorDataInfoEXT(struct temporary_objects* temp
         return;
 
     unwrap_VkSamplerCaptureDescriptorDataInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25719,19 +26479,21 @@ void unwrap_VkSamplerCreateInfo(struct temporary_objects* temp, struct wrapper_d
         return;
 
     unwrap_VkSamplerCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkSamplerYcbcrConversionInfo, VkSamplerReductionModeCreateInfo, VkSamplerCustomBorderColorCreateInfoEXT, VkSamplerBorderColorComponentMappingCreateInfoEXT, VkOpaqueCaptureDescriptorDataCreateInfoEXT, VkSamplerCubicWeightsCreateInfoQCOM, VkSamplerBlockMatchWindowCreateInfoQCOM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkSamplerCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -25780,6 +26542,7 @@ void unwrap_VkSamplerCubicWeightsCreateInfoQCOM(struct temporary_objects* temp, 
         return;
 
     unwrap_VkSamplerCubicWeightsCreateInfoQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25813,6 +26576,7 @@ void unwrap_VkSamplerCustomBorderColorCreateInfoEXT(struct temporary_objects* te
         return;
 
     unwrap_VkSamplerCustomBorderColorCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25845,6 +26609,7 @@ void unwrap_VkSamplerReductionModeCreateInfo(struct temporary_objects* temp, str
         return;
 
     unwrap_VkSamplerReductionModeCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25884,19 +26649,21 @@ void unwrap_VkSamplerYcbcrConversionCreateInfo(struct temporary_objects* temp, s
         return;
 
     unwrap_VkSamplerYcbcrConversionCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkExternalFormatANDROID, VkSamplerYcbcrConversionYcbcrDegammaCreateInfoQCOM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkSamplerYcbcrConversionCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -25945,6 +26712,7 @@ void unwrap_VkSamplerYcbcrConversionImageFormatProperties(struct temporary_objec
         return;
 
     unwrap_VkSamplerYcbcrConversionImageFormatProperties_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -25977,6 +26745,7 @@ void unwrap_VkSamplerYcbcrConversionInfo(struct temporary_objects* temp, struct 
         return;
 
     unwrap_VkSamplerYcbcrConversionInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -26010,6 +26779,7 @@ void unwrap_VkSamplerYcbcrConversionYcbcrDegammaCreateInfoQCOM(struct temporary_
         return;
 
     unwrap_VkSamplerYcbcrConversionYcbcrDegammaCreateInfoQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -26042,19 +26812,21 @@ void unwrap_VkSemaphoreCreateInfo(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkSemaphoreCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkExportSemaphoreCreateInfo, VkSemaphoreTypeCreateInfo, VkQueryLowLatencySupportNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkSemaphoreCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -26104,6 +26876,7 @@ void unwrap_VkSemaphoreGetFdInfoKHR(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkSemaphoreGetFdInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -26137,6 +26910,7 @@ void unwrap_VkSemaphoreSignalInfo(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkSemaphoreSignalInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -26172,6 +26946,7 @@ void unwrap_VkSemaphoreSubmitInfo(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkSemaphoreSubmitInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -26205,6 +26980,7 @@ void unwrap_VkSemaphoreTypeCreateInfo(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkSemaphoreTypeCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -26240,6 +27016,7 @@ void unwrap_VkSemaphoreWaitInfo(struct temporary_objects* temp, struct wrapper_d
         return;
 
     unwrap_VkSemaphoreWaitInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -26277,19 +27054,21 @@ void unwrap_VkSetDescriptorBufferOffsetsInfoEXT(struct temporary_objects* temp, 
         return;
 
     unwrap_VkSetDescriptorBufferOffsetsInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPipelineLayoutCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkSetDescriptorBufferOffsetsInfoEXT pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -26339,6 +27118,7 @@ void unwrap_VkSetLatencyMarkerInfoNV(struct temporary_objects* temp, struct wrap
         return;
 
     unwrap_VkSetLatencyMarkerInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -26382,19 +27162,21 @@ void unwrap_VkShaderCreateInfoEXT(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkShaderCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkValidationFeaturesEXT, VkPipelineShaderStageRequiredSubgroupSizeCreateInfo]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkShaderCreateInfoEXT pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -26444,6 +27226,7 @@ void unwrap_VkShaderModuleIdentifierEXT(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkShaderModuleIdentifierEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -26476,6 +27259,7 @@ void unwrap_VkShaderModuleValidationCacheCreateInfoEXT(struct temporary_objects*
         return;
 
     unwrap_VkShaderModuleValidationCacheCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -26508,6 +27292,7 @@ void unwrap_VkSharedPresentSurfaceCapabilitiesKHR(struct temporary_objects* temp
         return;
 
     unwrap_VkSharedPresentSurfaceCapabilitiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -26540,6 +27325,7 @@ void unwrap_VkSparseImageFormatProperties2(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkSparseImageFormatProperties2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -26572,6 +27358,7 @@ void unwrap_VkSparseImageMemoryRequirements2(struct temporary_objects* temp, str
         return;
 
     unwrap_VkSparseImageMemoryRequirements2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -26600,7 +27387,7 @@ unwrap_VkSubmitInfo_members_only(struct temporary_objects* temp, struct wrapper_
     //   Uses these types that must be unwrapped: ['VkCommandBuffer']
 
     if (in_info->pCommandBuffers) {
-        out_info->pCommandBuffers = VK_ALLOC2(VkCommandBuffer, in_info->commandBufferCount * sizeof(VkCommandBuffer));
+        out_info->pCommandBuffers = __VK_ALLOC2(VkCommandBuffer, in_info->commandBufferCount * sizeof(VkCommandBuffer));
         for (uint32_t i = 0; i < in_info->commandBufferCount; i++) {
             VK_FROM_HANDLE(wrapper_command_buffer, wrapper_obj, in_info->pCommandBuffers[i]);
             ((VkCommandBuffer *) out_info->pCommandBuffers)[i] = wrapper_obj ? wrapper_obj->dispatch_handle : VK_NULL_HANDLE;
@@ -26619,19 +27406,21 @@ void unwrap_VkSubmitInfo(struct temporary_objects* temp, struct wrapper_device *
         return;
 
     unwrap_VkSubmitInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDeviceGroupSubmitInfo, VkProtectedSubmitInfo, VkTimelineSemaphoreSubmitInfo, VkPerformanceQuerySubmitInfoKHR, VkAmigoProfilingSubmitInfoSEC, VkFrameBoundaryEXT, VkLatencySubmissionPresentIdNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkSubmitInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -26676,7 +27465,7 @@ unwrap_VkSubmitInfo2_members_only(struct temporary_objects* temp, struct wrapper
     //   Uses these types that must be unwrapped: ['VkCommandBuffer']
 
     if (in_info->pCommandBufferInfos) {
-        out_info->pCommandBufferInfos = VK_ALLOC2(VkCommandBufferSubmitInfo, in_info->commandBufferInfoCount * sizeof(VkCommandBufferSubmitInfo));
+        out_info->pCommandBufferInfos = __VK_ALLOC2(VkCommandBufferSubmitInfo, in_info->commandBufferInfoCount * sizeof(VkCommandBufferSubmitInfo));
         for (uint32_t i = 0; i < in_info->commandBufferInfoCount; i++) {
             unwrap_VkCommandBufferSubmitInfo(
                 temp,
@@ -26698,19 +27487,21 @@ void unwrap_VkSubmitInfo2(struct temporary_objects* temp, struct wrapper_device 
         return;
 
     unwrap_VkSubmitInfo2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkPerformanceQuerySubmitInfoKHR, VkFrameBoundaryEXT, VkLatencySubmissionPresentIdNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkSubmitInfo2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -26759,6 +27550,7 @@ void unwrap_VkSubpassBeginInfo(struct temporary_objects* temp, struct wrapper_de
         return;
 
     unwrap_VkSubpassBeginInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -26798,19 +27590,21 @@ void unwrap_VkSubpassDependency2(struct temporary_objects* temp, struct wrapper_
         return;
 
     unwrap_VkSubpassDependency2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkMemoryBarrier2]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkSubpassDependency2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -26869,19 +27663,21 @@ void unwrap_VkSubpassDescription2(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkSubpassDescription2_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkSubpassDescriptionDepthStencilResolve, VkFragmentShadingRateAttachmentInfoKHR, VkMultisampledRenderToSingleSampledInfoEXT, VkRenderPassCreationControlEXT, VkRenderPassSubpassFeedbackCreateInfoEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkSubpassDescription2 pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -26932,6 +27728,7 @@ void unwrap_VkSubpassDescriptionDepthStencilResolve(struct temporary_objects* te
         return;
 
     unwrap_VkSubpassDescriptionDepthStencilResolve_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -26963,19 +27760,21 @@ void unwrap_VkSubpassEndInfo(struct temporary_objects* temp, struct wrapper_devi
         return;
 
     unwrap_VkSubpassEndInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkSubpassFragmentDensityMapOffsetEndInfoQCOM]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkSubpassEndInfo pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -27025,6 +27824,7 @@ void unwrap_VkSubpassFragmentDensityMapOffsetEndInfoQCOM(struct temporary_object
         return;
 
     unwrap_VkSubpassFragmentDensityMapOffsetEndInfoQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27057,6 +27857,7 @@ void unwrap_VkSubpassResolvePerformanceQueryEXT(struct temporary_objects* temp, 
         return;
 
     unwrap_VkSubpassResolvePerformanceQueryEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27090,6 +27891,7 @@ void unwrap_VkSubpassShadingPipelineCreateInfoHUAWEI(struct temporary_objects* t
         return;
 
     unwrap_VkSubpassShadingPipelineCreateInfoHUAWEI_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27122,6 +27924,7 @@ void unwrap_VkSubresourceHostMemcpySizeEXT(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkSubresourceHostMemcpySizeEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27154,19 +27957,21 @@ void unwrap_VkSubresourceLayout2KHR(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkSubresourceLayout2KHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkSubresourceHostMemcpySizeEXT, VkImageCompressionPropertiesEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkSubresourceLayout2KHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -27225,6 +28030,7 @@ void unwrap_VkSurfaceCapabilities2EXT(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkSurfaceCapabilities2EXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27257,19 +28063,21 @@ void unwrap_VkSurfaceCapabilities2KHR(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkSurfaceCapabilities2KHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkDisplayNativeHdrSurfaceCapabilitiesAMD, VkSharedPresentSurfaceCapabilitiesKHR, VkSurfaceProtectedCapabilitiesKHR, VkSurfaceCapabilitiesPresentBarrierNV, VkSurfacePresentScalingCapabilitiesEXT, VkSurfacePresentModeCompatibilityEXT, VkLatencySurfaceCapabilitiesNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkSurfaceCapabilities2KHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -27318,6 +28126,7 @@ void unwrap_VkSurfaceCapabilitiesPresentBarrierNV(struct temporary_objects* temp
         return;
 
     unwrap_VkSurfaceCapabilitiesPresentBarrierNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27350,19 +28159,21 @@ void unwrap_VkSurfaceFormat2KHR(struct temporary_objects* temp, struct wrapper_d
         return;
 
     unwrap_VkSurfaceFormat2KHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkImageCompressionPropertiesEXT]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkSurfaceFormat2KHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -27412,6 +28223,7 @@ void unwrap_VkSurfacePresentModeCompatibilityEXT(struct temporary_objects* temp,
         return;
 
     unwrap_VkSurfacePresentModeCompatibilityEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27444,6 +28256,7 @@ void unwrap_VkSurfacePresentModeEXT(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkSurfacePresentModeEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27480,6 +28293,7 @@ void unwrap_VkSurfacePresentScalingCapabilitiesEXT(struct temporary_objects* tem
         return;
 
     unwrap_VkSurfacePresentScalingCapabilitiesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27512,6 +28326,7 @@ void unwrap_VkSurfaceProtectedCapabilitiesKHR(struct temporary_objects* temp, st
         return;
 
     unwrap_VkSurfaceProtectedCapabilitiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27544,6 +28359,7 @@ void unwrap_VkSwapchainCounterCreateInfoEXT(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkSwapchainCounterCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27591,19 +28407,21 @@ void unwrap_VkSwapchainCreateInfoKHR(struct temporary_objects* temp, struct wrap
         return;
 
     unwrap_VkSwapchainCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkSwapchainCounterCreateInfoEXT, VkDeviceGroupSwapchainCreateInfoKHR, VkSwapchainDisplayNativeHdrCreateInfoAMD, VkImageFormatListCreateInfo, VkSwapchainPresentBarrierCreateInfoNV, VkImageCompressionControlEXT, VkSwapchainPresentModesCreateInfoEXT, VkSwapchainPresentScalingCreateInfoEXT, VkSwapchainLatencyCreateInfoNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkSwapchainCreateInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -27652,6 +28470,7 @@ void unwrap_VkSwapchainDisplayNativeHdrCreateInfoAMD(struct temporary_objects* t
         return;
 
     unwrap_VkSwapchainDisplayNativeHdrCreateInfoAMD_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27684,6 +28503,7 @@ void unwrap_VkSwapchainImageCreateInfoANDROID(struct temporary_objects* temp, st
         return;
 
     unwrap_VkSwapchainImageCreateInfoANDROID_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27716,6 +28536,7 @@ void unwrap_VkSwapchainLatencyCreateInfoNV(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkSwapchainLatencyCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27748,6 +28569,7 @@ void unwrap_VkSwapchainPresentBarrierCreateInfoNV(struct temporary_objects* temp
         return;
 
     unwrap_VkSwapchainPresentBarrierCreateInfoNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27781,6 +28603,7 @@ void unwrap_VkSwapchainPresentFenceInfoEXT(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkSwapchainPresentFenceInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27814,6 +28637,7 @@ void unwrap_VkSwapchainPresentModeInfoEXT(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkSwapchainPresentModeInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27847,6 +28671,7 @@ void unwrap_VkSwapchainPresentModesCreateInfoEXT(struct temporary_objects* temp,
         return;
 
     unwrap_VkSwapchainPresentModesCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27881,6 +28706,7 @@ void unwrap_VkSwapchainPresentScalingCreateInfoEXT(struct temporary_objects* tem
         return;
 
     unwrap_VkSwapchainPresentScalingCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27913,6 +28739,7 @@ void unwrap_VkTextureLODGatherFormatPropertiesAMD(struct temporary_objects* temp
         return;
 
     unwrap_VkTextureLODGatherFormatPropertiesAMD_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27947,6 +28774,7 @@ void unwrap_VkTilePropertiesQCOM(struct temporary_objects* temp, struct wrapper_
         return;
 
     unwrap_VkTilePropertiesQCOM_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -27982,6 +28810,7 @@ void unwrap_VkTimelineSemaphoreSubmitInfo(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkTimelineSemaphoreSubmitInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28016,6 +28845,7 @@ void unwrap_VkValidationCacheCreateInfoEXT(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkValidationCacheCreateInfoEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28051,6 +28881,7 @@ void unwrap_VkValidationFeaturesEXT(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkValidationFeaturesEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28084,6 +28915,7 @@ void unwrap_VkValidationFlagsEXT(struct temporary_objects* temp, struct wrapper_
         return;
 
     unwrap_VkValidationFlagsEXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28119,6 +28951,7 @@ void unwrap_VkVertexInputAttributeDescription2EXT(struct temporary_objects* temp
         return;
 
     unwrap_VkVertexInputAttributeDescription2EXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28154,6 +28987,7 @@ void unwrap_VkVertexInputBindingDescription2EXT(struct temporary_objects* temp, 
         return;
 
     unwrap_VkVertexInputBindingDescription2EXT_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28190,19 +29024,21 @@ void unwrap_VkVideoBeginCodingInfoKHR(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkVideoBeginCodingInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkVideoEncodeRateControlInfoKHR, VkVideoEncodeH264RateControlInfoKHR, VkVideoEncodeH264GopRemainingFrameInfoKHR, VkVideoEncodeH265RateControlInfoKHR, VkVideoEncodeH265GopRemainingFrameInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkVideoBeginCodingInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -28259,19 +29095,21 @@ void unwrap_VkVideoCapabilitiesKHR(struct temporary_objects* temp, struct wrappe
         return;
 
     unwrap_VkVideoCapabilitiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkVideoDecodeCapabilitiesKHR, VkVideoDecodeH264CapabilitiesKHR, VkVideoDecodeH265CapabilitiesKHR, VkVideoDecodeAV1CapabilitiesKHR, VkVideoEncodeCapabilitiesKHR, VkVideoEncodeH264CapabilitiesKHR, VkVideoEncodeH265CapabilitiesKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkVideoCapabilitiesKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -28320,19 +29158,21 @@ void unwrap_VkVideoCodingControlInfoKHR(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkVideoCodingControlInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkVideoEncodeQualityLevelInfoKHR, VkVideoEncodeRateControlInfoKHR, VkVideoEncodeH264RateControlInfoKHR, VkVideoEncodeH265RateControlInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkVideoCodingControlInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -28381,6 +29221,7 @@ void unwrap_VkVideoDecodeAV1CapabilitiesKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkVideoDecodeAV1CapabilitiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28413,6 +29254,7 @@ void unwrap_VkVideoDecodeAV1DpbSlotInfoKHR(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkVideoDecodeAV1DpbSlotInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28450,6 +29292,7 @@ void unwrap_VkVideoDecodeAV1PictureInfoKHR(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkVideoDecodeAV1PictureInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28483,6 +29326,7 @@ void unwrap_VkVideoDecodeAV1ProfileInfoKHR(struct temporary_objects* temp, struc
         return;
 
     unwrap_VkVideoDecodeAV1ProfileInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28515,6 +29359,7 @@ void unwrap_VkVideoDecodeAV1SessionParametersCreateInfoKHR(struct temporary_obje
         return;
 
     unwrap_VkVideoDecodeAV1SessionParametersCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28547,6 +29392,7 @@ void unwrap_VkVideoDecodeCapabilitiesKHR(struct temporary_objects* temp, struct 
         return;
 
     unwrap_VkVideoDecodeCapabilitiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28580,6 +29426,7 @@ void unwrap_VkVideoDecodeH264CapabilitiesKHR(struct temporary_objects* temp, str
         return;
 
     unwrap_VkVideoDecodeH264CapabilitiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28612,6 +29459,7 @@ void unwrap_VkVideoDecodeH264DpbSlotInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkVideoDecodeH264DpbSlotInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28646,6 +29494,7 @@ void unwrap_VkVideoDecodeH264PictureInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkVideoDecodeH264PictureInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28679,6 +29528,7 @@ void unwrap_VkVideoDecodeH264ProfileInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkVideoDecodeH264ProfileInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28714,6 +29564,7 @@ void unwrap_VkVideoDecodeH264SessionParametersAddInfoKHR(struct temporary_object
         return;
 
     unwrap_VkVideoDecodeH264SessionParametersAddInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28748,6 +29599,7 @@ void unwrap_VkVideoDecodeH264SessionParametersCreateInfoKHR(struct temporary_obj
         return;
 
     unwrap_VkVideoDecodeH264SessionParametersCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28780,6 +29632,7 @@ void unwrap_VkVideoDecodeH265CapabilitiesKHR(struct temporary_objects* temp, str
         return;
 
     unwrap_VkVideoDecodeH265CapabilitiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28812,6 +29665,7 @@ void unwrap_VkVideoDecodeH265DpbSlotInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkVideoDecodeH265DpbSlotInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28846,6 +29700,7 @@ void unwrap_VkVideoDecodeH265PictureInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkVideoDecodeH265PictureInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28878,6 +29733,7 @@ void unwrap_VkVideoDecodeH265ProfileInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkVideoDecodeH265ProfileInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28915,6 +29771,7 @@ void unwrap_VkVideoDecodeH265SessionParametersAddInfoKHR(struct temporary_object
         return;
 
     unwrap_VkVideoDecodeH265SessionParametersAddInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28950,6 +29807,7 @@ void unwrap_VkVideoDecodeH265SessionParametersCreateInfoKHR(struct temporary_obj
         return;
 
     unwrap_VkVideoDecodeH265SessionParametersCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -28989,19 +29847,21 @@ void unwrap_VkVideoDecodeInfoKHR(struct temporary_objects* temp, struct wrapper_
         return;
 
     unwrap_VkVideoDecodeInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkVideoInlineQueryInfoKHR, VkVideoDecodeH264PictureInfoKHR, VkVideoDecodeH265PictureInfoKHR, VkVideoDecodeAV1PictureInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkVideoDecodeInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -29050,6 +29910,7 @@ void unwrap_VkVideoDecodeUsageInfoKHR(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkVideoDecodeUsageInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29088,6 +29949,7 @@ void unwrap_VkVideoEncodeCapabilitiesKHR(struct temporary_objects* temp, struct 
         return;
 
     unwrap_VkVideoEncodeCapabilitiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29132,6 +29994,7 @@ void unwrap_VkVideoEncodeH264CapabilitiesKHR(struct temporary_objects* temp, str
         return;
 
     unwrap_VkVideoEncodeH264CapabilitiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29164,6 +30027,7 @@ void unwrap_VkVideoEncodeH264DpbSlotInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkVideoEncodeH264DpbSlotInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29199,6 +30063,7 @@ void unwrap_VkVideoEncodeH264GopRemainingFrameInfoKHR(struct temporary_objects* 
         return;
 
     unwrap_VkVideoEncodeH264GopRemainingFrameInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29232,6 +30097,7 @@ void unwrap_VkVideoEncodeH264NaluSliceInfoKHR(struct temporary_objects* temp, st
         return;
 
     unwrap_VkVideoEncodeH264NaluSliceInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29267,6 +30133,7 @@ void unwrap_VkVideoEncodeH264PictureInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkVideoEncodeH264PictureInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29299,6 +30166,7 @@ void unwrap_VkVideoEncodeH264ProfileInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkVideoEncodeH264ProfileInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29339,6 +30207,7 @@ void unwrap_VkVideoEncodeH264QualityLevelPropertiesKHR(struct temporary_objects*
         return;
 
     unwrap_VkVideoEncodeH264QualityLevelPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29375,6 +30244,7 @@ void unwrap_VkVideoEncodeH264RateControlInfoKHR(struct temporary_objects* temp, 
         return;
 
     unwrap_VkVideoEncodeH264RateControlInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29412,6 +30282,7 @@ void unwrap_VkVideoEncodeH264RateControlLayerInfoKHR(struct temporary_objects* t
         return;
 
     unwrap_VkVideoEncodeH264RateControlLayerInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29445,6 +30316,7 @@ void unwrap_VkVideoEncodeH264SessionCreateInfoKHR(struct temporary_objects* temp
         return;
 
     unwrap_VkVideoEncodeH264SessionCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29480,6 +30352,7 @@ void unwrap_VkVideoEncodeH264SessionParametersAddInfoKHR(struct temporary_object
         return;
 
     unwrap_VkVideoEncodeH264SessionParametersAddInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29514,6 +30387,7 @@ void unwrap_VkVideoEncodeH264SessionParametersCreateInfoKHR(struct temporary_obj
         return;
 
     unwrap_VkVideoEncodeH264SessionParametersCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29547,6 +30421,7 @@ void unwrap_VkVideoEncodeH264SessionParametersFeedbackInfoKHR(struct temporary_o
         return;
 
     unwrap_VkVideoEncodeH264SessionParametersFeedbackInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29582,6 +30457,7 @@ void unwrap_VkVideoEncodeH264SessionParametersGetInfoKHR(struct temporary_object
         return;
 
     unwrap_VkVideoEncodeH264SessionParametersGetInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29629,6 +30505,7 @@ void unwrap_VkVideoEncodeH265CapabilitiesKHR(struct temporary_objects* temp, str
         return;
 
     unwrap_VkVideoEncodeH265CapabilitiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29661,6 +30538,7 @@ void unwrap_VkVideoEncodeH265DpbSlotInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkVideoEncodeH265DpbSlotInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29696,6 +30574,7 @@ void unwrap_VkVideoEncodeH265GopRemainingFrameInfoKHR(struct temporary_objects* 
         return;
 
     unwrap_VkVideoEncodeH265GopRemainingFrameInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29729,6 +30608,7 @@ void unwrap_VkVideoEncodeH265NaluSliceSegmentInfoKHR(struct temporary_objects* t
         return;
 
     unwrap_VkVideoEncodeH265NaluSliceSegmentInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29763,6 +30643,7 @@ void unwrap_VkVideoEncodeH265PictureInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkVideoEncodeH265PictureInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29795,6 +30676,7 @@ void unwrap_VkVideoEncodeH265ProfileInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkVideoEncodeH265ProfileInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29834,6 +30716,7 @@ void unwrap_VkVideoEncodeH265QualityLevelPropertiesKHR(struct temporary_objects*
         return;
 
     unwrap_VkVideoEncodeH265QualityLevelPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29870,6 +30753,7 @@ void unwrap_VkVideoEncodeH265RateControlInfoKHR(struct temporary_objects* temp, 
         return;
 
     unwrap_VkVideoEncodeH265RateControlInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29907,6 +30791,7 @@ void unwrap_VkVideoEncodeH265RateControlLayerInfoKHR(struct temporary_objects* t
         return;
 
     unwrap_VkVideoEncodeH265RateControlLayerInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29940,6 +30825,7 @@ void unwrap_VkVideoEncodeH265SessionCreateInfoKHR(struct temporary_objects* temp
         return;
 
     unwrap_VkVideoEncodeH265SessionCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -29977,6 +30863,7 @@ void unwrap_VkVideoEncodeH265SessionParametersAddInfoKHR(struct temporary_object
         return;
 
     unwrap_VkVideoEncodeH265SessionParametersAddInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -30012,6 +30899,7 @@ void unwrap_VkVideoEncodeH265SessionParametersCreateInfoKHR(struct temporary_obj
         return;
 
     unwrap_VkVideoEncodeH265SessionParametersCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -30046,6 +30934,7 @@ void unwrap_VkVideoEncodeH265SessionParametersFeedbackInfoKHR(struct temporary_o
         return;
 
     unwrap_VkVideoEncodeH265SessionParametersFeedbackInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -30083,6 +30972,7 @@ void unwrap_VkVideoEncodeH265SessionParametersGetInfoKHR(struct temporary_object
         return;
 
     unwrap_VkVideoEncodeH265SessionParametersGetInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -30123,19 +31013,21 @@ void unwrap_VkVideoEncodeInfoKHR(struct temporary_objects* temp, struct wrapper_
         return;
 
     unwrap_VkVideoEncodeInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkVideoInlineQueryInfoKHR, VkVideoEncodeH264PictureInfoKHR, VkVideoEncodeH265PictureInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkVideoEncodeInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -30184,6 +31076,7 @@ void unwrap_VkVideoEncodeQualityLevelInfoKHR(struct temporary_objects* temp, str
         return;
 
     unwrap_VkVideoEncodeQualityLevelInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -30217,19 +31110,21 @@ void unwrap_VkVideoEncodeQualityLevelPropertiesKHR(struct temporary_objects* tem
         return;
 
     unwrap_VkVideoEncodeQualityLevelPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkVideoEncodeH264QualityLevelPropertiesKHR, VkVideoEncodeH265QualityLevelPropertiesKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkVideoEncodeQualityLevelPropertiesKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -30283,6 +31178,7 @@ void unwrap_VkVideoEncodeRateControlInfoKHR(struct temporary_objects* temp, stru
         return;
 
     unwrap_VkVideoEncodeRateControlInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -30318,19 +31214,21 @@ void unwrap_VkVideoEncodeRateControlLayerInfoKHR(struct temporary_objects* temp,
         return;
 
     unwrap_VkVideoEncodeRateControlLayerInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkVideoEncodeH264RateControlLayerInfoKHR, VkVideoEncodeH265RateControlLayerInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkVideoEncodeRateControlLayerInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -30379,19 +31277,21 @@ void unwrap_VkVideoEncodeSessionParametersFeedbackInfoKHR(struct temporary_objec
         return;
 
     unwrap_VkVideoEncodeSessionParametersFeedbackInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkVideoEncodeH264SessionParametersFeedbackInfoKHR, VkVideoEncodeH265SessionParametersFeedbackInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkVideoEncodeSessionParametersFeedbackInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -30440,19 +31340,21 @@ void unwrap_VkVideoEncodeSessionParametersGetInfoKHR(struct temporary_objects* t
         return;
 
     unwrap_VkVideoEncodeSessionParametersGetInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkVideoEncodeH264SessionParametersGetInfoKHR, VkVideoEncodeH265SessionParametersGetInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkVideoEncodeSessionParametersGetInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -30503,6 +31405,7 @@ void unwrap_VkVideoEncodeUsageInfoKHR(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkVideoEncodeUsageInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -30535,6 +31438,7 @@ void unwrap_VkVideoEndCodingInfoKHR(struct temporary_objects* temp, struct wrapp
         return;
 
     unwrap_VkVideoEndCodingInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -30572,6 +31476,7 @@ void unwrap_VkVideoFormatPropertiesKHR(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkVideoFormatPropertiesKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -30606,6 +31511,7 @@ void unwrap_VkVideoInlineQueryInfoKHR(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkVideoInlineQueryInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -30641,6 +31547,7 @@ void unwrap_VkVideoPictureResourceInfoKHR(struct temporary_objects* temp, struct
         return;
 
     unwrap_VkVideoPictureResourceInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -30676,19 +31583,21 @@ void unwrap_VkVideoProfileInfoKHR(struct temporary_objects* temp, struct wrapper
         return;
 
     unwrap_VkVideoProfileInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkVideoDecodeUsageInfoKHR, VkVideoDecodeH264ProfileInfoKHR, VkVideoDecodeH265ProfileInfoKHR, VkVideoDecodeAV1ProfileInfoKHR, VkVideoEncodeUsageInfoKHR, VkVideoEncodeH264ProfileInfoKHR, VkVideoEncodeH265ProfileInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkVideoProfileInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -30738,6 +31647,7 @@ void unwrap_VkVideoProfileListInfoKHR(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkVideoProfileListInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -30771,19 +31681,21 @@ void unwrap_VkVideoReferenceSlotInfoKHR(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkVideoReferenceSlotInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkVideoDecodeH264DpbSlotInfoKHR, VkVideoDecodeH265DpbSlotInfoKHR, VkVideoDecodeAV1DpbSlotInfoKHR, VkVideoEncodeH264DpbSlotInfoKHR, VkVideoEncodeH265DpbSlotInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkVideoReferenceSlotInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -30840,19 +31752,21 @@ void unwrap_VkVideoSessionCreateInfoKHR(struct temporary_objects* temp, struct w
         return;
 
     unwrap_VkVideoSessionCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkVideoEncodeH264SessionCreateInfoKHR, VkVideoEncodeH265SessionCreateInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkVideoSessionCreateInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -30902,6 +31816,7 @@ void unwrap_VkVideoSessionMemoryRequirementsKHR(struct temporary_objects* temp, 
         return;
 
     unwrap_VkVideoSessionMemoryRequirementsKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -30936,19 +31851,21 @@ void unwrap_VkVideoSessionParametersCreateInfoKHR(struct temporary_objects* temp
         return;
 
     unwrap_VkVideoSessionParametersCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkVideoDecodeH264SessionParametersCreateInfoKHR, VkVideoDecodeH265SessionParametersCreateInfoKHR, VkVideoDecodeAV1SessionParametersCreateInfoKHR, VkVideoEncodeQualityLevelInfoKHR, VkVideoEncodeH264SessionParametersCreateInfoKHR, VkVideoEncodeH265SessionParametersCreateInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkVideoSessionParametersCreateInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -30997,19 +31914,21 @@ void unwrap_VkVideoSessionParametersUpdateInfoKHR(struct temporary_objects* temp
         return;
 
     unwrap_VkVideoSessionParametersUpdateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkVideoDecodeH264SessionParametersAddInfoKHR, VkVideoDecodeH265SessionParametersAddInfoKHR, VkVideoEncodeH264SessionParametersAddInfoKHR, VkVideoEncodeH265SessionParametersAddInfoKHR]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkVideoSessionParametersUpdateInfoKHR pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -31065,19 +31984,21 @@ void unwrap_VkWriteDescriptorSet(struct temporary_objects* temp, struct wrapper_
         return;
 
     unwrap_VkWriteDescriptorSet_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     // Has pNexts: [VkWriteDescriptorSetInlineUniformBlock, VkWriteDescriptorSetAccelerationStructureKHR, VkWriteDescriptorSetAccelerationStructureNV]
     struct VkBaseOutStructure *head = NULL, *tail = NULL;
     vk_foreach_struct_const(item, in_info->pNext) {
         size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkWriteDescriptorSet pnext: sType = %d, size = %d", item->sType, item_size);
         if (item_size == 0) {
             // Invalid structure, skip it.
-            __loge("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
             continue;
         }
 
 
-        struct VkBaseOutStructure *new_item = VK_ALLOC2(VkBaseOutStructure, item_size);
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
         memcpy(new_item, item, item_size);
 
         switch ((int32_t)item->sType) {
@@ -31127,6 +32048,7 @@ void unwrap_VkWriteDescriptorSetAccelerationStructureKHR(struct temporary_object
         return;
 
     unwrap_VkWriteDescriptorSetAccelerationStructureKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -31160,6 +32082,7 @@ void unwrap_VkWriteDescriptorSetAccelerationStructureNV(struct temporary_objects
         return;
 
     unwrap_VkWriteDescriptorSetAccelerationStructureNV_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -31193,6 +32116,7 @@ void unwrap_VkWriteDescriptorSetInlineUniformBlock(struct temporary_objects* tem
         return;
 
     unwrap_VkWriteDescriptorSetInlineUniformBlock_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -31227,6 +32151,7 @@ void unwrap_VkXcbSurfaceCreateInfoKHR(struct temporary_objects* temp, struct wra
         return;
 
     unwrap_VkXcbSurfaceCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }
@@ -31261,6 +32186,7 @@ void unwrap_VkXlibSurfaceCreateInfoKHR(struct temporary_objects* temp, struct wr
         return;
 
     unwrap_VkXlibSurfaceCreateInfoKHR_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
     */
 }

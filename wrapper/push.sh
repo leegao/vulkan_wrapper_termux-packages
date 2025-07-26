@@ -1,11 +1,12 @@
 push() {
 	adb push usr/lib/$1 /data/local/tmp/
-	adb shell su -c "cp /data/local/tmp/$1 /data/data/com.winlator.cmod/files/imagefs/usr/lib/$1"
+	adb shell run-as com.winlator.cmod "cp /data/local/tmp/$1 /data/data/com.winlator.cmod/files/imagefs/usr/lib/$1"
+	adb shell run-as com.winlator.cmod "ls -lh /data/data/com.winlator.cmod/files/imagefs/usr/lib/$1"
 }
 
 push2() {
 	adb push $1 /data/local/tmp/
-	adb shell su -c "cp /data/local/tmp/$1 /data/user/0/com.winlator.cmod/files/imagefs/usr/share/vulkan/implicit_layer.d/$1"
+	adb shell run-as com.winlator.cmod "cp /data/local/tmp/$1 /data/user/0/com.winlator.cmod/files/imagefs/usr/share/vulkan/implicit_layer.d/$1"
 }
 
 # push libadrenotools.so

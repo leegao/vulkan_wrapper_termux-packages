@@ -9123,7 +9123,6 @@ unwrap_VkXlibSurfaceCreateInfoKHR(struct temporary_objects*, struct wrapper_devi
 // uses = ['VkCommandBufferSubmitInfo']
 #define NEEDS_UNWRAPPING_VkSubmitInfo2
 
-
 #ifdef __cplusplus
 }
 #endif
