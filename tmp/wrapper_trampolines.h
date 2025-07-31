@@ -40,7 +40,7 @@ struct wrapper_entry_masks {
     uint64_t f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15;
 };
 
-static struct wrapper_entry_masks wrapper_printer_masks = { 0 };
+extern struct wrapper_entry_masks wrapper_printer_masks;
 
 #define VK_ID_CreateInstance 0
 #define IS_VK_ID_CreateInstance_ON(masks) (((masks).f0 & (1ULL << (0))) != 0)

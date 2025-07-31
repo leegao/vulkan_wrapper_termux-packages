@@ -9297,7 +9297,7 @@ index eef8d4bf85b..32e044b89a2 100644
     vk_set_physical_device_features(&physical_device->vk.supported_features,
                                     &supported_features2);
 diff --git a/src/vulkan/wrapper/vk_wrapper_trampolines_gen.py b/src/vulkan/wrapper/vk_wrapper_trampolines_gen.py
-index f20fde16034..1239198acf6 100644
+index f20fde16034..184743b1d33 100644
 --- a/src/vulkan/wrapper/vk_wrapper_trampolines_gen.py
 +++ b/src/vulkan/wrapper/vk_wrapper_trampolines_gen.py
 @@ -33,6 +33,7 @@ from mako.template import Template
@@ -9324,7 +9324,7 @@ index f20fde16034..1239198acf6 100644
 +    uint64_t f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15;
 +};
 +
-+static struct wrapper_entry_masks wrapper_printer_masks = { 0 };
++extern struct wrapper_entry_masks wrapper_printer_masks;
 +
 +% for e in entrypoints:
 +% if e.alias:
@@ -9531,10 +9531,10 @@ index 00000000000..407f30eabf9
 +#define WPCHECKV(call) {__W_WRAP__(call, { if(has_physical_device_wrapper_##call) { __CHECKV__(wrapper_physical_device_entrypoints. call); } else { PCHECKV(call); }})}
 diff --git a/src/vulkan/wrapper/wrapper_debug.c b/src/vulkan/wrapper/wrapper_debug.c
 new file mode 100644
-index 00000000000..0c3e8040990
+index 00000000000..a2134036d6f
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_debug.c
-@@ -0,0 +1,314 @@
+@@ -0,0 +1,292 @@
 +#include "wrapper_private.h"
 +#include "wrapper_log.h"
 +#include "wrapper_trampolines.h"
@@ -9686,6 +9686,8 @@ index 00000000000..0c3e8040990
 +    }
 +}
 +
++struct wrapper_entry_masks wrapper_printer_masks = { 0 };
++
 +void initialize_cmd_print_masks() {
 +    // set the various bits in wrapper_printer_masks
 +    const char* mask_bcn = getenv("WRAPPER_CMD_LOG_LEVEL");
@@ -9716,30 +9718,6 @@ index 00000000000..0c3e8040990
 +        // This is a 704-bit hex-encoded integer
 +        parse_hex_to_struct(&wrapper_printer_masks, mask_bcn + 2);
 +        return;
-+    }
-+
-+    if (strstr(mask_bcn, "gfx")) {
-+        // full mask = 0x1f000f03391c000000000000000
-+        // f0 0x4000000000000000 = vkCreateShaderModule
-+        // f0 0x8000000000000000 = vkDestroyShaderModule
-+        wrapper_printer_masks.f0 |= 0xc000000000000000ULL;
-+        // f1 0x0000000000000001 = vkCreatePipelineCache
-+        // f1 0x0000000000000010 = vkCreateGraphicsPipelines
-+        // f1 0x0000000000000080 = vkDestroyPipeline
-+        // f1 0x0000000000000100 = vkCreatePipelineLayout
-+        // f1 0x0000000000000200 = vkDestroyPipelineLayout
-+        // f1 0x0000000000001000 = vkCreateDescriptorSetLayout
-+        // f1 0x0000000000002000 = vkDestroyDescriptorSetLayout
-+        // f1 0x0000000000100000 = vkCreateFramebuffer
-+        // f1 0x0000000000200000 = vkDestroyFramebuffer
-+        // f1 0x0000000000400000 = vkCreateRenderPass
-+        // f1 0x0000000000800000 = vkDestroyRenderPass
-+        // f1 0x0000001000000000 = vkCmdSetViewport
-+        // f1 0x0000002000000000 = vkCmdSetScissor
-+        // f1 0x0000004000000000 = vkCmdSetLineWidth
-+        // f1 0x0000008000000000 = vkCmdSetDepthBias
-+        // f1 0x0000010000000000 = vkCmdSetBlendConstants
-+        wrapper_printer_masks.f1 |= 0x000001f000f03391ULL;
 +    }
 +
 +    if (strstr(mask_bcn, "gfx")) {
@@ -9872,10 +9850,10 @@ index 00000000000..9e4014403d4
 +bool use_compute_shader_mode(void);
 \ No newline at end of file
 diff --git a/src/vulkan/wrapper/wrapper_device.c b/src/vulkan/wrapper/wrapper_device.c
-index 2ea37d1b392..7169f26d834 100644
+index 2ea37d1b392..42178c34296 100644
 --- a/src/vulkan/wrapper/wrapper_device.c
 +++ b/src/vulkan/wrapper/wrapper_device.c
-@@ -8,8 +8,68 @@
+@@ -8,8 +8,62 @@
  #include "vk_extensions.h"
  #include "vk_queue.h"
  #include "vk_util.h"
@@ -9914,12 +9892,6 @@ index 2ea37d1b392..7169f26d834 100644
 +#include "bc7_iv.spv.h"
 +};
 +
-+#define CHECK_W(call) ({ \
-+   VkResult __result = wrapper_##call; \
-+   if (__result) { WLOGE("%s failed with %d", #call, __result); } \
-+   __result; \
-+})
-+
 +// A struct to hold the state required by our interceptor
 +typedef struct InterceptorState {
 +   VkDevice device;
@@ -9944,7 +9916,7 @@ index 2ea37d1b392..7169f26d834 100644
  
  const struct vk_device_extension_table wrapper_device_extensions =
  {
-@@ -65,8 +125,7 @@ wrapper_append_required_extensions(const struct vk_device *device,
+@@ -65,8 +119,7 @@ wrapper_append_required_extensions(const struct vk_device *device,
                                    uint32_t *count,
                                    const char **exts) {
  #define REQUIRED_EXTENSION(name) \
@@ -9954,7 +9926,7 @@ index 2ea37d1b392..7169f26d834 100644
        exts[(*count)++] = "VK_" #name; \
     }
     REQUIRED_EXTENSION(KHR_external_fence);
-@@ -85,6 +144,8 @@ wrapper_append_required_extensions(const struct vk_device *device,
+@@ -85,6 +138,8 @@ wrapper_append_required_extensions(const struct vk_device *device,
     REQUIRED_EXTENSION(EXT_external_memory_dma_buf);
     REQUIRED_EXTENSION(EXT_image_drm_format_modifier);
     REQUIRED_EXTENSION(ANDROID_external_memory_android_hardware_buffer);
@@ -9963,7 +9935,7 @@ index 2ea37d1b392..7169f26d834 100644
  #undef REQUIRED_EXTENSION
  }
  
-@@ -96,6 +157,10 @@ wrapper_create_device_queue(struct wrapper_device *device,
+@@ -96,6 +151,10 @@ wrapper_create_device_queue(struct wrapper_device *device,
     struct wrapper_queue *queue;
     VkResult result;
  
@@ -9974,7 +9946,7 @@ index 2ea37d1b392..7169f26d834 100644
     for (int i = 0; i < pCreateInfo->queueCreateInfoCount; i++) {
        create_info = &pCreateInfo->pQueueCreateInfos[i];
        for (int j = 0; j < create_info->queueCount; j++) {
-@@ -120,12 +185,18 @@ wrapper_create_device_queue(struct wrapper_device *device,
+@@ -120,12 +179,18 @@ wrapper_create_device_queue(struct wrapper_device *device,
                 j, &queue->dispatch_handle);
           }
           queue->device = device;
@@ -9993,7 +9965,7 @@ index 2ea37d1b392..7169f26d834 100644
        }
     }
  
-@@ -148,6 +219,9 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -148,6 +213,9 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     VkPhysicalDeviceFeatures *pdf;
     VkResult result;
  
@@ -10003,7 +9975,7 @@ index 2ea37d1b392..7169f26d834 100644
     device = vk_zalloc2(&physical_device->instance->vk.alloc, pAllocator,
                         sizeof(*device), 8, VK_SYSTEM_ALLOCATION_SCOPE_DEVICE);
     if (!device)
-@@ -155,6 +229,12 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -155,6 +223,12 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
  
     list_inithead(&device->command_buffer_list);
     list_inithead(&device->device_memory_list);
@@ -10016,7 +9988,7 @@ index 2ea37d1b392..7169f26d834 100644
     simple_mtx_init(&device->resource_mutex, mtx_plain);
     device->physical = physical_device;
  
-@@ -165,10 +245,43 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -165,10 +239,43 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     vk_device_dispatch_table_from_entrypoints(
        &dispatch_table, &wrapper_device_trampolines, false);
  
@@ -10060,7 +10032,7 @@ index 2ea37d1b392..7169f26d834 100644
        vk_free2(&physical_device->instance->vk.alloc, pAllocator,
                 device);
        return vk_error(physical_device, result);
-@@ -186,64 +299,29 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -186,64 +293,29 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     pdf = (void *)pCreateInfo->pEnabledFeatures;
     pdf2 = __vk_find_struct((void *)pCreateInfo->pNext,
              VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2);
@@ -10146,7 +10118,7 @@ index 2ea37d1b392..7169f26d834 100644
     result = physical_device->dispatch_table.CreateDevice(
        physical_device->dispatch_handle, &wrapper_create_info,
           pAllocator, &device->dispatch_handle);
-@@ -259,12 +337,58 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -259,12 +331,58 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     vk_device_dispatch_table_load(&device->dispatch_table, gdpa,
                                   device->dispatch_handle);
  
@@ -10205,7 +10177,7 @@ index 2ea37d1b392..7169f26d834 100644
     
     *pDevice = wrapper_device_to_handle(device);
  
-@@ -305,66 +429,37 @@ VKAPI_ATTR VkResult VKAPI_CALL
+@@ -305,66 +423,37 @@ VKAPI_ATTR VkResult VKAPI_CALL
  wrapper_QueueSubmit(VkQueue _queue, uint32_t submitCount,
                      const VkSubmitInfo* pSubmits, VkFence fence)
  {
@@ -10291,7 +10263,7 @@ index 2ea37d1b392..7169f26d834 100644
  VKAPI_ATTR void VKAPI_CALL
  wrapper_CmdExecuteCommands(VkCommandBuffer commandBuffer,
                             uint32_t commandBufferCount,
-@@ -377,6 +472,7 @@ wrapper_CmdExecuteCommands(VkCommandBuffer commandBuffer,
+@@ -377,6 +466,7 @@ wrapper_CmdExecuteCommands(VkCommandBuffer commandBuffer,
        command_buffers[i] =
           wrapper_command_buffer_from_handle(pCommandBuffers[i])->dispatch_handle;
     }
@@ -10299,7 +10271,7 @@ index 2ea37d1b392..7169f26d834 100644
     wcb->device->dispatch_table.CmdExecuteCommands(
        wcb->dispatch_handle, commandBufferCount, command_buffers);
  }
-@@ -396,6 +492,11 @@ wrapper_command_buffer_create(struct wrapper_device *device,
+@@ -396,6 +486,11 @@ wrapper_command_buffer_create(struct wrapper_device *device,
     wcb->device = device;
     wcb->pool = pool;
     wcb->dispatch_handle = dispatch_handle;
@@ -10311,7 +10283,7 @@ index 2ea37d1b392..7169f26d834 100644
     list_add(&wcb->link, &device->command_buffer_list);
  
     *pCommandBuffers = wrapper_command_buffer_to_handle(wcb);
-@@ -406,10 +507,13 @@ wrapper_command_buffer_create(struct wrapper_device *device,
+@@ -406,10 +501,13 @@ wrapper_command_buffer_create(struct wrapper_device *device,
  static void
  wrapper_command_buffer_destroy(struct wrapper_device *device,
                                 struct wrapper_command_buffer *wcb) {
@@ -10325,7 +10297,7 @@ index 2ea37d1b392..7169f26d834 100644
  VKAPI_ATTR VkResult VKAPI_CALL
  wrapper_AllocateCommandBuffers(VkDevice _device,
                                 const VkCommandBufferAllocateInfo* pAllocateInfo,
-@@ -420,9 +524,7 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
+@@ -420,9 +518,7 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
     VkResult result;
     uint32_t i;
     
@@ -10336,7 +10308,7 @@ index 2ea37d1b392..7169f26d834 100644
     if (result != VK_SUCCESS)
        return result;
  
-@@ -435,13 +537,16 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
+@@ -435,13 +531,16 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
                                               &pCommandBuffers[i]);
        if (result != VK_SUCCESS)
           break;
@@ -10350,14 +10322,14 @@ index 2ea37d1b392..7169f26d834 100644
 -                                                pAllocateInfo->commandBufferCount,
 -                                                dispatch_handles);
 +      WLOGE("Failed to allocate command buffers: %d", result);
-+      CHECKV(FreeCommandBuffers(device->dispatch_handle,
++      CHECKV(FreeCommandBuffers(_device,
 +                                 pAllocateInfo->commandPool,
 +                                 pAllocateInfo->commandBufferCount,
 +                                 dispatch_handles));
        for (int q = 0; q < i; q++) {
           VK_FROM_HANDLE(wrapper_command_buffer, wcb, pCommandBuffers[q]);
           wrapper_command_buffer_destroy(device, wcb);
-@@ -457,7 +562,6 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
+@@ -457,7 +556,6 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
     return result;
  }
  
@@ -10365,7 +10337,7 @@ index 2ea37d1b392..7169f26d834 100644
  VKAPI_ATTR void VKAPI_CALL
  wrapper_FreeCommandBuffers(VkDevice _device,
                             VkCommandPool commandPool,
-@@ -465,21 +569,37 @@ wrapper_FreeCommandBuffers(VkDevice _device,
+@@ -465,21 +563,37 @@ wrapper_FreeCommandBuffers(VkDevice _device,
                             const VkCommandBuffer* pCommandBuffers)
  {
     VK_FROM_HANDLE(wrapper_device, device, _device);
@@ -10406,7 +10378,7 @@ index 2ea37d1b392..7169f26d834 100644
  }
  
  VKAPI_ATTR void VKAPI_CALL
-@@ -499,8 +619,12 @@ wrapper_DestroyCommandPool(VkDevice _device, VkCommandPool commandPool,
+@@ -499,8 +613,12 @@ wrapper_DestroyCommandPool(VkDevice _device, VkCommandPool commandPool,
  
     simple_mtx_unlock(&device->resource_mutex);
  
@@ -10421,7 +10393,7 @@ index 2ea37d1b392..7169f26d834 100644
  }
  
  VKAPI_ATTR void VKAPI_CALL
-@@ -521,6 +645,24 @@ wrapper_DestroyDevice(VkDevice _device, const VkAllocationCallbacks* pAllocator)
+@@ -521,6 +639,24 @@ wrapper_DestroyDevice(VkDevice _device, const VkAllocationCallbacks* pAllocator)
  
     simple_mtx_unlock(&device->resource_mutex);
  
@@ -10446,7 +10418,7 @@ index 2ea37d1b392..7169f26d834 100644
     list_for_each_entry_safe(struct vk_queue, queue, &device->vk.queues, link) {
        vk_queue_finish(queue);
        vk_free2(&device->vk.alloc, pAllocator, queue);
-@@ -555,11 +697,9 @@ wrapper_SetPrivateData(VkDevice _device, VkObjectType objectType,
+@@ -555,11 +691,9 @@ wrapper_SetPrivateData(VkDevice _device, VkObjectType objectType,
                         uint64_t objectHandle,
                         VkPrivateDataSlot privateDataSlot,
                         uint64_t data) {
@@ -10460,7 +10432,7 @@ index 2ea37d1b392..7169f26d834 100644
  }
  
  VKAPI_ATTR void VKAPI_CALL
-@@ -567,9 +707,1157 @@ wrapper_GetPrivateData(VkDevice _device, VkObjectType objectType,
+@@ -567,9 +701,1170 @@ wrapper_GetPrivateData(VkDevice _device, VkObjectType objectType,
                         uint64_t objectHandle,
                         VkPrivateDataSlot privateDataSlot,
                         uint64_t* pData) {
@@ -10582,7 +10554,7 @@ index 2ea37d1b392..7169f26d834 100644
 +      .memoryOffset  = memoryOffset,
 +   };
 +
-+   return CHECK(BindBufferMemory2(device, 1, &bind));
++   return WCHECK(BindBufferMemory2(device, 1, &bind));
 +}
 +
 +VKAPI_ATTR VkResult VKAPI_CALL
@@ -11113,7 +11085,7 @@ index 2ea37d1b392..7169f26d834 100644
 +// Takes in the srcBuffer and decompresses it into a staging buffer
 +// Both buffers must be bound to memory and are host visible (for mapping)
 +// This is the software fallback for BCn decompression that aren't implemented by the compute shader
-+static void HostSideDecompression(
++static VkResult HostSideDecompression(
 +      struct wrapper_device* _device,
 +      wrapper_buffer* srcBuffer,
 +      VkDeviceMemory dstMemory,
@@ -11131,7 +11103,7 @@ index 2ea37d1b392..7169f26d834 100644
 +   VkResult result = WCHECK(MapMemory2KHR((VkDevice) _device, &mapInfoSrc, &srcData));
 +   if (result != VK_SUCCESS) {
 +      WLOGE("ERROR: Failed to map source buffer memory: %d", result);
-+      return;
++      return result;
 +   }
 +
 +   // Map the destination memory
@@ -11162,9 +11134,18 @@ index 2ea37d1b392..7169f26d834 100644
 +   //    dstPixels[i] = 0xFFFF00FF; // Magenta color in RGBA format
 +   // }
 +
++   VkMappedMemoryRange flushRange = {
++      .sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE,
++      .memory = dstMemory,
++      .offset = 0,
++      .size = VK_WHOLE_SIZE,
++   };
++   result = WCHECK(FlushMappedMemoryRanges((VkDevice) _device, 1, &flushRange));
++
 +   WCHECKV(UnmapMemory((VkDevice) _device, dstMemory));
 +final:
 +   WCHECKV(UnmapMemory((VkDevice) _device, srcBuffer->memory));
++   return result;
 +}
 +
 +static VkDeviceSize calculate_bc_copy_size(const VkBufferImageCopy* region, uint32_t block_size_in_bytes) {
@@ -11581,7 +11562,11 @@ index 2ea37d1b392..7169f26d834 100644
 +
 +         CmdComputeShaderForDecompression(wcb, &args);
 +      } else {
-+         HostSideDecompression(_device, wbuf, stagingBufferMemory, region, wimg->original_format);
++         result = HostSideDecompression(_device, wbuf, stagingBufferMemory, region, wimg->original_format);
++         if (result != VK_SUCCESS) {
++            WLOGE("Host BCn decompression failed, expect visual glitches.");
++            return;
++         }
 +      }
 +
 +      if (!use_image_view) {
@@ -11623,7 +11608,7 @@ index 2ea37d1b392..7169f26d834 100644
 +   }
  }
 diff --git a/src/vulkan/wrapper/wrapper_device_memory.c b/src/vulkan/wrapper/wrapper_device_memory.c
-index 6d47a52fd18..a78198bf174 100644
+index 6d47a52fd18..f5b7998d070 100644
 --- a/src/vulkan/wrapper/wrapper_device_memory.c
 +++ b/src/vulkan/wrapper/wrapper_device_memory.c
 @@ -1,12 +1,13 @@
@@ -11675,6 +11660,11 @@ index 6d47a52fd18..a78198bf174 100644
  }
  
  VKAPI_ATTR void VKAPI_CALL
+@@ -487,4 +501,3 @@ wrapper_UnmapMemory2KHR(VkDevice _device,
+    mem->map_address = NULL;
+    return VK_SUCCESS;
+ }
+-
 diff --git a/src/vulkan/wrapper/wrapper_image.c b/src/vulkan/wrapper/wrapper_image.c
 new file mode 100644
 index 00000000000..f31c1be817b
@@ -11995,10 +11985,10 @@ index 237108ca6eb..ec527bbeb0d 100644
                                      &wrapper_instance_entrypoints,
 diff --git a/src/vulkan/wrapper/wrapper_log.c b/src/vulkan/wrapper/wrapper_log.c
 new file mode 100644
-index 00000000000..acb7ac08c4f
+index 00000000000..d488b20f61b
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_log.c
-@@ -0,0 +1,271 @@
+@@ -0,0 +1,273 @@
 +#include "wrapper_private.h"
 +#include "wrapper_log.h"
 +#include "wrapper_trampolines.h"
@@ -12018,7 +12008,7 @@ index 00000000000..acb7ac08c4f
 +static bool __cmd_log_initialized;
 +
 +FILE* get_wrapper_cmd_log_fd() {
-+    return __log_fd;
++    return __cmd_log_fd;
 +}
 +
 +static void cleanup_log_file(void) {
@@ -12060,6 +12050,7 @@ index 00000000000..acb7ac08c4f
 +    __cmd_log_initialized = true;
 +
 +    const char *log_level = getenv("WRAPPER_CMD_LOG_LEVEL");
++    LOG("Logging cmds at %s", log_level);
 +    if (!log_level) {
 +        __cmd_log_level = VK_CMD_NONE;
 +    } else if (strcmp(log_level, "all") == 0) {
@@ -12067,10 +12058,10 @@ index 00000000000..acb7ac08c4f
 +    } else if (strcmp(log_level, "name") == 0) {
 +        __cmd_log_level = VK_CMD_NAME;
 +    } else {
-+        __cmd_log_level = VK_CMD_NONE;
++        __cmd_log_level = VK_CMD_ALL;
 +    }
 +
-+    if (__log_level != LOG_LEVEL_NONE) {
++    if (__cmd_log_level != LOG_LEVEL_NONE) {
 +        __cmd_log_fd = open_log_file("wrapper_cmds");
 +        if (!__cmd_log_fd) {
 +            __cmd_log_level = LOG_LEVEL_NONE;
@@ -12089,6 +12080,7 @@ index 00000000000..acb7ac08c4f
 +    __log_initialized = true;
 +
 +    const char *log_level = getenv("WRAPPER_LOG_LEVEL");
++    LOG("Logging logs at %s", log_level);
 +    if (!log_level) {
 +        __log_level = LOG_LEVEL_ERROR;
 +    } else if (strcmp(log_level, "all") == 0) {

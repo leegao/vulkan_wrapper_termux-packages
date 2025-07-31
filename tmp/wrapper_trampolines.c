@@ -62,7 +62,7 @@ WLOGA("GetPhysicalDeviceProperties(physicalDevice: %p, pProperties: %p)", physic
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceProperties
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceProperties EntrypointParam(type='VkPhysicalDeviceProperties', name='pProperties', decl='VkPhysicalDeviceProperties* pProperties', len=None, elem=<Element 'param' at 0x75157c8ff970>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceProperties EntrypointParam(type='VkPhysicalDeviceProperties', name='pProperties', decl='VkPhysicalDeviceProperties* pProperties', len=None, elem=<Element 'param' at 0x7295883b7970>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -106,7 +106,7 @@ WLOGA("GetPhysicalDeviceQueueFamilyProperties(physicalDevice: %p, pQueueFamilyPr
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkQueueFamilyProperties
-#warning TODO: Repack struct+array+out GetPhysicalDeviceQueueFamilyProperties EntrypointParam(type='VkQueueFamilyProperties', name='pQueueFamilyProperties', decl='VkQueueFamilyProperties* pQueueFamilyProperties', len='pQueueFamilyPropertyCount', elem=<Element 'param' at 0x75157c8ffe70>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceQueueFamilyProperties EntrypointParam(type='VkQueueFamilyProperties', name='pQueueFamilyProperties', decl='VkQueueFamilyProperties* pQueueFamilyProperties', len='pQueueFamilyPropertyCount', elem=<Element 'param' at 0x7295883b7e70>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -139,7 +139,7 @@ WLOGA("GetPhysicalDeviceMemoryProperties(physicalDevice: %p, pMemoryProperties: 
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceMemoryProperties
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceMemoryProperties EntrypointParam(type='VkPhysicalDeviceMemoryProperties', name='pMemoryProperties', decl='VkPhysicalDeviceMemoryProperties* pMemoryProperties', len=None, elem=<Element 'param' at 0x75157c910220>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceMemoryProperties EntrypointParam(type='VkPhysicalDeviceMemoryProperties', name='pMemoryProperties', decl='VkPhysicalDeviceMemoryProperties* pMemoryProperties', len=None, elem=<Element 'param' at 0x7295883c4220>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -172,7 +172,7 @@ WLOGA("GetPhysicalDeviceFeatures(physicalDevice: %p, pFeatures: %p)", physicalDe
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceFeatures
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFeatures EntrypointParam(type='VkPhysicalDeviceFeatures', name='pFeatures', decl='VkPhysicalDeviceFeatures* pFeatures', len=None, elem=<Element 'param' at 0x75157c9105e0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFeatures EntrypointParam(type='VkPhysicalDeviceFeatures', name='pFeatures', decl='VkPhysicalDeviceFeatures* pFeatures', len=None, elem=<Element 'param' at 0x7295883c45e0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -210,7 +210,7 @@ VkFormat format__ = format;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkFormatProperties
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFormatProperties EntrypointParam(type='VkFormatProperties', name='pFormatProperties', decl='VkFormatProperties* pFormatProperties', len=None, elem=<Element 'param' at 0x75157c910a90>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFormatProperties EntrypointParam(type='VkFormatProperties', name='pFormatProperties', decl='VkFormatProperties* pFormatProperties', len=None, elem=<Element 'param' at 0x7295883c4a90>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -270,7 +270,7 @@ VkImageCreateFlags flags__ = flags;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkImageFormatProperties
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceImageFormatProperties EntrypointParam(type='VkImageFormatProperties', name='pImageFormatProperties', decl='VkImageFormatProperties* pImageFormatProperties', len=None, elem=<Element 'param' at 0x75157c911260>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceImageFormatProperties EntrypointParam(type='VkImageFormatProperties', name='pImageFormatProperties', decl='VkImageFormatProperties* pImageFormatProperties', len=None, elem=<Element 'param' at 0x7295883c5260>, is_const=False, num_pointers=1)
 #endif
     if (result == VK_ERROR_DEVICE_LOST && (base)->base_supported_extensions.EXT_device_fault) {
         wrapper_log_device_fault(NULL, "vkGetPhysicalDeviceImageFormatProperties(base->dispatch_handle, format__, type__, tiling__, usage__, flags__, pImageFormatProperties) ");
@@ -353,7 +353,7 @@ WLOGA("EnumerateDeviceLayerProperties(physicalDevice: %p, pPropertyCount: %p, pP
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkLayerProperties
-#warning TODO: Repack struct+array+out EnumerateDeviceLayerProperties EntrypointParam(type='VkLayerProperties', name='pProperties', decl='VkLayerProperties* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75157c913010>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out EnumerateDeviceLayerProperties EntrypointParam(type='VkLayerProperties', name='pProperties', decl='VkLayerProperties* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7295883c7010>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to EnumerateDeviceLayerProperties with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
@@ -410,7 +410,7 @@ const char* pLayerName__ = pLayerName;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkExtensionProperties
-#warning TODO: Repack struct+array+out EnumerateDeviceExtensionProperties EntrypointParam(type='VkExtensionProperties', name='pProperties', decl='VkExtensionProperties* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75157c913a10>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out EnumerateDeviceExtensionProperties EntrypointParam(type='VkExtensionProperties', name='pProperties', decl='VkExtensionProperties* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7295883c7a10>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to EnumerateDeviceExtensionProperties with (physicalDevice: %p,pLayerName: %x,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pLayerName__,pPropertyCount,pProperties, result);
@@ -485,7 +485,7 @@ VkImageTiling tiling__ = tiling;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSparseImageFormatProperties
-#warning TODO: Repack struct+array+out GetPhysicalDeviceSparseImageFormatProperties EntrypointParam(type='VkSparseImageFormatProperties', name='pProperties', decl='VkSparseImageFormatProperties* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75157c728bd0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceSparseImageFormatProperties EntrypointParam(type='VkSparseImageFormatProperties', name='pProperties', decl='VkSparseImageFormatProperties* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7295881dcbd0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -531,7 +531,7 @@ WLOGA("GetPhysicalDeviceDisplayPropertiesKHR(physicalDevice: %p, pPropertyCount:
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayPropertiesKHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayPropertiesKHR EntrypointParam(type='VkDisplayPropertiesKHR', name='pProperties', decl='VkDisplayPropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75157c7acc70>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayPropertiesKHR EntrypointParam(type='VkDisplayPropertiesKHR', name='pProperties', decl='VkDisplayPropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x729588260c70>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceDisplayPropertiesKHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
@@ -583,7 +583,7 @@ WLOGA("GetPhysicalDeviceDisplayPlanePropertiesKHR(physicalDevice: %p, pPropertyC
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayPlanePropertiesKHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayPlanePropertiesKHR EntrypointParam(type='VkDisplayPlanePropertiesKHR', name='pProperties', decl='VkDisplayPlanePropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75157c7ad0d0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayPlanePropertiesKHR EntrypointParam(type='VkDisplayPlanePropertiesKHR', name='pProperties', decl='VkDisplayPlanePropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7295882610d0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceDisplayPlanePropertiesKHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
@@ -692,7 +692,7 @@ VkDisplayKHR display__ = display;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayModePropertiesKHR
-#warning TODO: Repack struct+array+out GetDisplayModePropertiesKHR EntrypointParam(type='VkDisplayModePropertiesKHR', name='pProperties', decl='VkDisplayModePropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75157c7adc60>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetDisplayModePropertiesKHR EntrypointParam(type='VkDisplayModePropertiesKHR', name='pProperties', decl='VkDisplayModePropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x729588261c60>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetDisplayModePropertiesKHR with (physicalDevice: %p,display: %x,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,display__,pPropertyCount,pProperties, result);
@@ -805,7 +805,7 @@ uint32_t planeIndex__ = planeIndex;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkDisplayPlaneCapabilitiesKHR
-#warning TODO: Repack struct+ptr+out GetDisplayPlaneCapabilitiesKHR EntrypointParam(type='VkDisplayPlaneCapabilitiesKHR', name='pCapabilities', decl='VkDisplayPlaneCapabilitiesKHR* pCapabilities', len=None, elem=<Element 'param' at 0x75157c7ae840>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDisplayPlaneCapabilitiesKHR EntrypointParam(type='VkDisplayPlaneCapabilitiesKHR', name='pCapabilities', decl='VkDisplayPlaneCapabilitiesKHR* pCapabilities', len=None, elem=<Element 'param' at 0x729588262840>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetDisplayPlaneCapabilitiesKHR with (physicalDevice: %p,mode: %x,planeIndex: %x,pCapabilities: %p) failed with result: %d", base->dispatch_handle,mode__,planeIndex__,pCapabilities, result);
@@ -900,7 +900,7 @@ VkSurfaceKHR surface__ = surface;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkSurfaceCapabilitiesKHR
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceSurfaceCapabilitiesKHR EntrypointParam(type='VkSurfaceCapabilitiesKHR', name='pSurfaceCapabilities', decl='VkSurfaceCapabilitiesKHR* pSurfaceCapabilities', len=None, elem=<Element 'param' at 0x75157c7bc3b0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceSurfaceCapabilitiesKHR EntrypointParam(type='VkSurfaceCapabilitiesKHR', name='pSurfaceCapabilities', decl='VkSurfaceCapabilitiesKHR* pSurfaceCapabilities', len=None, elem=<Element 'param' at 0x7295882703b0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceSurfaceCapabilitiesKHR with (physicalDevice: %p,surface: %x,pSurfaceCapabilities: %p) failed with result: %d", base->dispatch_handle,surface__,pSurfaceCapabilities, result);
@@ -957,7 +957,7 @@ VkSurfaceKHR surface__ = surface;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSurfaceFormatKHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceSurfaceFormatsKHR EntrypointParam(type='VkSurfaceFormatKHR', name='pSurfaceFormats', decl='VkSurfaceFormatKHR* pSurfaceFormats', len='pSurfaceFormatCount', elem=<Element 'param' at 0x75157c7bc9a0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceSurfaceFormatsKHR EntrypointParam(type='VkSurfaceFormatKHR', name='pSurfaceFormats', decl='VkSurfaceFormatKHR* pSurfaceFormats', len='pSurfaceFormatCount', elem=<Element 'param' at 0x7295882709a0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceSurfaceFormatsKHR with (physicalDevice: %p,surface: %x,pSurfaceFormatCount: %p,pSurfaceFormats: %p) failed with result: %d", base->dispatch_handle,surface__,pSurfaceFormatCount,pSurfaceFormats, result);
@@ -1308,7 +1308,7 @@ VkExternalMemoryHandleTypeFlagsNV externalHandleType__ = externalHandleType;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkExternalImageFormatPropertiesNV
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalImageFormatPropertiesNV EntrypointParam(type='VkExternalImageFormatPropertiesNV', name='pExternalImageFormatProperties', decl='VkExternalImageFormatPropertiesNV* pExternalImageFormatProperties', len=None, elem=<Element 'param' at 0x75157c7d6250>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalImageFormatPropertiesNV EntrypointParam(type='VkExternalImageFormatPropertiesNV', name='pExternalImageFormatProperties', decl='VkExternalImageFormatPropertiesNV* pExternalImageFormatProperties', len=None, elem=<Element 'param' at 0x72958828a250>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceExternalImageFormatPropertiesNV with (physicalDevice: %p,format: %x,type: %x,tiling: %x,usage: %x,flags: %x,externalHandleType: %x,pExternalImageFormatProperties: %p) failed with result: %d", base->dispatch_handle,format__,type__,tiling__,usage__,flags__,externalHandleType__,pExternalImageFormatProperties, result);
@@ -1347,7 +1347,7 @@ WLOGA("GetPhysicalDeviceFeatures2(physicalDevice: %p, pFeatures: %p)", physicalD
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceFeatures2
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFeatures2 EntrypointParam(type='VkPhysicalDeviceFeatures2', name='pFeatures', decl='VkPhysicalDeviceFeatures2* pFeatures', len=None, elem=<Element 'param' at 0x75157c7dc8b0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFeatures2 EntrypointParam(type='VkPhysicalDeviceFeatures2', name='pFeatures', decl='VkPhysicalDeviceFeatures2* pFeatures', len=None, elem=<Element 'param' at 0x7295882908b0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -1380,7 +1380,7 @@ WLOGA("GetPhysicalDeviceProperties2(physicalDevice: %p, pProperties: %p)", physi
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceProperties2
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceProperties2 EntrypointParam(type='VkPhysicalDeviceProperties2', name='pProperties', decl='VkPhysicalDeviceProperties2* pProperties', len=None, elem=<Element 'param' at 0x75157c7dcd60>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceProperties2 EntrypointParam(type='VkPhysicalDeviceProperties2', name='pProperties', decl='VkPhysicalDeviceProperties2* pProperties', len=None, elem=<Element 'param' at 0x729588290d60>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -1418,7 +1418,7 @@ VkFormat format__ = format;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkFormatProperties2
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFormatProperties2 EntrypointParam(type='VkFormatProperties2', name='pFormatProperties', decl='VkFormatProperties2* pFormatProperties', len=None, elem=<Element 'param' at 0x75157c7dd300>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceFormatProperties2 EntrypointParam(type='VkFormatProperties2', name='pFormatProperties', decl='VkFormatProperties2* pFormatProperties', len=None, elem=<Element 'param' at 0x729588291300>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -1462,7 +1462,7 @@ const VkPhysicalDeviceImageFormatInfo2* pImageFormatInfo__ = pImageFormatInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkImageFormatProperties2
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceImageFormatProperties2 EntrypointParam(type='VkImageFormatProperties2', name='pImageFormatProperties', decl='VkImageFormatProperties2* pImageFormatProperties', len=None, elem=<Element 'param' at 0x75157c7dd850>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceImageFormatProperties2 EntrypointParam(type='VkImageFormatProperties2', name='pImageFormatProperties', decl='VkImageFormatProperties2* pImageFormatProperties', len=None, elem=<Element 'param' at 0x729588291850>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceImageFormatProperties2 with (physicalDevice: %p,pImageFormatInfo: %p,pImageFormatProperties: %p) failed with result: %d", base->dispatch_handle,pImageFormatInfo__,pImageFormatProperties, result);
@@ -1512,7 +1512,7 @@ WLOGA("GetPhysicalDeviceQueueFamilyProperties2(physicalDevice: %p, pQueueFamilyP
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkQueueFamilyProperties2
-#warning TODO: Repack struct+array+out GetPhysicalDeviceQueueFamilyProperties2 EntrypointParam(type='VkQueueFamilyProperties2', name='pQueueFamilyProperties', decl='VkQueueFamilyProperties2* pQueueFamilyProperties', len='pQueueFamilyPropertyCount', elem=<Element 'param' at 0x75157c7ddda0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceQueueFamilyProperties2 EntrypointParam(type='VkQueueFamilyProperties2', name='pQueueFamilyProperties', decl='VkQueueFamilyProperties2* pQueueFamilyProperties', len='pQueueFamilyPropertyCount', elem=<Element 'param' at 0x729588291da0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -1545,7 +1545,7 @@ WLOGA("GetPhysicalDeviceMemoryProperties2(physicalDevice: %p, pMemoryProperties:
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceMemoryProperties2
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceMemoryProperties2 EntrypointParam(type='VkPhysicalDeviceMemoryProperties2', name='pMemoryProperties', decl='VkPhysicalDeviceMemoryProperties2* pMemoryProperties', len=None, elem=<Element 'param' at 0x75157c7de1b0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceMemoryProperties2 EntrypointParam(type='VkPhysicalDeviceMemoryProperties2', name='pMemoryProperties', decl='VkPhysicalDeviceMemoryProperties2* pMemoryProperties', len=None, elem=<Element 'param' at 0x7295882921b0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -1598,7 +1598,7 @@ const VkPhysicalDeviceSparseImageFormatInfo2* pFormatInfo__ = pFormatInfo;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSparseImageFormatProperties2
-#warning TODO: Repack struct+array+out GetPhysicalDeviceSparseImageFormatProperties2 EntrypointParam(type='VkSparseImageFormatProperties2', name='pProperties', decl='VkSparseImageFormatProperties2* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75157c7de840>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceSparseImageFormatProperties2 EntrypointParam(type='VkSparseImageFormatProperties2', name='pProperties', decl='VkSparseImageFormatProperties2* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x729588292840>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -1640,7 +1640,7 @@ const VkPhysicalDeviceExternalBufferInfo* pExternalBufferInfo__ = pExternalBuffe
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkExternalBufferProperties
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalBufferProperties EntrypointParam(type='VkExternalBufferProperties', name='pExternalBufferProperties', decl='VkExternalBufferProperties* pExternalBufferProperties', len=None, elem=<Element 'param' at 0x75157c7df8d0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalBufferProperties EntrypointParam(type='VkExternalBufferProperties', name='pExternalBufferProperties', decl='VkExternalBufferProperties* pExternalBufferProperties', len=None, elem=<Element 'param' at 0x7295882938d0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -1682,7 +1682,7 @@ const VkPhysicalDeviceExternalSemaphoreInfo* pExternalSemaphoreInfo__ = pExterna
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkExternalSemaphoreProperties
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalSemaphoreProperties EntrypointParam(type='VkExternalSemaphoreProperties', name='pExternalSemaphoreProperties', decl='VkExternalSemaphoreProperties* pExternalSemaphoreProperties', len=None, elem=<Element 'param' at 0x75157c7ef0b0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalSemaphoreProperties EntrypointParam(type='VkExternalSemaphoreProperties', name='pExternalSemaphoreProperties', decl='VkExternalSemaphoreProperties* pExternalSemaphoreProperties', len=None, elem=<Element 'param' at 0x7295882a30b0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -1724,7 +1724,7 @@ const VkPhysicalDeviceExternalFenceInfo* pExternalFenceInfo__ = pExternalFenceIn
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkExternalFenceProperties
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalFenceProperties EntrypointParam(type='VkExternalFenceProperties', name='pExternalFenceProperties', decl='VkExternalFenceProperties* pExternalFenceProperties', len=None, elem=<Element 'param' at 0x75157c7f8ef0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceExternalFenceProperties EntrypointParam(type='VkExternalFenceProperties', name='pExternalFenceProperties', decl='VkExternalFenceProperties* pExternalFenceProperties', len=None, elem=<Element 'param' at 0x7295882a8ef0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -1984,7 +1984,7 @@ VkSurfaceKHR surface__ = surface;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkSurfaceCapabilities2EXT
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceSurfaceCapabilities2EXT EntrypointParam(type='VkSurfaceCapabilities2EXT', name='pSurfaceCapabilities', decl='VkSurfaceCapabilities2EXT* pSurfaceCapabilities', len=None, elem=<Element 'param' at 0x75157c8036f0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceSurfaceCapabilities2EXT EntrypointParam(type='VkSurfaceCapabilities2EXT', name='pSurfaceCapabilities', decl='VkSurfaceCapabilities2EXT* pSurfaceCapabilities', len=None, elem=<Element 'param' at 0x7295882b76f0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceSurfaceCapabilities2EXT with (physicalDevice: %p,surface: %x,pSurfaceCapabilities: %p) failed with result: %d", base->dispatch_handle,surface__,pSurfaceCapabilities, result);
@@ -2041,7 +2041,7 @@ VkSurfaceKHR surface__ = surface;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkRect2D
-#warning TODO: Repack struct+array+out GetPhysicalDevicePresentRectanglesKHR EntrypointParam(type='VkRect2D', name='pRects', decl='VkRect2D* pRects', len='pRectCount', elem=<Element 'param' at 0x75157c80ad40>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDevicePresentRectanglesKHR EntrypointParam(type='VkRect2D', name='pRects', decl='VkRect2D* pRects', len='pRectCount', elem=<Element 'param' at 0x7295882bed40>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDevicePresentRectanglesKHR with (physicalDevice: %p,surface: %x,pRectCount: %p,pRects: %p) failed with result: %d", base->dispatch_handle,surface__,pRectCount,pRects, result);
@@ -2085,7 +2085,7 @@ VkSampleCountFlagBits samples__ = samples;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkMultisamplePropertiesEXT
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceMultisamplePropertiesEXT EntrypointParam(type='VkMultisamplePropertiesEXT', name='pMultisampleProperties', decl='VkMultisamplePropertiesEXT* pMultisampleProperties', len=None, elem=<Element 'param' at 0x75157c624630>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceMultisamplePropertiesEXT EntrypointParam(type='VkMultisamplePropertiesEXT', name='pMultisampleProperties', decl='VkMultisamplePropertiesEXT* pMultisampleProperties', len=None, elem=<Element 'param' at 0x7295880d8630>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -2129,7 +2129,7 @@ const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo__ = pSurfaceInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkSurfaceCapabilities2KHR
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceSurfaceCapabilities2KHR EntrypointParam(type='VkSurfaceCapabilities2KHR', name='pSurfaceCapabilities', decl='VkSurfaceCapabilities2KHR* pSurfaceCapabilities', len=None, elem=<Element 'param' at 0x75157c624ae0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceSurfaceCapabilities2KHR EntrypointParam(type='VkSurfaceCapabilities2KHR', name='pSurfaceCapabilities', decl='VkSurfaceCapabilities2KHR* pSurfaceCapabilities', len=None, elem=<Element 'param' at 0x7295880d8ae0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceSurfaceCapabilities2KHR with (physicalDevice: %p,pSurfaceInfo: %p,pSurfaceCapabilities: %p) failed with result: %d", base->dispatch_handle,pSurfaceInfo__,pSurfaceCapabilities, result);
@@ -2190,7 +2190,7 @@ const VkPhysicalDeviceSurfaceInfo2KHR* pSurfaceInfo__ = pSurfaceInfo;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSurfaceFormat2KHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceSurfaceFormats2KHR EntrypointParam(type='VkSurfaceFormat2KHR', name='pSurfaceFormats', decl='VkSurfaceFormat2KHR* pSurfaceFormats', len='pSurfaceFormatCount', elem=<Element 'param' at 0x75157c625120>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceSurfaceFormats2KHR EntrypointParam(type='VkSurfaceFormat2KHR', name='pSurfaceFormats', decl='VkSurfaceFormat2KHR* pSurfaceFormats', len='pSurfaceFormatCount', elem=<Element 'param' at 0x7295880d9120>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceSurfaceFormats2KHR with (physicalDevice: %p,pSurfaceInfo: %p,pSurfaceFormatCount: %p,pSurfaceFormats: %p) failed with result: %d", base->dispatch_handle,pSurfaceInfo__,pSurfaceFormatCount,pSurfaceFormats, result);
@@ -2242,7 +2242,7 @@ WLOGA("GetPhysicalDeviceDisplayProperties2KHR(physicalDevice: %p, pPropertyCount
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayProperties2KHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayProperties2KHR EntrypointParam(type='VkDisplayProperties2KHR', name='pProperties', decl='VkDisplayProperties2KHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75157c625580>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayProperties2KHR EntrypointParam(type='VkDisplayProperties2KHR', name='pProperties', decl='VkDisplayProperties2KHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7295880d9580>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceDisplayProperties2KHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
@@ -2294,7 +2294,7 @@ WLOGA("GetPhysicalDeviceDisplayPlaneProperties2KHR(physicalDevice: %p, pProperty
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayPlaneProperties2KHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayPlaneProperties2KHR EntrypointParam(type='VkDisplayPlaneProperties2KHR', name='pProperties', decl='VkDisplayPlaneProperties2KHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75157c625a30>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceDisplayPlaneProperties2KHR EntrypointParam(type='VkDisplayPlaneProperties2KHR', name='pProperties', decl='VkDisplayPlaneProperties2KHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7295880d9a30>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceDisplayPlaneProperties2KHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
@@ -2351,7 +2351,7 @@ VkDisplayKHR display__ = display;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDisplayModeProperties2KHR
-#warning TODO: Repack struct+array+out GetDisplayModeProperties2KHR EntrypointParam(type='VkDisplayModeProperties2KHR', name='pProperties', decl='VkDisplayModeProperties2KHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75157c626020>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetDisplayModeProperties2KHR EntrypointParam(type='VkDisplayModeProperties2KHR', name='pProperties', decl='VkDisplayModeProperties2KHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x7295880da020>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetDisplayModeProperties2KHR with (physicalDevice: %p,display: %x,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,display__,pPropertyCount,pProperties, result);
@@ -2401,7 +2401,7 @@ const VkDisplayPlaneInfo2KHR* pDisplayPlaneInfo__ = pDisplayPlaneInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkDisplayPlaneCapabilities2KHR
-#warning TODO: Repack struct+ptr+out GetDisplayPlaneCapabilities2KHR EntrypointParam(type='VkDisplayPlaneCapabilities2KHR', name='pCapabilities', decl='VkDisplayPlaneCapabilities2KHR* pCapabilities', len=None, elem=<Element 'param' at 0x75157c6264d0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDisplayPlaneCapabilities2KHR EntrypointParam(type='VkDisplayPlaneCapabilities2KHR', name='pCapabilities', decl='VkDisplayPlaneCapabilities2KHR* pCapabilities', len=None, elem=<Element 'param' at 0x7295880da4d0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetDisplayPlaneCapabilities2KHR with (physicalDevice: %p,pDisplayPlaneInfo: %p,pCapabilities: %p) failed with result: %d", base->dispatch_handle,pDisplayPlaneInfo__,pCapabilities, result);
@@ -2500,7 +2500,7 @@ WLOGA("GetPhysicalDeviceCooperativeMatrixPropertiesNV(physicalDevice: %p, pPrope
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkCooperativeMatrixPropertiesNV
-#warning TODO: Repack struct+array+out GetPhysicalDeviceCooperativeMatrixPropertiesNV EntrypointParam(type='VkCooperativeMatrixPropertiesNV', name='pProperties', decl='VkCooperativeMatrixPropertiesNV* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75157c690360>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceCooperativeMatrixPropertiesNV EntrypointParam(type='VkCooperativeMatrixPropertiesNV', name='pProperties', decl='VkCooperativeMatrixPropertiesNV* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x729588144360>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceCooperativeMatrixPropertiesNV with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
@@ -2625,10 +2625,10 @@ uint32_t queueFamilyIndex__ = queueFamilyIndex;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPerformanceCounterKHR
-#warning TODO: Repack struct+array+out EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR EntrypointParam(type='VkPerformanceCounterKHR', name='pCounters', decl='VkPerformanceCounterKHR* pCounters', len='pCounterCount', elem=<Element 'param' at 0x75157c693ce0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR EntrypointParam(type='VkPerformanceCounterKHR', name='pCounters', decl='VkPerformanceCounterKHR* pCounters', len='pCounterCount', elem=<Element 'param' at 0x729588147ce0>, is_const=False, num_pointers=1)
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPerformanceCounterDescriptionKHR
-#warning TODO: Repack struct+array+out EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR EntrypointParam(type='VkPerformanceCounterDescriptionKHR', name='pCounterDescriptions', decl='VkPerformanceCounterDescriptionKHR* pCounterDescriptions', len='pCounterCount', elem=<Element 'param' at 0x75157c693dd0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR EntrypointParam(type='VkPerformanceCounterDescriptionKHR', name='pCounterDescriptions', decl='VkPerformanceCounterDescriptionKHR* pCounterDescriptions', len='pCounterCount', elem=<Element 'param' at 0x729588147dd0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to EnumeratePhysicalDeviceQueueFamilyPerformanceQueryCountersKHR with (physicalDevice: %p,queueFamilyIndex: %x,pCounterCount: %p,pCounters: %p,pCounterDescriptions: %p) failed with result: %d", base->dispatch_handle,queueFamilyIndex__,pCounterCount,pCounters,pCounterDescriptions, result);
@@ -2720,7 +2720,7 @@ WLOGA("GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV(physicalD
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkFramebufferMixedSamplesCombinationNV
-#warning TODO: Repack struct+array+out GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV EntrypointParam(type='VkFramebufferMixedSamplesCombinationNV', name='pCombinations', decl='VkFramebufferMixedSamplesCombinationNV* pCombinations', len='pCombinationCount', elem=<Element 'param' at 0x75157c6a22a0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV EntrypointParam(type='VkFramebufferMixedSamplesCombinationNV', name='pCombinations', decl='VkFramebufferMixedSamplesCombinationNV* pCombinations', len='pCombinationCount', elem=<Element 'param' at 0x7295881562a0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceSupportedFramebufferMixedSamplesCombinationsNV with (physicalDevice: %p,pCombinationCount: %p,pCombinations: %p) failed with result: %d", base->dispatch_handle,pCombinationCount,pCombinations, result);
@@ -2772,7 +2772,7 @@ WLOGA("GetPhysicalDeviceToolProperties(physicalDevice: %p, pToolCount: %p, pTool
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceToolProperties
-#warning TODO: Repack struct+array+out GetPhysicalDeviceToolProperties EntrypointParam(type='VkPhysicalDeviceToolProperties', name='pToolProperties', decl='VkPhysicalDeviceToolProperties* pToolProperties', len='pToolCount', elem=<Element 'param' at 0x75157c6aee30>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceToolProperties EntrypointParam(type='VkPhysicalDeviceToolProperties', name='pToolProperties', decl='VkPhysicalDeviceToolProperties* pToolProperties', len='pToolCount', elem=<Element 'param' at 0x729588162e30>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceToolProperties with (physicalDevice: %p,pToolCount: %p,pToolProperties: %p) failed with result: %d", base->dispatch_handle,pToolCount,pToolProperties, result);
@@ -2824,7 +2824,7 @@ WLOGA("GetPhysicalDeviceFragmentShadingRatesKHR(physicalDevice: %p, pFragmentSha
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPhysicalDeviceFragmentShadingRateKHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceFragmentShadingRatesKHR EntrypointParam(type='VkPhysicalDeviceFragmentShadingRateKHR', name='pFragmentShadingRates', decl='VkPhysicalDeviceFragmentShadingRateKHR* pFragmentShadingRates', len='pFragmentShadingRateCount', elem=<Element 'param' at 0x75157c6eb6a0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceFragmentShadingRatesKHR EntrypointParam(type='VkPhysicalDeviceFragmentShadingRateKHR', name='pFragmentShadingRates', decl='VkPhysicalDeviceFragmentShadingRateKHR* pFragmentShadingRates', len='pFragmentShadingRateCount', elem=<Element 'param' at 0x72958819b6a0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceFragmentShadingRatesKHR with (physicalDevice: %p,pFragmentShadingRateCount: %p,pFragmentShadingRates: %p) failed with result: %d", base->dispatch_handle,pFragmentShadingRateCount,pFragmentShadingRates, result);
@@ -2874,7 +2874,7 @@ const VkVideoProfileInfoKHR* pVideoProfile__ = pVideoProfile;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkVideoCapabilitiesKHR
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceVideoCapabilitiesKHR EntrypointParam(type='VkVideoCapabilitiesKHR', name='pCapabilities', decl='VkVideoCapabilitiesKHR* pCapabilities', len=None, elem=<Element 'param' at 0x75157c7053a0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceVideoCapabilitiesKHR EntrypointParam(type='VkVideoCapabilitiesKHR', name='pCapabilities', decl='VkVideoCapabilitiesKHR* pCapabilities', len=None, elem=<Element 'param' at 0x7295881b93a0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceVideoCapabilitiesKHR with (physicalDevice: %p,pVideoProfile: %p,pCapabilities: %p) failed with result: %d", base->dispatch_handle,pVideoProfile__,pCapabilities, result);
@@ -2935,7 +2935,7 @@ const VkPhysicalDeviceVideoFormatInfoKHR* pVideoFormatInfo__ = pVideoFormatInfo;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkVideoFormatPropertiesKHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceVideoFormatPropertiesKHR EntrypointParam(type='VkVideoFormatPropertiesKHR', name='pVideoFormatProperties', decl='VkVideoFormatPropertiesKHR* pVideoFormatProperties', len='pVideoFormatPropertyCount', elem=<Element 'param' at 0x75157c7059e0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceVideoFormatPropertiesKHR EntrypointParam(type='VkVideoFormatPropertiesKHR', name='pVideoFormatProperties', decl='VkVideoFormatPropertiesKHR* pVideoFormatProperties', len='pVideoFormatPropertyCount', elem=<Element 'param' at 0x7295881b99e0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceVideoFormatPropertiesKHR with (physicalDevice: %p,pVideoFormatInfo: %p,pVideoFormatPropertyCount: %p,pVideoFormatProperties: %p) failed with result: %d", base->dispatch_handle,pVideoFormatInfo__,pVideoFormatPropertyCount,pVideoFormatProperties, result);
@@ -2985,7 +2985,7 @@ const VkPhysicalDeviceVideoEncodeQualityLevelInfoKHR* pQualityLevelInfo__ = pQua
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkVideoEncodeQualityLevelPropertiesKHR
-#warning TODO: Repack struct+ptr+out GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR EntrypointParam(type='VkVideoEncodeQualityLevelPropertiesKHR', name='pQualityLevelProperties', decl='VkVideoEncodeQualityLevelPropertiesKHR* pQualityLevelProperties', len=None, elem=<Element 'param' at 0x75157c705e40>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR EntrypointParam(type='VkVideoEncodeQualityLevelPropertiesKHR', name='pQualityLevelProperties', decl='VkVideoEncodeQualityLevelPropertiesKHR* pQualityLevelProperties', len=None, elem=<Element 'param' at 0x7295881b9e40>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR with (physicalDevice: %p,pQualityLevelInfo: %p,pQualityLevelProperties: %p) failed with result: %d", base->dispatch_handle,pQualityLevelInfo__,pQualityLevelProperties, result);
@@ -3136,7 +3136,7 @@ const VkOpticalFlowImageFormatInfoNV* pOpticalFlowImageFormatInfo__ = pOpticalFl
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkOpticalFlowImageFormatPropertiesNV
-#warning TODO: Repack struct+array+out GetPhysicalDeviceOpticalFlowImageFormatsNV EntrypointParam(type='VkOpticalFlowImageFormatPropertiesNV', name='pImageFormatProperties', decl='VkOpticalFlowImageFormatPropertiesNV* pImageFormatProperties', len='pFormatCount', elem=<Element 'param' at 0x75157c5436a0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceOpticalFlowImageFormatsNV EntrypointParam(type='VkOpticalFlowImageFormatPropertiesNV', name='pImageFormatProperties', decl='VkOpticalFlowImageFormatPropertiesNV* pImageFormatProperties', len='pFormatCount', elem=<Element 'param' at 0x729587ff76a0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceOpticalFlowImageFormatsNV with (physicalDevice: %p,pOpticalFlowImageFormatInfo: %p,pFormatCount: %p,pImageFormatProperties: %p) failed with result: %d", base->dispatch_handle,pOpticalFlowImageFormatInfo__,pFormatCount,pImageFormatProperties, result);
@@ -3188,7 +3188,7 @@ WLOGA("GetPhysicalDeviceCooperativeMatrixPropertiesKHR(physicalDevice: %p, pProp
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkCooperativeMatrixPropertiesKHR
-#warning TODO: Repack struct+array+out GetPhysicalDeviceCooperativeMatrixPropertiesKHR EntrypointParam(type='VkCooperativeMatrixPropertiesKHR', name='pProperties', decl='VkCooperativeMatrixPropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x75157c554270>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPhysicalDeviceCooperativeMatrixPropertiesKHR EntrypointParam(type='VkCooperativeMatrixPropertiesKHR', name='pProperties', decl='VkCooperativeMatrixPropertiesKHR* pProperties', len='pPropertyCount', elem=<Element 'param' at 0x729588008270>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPhysicalDeviceCooperativeMatrixPropertiesKHR with (physicalDevice: %p,pPropertyCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPropertyCount,pProperties, result);
@@ -3828,7 +3828,7 @@ VkBuffer buffer__ = buffer;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements
-#warning TODO: Repack struct+ptr+out GetBufferMemoryRequirements EntrypointParam(type='VkMemoryRequirements', name='pMemoryRequirements', decl='VkMemoryRequirements* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75157c71ede0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetBufferMemoryRequirements EntrypointParam(type='VkMemoryRequirements', name='pMemoryRequirements', decl='VkMemoryRequirements* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7295883cede0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -3912,7 +3912,7 @@ VkImage image__ = image;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements
-#warning TODO: Repack struct+ptr+out GetImageMemoryRequirements EntrypointParam(type='VkMemoryRequirements', name='pMemoryRequirements', decl='VkMemoryRequirements* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75157c71f740>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetImageMemoryRequirements EntrypointParam(type='VkMemoryRequirements', name='pMemoryRequirements', decl='VkMemoryRequirements* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7295883cf740>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -4007,7 +4007,7 @@ VkImage image__ = image;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSparseImageMemoryRequirements
-#warning TODO: Repack struct+array+out GetImageSparseMemoryRequirements EntrypointParam(type='VkSparseImageMemoryRequirements', name='pSparseMemoryRequirements', decl='VkSparseImageMemoryRequirements* pSparseMemoryRequirements', len='pSparseMemoryRequirementCount', elem=<Element 'param' at 0x75157c728270>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetImageSparseMemoryRequirements EntrypointParam(type='VkSparseImageMemoryRequirements', name='pSparseMemoryRequirements', decl='VkSparseImageMemoryRequirements* pSparseMemoryRequirements', len='pSparseMemoryRequirementCount', elem=<Element 'param' at 0x7295881dc270>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -5086,7 +5086,7 @@ const VkImageSubresource* pSubresource__ = pSubresource;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkSubresourceLayout
-#warning TODO: Repack struct+ptr+out GetImageSubresourceLayout EntrypointParam(type='VkSubresourceLayout', name='pLayout', decl='VkSubresourceLayout* pLayout', len=None, elem=<Element 'param' at 0x75157c737ba0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetImageSubresourceLayout EntrypointParam(type='VkSubresourceLayout', name='pLayout', decl='VkSubresourceLayout* pLayout', len=None, elem=<Element 'param' at 0x7295881ebba0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -5643,7 +5643,7 @@ VkRenderPass renderpass__ = renderpass;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkExtent2D
-#warning TODO: Repack struct+array+out GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI EntrypointParam(type='VkExtent2D', name='pMaxWorkgroupSize', decl='VkExtent2D* pMaxWorkgroupSize', len='1', elem=<Element 'param' at 0x75157c7509a0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI EntrypointParam(type='VkExtent2D', name='pMaxWorkgroupSize', decl='VkExtent2D* pMaxWorkgroupSize', len='1', elem=<Element 'param' at 0x7295882049a0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetDeviceSubpassShadingMaxWorkgroupSizeHUAWEI with (device: %p,renderpass: %x,pMaxWorkgroupSize: %p) failed with result: %d", base->dispatch_handle,renderpass__,pMaxWorkgroupSize, result);
@@ -6461,7 +6461,7 @@ VkRenderPass renderPass__ = renderPass;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkExtent2D
-#warning TODO: Repack struct+ptr+out GetRenderAreaGranularity EntrypointParam(type='VkExtent2D', name='pGranularity', decl='VkExtent2D* pGranularity', len=None, elem=<Element 'param' at 0x75157c75df80>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetRenderAreaGranularity EntrypointParam(type='VkExtent2D', name='pGranularity', decl='VkExtent2D* pGranularity', len=None, elem=<Element 'param' at 0x729588211f80>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -6503,7 +6503,7 @@ const VkRenderingAreaInfoKHR* pRenderingAreaInfo__ = pRenderingAreaInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkExtent2D
-#warning TODO: Repack struct+ptr+out GetRenderingAreaGranularityKHR EntrypointParam(type='VkExtent2D', name='pGranularity', decl='VkExtent2D* pGranularity', len=None, elem=<Element 'param' at 0x75157c75e3e0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetRenderingAreaGranularityKHR EntrypointParam(type='VkExtent2D', name='pGranularity', decl='VkExtent2D* pGranularity', len=None, elem=<Element 'param' at 0x7295882123e0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -9725,7 +9725,7 @@ const VkGeneratedCommandsMemoryRequirementsInfoNV* pInfo__ = pInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements2
-#warning TODO: Repack struct+ptr+out GetGeneratedCommandsMemoryRequirementsNV EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75157c7d7a60>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetGeneratedCommandsMemoryRequirementsNV EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x72958828ba60>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -9997,7 +9997,7 @@ HANDLE handle__ = handle;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkMemoryWin32HandlePropertiesKHR
-#warning TODO: Repack struct+ptr+out GetMemoryWin32HandlePropertiesKHR EntrypointParam(type='VkMemoryWin32HandlePropertiesKHR', name='pMemoryWin32HandleProperties', decl='VkMemoryWin32HandlePropertiesKHR* pMemoryWin32HandleProperties', len=None, elem=<Element 'param' at 0x75157c7ec450>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetMemoryWin32HandlePropertiesKHR EntrypointParam(type='VkMemoryWin32HandlePropertiesKHR', name='pMemoryWin32HandleProperties', decl='VkMemoryWin32HandlePropertiesKHR* pMemoryWin32HandleProperties', len=None, elem=<Element 'param' at 0x7295882a0450>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetMemoryWin32HandlePropertiesKHR with (device: %p,handleType: %x,handle: %x,pMemoryWin32HandleProperties: %p) failed with result: %d", base->dispatch_handle,handleType__,handle__,pMemoryWin32HandleProperties, result);
@@ -10097,7 +10097,7 @@ int fd__ = fd;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkMemoryFdPropertiesKHR
-#warning TODO: Repack struct+ptr+out GetMemoryFdPropertiesKHR EntrypointParam(type='VkMemoryFdPropertiesKHR', name='pMemoryFdProperties', decl='VkMemoryFdPropertiesKHR* pMemoryFdProperties', len=None, elem=<Element 'param' at 0x75157c7ecea0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetMemoryFdPropertiesKHR EntrypointParam(type='VkMemoryFdPropertiesKHR', name='pMemoryFdProperties', decl='VkMemoryFdPropertiesKHR* pMemoryFdProperties', len=None, elem=<Element 'param' at 0x7295882a0ea0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetMemoryFdPropertiesKHR with (device: %p,handleType: %x,fd: %x,pMemoryFdProperties: %p) failed with result: %d", base->dispatch_handle,handleType__,fd__,pMemoryFdProperties, result);
@@ -10199,7 +10199,7 @@ zx_handle_t zirconHandle__ = zirconHandle;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkMemoryZirconHandlePropertiesFUCHSIA
-#warning TODO: Repack struct+ptr+out GetMemoryZirconHandlePropertiesFUCHSIA EntrypointParam(type='VkMemoryZirconHandlePropertiesFUCHSIA', name='pMemoryZirconHandleProperties', decl='VkMemoryZirconHandlePropertiesFUCHSIA* pMemoryZirconHandleProperties', len=None, elem=<Element 'param' at 0x75157c7ed8f0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetMemoryZirconHandlePropertiesFUCHSIA EntrypointParam(type='VkMemoryZirconHandlePropertiesFUCHSIA', name='pMemoryZirconHandleProperties', decl='VkMemoryZirconHandlePropertiesFUCHSIA* pMemoryZirconHandleProperties', len=None, elem=<Element 'param' at 0x7295882a18f0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetMemoryZirconHandlePropertiesFUCHSIA with (device: %p,handleType: %x,zirconHandle: %x,pMemoryZirconHandleProperties: %p) failed with result: %d", base->dispatch_handle,handleType__,zirconHandle__,pMemoryZirconHandleProperties, result);
@@ -11122,7 +11122,7 @@ WLOGA("GetDeviceGroupPresentCapabilitiesKHR(device: %p, pDeviceGroupPresentCapab
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkDeviceGroupPresentCapabilitiesKHR
-#warning TODO: Repack struct+ptr+out GetDeviceGroupPresentCapabilitiesKHR EntrypointParam(type='VkDeviceGroupPresentCapabilitiesKHR', name='pDeviceGroupPresentCapabilities', decl='VkDeviceGroupPresentCapabilitiesKHR* pDeviceGroupPresentCapabilities', len=None, elem=<Element 'param' at 0x75157c8095d0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDeviceGroupPresentCapabilitiesKHR EntrypointParam(type='VkDeviceGroupPresentCapabilitiesKHR', name='pDeviceGroupPresentCapabilities', decl='VkDeviceGroupPresentCapabilitiesKHR* pDeviceGroupPresentCapabilities', len=None, elem=<Element 'param' at 0x7295882bd5d0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetDeviceGroupPresentCapabilitiesKHR with (device: %p,pDeviceGroupPresentCapabilities: %p) failed with result: %d", base->dispatch_handle,pDeviceGroupPresentCapabilities, result);
@@ -11559,7 +11559,7 @@ VkSwapchainKHR swapchain__ = swapchain;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkRefreshCycleDurationGOOGLE
-#warning TODO: Repack struct+ptr+out GetRefreshCycleDurationGOOGLE EntrypointParam(type='VkRefreshCycleDurationGOOGLE', name='pDisplayTimingProperties', decl='VkRefreshCycleDurationGOOGLE* pDisplayTimingProperties', len=None, elem=<Element 'param' at 0x75157c619530>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetRefreshCycleDurationGOOGLE EntrypointParam(type='VkRefreshCycleDurationGOOGLE', name='pDisplayTimingProperties', decl='VkRefreshCycleDurationGOOGLE* pDisplayTimingProperties', len=None, elem=<Element 'param' at 0x7295882c5530>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetRefreshCycleDurationGOOGLE with (device: %p,swapchain: %x,pDisplayTimingProperties: %p) failed with result: %d", base->dispatch_handle,swapchain__,pDisplayTimingProperties, result);
@@ -11616,7 +11616,7 @@ VkSwapchainKHR swapchain__ = swapchain;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPastPresentationTimingGOOGLE
-#warning TODO: Repack struct+array+out GetPastPresentationTimingGOOGLE EntrypointParam(type='VkPastPresentationTimingGOOGLE', name='pPresentationTimings', decl='VkPastPresentationTimingGOOGLE* pPresentationTimings', len='pPresentationTimingCount', elem=<Element 'param' at 0x75157c619c10>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPastPresentationTimingGOOGLE EntrypointParam(type='VkPastPresentationTimingGOOGLE', name='pPresentationTimings', decl='VkPastPresentationTimingGOOGLE* pPresentationTimings', len='pPresentationTimingCount', elem=<Element 'param' at 0x7295882c5c10>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPastPresentationTimingGOOGLE with (device: %p,swapchain: %x,pPresentationTimingCount: %p,pPresentationTimings: %p) failed with result: %d", base->dispatch_handle,swapchain__,pPresentationTimingCount,pPresentationTimings, result);
@@ -11832,7 +11832,7 @@ const VkBufferMemoryRequirementsInfo2* pInfo__ = pInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements2
-#warning TODO: Repack struct+ptr+out GetBufferMemoryRequirements2 EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75157c6269d0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetBufferMemoryRequirements2 EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7295880da9d0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -11874,7 +11874,7 @@ const VkImageMemoryRequirementsInfo2* pInfo__ = pInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements2
-#warning TODO: Repack struct+ptr+out GetImageMemoryRequirements2 EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75157c626f70>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetImageMemoryRequirements2 EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7295880daf70>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -11927,7 +11927,7 @@ const VkImageSparseMemoryRequirementsInfo2* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSparseImageMemoryRequirements2
-#warning TODO: Repack struct+array+out GetImageSparseMemoryRequirements2 EntrypointParam(type='VkSparseImageMemoryRequirements2', name='pSparseMemoryRequirements', decl='VkSparseImageMemoryRequirements2* pSparseMemoryRequirements', len='pSparseMemoryRequirementCount', elem=<Element 'param' at 0x75157c6276a0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetImageSparseMemoryRequirements2 EntrypointParam(type='VkSparseImageMemoryRequirements2', name='pSparseMemoryRequirements', decl='VkSparseImageMemoryRequirements2* pSparseMemoryRequirements', len='pSparseMemoryRequirementCount', elem=<Element 'param' at 0x7295880db6a0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -11969,7 +11969,7 @@ const VkDeviceBufferMemoryRequirements* pInfo__ = pInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements2
-#warning TODO: Repack struct+ptr+out GetDeviceBufferMemoryRequirements EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75157c627ce0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDeviceBufferMemoryRequirements EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7295880dbce0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -12011,7 +12011,7 @@ const VkDeviceImageMemoryRequirements* pInfo__ = pInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements2
-#warning TODO: Repack struct+ptr+out GetDeviceImageMemoryRequirements EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75157c6302c0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDeviceImageMemoryRequirements EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7295880e42c0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -12064,7 +12064,7 @@ const VkDeviceImageMemoryRequirements* pInfo__ = pInfo;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkSparseImageMemoryRequirements2
-#warning TODO: Repack struct+array+out GetDeviceImageSparseMemoryRequirements EntrypointParam(type='VkSparseImageMemoryRequirements2', name='pSparseMemoryRequirements', decl='VkSparseImageMemoryRequirements2* pSparseMemoryRequirements', len='pSparseMemoryRequirementCount', elem=<Element 'param' at 0x75157c6309a0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetDeviceImageSparseMemoryRequirements EntrypointParam(type='VkSparseImageMemoryRequirements2', name='pSparseMemoryRequirements', decl='VkSparseImageMemoryRequirements2* pSparseMemoryRequirements', len='pSparseMemoryRequirementCount', elem=<Element 'param' at 0x7295880e49a0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -12411,7 +12411,7 @@ const VkDescriptorSetLayoutCreateInfo* pCreateInfo__ = pCreateInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkDescriptorSetLayoutSupport
-#warning TODO: Repack struct+ptr+out GetDescriptorSetLayoutSupport EntrypointParam(type='VkDescriptorSetLayoutSupport', name='pSupport', decl='VkDescriptorSetLayoutSupport* pSupport', len=None, elem=<Element 'param' at 0x75157c633510>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDescriptorSetLayoutSupport EntrypointParam(type='VkDescriptorSetLayoutSupport', name='pSupport', decl='VkDescriptorSetLayoutSupport* pSupport', len=None, elem=<Element 'param' at 0x7295880e7510>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -13079,7 +13079,7 @@ const void* pHostPointer__ = pHostPointer;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkMemoryHostPointerPropertiesEXT
-#warning TODO: Repack struct+ptr+out GetMemoryHostPointerPropertiesEXT EntrypointParam(type='VkMemoryHostPointerPropertiesEXT', name='pMemoryHostPointerProperties', decl='VkMemoryHostPointerPropertiesEXT* pMemoryHostPointerProperties', len=None, elem=<Element 'param' at 0x75157c645850>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetMemoryHostPointerPropertiesEXT EntrypointParam(type='VkMemoryHostPointerPropertiesEXT', name='pMemoryHostPointerProperties', decl='VkMemoryHostPointerPropertiesEXT* pMemoryHostPointerProperties', len=None, elem=<Element 'param' at 0x7295880f9850>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetMemoryHostPointerPropertiesEXT with (device: %p,handleType: %x,pHostPointer: %x,pMemoryHostPointerProperties: %p) failed with result: %d", base->dispatch_handle,handleType__,pHostPointer__,pMemoryHostPointerProperties, result);
@@ -13461,7 +13461,7 @@ const struct AHardwareBuffer* buffer__ = buffer;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkAndroidHardwareBufferPropertiesANDROID
-#warning TODO: Repack struct+ptr+out GetAndroidHardwareBufferPropertiesANDROID EntrypointParam(type='VkAndroidHardwareBufferPropertiesANDROID', name='pProperties', decl='VkAndroidHardwareBufferPropertiesANDROID* pProperties', len=None, elem=<Element 'param' at 0x75157c64c3b0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetAndroidHardwareBufferPropertiesANDROID EntrypointParam(type='VkAndroidHardwareBufferPropertiesANDROID', name='pProperties', decl='VkAndroidHardwareBufferPropertiesANDROID* pProperties', len=None, elem=<Element 'param' at 0x7295881003b0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetAndroidHardwareBufferPropertiesANDROID with (device: %p,buffer: %x,pProperties: %p) failed with result: %d", base->dispatch_handle,buffer__,pProperties, result);
@@ -13690,7 +13690,7 @@ WLOGA("GetQueueCheckpointDataNV(queue: %p, pCheckpointDataCount: %p, pCheckpoint
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkCheckpointDataNV
-#warning TODO: Repack struct+array+out GetQueueCheckpointDataNV EntrypointParam(type='VkCheckpointDataNV', name='pCheckpointData', decl='VkCheckpointDataNV* pCheckpointData', len='pCheckpointDataCount', elem=<Element 'param' at 0x75157c64e2f0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetQueueCheckpointDataNV EntrypointParam(type='VkCheckpointDataNV', name='pCheckpointData', decl='VkCheckpointDataNV* pCheckpointData', len='pCheckpointDataCount', elem=<Element 'param' at 0x7295881022f0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -14634,7 +14634,7 @@ const VkAccelerationStructureMemoryRequirementsInfoNV* pInfo__ = pInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements2KHR
-#warning TODO: Repack struct+ptr+out GetAccelerationStructureMemoryRequirementsNV EntrypointParam(type='VkMemoryRequirements2KHR', name='pMemoryRequirements', decl='VkMemoryRequirements2KHR* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75157c66e7a0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetAccelerationStructureMemoryRequirementsNV EntrypointParam(type='VkMemoryRequirements2KHR', name='pMemoryRequirements', decl='VkMemoryRequirements2KHR* pMemoryRequirements', len=None, elem=<Element 'param' at 0x7295881227a0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -15899,7 +15899,7 @@ VkImageView imageView__ = imageView;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkImageViewAddressPropertiesNVX
-#warning TODO: Repack struct+ptr+out GetImageViewAddressNVX EntrypointParam(type='VkImageViewAddressPropertiesNVX', name='pProperties', decl='VkImageViewAddressPropertiesNVX* pProperties', len=None, elem=<Element 'param' at 0x75157c6925c0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetImageViewAddressNVX EntrypointParam(type='VkImageViewAddressPropertiesNVX', name='pProperties', decl='VkImageViewAddressPropertiesNVX* pProperties', len=None, elem=<Element 'param' at 0x7295881465c0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetImageViewAddressNVX with (device: %p,imageView: %x,pProperties: %p) failed with result: %d", base->dispatch_handle,imageView__,pProperties, result);
@@ -16132,7 +16132,7 @@ VkImage image__ = image;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkImageDrmFormatModifierPropertiesEXT
-#warning TODO: Repack struct+ptr+out GetImageDrmFormatModifierPropertiesEXT EntrypointParam(type='VkImageDrmFormatModifierPropertiesEXT', name='pProperties', decl='VkImageDrmFormatModifierPropertiesEXT* pProperties', len=None, elem=<Element 'param' at 0x75157c6a0e00>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetImageDrmFormatModifierPropertiesEXT EntrypointParam(type='VkImageDrmFormatModifierPropertiesEXT', name='pProperties', decl='VkImageDrmFormatModifierPropertiesEXT* pProperties', len=None, elem=<Element 'param' at 0x729588154e00>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetImageDrmFormatModifierPropertiesEXT with (device: %p,image: %x,pProperties: %p) failed with result: %d", base->dispatch_handle,image__,pProperties, result);
@@ -16539,7 +16539,7 @@ VkPerformanceParameterTypeINTEL parameter__ = parameter;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkPerformanceValueINTEL
-#warning TODO: Repack struct+ptr+out GetPerformanceParameterINTEL EntrypointParam(type='VkPerformanceValueINTEL', name='pValue', decl='VkPerformanceValueINTEL* pValue', len=None, elem=<Element 'param' at 0x75157c6ac680>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPerformanceParameterINTEL EntrypointParam(type='VkPerformanceValueINTEL', name='pValue', decl='VkPerformanceValueINTEL* pValue', len=None, elem=<Element 'param' at 0x729588160680>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPerformanceParameterINTEL with (device: %p,parameter: %x,pValue: %p) failed with result: %d", base->dispatch_handle,parameter__,pValue, result);
@@ -16630,7 +16630,7 @@ const VkPipelineInfoKHR*        pPipelineInfo__ = pPipelineInfo;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPipelineExecutablePropertiesKHR
-#warning TODO: Repack struct+array+out GetPipelineExecutablePropertiesKHR EntrypointParam(type='VkPipelineExecutablePropertiesKHR', name='pProperties', decl='VkPipelineExecutablePropertiesKHR* pProperties', len='pExecutableCount', elem=<Element 'param' at 0x75157c6ad0d0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPipelineExecutablePropertiesKHR EntrypointParam(type='VkPipelineExecutablePropertiesKHR', name='pProperties', decl='VkPipelineExecutablePropertiesKHR* pProperties', len='pExecutableCount', elem=<Element 'param' at 0x7295881610d0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPipelineExecutablePropertiesKHR with (device: %p,pPipelineInfo: %p,pExecutableCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pPipelineInfo__,pExecutableCount,pProperties, result);
@@ -16691,7 +16691,7 @@ const VkPipelineExecutableInfoKHR*  pExecutableInfo__ = pExecutableInfo;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPipelineExecutableStatisticKHR
-#warning TODO: Repack struct+array+out GetPipelineExecutableStatisticsKHR EntrypointParam(type='VkPipelineExecutableStatisticKHR', name='pStatistics', decl='VkPipelineExecutableStatisticKHR* pStatistics', len='pStatisticCount', elem=<Element 'param' at 0x75157c6ad760>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPipelineExecutableStatisticsKHR EntrypointParam(type='VkPipelineExecutableStatisticKHR', name='pStatistics', decl='VkPipelineExecutableStatisticKHR* pStatistics', len='pStatisticCount', elem=<Element 'param' at 0x729588161760>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPipelineExecutableStatisticsKHR with (device: %p,pExecutableInfo: %p,pStatisticCount: %p,pStatistics: %p) failed with result: %d", base->dispatch_handle,pExecutableInfo__,pStatisticCount,pStatistics, result);
@@ -16752,7 +16752,7 @@ const VkPipelineExecutableInfoKHR*  pExecutableInfo__ = pExecutableInfo;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkPipelineExecutableInternalRepresentationKHR
-#warning TODO: Repack struct+array+out GetPipelineExecutableInternalRepresentationsKHR EntrypointParam(type='VkPipelineExecutableInternalRepresentationKHR', name='pInternalRepresentations', decl='VkPipelineExecutableInternalRepresentationKHR* pInternalRepresentations', len='pInternalRepresentationCount', elem=<Element 'param' at 0x75157c6ade40>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetPipelineExecutableInternalRepresentationsKHR EntrypointParam(type='VkPipelineExecutableInternalRepresentationKHR', name='pInternalRepresentations', decl='VkPipelineExecutableInternalRepresentationKHR* pInternalRepresentations', len='pInternalRepresentationCount', elem=<Element 'param' at 0x729588161e40>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPipelineExecutableInternalRepresentationsKHR with (device: %p,pExecutableInfo: %p,pInternalRepresentationCount: %p,pInternalRepresentations: %p) failed with result: %d", base->dispatch_handle,pExecutableInfo__,pInternalRepresentationCount,pInternalRepresentations, result);
@@ -16888,7 +16888,7 @@ const VkAccelerationStructureBuildGeometryInfoKHR* pInfos__ = pInfos;
 #endif
 const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos__ = ppBuildRangeInfos;
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureBuildRangeInfoKHR
-#error: Unhandled struct+ptr2 CmdBuildAccelerationStructuresKHR EntrypointParam(type='VkAccelerationStructureBuildRangeInfoKHR', name='ppBuildRangeInfos', decl='const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos', len='infoCount', elem=<Element 'param' at 0x75157c6afb50>, is_const=True, num_pointers=2)
+#error: Unhandled struct+ptr2 CmdBuildAccelerationStructuresKHR EntrypointParam(type='VkAccelerationStructureBuildRangeInfoKHR', name='ppBuildRangeInfos', decl='const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos', len='infoCount', elem=<Element 'param' at 0x729588163b50>, is_const=True, num_pointers=2)
 #endif
     base->device->dispatch_table.CmdBuildAccelerationStructuresKHR(base->dispatch_handle, infoCount__, pInfos__, ppBuildRangeInfos__);
     // No output
@@ -16990,7 +16990,7 @@ const VkAccelerationStructureBuildGeometryInfoKHR* pInfos__ = pInfos;
 #endif
 const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos__ = ppBuildRangeInfos;
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureBuildRangeInfoKHR
-#error: Unhandled struct+ptr2 BuildAccelerationStructuresKHR EntrypointParam(type='VkAccelerationStructureBuildRangeInfoKHR', name='ppBuildRangeInfos', decl='const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos', len='infoCount', elem=<Element 'param' at 0x75157c6b4900>, is_const=True, num_pointers=2)
+#error: Unhandled struct+ptr2 BuildAccelerationStructuresKHR EntrypointParam(type='VkAccelerationStructureBuildRangeInfoKHR', name='ppBuildRangeInfos', decl='const VkAccelerationStructureBuildRangeInfoKHR* const* ppBuildRangeInfos', len='infoCount', elem=<Element 'param' at 0x729588168900>, is_const=True, num_pointers=2)
 #endif
     VkResult result = base->dispatch_table.BuildAccelerationStructuresKHR(base->dispatch_handle, deferredOperation__, infoCount__, pInfos__, ppBuildRangeInfos__);
     if (should_print) {
@@ -17255,7 +17255,7 @@ const VkComputePipelineCreateInfo* pCreateInfo__ = pCreateInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkMemoryRequirements2
-#warning TODO: Repack struct+ptr+out GetPipelineIndirectMemoryRequirementsNV EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x75157c6b63e0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPipelineIndirectMemoryRequirementsNV EntrypointParam(type='VkMemoryRequirements2', name='pMemoryRequirements', decl='VkMemoryRequirements2* pMemoryRequirements', len=None, elem=<Element 'param' at 0x72958816a3e0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -19191,7 +19191,7 @@ const uint32_t*  pMaxPrimitiveCounts__ = pMaxPrimitiveCounts;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkAccelerationStructureBuildSizesInfoKHR
-#warning TODO: Repack struct+ptr+out GetAccelerationStructureBuildSizesKHR EntrypointParam(type='VkAccelerationStructureBuildSizesInfoKHR', name='pSizeInfo', decl='VkAccelerationStructureBuildSizesInfoKHR*           pSizeInfo', len=None, elem=<Element 'param' at 0x75157c6f02c0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetAccelerationStructureBuildSizesKHR EntrypointParam(type='VkAccelerationStructureBuildSizesInfoKHR', name='pSizeInfo', decl='VkAccelerationStructureBuildSizesInfoKHR*           pSizeInfo', len=None, elem=<Element 'param' at 0x7295881a42c0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -19590,7 +19590,7 @@ WLOGA("GetQueueCheckpointData2NV(queue: %p, pCheckpointDataCount: %p, pCheckpoin
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkCheckpointData2NV
-#warning TODO: Repack struct+array+out GetQueueCheckpointData2NV EntrypointParam(type='VkCheckpointData2NV', name='pCheckpointData', decl='VkCheckpointData2NV* pCheckpointData', len='pCheckpointDataCount', elem=<Element 'param' at 0x75157c6f3a60>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetQueueCheckpointData2NV EntrypointParam(type='VkCheckpointData2NV', name='pCheckpointData', decl='VkCheckpointData2NV* pCheckpointData', len='pCheckpointDataCount', elem=<Element 'param' at 0x7295881a7a60>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -20008,7 +20008,7 @@ const VkVideoEncodeSessionParametersGetInfoKHR* pVideoSessionParametersInfo__ = 
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkVideoEncodeSessionParametersFeedbackInfoKHR
-#warning TODO: Repack struct+ptr+out GetEncodedVideoSessionParametersKHR EntrypointParam(type='VkVideoEncodeSessionParametersFeedbackInfoKHR', name='pFeedbackInfo', decl='VkVideoEncodeSessionParametersFeedbackInfoKHR* pFeedbackInfo', len=None, elem=<Element 'param' at 0x75157c707830>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetEncodedVideoSessionParametersKHR EntrypointParam(type='VkVideoEncodeSessionParametersFeedbackInfoKHR', name='pFeedbackInfo', decl='VkVideoEncodeSessionParametersFeedbackInfoKHR* pFeedbackInfo', len=None, elem=<Element 'param' at 0x7295881bb830>, is_const=False, num_pointers=1)
 #endif
 #ifdef NEEDS_UNWRAPPING_size_t
 #endif
@@ -20104,7 +20104,7 @@ VkVideoSessionKHR videoSession__ = videoSession;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkVideoSessionMemoryRequirementsKHR
-#warning TODO: Repack struct+array+out GetVideoSessionMemoryRequirementsKHR EntrypointParam(type='VkVideoSessionMemoryRequirementsKHR', name='pMemoryRequirements', decl='VkVideoSessionMemoryRequirementsKHR* pMemoryRequirements', len='pMemoryRequirementsCount', elem=<Element 'param' at 0x75157c70c540>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetVideoSessionMemoryRequirementsKHR EntrypointParam(type='VkVideoSessionMemoryRequirementsKHR', name='pMemoryRequirements', decl='VkVideoSessionMemoryRequirementsKHR* pMemoryRequirements', len='pMemoryRequirementsCount', elem=<Element 'param' at 0x7295881c0540>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetVideoSessionMemoryRequirementsKHR with (device: %p,videoSession: %x,pMemoryRequirementsCount: %p,pMemoryRequirements: %p) failed with result: %d", base->dispatch_handle,videoSession__,pMemoryRequirementsCount,pMemoryRequirements, result);
@@ -21396,7 +21396,7 @@ VkBufferCollectionFUCHSIA collection__ = collection;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkBufferCollectionPropertiesFUCHSIA
-#warning TODO: Repack struct+ptr+out GetBufferCollectionPropertiesFUCHSIA EntrypointParam(type='VkBufferCollectionPropertiesFUCHSIA', name='pProperties', decl='VkBufferCollectionPropertiesFUCHSIA* pProperties', len=None, elem=<Element 'param' at 0x75157c529e40>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetBufferCollectionPropertiesFUCHSIA EntrypointParam(type='VkBufferCollectionPropertiesFUCHSIA', name='pProperties', decl='VkBufferCollectionPropertiesFUCHSIA* pProperties', len=None, elem=<Element 'param' at 0x729587fdde40>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetBufferCollectionPropertiesFUCHSIA with (device: %p,collection: %x,pProperties: %p) failed with result: %d", base->dispatch_handle,collection__,pProperties, result);
@@ -21496,7 +21496,7 @@ const VkDescriptorSetBindingReferenceVALVE* pBindingReference__ = pBindingRefere
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkDescriptorSetLayoutHostMappingInfoVALVE
-#warning TODO: Repack struct+ptr+out GetDescriptorSetLayoutHostMappingInfoVALVE EntrypointParam(type='VkDescriptorSetLayoutHostMappingInfoVALVE', name='pHostMapping', decl='VkDescriptorSetLayoutHostMappingInfoVALVE* pHostMapping', len=None, elem=<Element 'param' at 0x75157c5304f0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDescriptorSetLayoutHostMappingInfoVALVE EntrypointParam(type='VkDescriptorSetLayoutHostMappingInfoVALVE', name='pHostMapping', decl='VkDescriptorSetLayoutHostMappingInfoVALVE* pHostMapping', len=None, elem=<Element 'param' at 0x729587fe44f0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -22137,7 +22137,7 @@ const VkMicromapBuildInfoEXT*  pBuildInfo__ = pBuildInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkMicromapBuildSizesInfoEXT
-#warning TODO: Repack struct+ptr+out GetMicromapBuildSizesEXT EntrypointParam(type='VkMicromapBuildSizesInfoEXT', name='pSizeInfo', decl='VkMicromapBuildSizesInfoEXT*           pSizeInfo', len=None, elem=<Element 'param' at 0x75157c540e50>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetMicromapBuildSizesEXT EntrypointParam(type='VkMicromapBuildSizesInfoEXT', name='pSizeInfo', decl='VkMicromapBuildSizesInfoEXT*           pSizeInfo', len=None, elem=<Element 'param' at 0x729587ff4e50>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -22175,7 +22175,7 @@ VkShaderModule shaderModule__ = shaderModule;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkShaderModuleIdentifierEXT
-#warning TODO: Repack struct+ptr+out GetShaderModuleIdentifierEXT EntrypointParam(type='VkShaderModuleIdentifierEXT', name='pIdentifier', decl='VkShaderModuleIdentifierEXT* pIdentifier', len=None, elem=<Element 'param' at 0x75157c541300>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetShaderModuleIdentifierEXT EntrypointParam(type='VkShaderModuleIdentifierEXT', name='pIdentifier', decl='VkShaderModuleIdentifierEXT* pIdentifier', len=None, elem=<Element 'param' at 0x729587ff5300>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -22217,7 +22217,7 @@ const VkShaderModuleCreateInfo* pCreateInfo__ = pCreateInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkShaderModuleIdentifierEXT
-#warning TODO: Repack struct+ptr+out GetShaderModuleCreateInfoIdentifierEXT EntrypointParam(type='VkShaderModuleIdentifierEXT', name='pIdentifier', decl='VkShaderModuleIdentifierEXT* pIdentifier', len=None, elem=<Element 'param' at 0x75157c5417b0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetShaderModuleCreateInfoIdentifierEXT EntrypointParam(type='VkShaderModuleIdentifierEXT', name='pIdentifier', decl='VkShaderModuleIdentifierEXT* pIdentifier', len=None, elem=<Element 'param' at 0x729587ff57b0>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -22264,7 +22264,7 @@ const VkImageSubresource2KHR* pSubresource__ = pSubresource;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkSubresourceLayout2KHR
-#warning TODO: Repack struct+ptr+out GetImageSubresourceLayout2KHR EntrypointParam(type='VkSubresourceLayout2KHR', name='pLayout', decl='VkSubresourceLayout2KHR* pLayout', len=None, elem=<Element 'param' at 0x75157c541d50>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetImageSubresourceLayout2KHR EntrypointParam(type='VkSubresourceLayout2KHR', name='pLayout', decl='VkSubresourceLayout2KHR* pLayout', len=None, elem=<Element 'param' at 0x729587ff5d50>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -22308,7 +22308,7 @@ const VkPipelineInfoEXT* pPipelineInfo__ = pPipelineInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkBaseOutStructure
-#warning TODO: Repack struct+ptr+out GetPipelinePropertiesEXT EntrypointParam(type='VkBaseOutStructure', name='pPipelineProperties', decl='VkBaseOutStructure* pPipelineProperties', len=None, elem=<Element 'param' at 0x75157c542340>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetPipelinePropertiesEXT EntrypointParam(type='VkBaseOutStructure', name='pPipelineProperties', decl='VkBaseOutStructure* pPipelineProperties', len=None, elem=<Element 'param' at 0x729587ff6340>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetPipelinePropertiesEXT with (device: %p,pPipelineInfo: %p,pPipelineProperties: %p) failed with result: %d", base->dispatch_handle,pPipelineInfo__,pPipelineProperties, result);
@@ -22398,7 +22398,7 @@ VkFramebuffer framebuffer__ = framebuffer;
 #ifdef NEEDS_UNWRAPPING_uint32_t
 #endif
 #ifdef NEEDS_UNWRAPPING_VkTilePropertiesQCOM
-#warning TODO: Repack struct+array+out GetFramebufferTilePropertiesQCOM EntrypointParam(type='VkTilePropertiesQCOM', name='pProperties', decl='VkTilePropertiesQCOM* pProperties', len='pPropertiesCount', elem=<Element 'param' at 0x75157c542c50>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+array+out GetFramebufferTilePropertiesQCOM EntrypointParam(type='VkTilePropertiesQCOM', name='pProperties', decl='VkTilePropertiesQCOM* pProperties', len='pPropertiesCount', elem=<Element 'param' at 0x729587ff6c50>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetFramebufferTilePropertiesQCOM with (device: %p,framebuffer: %x,pPropertiesCount: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,framebuffer__,pPropertiesCount,pProperties, result);
@@ -22448,7 +22448,7 @@ const VkRenderingInfo* pRenderingInfo__ = pRenderingInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkTilePropertiesQCOM
-#warning TODO: Repack struct+ptr+out GetDynamicRenderingTilePropertiesQCOM EntrypointParam(type='VkTilePropertiesQCOM', name='pProperties', decl='VkTilePropertiesQCOM* pProperties', len=None, elem=<Element 'param' at 0x75157c5430b0>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDynamicRenderingTilePropertiesQCOM EntrypointParam(type='VkTilePropertiesQCOM', name='pProperties', decl='VkTilePropertiesQCOM* pProperties', len=None, elem=<Element 'param' at 0x729587ff70b0>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetDynamicRenderingTilePropertiesQCOM with (device: %p,pRenderingInfo: %p,pProperties: %p) failed with result: %d", base->dispatch_handle,pRenderingInfo__,pProperties, result);
@@ -22674,10 +22674,10 @@ WLOGA("GetDeviceFaultInfoEXT(device: %p, pFaultCounts: %p, pFaultInfo: %p)", dev
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkDeviceFaultCountsEXT
-#warning TODO: Repack struct+ptr+out GetDeviceFaultInfoEXT EntrypointParam(type='VkDeviceFaultCountsEXT', name='pFaultCounts', decl='VkDeviceFaultCountsEXT* pFaultCounts', len=None, elem=<Element 'param' at 0x75157c549030>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDeviceFaultInfoEXT EntrypointParam(type='VkDeviceFaultCountsEXT', name='pFaultCounts', decl='VkDeviceFaultCountsEXT* pFaultCounts', len=None, elem=<Element 'param' at 0x729587ffd030>, is_const=False, num_pointers=1)
 #endif
 #ifdef NEEDS_UNWRAPPING_VkDeviceFaultInfoEXT
-#warning TODO: Repack struct+ptr+out GetDeviceFaultInfoEXT EntrypointParam(type='VkDeviceFaultInfoEXT', name='pFaultInfo', decl='VkDeviceFaultInfoEXT* pFaultInfo', len=None, elem=<Element 'param' at 0x75157c549120>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDeviceFaultInfoEXT EntrypointParam(type='VkDeviceFaultInfoEXT', name='pFaultInfo', decl='VkDeviceFaultInfoEXT* pFaultInfo', len=None, elem=<Element 'param' at 0x729587ffd120>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetDeviceFaultInfoEXT with (device: %p,pFaultCounts: %p,pFaultInfo: %p) failed with result: %d", base->dispatch_handle,pFaultCounts,pFaultInfo, result);
@@ -22795,7 +22795,7 @@ const VkDeviceImageSubresourceInfoKHR* pInfo__ = pInfo;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkSubresourceLayout2KHR
-#warning TODO: Repack struct+ptr+out GetDeviceImageSubresourceLayoutKHR EntrypointParam(type='VkSubresourceLayout2KHR', name='pLayout', decl='VkSubresourceLayout2KHR* pLayout', len=None, elem=<Element 'param' at 0x75157c549d00>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetDeviceImageSubresourceLayoutKHR EntrypointParam(type='VkSubresourceLayout2KHR', name='pLayout', decl='VkSubresourceLayout2KHR* pLayout', len=None, elem=<Element 'param' at 0x729587ffdd00>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;
@@ -23112,7 +23112,7 @@ const struct _screen_buffer* buffer__ = buffer;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkScreenBufferPropertiesQNX
-#warning TODO: Repack struct+ptr+out GetScreenBufferPropertiesQNX EntrypointParam(type='VkScreenBufferPropertiesQNX', name='pProperties', decl='VkScreenBufferPropertiesQNX* pProperties', len=None, elem=<Element 'param' at 0x75157c54bd80>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetScreenBufferPropertiesQNX EntrypointParam(type='VkScreenBufferPropertiesQNX', name='pProperties', decl='VkScreenBufferPropertiesQNX* pProperties', len=None, elem=<Element 'param' at 0x729587fffd80>, is_const=False, num_pointers=1)
 #endif
     if (result != VK_SUCCESS) {
         WLOGE("Call to GetScreenBufferPropertiesQNX with (device: %p,buffer: %x,pProperties: %p) failed with result: %d", base->dispatch_handle,buffer__,pProperties, result);
@@ -23462,7 +23462,7 @@ VkSwapchainKHR swapchain__ = swapchain;
         VK_CMD_FLUSH();
     }
 #ifdef NEEDS_UNWRAPPING_VkGetLatencyMarkerInfoNV
-#warning TODO: Repack struct+ptr+out GetLatencyTimingsNV EntrypointParam(type='VkGetLatencyMarkerInfoNV', name='pLatencyMarkerInfo', decl='VkGetLatencyMarkerInfoNV* pLatencyMarkerInfo', len=None, elem=<Element 'param' at 0x75157c561030>, is_const=False, num_pointers=1)
+#warning TODO: Repack struct+ptr+out GetLatencyTimingsNV EntrypointParam(type='VkGetLatencyMarkerInfoNV', name='pLatencyMarkerInfo', decl='VkGetLatencyMarkerInfoNV* pLatencyMarkerInfo', len=None, elem=<Element 'param' at 0x729588015030>, is_const=False, num_pointers=1)
 #endif
     free_temp_objects(&temp);
     return ;

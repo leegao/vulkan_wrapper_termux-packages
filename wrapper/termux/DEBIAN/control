@@ -1,0 +1,8 @@
+Package: mesa-vulkan-icd-wrapper
+Architecture: aarch64
+Installed-Size: 26216
+Maintainer: @leegao
+Version: 0.0.4r8
+Homepage: https://www.mesa3d.org
+Depends: libandroid-shmem, libc++, libdrm, libx11, libxcb, libxshmfence, libwayland, vulkan-loader-generic, zlib, zstd
+Description: Android Vulkan wrapper (Lee Gao's fork)
