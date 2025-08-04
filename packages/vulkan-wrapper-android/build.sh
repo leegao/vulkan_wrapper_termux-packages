@@ -45,8 +45,8 @@ termux_step_pre_configure() {
 	termux_setup_cmake
 
 	CPPFLAGS+=" -D__USE_GNU"
-	LDFLAGS+=" -landroid-sysvshm -ladrenotools"
-	# LDFLAGS+=" -landroid-shmem -ladrenotools"
+	# LDFLAGS+=" -landroid-sysvshm -ladrenotools"
+	LDFLAGS+=" -landroid-shmem -ladrenotools"
 
 	_WRAPPER_BIN=$TERMUX_PKG_BUILDDIR/_wrapper/bin
 	mkdir -p $_WRAPPER_BIN

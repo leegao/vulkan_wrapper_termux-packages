@@ -1,0 +1,559 @@
+#version 450
+
+layout(local_size_x = 8, local_size_y = 8, local_size_z = 1) in;
+
+layout(push_constant) uniform PushConstants {
+    uint format;        // offset 0  - S3TC format type (131-142)
+    uint src_width;     // offset 4  - source texture width in blocks
+    uint unknown1;      // offset 8  - unused parameter from original
+    int unknown2;       // offset 12 - unused parameter from original
+    int unknown3;       // offset 16 - unused parameter from original
+    uint dst_width;     // offset 20 - destination width in pixels
+    uint dst_height;    // offset 24 - destination height in pixels
+} pc;
+
+layout(set = 0, binding = 0) readonly restrict buffer InputBuffer {
+    uint data[];
+} input_buf;
+
+layout(set = 0, binding = 1) writeonly restrict buffer OutputBuffer {
+    uint data[];
+} output_buf;
+
+shared uint shared_pixel_data[256];    // For intermediate pixel storage
+shared uvec4 shared_compressed_blocks[16]; // For compressed block data (4x4 blocks)
+
+const uint FORMAT_DXT1_RGB     = 131u;  // DXT1 RGB
+const uint FORMAT_DXT1_SRGB    = 132u;  // DXT1 sRGB
+const uint FORMAT_DXT1_RGBA    = 133u;  // DXT1 with 1-bit alpha
+const uint FORMAT_DXT1_SRGBA   = 134u;  // DXT1 sRGB with alpha
+const uint FORMAT_DXT3_RGBA    = 135u;  // DXT3 (BC2) RGBA
+const uint FORMAT_DXT3_SRGBA   = 136u;  // DXT3 sRGB
+const uint FORMAT_DXT5_RGBA    = 137u;  // DXT5 (BC3) RGBA
+const uint FORMAT_DXT5_SRGBA   = 138u;  // DXT5 sRGB
+const uint FORMAT_BC4_R        = 139u;  // BC4 single channel
+const uint FORMAT_BC4_SNORM    = 140u;  // BC4 signed
+const uint FORMAT_BC5_RG       = 141u;  // BC5 two channel
+const uint FORMAT_BC5_SNORM    = 142u;  // BC5 signed
+
+vec3 unpack_rgb565(uint rgb565_data) {
+    float r = float((rgb565_data >> 11u) & 0x1Fu) * (1.0/31.0);
+    float g = float((rgb565_data >> 5u) & 0x3Fu) * (1.0/63.0);
+    float b = float(rgb565_data & 0x1Fu) * (1.0/31.0);
+    return vec3(r, g, b);
+}
+
+uint extract_3bit_selector(uvec2 data_words, uint pixel_index) {
+    int bit_position = int(pixel_index) * 3 + 16;
+    
+    if (bit_position <= 29) {
+        // Selector fits entirely in first word
+        return (data_words.x >> bit_position) & 0x7u;
+    } else if (bit_position >= 32) {
+        // Selector fits entirely in second word
+        return (data_words.y >> (bit_position - 16)) & 0x7u;
+    } else {
+        // Selector spans word boundary (original complex bit manipulation)
+        uint low_bits = (data_words.x >> 31u) & 0x1u;
+        uint high_bits = (data_words.y & 0x3u) << 1u;
+        return low_bits | high_bits;
+    }
+}
+
+float interpolate_alpha_bc345(float alpha0, float alpha1, uint selector) {
+    if (selector < 2u) {
+        return (selector == 0u) ? alpha0 : alpha1;
+    }
+    
+    bool alpha0_greater = alpha0 > alpha1;
+    
+    if (alpha0_greater) {
+        // 8-value interpolation: 6 interpolated + 2 endpoints
+        float t = float(selector - 1u) * (1.0/7.0);
+        return mix(alpha0, alpha1, t);
+    } else {
+        // 6-value interpolation: 4 interpolated + 2 endpoints + 2 extremes
+        if (selector > 5u) {
+            return float(selector & 1u); // 0.0 or 1.0
+        } else {
+            float t = float(selector - 1u) * 0.2; // 1/5
+            return mix(alpha0, alpha1, t);
+        }
+    }
+}
+
+float interpolate_signed_bc45(int val0, int val1, uint selector) {
+    // Convert signed bytes to float, handling -128 special case
+    float val0_f = (val0 == -128) ? -1.0 : float(val0) * (1.0/127.0);
+    float val1_f = (val1 == -128) ? -1.0 : float(val1) * (1.0/127.0);
+    
+    if (selector == 0u) return val0_f;
+    if (selector == 1u) return val1_f;
+    
+    bool val0_greater = val0 > val1;
+    
+    if (val0_greater) {
+        // 8-value interpolation
+        float t = float(selector - 1u) * (1.0/7.0);
+        return mix(val0_f, val1_f, t);
+    } else {
+        // 6-value interpolation + 2 extremes
+        if (selector == 6u) return -1.0;
+        if (selector == 7u) return 1.0;
+        
+        float t = float(selector - 1u) * 0.2;
+        return mix(val0_f, val1_f, t);
+    }
+}
+
+vec3 interpolate_dxt13_color(vec3 color0, vec3 color1, uint selector, bool color0_greater) {
+    vec3 color_palette[4];
+    color_palette[0] = color0;
+    color_palette[1] = color1;
+    
+    if (color0_greater) {
+        // 4-color mode: 2 endpoints + 2 interpolated
+        color_palette[2] = mix(color1, color0, vec3(2.0/3.0));
+        color_palette[3] = mix(color1, color0, vec3(1.0/3.0));
+    } else {
+        // 3-color mode: 2 endpoints + 1 interpolated + transparent
+        color_palette[2] = mix(color0, color1, vec3(0.5));
+        color_palette[3] = vec3(0.0); // Will be handled as transparent
+    }
+    
+    return color_palette[min(selector, 3u)];
+}
+
+vec3 srgb_to_linear(vec3 srgb_color) {
+    bvec3 is_small = lessThan(srgb_color, vec3(0.04045));
+    vec3 linear_small = srgb_color * vec3(1.0/12.92);
+    vec3 linear_large = pow((srgb_color + vec3(0.055)) * vec3(1.0/1.055), vec3(2.4));
+    return mix(linear_large, linear_small, is_small);
+}
+
+void main() {
+    // Calculate global thread coordinates from workgroup and local IDs
+    uvec2 workgroup_id = gl_WorkGroupID.xy;
+    ivec2 workgroup_pixel_coord = ivec2(workgroup_id) * 8;
+    uvec2 local_thread_id = gl_LocalInvocationID.xy;
+    ivec2 global_pixel_coord = workgroup_pixel_coord + ivec2(local_thread_id);
+    
+    // Bounds checking for output writing
+    uint global_x = uint(global_pixel_coord.x);
+    uint global_y = uint(global_pixel_coord.y);
+    bool pixel_in_bounds = (global_x < pc.dst_width) && (global_y < pc.dst_height);
+    
+    // Each thread loads compressed block data into shared memory
+    uint linear_thread_index = gl_LocalInvocationID.y * 8u + gl_LocalInvocationID.x;
+    uvec2 block_coord_in_workgroup = gl_LocalInvocationID.xy / 4; // Which 4x4 block
+    uint block_index = block_coord_in_workgroup.y * 2u + block_coord_in_workgroup.x; // 0-15
+    
+    // Only first 16 threads load compressed blocks (one per 4x4 block)
+    if (linear_thread_index < 4) {
+        // Calculate source block coordinates
+        uvec2 local_block_coord = uvec2(linear_thread_index % 2u, linear_thread_index / 2u);
+        ivec2 src_block_coord = ivec2(workgroup_id) * 2 + ivec2(local_block_coord);
+        
+        // Check if source block is within compressed texture bounds
+        uint src_blocks_width = (pc.dst_width + 3u) / 4u;   // Blocks, not pixels
+        uint src_blocks_height = (pc.dst_height + 3u) / 4u;
+        bool src_block_valid = (uint(src_block_coord.x) < src_blocks_width) && 
+                              (uint(src_block_coord.y) < src_blocks_height);
+        
+        if (src_block_valid) {
+            // Calculate linear index into compressed buffer
+            uint src_stride_blocks = pc.src_width / 4u;
+            uint src_block_index = uint(src_block_coord.y) * src_stride_blocks + uint(src_block_coord.x);
+            
+            // Determine bytes per block based on format (blocks %1471-1534)
+            // This matches the original complex format classification logic
+            int bytes_per_block;
+            if (pc.format >= FORMAT_DXT1_RGB && pc.format <= FORMAT_DXT1_SRGBA) {
+                bytes_per_block = 1; // DXT1: 8 bytes per block
+            } else if (pc.format >= FORMAT_DXT3_RGBA && pc.format <= FORMAT_DXT3_SRGBA) {
+                bytes_per_block = 2; // DXT3: 16 bytes per block  
+            } else if (pc.format == FORMAT_DXT5_RGBA || pc.format == FORMAT_DXT5_SRGBA) {
+                bytes_per_block = 3; // DXT5: 16 bytes per block
+            } else if (pc.format == FORMAT_BC4_R || pc.format == FORMAT_BC4_SNORM) {
+                bytes_per_block = 4; // BC4: 8 bytes per block
+            } else if (pc.format == FORMAT_BC5_RG || pc.format == FORMAT_BC5_SNORM) {
+                bytes_per_block = 5; // BC5: 16 bytes per block
+            } else {
+                bytes_per_block = 0; // Unknown format
+            }
+            
+            // Load compressed data based on block size (blocks %969-1014)
+            if (bytes_per_block == 1 || bytes_per_block == 4) {
+                // 8-byte formats: DXT1, BC4
+                uint data_offset = src_block_index * 2u; // 2 uints = 8 bytes
+                uint data0 = input_buf.data[data_offset];
+                uint data1 = input_buf.data[data_offset + 1u];
+                shared_compressed_blocks[linear_thread_index] = uvec4(data0, data1, 0u, 0u);
+            } else {
+                // 16-byte formats: DXT3, DXT5, BC5
+                uint data_offset = src_block_index * 4u; // 4 uints = 16 bytes
+                uint data0 = input_buf.data[data_offset];
+                uint data1 = input_buf.data[data_offset + 1u];
+                uint data2 = input_buf.data[data_offset + 2u];
+                uint data3 = input_buf.data[data_offset + 3u];
+                shared_compressed_blocks[linear_thread_index] = uvec4(data0, data1, data2, data3);
+            }
+        } else {
+            // Clear invalid blocks
+            shared_compressed_blocks[linear_thread_index] = uvec4(0u);
+        }
+    }
+    
+    // Synchronization barrier - wait for all blocks to be loaded (block %911)
+    barrier();
+    
+    // Calculate which pixel within the 4x4 block this thread processes
+    uvec2 pixel_coord_in_block = gl_LocalInvocationID.xy % uvec2(4u, 4u);
+    uint pixel_index_in_block = pixel_coord_in_block.y * 4u + pixel_coord_in_block.x; // 0-15
+    uvec4 compressed_block_data = shared_compressed_blocks[block_index];
+    
+    // This duplicates the format classification for decompression dispatch
+    int decompression_method;
+    if (pc.format >= FORMAT_DXT1_RGB && pc.format <= FORMAT_DXT1_SRGBA) {
+        decompression_method = 1; // DXT1 decompression
+    } else if (pc.format >= FORMAT_DXT3_RGBA && pc.format <= FORMAT_DXT3_SRGBA) {
+        decompression_method = 2; // DXT3 decompression
+    } else if (pc.format == FORMAT_DXT5_RGBA || pc.format == FORMAT_DXT5_SRGBA) {
+        decompression_method = 3; // DXT5 decompression
+    } else if (pc.format == FORMAT_BC4_R || pc.format == FORMAT_BC4_SNORM) {
+        decompression_method = 4; // BC4 single channel
+    } else if (pc.format == FORMAT_BC5_RG || pc.format == FORMAT_BC5_SNORM) {
+        decompression_method = 5; // BC5 two channel
+    } else {
+        decompression_method = 0; // Unknown format
+    }
+    
+    vec4 decompressed_color;
+    
+    if (decompression_method == 1) {
+        // DXT1 format: 2 RGB565 colors + 32 2-bit selectors
+        
+        // Extract the two RGB565 endpoint colors from first 32 bits
+        uint color0_rgb565 = compressed_block_data.x & 0xFFFFu;
+        uint color1_rgb565 = compressed_block_data.x >> 16u;
+        
+        // Convert RGB565 to float3
+        vec3 endpoint_color0 = unpack_rgb565(color0_rgb565);
+        vec3 endpoint_color1 = unpack_rgb565(color1_rgb565);
+        
+        // Extract 2-bit selector for this pixel from second 32 bits
+        uint pixel_selectors = compressed_block_data.y;
+        uint selector_bit_offset = pixel_index_in_block * 2u;
+        uint color_selector = (pixel_selectors >> selector_bit_offset) & 0x3u;
+        
+        // DXT1 color interpolation logic
+        bool color0_greater = color0_rgb565 > color1_rgb565;
+        vec3 interpolated_color = interpolate_dxt13_color(
+            endpoint_color0, endpoint_color1, color_selector, color0_greater);
+        
+        if (color0_greater) {
+            // 4-color mode: fully opaque
+            decompressed_color = vec4(interpolated_color, 1.0);
+        } else {
+            // 3-color mode: selector 3 = transparent
+            if (color_selector == 3u) {
+                decompressed_color = vec4(0.0, 0.0, 0.0, 0.0); // Transparent
+            } else {
+                decompressed_color = vec4(interpolated_color, 1.0);
+            }
+        }
+        
+    } else if (decompression_method == 2) {
+        // DXT3 format: 64-bit explicit alpha + DXT1-style RGB
+        
+        // RGB part is in the second 64 bits (z,w components)
+        uint color0_rgb565 = compressed_block_data.z & 0xFFFFu;
+        uint color1_rgb565 = compressed_block_data.z >> 16u;
+        
+        vec3 endpoint_color0 = unpack_rgb565(color0_rgb565);
+        vec3 endpoint_color1 = unpack_rgb565(color1_rgb565);
+        
+        // Extract 2-bit color selector
+        uint pixel_selectors = compressed_block_data.w;
+        uint selector_bit_offset = pixel_index_in_block * 2u;
+        uint color_selector = (pixel_selectors >> selector_bit_offset) & 0x3u;
+        
+        // Color interpolation (always 4-color mode for DXT3)
+        bool color0_greater = color0_rgb565 > color1_rgb565;
+        vec3 interpolated_color = interpolate_dxt13_color(
+            endpoint_color0, endpoint_color1, color_selector, color0_greater);
+        
+        if (color0_greater) {
+            decompressed_color = vec4(interpolated_color, 1.0);
+        } else {
+            if (color_selector == 3u) {
+                decompressed_color = vec4(0.0);
+            } else {
+                decompressed_color = vec4(interpolated_color, 1.0);
+            }
+        }
+        
+        // Extract 4-bit explicit alpha from first 64 bits (blocks %2047-2059)
+        uvec2 alpha_data = compressed_block_data.xy;
+        uint alpha_bit_index = pixel_index_in_block * 4u;
+        uint alpha_word_index = alpha_bit_index >> 5u; // Divide by 32
+        uint alpha_bit_offset = alpha_bit_index & 0x1Fu; // Modulo 32
+        uint alpha_4bit = (alpha_data[alpha_word_index] >> alpha_bit_offset) & 0xFu;
+        float explicit_alpha = float(alpha_4bit) * (1.0/15.0);
+        decompressed_color.a = explicit_alpha;
+        
+    } else if (decompression_method == 3) {
+        // DXT5 format: BC3 interpolated alpha + DXT1-style RGB
+        
+        // RGB part (same as DXT3)
+        uint color0_rgb565 = compressed_block_data.z & 0xFFFFu;
+        uint color1_rgb565 = compressed_block_data.z >> 16u;
+        uint color_selectors = compressed_block_data.w;
+        
+        vec3 endpoint_color0 = unpack_rgb565(color0_rgb565);
+        vec3 endpoint_color1 = unpack_rgb565(color1_rgb565);
+        
+        uint color_selector = (color_selectors >> (pixel_index_in_block * 2u)) & 0x3u;
+        bool color0_greater = color0_rgb565 > color1_rgb565;
+        vec3 interpolated_color = interpolate_dxt13_color(
+            endpoint_color0, endpoint_color1, color_selector, color0_greater);
+        
+        if (color0_greater) {
+            decompressed_color = vec4(interpolated_color, 1.0);
+        } else {
+            if (color_selector == 3u) {
+                decompressed_color = vec4(0.0);
+            } else {
+                decompressed_color = vec4(interpolated_color, 1.0);
+            }
+        }
+        
+        // Alpha interpolation (blocks %2285-2364)
+        uint alpha0_byte = compressed_block_data.x & 0xFFu;
+        uint alpha1_byte = (compressed_block_data.x >> 8u) & 0xFFu;
+        float alpha0 = float(alpha0_byte) * (1.0/255.0);
+        float alpha1 = float(alpha1_byte) * (1.0/255.0);
+        
+        // Extract 3-bit alpha selector
+        uint alpha_selector = extract_3bit_selector(compressed_block_data.xy, pixel_index_in_block);
+        
+        // Apply BC3 alpha interpolation
+        float interpolated_alpha = interpolate_alpha_bc345(alpha0, alpha1, alpha_selector);
+        decompressed_color.a = interpolated_alpha;
+        
+    } else if (decompression_method == 4) {
+        // BC4 format: single channel with BC4 interpolation
+        
+        if (pc.format == FORMAT_BC4_SNORM) {
+            // Signed format (blocks %2391-2490)
+            int val0_signed = int(compressed_block_data.x << 24) >> 24; // Sign extend
+            int val1_signed = int(compressed_block_data.x << 16) >> 24; // Sign extend
+            
+            uint selector = extract_3bit_selector(compressed_block_data.xy, pixel_index_in_block);
+            float interpolated_value = interpolate_signed_bc45(val0_signed, val1_signed, selector);
+            
+            decompressed_color = vec4(interpolated_value, 0.0, 0.0, 1.0);
+            
+        } else {
+            // Unsigned format (blocks %2501-2580)
+            uint val0_byte = compressed_block_data.x & 0xFFu;
+            uint val1_byte = (compressed_block_data.x >> 8u) & 0xFFu;
+            float val0 = float(val0_byte) * (1.0/255.0);
+            float val1 = float(val1_byte) * (1.0/255.0);
+            
+            uint selector = extract_3bit_selector(compressed_block_data.xy, pixel_index_in_block);
+            float interpolated_value = interpolate_alpha_bc345(val0, val1, selector);
+            
+            decompressed_color = vec4(interpolated_value, 0.0, 0.0, 1.0);
+        }
+        
+    } else if (decompression_method == 5) {
+        // BC5 format: two channels with BC4-style interpolation each
+        
+        if (pc.format == FORMAT_BC5_SNORM) {
+            // Signed two-channel format
+            // Red channel from first 64 bits
+            int red0_signed = int(compressed_block_data.x << 24) >> 24;
+            int red1_signed = int(compressed_block_data.x << 16) >> 24;
+            uint red_selector = extract_3bit_selector(compressed_block_data.xy, pixel_index_in_block);
+            float red_value = interpolate_signed_bc45(red0_signed, red1_signed, red_selector);
+            
+            // Green channel from second 64 bits  
+            int green0_signed = int(compressed_block_data.z << 24) >> 24;
+            int green1_signed = int(compressed_block_data.z << 16) >> 24;
+            uint green_selector = extract_3bit_selector(compressed_block_data.zw, pixel_index_in_block);
+            float green_value = interpolate_signed_bc45(green0_signed, green1_signed, green_selector);
+            
+            decompressed_color = vec4(red_value, green_value, 0.0, 1.0);
+            
+        } else {
+            // Unsigned two-channel format
+            // Red channel
+            uint red0_byte = compressed_block_data.x & 0xFFu;
+            uint red1_byte = (compressed_block_data.x >> 8u) & 0xFFu;
+            float red0 = float(red0_byte) * (1.0/255.0);
+            float red1 = float(red1_byte) * (1.0/255.0);
+            uint red_selector = extract_3bit_selector(compressed_block_data.xy, pixel_index_in_block);
+            float red_value = interpolate_alpha_bc345(red0, red1, red_selector);
+            
+            // Green channel
+            uint green0_byte = compressed_block_data.z & 0xFFu;
+            uint green1_byte = (compressed_block_data.z >> 8u) & 0xFFu;
+            float green0 = float(green0_byte) * (1.0/255.0);
+            float green1 = float(green1_byte) * (1.0/255.0);
+            uint green_selector = extract_3bit_selector(compressed_block_data.zw, pixel_index_in_block);
+            float green_value = interpolate_alpha_bc345(green0, green1, green_selector);
+            
+            decompressed_color = vec4(red_value, green_value, 0.0, 1.0);
+        }
+        
+    } else {
+        // Magenta for debugging unsupported formats
+        decompressed_color = vec4(1.0, 0.0, 1.0, 1.0);
+    }
+    
+    // Apply sRGB to linear conversion for sRGB formats
+    bool needs_srgb_conversion = (pc.format == FORMAT_DXT1_SRGB) || 
+                                (pc.format == FORMAT_DXT1_SRGBA) ||
+                                (pc.format == FORMAT_DXT3_SRGBA) || 
+                                (pc.format == FORMAT_DXT5_SRGBA);
+    
+    if (needs_srgb_conversion) {
+        decompressed_color.rgb = srgb_to_linear(decompressed_color.rgb);
+    }
+    
+    if (pixel_in_bounds) {
+        uint output_pixel_index = global_y * pc.dst_width + global_x;
+        
+        // if (pc.format == FORMAT_DXT1_RGB || pc.format == FORMAT_DXT1_SRGB) {
+        //     // RGB565 output format
+        //     uint r5 = uint(clamp(decompressed_color.r * 31.0, 0.0, 31.0));
+        //     uint g6 = uint(clamp(decompressed_color.g * 63.0, 0.0, 63.0));
+        //     uint b5 = uint(clamp(decompressed_color.b * 31.0, 0.0, 31.0));
+        //     uint packed_rgb565 = (r5 << 11u) | (g6 << 5u) | b5;
+        //     shared_pixel_data[linear_thread_index] = packed_rgb565;
+            
+        // } else if (pc.format == FORMAT_DXT1_RGBA || pc.format == FORMAT_DXT1_SRGBA) {
+        //     // RGBA4444-like output (actually RGB565 + 1 bit alpha)
+        //     uint r5 = uint(clamp(decompressed_color.r * 31.0, 0.0, 31.0));
+        //     uint g5 = uint(clamp(decompressed_color.g * 31.0, 0.0, 31.0));
+        //     uint b5 = uint(clamp(decompressed_color.b * 31.0, 0.0, 31.0));
+        //     uint a1 = uint(clamp(decompressed_color.a, 0.0, 1.0));
+        //     uint packed_rgba = (r5 << 11u) | (g5 << 6u) | (b5 << 1u) | a1;
+        //     shared_pixel_data[linear_thread_index] = packed_rgba;
+            
+        // } else if (pc.format == FORMAT_BC4_R) {
+        //     // Single channel R8 output
+        //     uint r8 = uint(clamp(decompressed_color.r * 255.0, 0.0, 255.0));
+        //     shared_pixel_data[linear_thread_index] = r8;
+            
+        // } else if (pc.format == FORMAT_BC4_SNORM) {
+        //     // Signed single channel R8_SNORM output
+        //     int r_signed = int(clamp(decompressed_color.r * 127.0, -127.0, 127.0)) + 128;
+        //     shared_pixel_data[linear_thread_index] = uint(r_signed);
+            
+        // } else {
+        //     // Default RGBA8888 output for DXT3, DXT5, BC5 formats
+        //     uint r8 = uint(clamp(decompressed_color.r * 255.0, 0.0, 255.0));
+        //     uint g8 = uint(clamp(decompressed_color.g * 255.0, 0.0, 255.0));
+        //     uint b8 = uint(clamp(decompressed_color.b * 255.0, 0.0, 255.0));
+        //     uint a8 = uint(clamp(decompressed_color.a * 255.0, 0.0, 255.0));
+        //     uint packed_rgba8888 = r8 | (g8 << 8u) | (b8 << 16u) | (a8 << 24u);
+        //     output_buf.data[output_pixel_index] = packed_rgba8888;
+        // }
+
+        // Default RGBA8888 output for DXT3, DXT5, BC5 formats
+        uint r8 = uint(clamp(decompressed_color.r * 255.0, 0.0, 255.0));
+        uint g8 = uint(clamp(decompressed_color.g * 255.0, 0.0, 255.0));
+        uint b8 = uint(clamp(decompressed_color.b * 255.0, 0.0, 255.0));
+        uint a8 = uint(clamp(decompressed_color.a * 255.0, 0.0, 255.0));
+        uint packed_rgba8888 = r8 | (g8 << 8u) | (b8 << 16u) | (a8 << 24u);
+        output_buf.data[output_pixel_index] = packed_rgba8888;
+    }
+    
+    // // Some formats require packing multiple pixels per output word
+    // bool needs_pixel_packing = (pc.format == FORMAT_DXT1_RGB) || 
+    //                           (pc.format == FORMAT_DXT1_SRGB) ||
+    //                           (pc.format == FORMAT_DXT1_RGBA) || 
+    //                           (pc.format == FORMAT_DXT1_SRGBA) ||
+    //                           (pc.format == FORMAT_BC4_R) || 
+    //                           (pc.format == FORMAT_BC4_SNORM);
+                              
+    // if (needs_pixel_packing) {
+    //     // Synchronization barrier before shared memory operations (block %1199)
+    //     barrier();
+        
+    //     uint local_linear_index = gl_LocalInvocationID.y * 16u + gl_LocalInvocationID.x;
+        
+    //     if (pc.format == FORMAT_DXT1_RGB || pc.format == FORMAT_DXT1_SRGB || 
+    //         pc.format == FORMAT_DXT1_RGBA || pc.format == FORMAT_DXT1_SRGBA) {
+            
+    //         // === 16-BIT FORMAT PACKING === (blocks %1219-1306)
+    //         // Pack 2 pixels per uint (2 x 16-bit = 32-bit)
+    //         if ((local_linear_index % 2u) == 0u && local_linear_index < 255u) {
+    //             // Calculate output coordinates for this pixel pair
+    //             uvec2 pack_coord = uvec2(local_linear_index % 16u, local_linear_index / 16u);
+    //             ivec2 output_coord = ivec2(workgroup_id) + ivec2(pack_coord);
+                
+    //             // Verify coordinates are within output bounds
+    //             if (output_coord.x < int(pc.dst_width) && output_coord.y < int(pc.dst_height)) {
+    //                 // Calculate packed output index (half resolution due to packing)
+    //                 uint packed_output_y = uint(output_coord.y);
+    //                 uint packed_output_index = (packed_output_y * pc.dst_width + uint(output_coord.x)) / 2u;
+                    
+    //                 // Load first pixel from shared memory
+    //                 uint pixel0_data = shared_pixel_data[local_linear_index];
+    //                 uint pixel1_data = 0u;
+                    
+    //                 // Load second pixel if it exists and is in bounds
+    //                 if ((output_coord.x + 1) < int(pc.dst_width) && (local_linear_index + 1u) < 256u) {
+    //                     pixel1_data = shared_pixel_data[local_linear_index + 1u];
+    //                 }
+                    
+    //                 // Pack two 16-bit pixels into one 32-bit word
+    //                 uint packed_pixel_pair = pixel0_data | (pixel1_data << 16u);
+    //                 output_buf.data[packed_output_index] = packed_pixel_pair;
+    //             }
+    //         }
+            
+    //     } else if (pc.format == FORMAT_BC4_R || pc.format == FORMAT_BC4_SNORM) {
+            
+    //         // === 8-BIT FORMAT PACKING === (blocks %1307-1447)
+    //         // Pack 4 pixels per uint (4 x 8-bit = 32-bit)
+    //         if ((local_linear_index % 4u) == 0u && local_linear_index < 253u) {
+    //             // Calculate output coordinates for this pixel quad
+    //             uvec2 pack_coord = uvec2(local_linear_index % 16u, local_linear_index / 16u);
+    //             ivec2 output_coord = ivec2(workgroup_id) + ivec2(pack_coord);
+                
+    //             // Verify coordinates are within output bounds
+    //             if (output_coord.x < int(pc.dst_width) && output_coord.y < int(pc.dst_height)) {
+    //                 // Calculate packed output index (quarter resolution due to packing)
+    //                 uint packed_output_y = uint(output_coord.y);
+    //                 uint packed_output_index = (packed_output_y * pc.dst_width + uint(output_coord.x)) / 4u;
+                    
+    //                 // Load up to 4 pixels from shared memory
+    //                 uint pixel0_data = shared_pixel_data[local_linear_index];
+    //                 uint pixel1_data = 0u;
+    //                 uint pixel2_data = 0u;
+    //                 uint pixel3_data = 0u;
+                    
+    //                 // Load additional pixels if they exist and are in bounds
+    //                 if ((output_coord.x + 1) < int(pc.dst_width) && (local_linear_index + 1u) < 256u) {
+    //                     pixel1_data = shared_pixel_data[local_linear_index + 1u];
+    //                 }
+    //                 if ((output_coord.x + 2) < int(pc.dst_width) && (local_linear_index + 2u) < 256u) {
+    //                     pixel2_data = shared_pixel_data[local_linear_index + 2u];
+    //                 }
+    //                 if ((output_coord.x + 3) < int(pc.dst_width) && (local_linear_index + 3u) < 256u) {
+    //                     pixel3_data = shared_pixel_data[local_linear_index + 3u];
+    //                 }
+                    
+    //                 // Pack four 8-bit pixels into one 32-bit word
+    //                 uint packed_pixel_quad = pixel0_data | (pixel1_data << 8u) | 
+    //                                        (pixel2_data << 16u) | (pixel3_data << 24u);
+    //                 output_buf.data[packed_output_index] = packed_pixel_quad;
+    //             }
+    //         }
+    //     }
+    // }
+}

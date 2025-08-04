@@ -1,3 +1,12 @@
+diff --git a/.gitignore b/.gitignore
+index 30f4e69ea7d..65db0cb88df 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -5,3 +5,4 @@
+ *.out
+ /build
+ .venv/
++s3tc2.comp
 diff --git a/granite_decode.txt b/granite_decode.txt
 new file mode 100644
 index 00000000000..e14a4c9dd73
@@ -3489,10 +3498,10 @@ index 00000000000..cf334d7167a
 \ No newline at end of file
 diff --git a/src/vulkan/wrapper/bc6.comp b/src/vulkan/wrapper/bc6.comp
 new file mode 100644
-index 00000000000..acb4d16fcf9
+index 00000000000..4a45ccf570e
 --- /dev/null
 +++ b/src/vulkan/wrapper/bc6.comp
-@@ -0,0 +1,796 @@
+@@ -0,0 +1,791 @@
 +#version 450
 +/* Copyright (c) 2020-2024 Hans-Kristian Arntzen
 + *
@@ -4206,14 +4215,6 @@ index 00000000000..acb4d16fcf9
 +    uint block_index = block_coord.y * block_stride + block_coord.x;
 +    uint buffer_offset = block_index * 4;
 +
-+    // This fetch might overflow, return a magenta for now
-+//     if ((buffer_offset + 3) * 4 >= push_constants.srcBufferSize) {
-+// #ifdef USE_IMAGE_VIEW_OUTPUT
-+//         imageStore(dstImage, final_dst_coord, ivec4(0x3c00, 0x3c00, 0, 0x3c00));
-+// #endif
-+//         return;
-+//     }
-+
 +    // Load the 128-bit block data into shared memory if this invocation is a leader
 +    if (is_leader) {
 +        shared_block_data[shared_idx] = uvec4(
@@ -4264,37 +4265,40 @@ index 00000000000..acb4d16fcf9
 +        }
 +    }
 +
-+    ivec3 rgba_result = interpolate_endpoint(interp);
++    ivec3 rgb_result = interpolate_endpoint(interp);
 +    if (is_signed)
 +    {
-+        ivec3 neg_result = 0x8000 | (((-rgba_result) * 31) >> 5);
-+        ivec3 pos_result = (rgba_result * 31) >> 5;
-+        rgba_result = mix(pos_result, neg_result, lessThan(rgba_result, ivec3(0)));
++        ivec3 neg_result = 0x8000 | (((-rgb_result) * 31) >> 5);
++        ivec3 pos_result = (rgb_result * 31) >> 5;
++        rgb_result = mix(pos_result, neg_result, lessThan(rgb_result, ivec3(0)));
 +
 +        // Fixup for -0.0. Seems to not be emitted by hardware decoder.
-+        rgba_result = mix(rgba_result, ivec3(0), equal(rgba_result, ivec3(0x8000)));
++        rgb_result = mix(rgb_result, ivec3(0), equal(rgb_result, ivec3(0x8000)));
 +    } else {
-+        rgba_result = (rgba_result * 31) >> 6;
++        rgb_result = (rgb_result * 31) >> 6;
 +    }
 +
 +#ifdef USE_IMAGE_VIEW_OUTPUT
-+    uvec4 final_rbga_color = uvec4(rgba_result, 0x3c00); // Alpha is always 1.0 for BC6.
-+    // vec4 final_rbga_color = vec4(1.0, 0.0, 1.0, 1.0); // Convert to normalized float and set alpha to 1.0
++    uvec4 final_rbga_color = uvec4(rgb_result, 0x3c00); // Alpha is always 1.0 for BC6.
 +    imageStore(dstImage, final_dst_coord, final_rbga_color);
 +#else
-+    // Pack into AABBGGRR format. Alpha is always 1.0 for BC6.
-+    // uint packed_color = (0xFF << 24) | (rgb8.b << 16) | (rgb8.g << 8) | rgb8.r;
 +    // Calculate the linear index into the destination buffer using its row length (dst_width is the stride)
 +    int dst_index = int(final_dst_coord.y * push_constants.dst_width + final_dst_coord.x);
-+    dstBuffer.data[dst_index] =  0xffff00ff; // Magenta for now
++    // Pack into halfp 16b format
++    uint packed_rg = (uint(rgb_result.r) & 0xFFFFu) | 
++                 ((uint(rgb_result.g) & 0xFFFFu) << 16);
++    uint packed_ba = (uint(rgb_result.b) & 0xFFFFu) | 
++                    (0x3C00u << 16); // 0x3C00 is half-precision 1.0
++    dstBuffer.data[dst_index * 2] =  packed_rg;
++    dstBuffer.data[dst_index * 2 + 1] =  packed_ba;
 +#endif
 +}
 diff --git a/src/vulkan/wrapper/bc7.comp b/src/vulkan/wrapper/bc7.comp
 new file mode 100644
-index 00000000000..c364fe0f209
+index 00000000000..897e2c48a61
 --- /dev/null
 +++ b/src/vulkan/wrapper/bc7.comp
-@@ -0,0 +1,509 @@
+@@ -0,0 +1,505 @@
 +#version 450
 +/* Copyright (c) 2020-2024 Hans-Kristian Arntzen
 + *
@@ -4734,14 +4738,6 @@ index 00000000000..c364fe0f209
 +    uint block_index = block_coord.y * block_stride + block_coord.x;
 +    uint buffer_offset = block_index * 4;
 +
-+    // This fetch might overflow, return a magenta for now
-+//     if ((buffer_offset + 3) * 4 >= push_constants.srcBufferSize) {
-+// #ifdef USE_IMAGE_VIEW_OUTPUT
-+//         imageStore(dstImage, final_dst_coord, vec4(0.0, 1.0, 1.0, 1.0));
-+// #endif
-+//         return;
-+//     }
-+
 +    // Load the 128-bit block data into shared memory if this invocation is a leader
 +    if (is_leader) {
 +        shared_block_data[shared_idx] = uvec4(
@@ -4795,13 +4791,17 @@ index 00000000000..c364fe0f209
 +    }
 +
 +    uvec4 rgba_result = interpolate_endpoint(interp);
++    vec4 decompressed_color = rgba_result / 255.0;
++
++    if (push_constants.srcFormat == 146) {
++        decompressed_color.rgb = srgb_to_linear(decompressed_color.rgb);
++    }
 +#ifdef USE_IMAGE_VIEW_OUTPUT
-+    imageStore(dstImage, final_dst_coord, rgba_result / 255.0);
-+    // imageStore(dstImage, final_dst_coord, vec4(1.0,0,1.0,1.0));
++    imageStore(dstImage, final_dst_coord, decompressed_color);
 +#else
 +    // Calculate the linear index into the destination buffer using its row length (dst_width is the stride)
 +    int dst_index = int(final_dst_coord.y * push_constants.dst_width + final_dst_coord.x);
-+    dstBuffer.data[dst_index] =  packUnorm4x8(rgba_result);
++    dstBuffer.data[dst_index] =  packUnorm4x8(decompressed_color);
 +#endif
 +}
 diff --git a/src/vulkan/wrapper/bcdec.h b/src/vulkan/wrapper/bcdec.h
@@ -7435,10 +7435,10 @@ index 00000000000..9dd1f76859f
 +#endif
 diff --git a/src/vulkan/wrapper/s3tc.comp b/src/vulkan/wrapper/s3tc.comp
 new file mode 100644
-index 00000000000..fe28897bf76
+index 00000000000..733db9fea9b
 --- /dev/null
 +++ b/src/vulkan/wrapper/s3tc.comp
-@@ -0,0 +1,357 @@
+@@ -0,0 +1,344 @@
 +#version 450
 +/* Copyright (c) 2020-2024 Hans-Kristian Arntzen
 + *
@@ -7676,19 +7676,6 @@ index 00000000000..fe28897bf76
 +    uint block_index = block_coord.y * block_stride + block_coord.x;
 +    uint buffer_offset = is_8bpp ? block_index * 2 : block_index * 4;
 +
-+    // This fetch might overflow, return a magenta for now
-+//     if (is_8bpp && (buffer_offset + 1) * 4 > push_constants.srcBufferSize) {
-+// #ifdef USE_IMAGE_VIEW_OUTPUT
-+//         imageStore(dstImage, final_dst_coord, vec4(1.0, 0.0, 1.0, 1.0));
-+// #endif
-+//         return;
-+//     } else if ((buffer_offset + 3) * 4 > push_constants.srcBufferSize) {
-+// #ifdef USE_IMAGE_VIEW_OUTPUT
-+//         imageStore(dstImage, final_dst_coord, vec4(1.0, 0.0, 1.0, 1.0));
-+// #endif
-+//         return;
-+//     }
-+
 +    if (is_leader) {
 +        if (is_8bpp) {
 +            // 2 quads per 4x4 block
@@ -7806,10 +7793,10 @@ index bbc9deb820f..00000000000
 \ No newline at end of file
 diff --git a/src/vulkan/wrapper/vk_entrypoints.py b/src/vulkan/wrapper/vk_entrypoints.py
 new file mode 100644
-index 00000000000..2f75b1f16f9
+index 00000000000..c607c5f66e4
 --- /dev/null
 +++ b/src/vulkan/wrapper/vk_entrypoints.py
-@@ -0,0 +1,529 @@
+@@ -0,0 +1,546 @@
 +# Copyright 2020 Intel Corporation
 +#
 +# Permission is hereby granted, free of charge, to any person obtaining a
@@ -7866,6 +7853,7 @@ index 00000000000..2f75b1f16f9
 +wrapper_tramp_$name(
 +    $decl_params)
 +{
++    int cmd_id = commands++;
 +    struct temporary_objects temp;
 +    list_inithead(&temp.objects);
 +$handle_unwrap_logic
@@ -7891,7 +7879,7 @@ index 00000000000..2f75b1f16f9
 +def print_param(command, param, mode='input'):
 +    if param == 'result':
 +        return [
-+            f"        VK_CMD_LOG_UNCONDITIONAL(\"  out: result: VkResult = %ld\", (int64_t) result);",
++            f"        VK_CMD_LOG_UNCONDITIONAL(\"  out: result: VkResult = %ld (id=%d)\", (int64_t) result, cmd_id);",
 +            f"        VK_CMD_FLUSH();",
 +        ]
 +    is_input = param.num_pointers == 0 or param.is_const
@@ -7907,31 +7895,47 @@ index 00000000000..2f75b1f16f9
 +    token = 'in' if is_input else 'out'
 +    output = []
 +    if is_wrapped:
-+        output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: {param.name}: {param.type} (handle) = %p\", {param.name});");
++        output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: {param.name}: {param.type} (handle) = %p (id=%d)\", {param.name}, cmd_id);");
 +    elif is_struct:
 +        if not param.num_pointers: # Impossible
 +            output.append(f"#error: Impossible case struct+non-ptr {command.name} {param}")
 +        elif is_array and is_ptr1:
 +            # VkObject[10]
-+            output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: {param.name}[]: {param.type}\");");
++            output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: {param.name}[]: {param.type} (id=%d)\", cmd_id);");
 +            output.append(f"        for (uint32_t i = 0; i < {param.len if is_input else (f"*{param.len}" if param.len != "1" else "1")}; i++) {{")
-+            output.append(f"            VK_CMD_LOG_UNCONDITIONAL(\"    {param.name}[%d]: {param.type}\", i);");
++            output.append(f"            VK_CMD_LOG_UNCONDITIONAL(\"    {param.name}[%d]: {param.type} (id=%d)\", i, cmd_id);");
 +            output.append(f"            VK_PRINT_{param.type}(\"      \", &{param.name}[i]);")
 +            output.append(f"        }}")
 +        elif is_ptr1:
-+            output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: {param.name}: {param.type}*\");");
++            output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: {param.name}: {param.type}* (id=%d)\", cmd_id);");
 +            output.append(f"        VK_PRINT_{param.type}(\"    \", {param.name});")
 +        else:
-+            output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: {param.name}: {param.type}** = %p\", {param.name});");
++            output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: {param.name}: {param.type}** = %p (id=%d)\", {param.name}, cmd_id);");
 +    else:
 +        if not param.num_pointers:
-+            output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: {param.name}: {param.type} = %lx\", (int64_t){param.name});")
++            output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: {param.name}: {param.type} = %lx (id=%d)\", (int64_t){param.name}, cmd_id);")
++        elif is_array and is_ptr1:
++            # VkObject[10]
++            output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: {param.name}[]: {param.type} = %p (id=%d)\", {param.name}, cmd_id);");
++            count = param.len
++            deref = f"{param.name}[i]"
++            if param.len == 'null-terminated' or (param.type == 'void' and is_ptr1):
++                return output
++            if param.len == '1':
++                count = '1'
++            elif '->' in param.len:
++                count = count
++            elif param.len.startswith('p') and not is_input:
++                count = '*' + count
++            output.append(f"        for (uint32_t i = 0; i < {count}; i++) {{")
++            output.append(f"            VK_CMD_LOG_UNCONDITIONAL(\"    {param.name}[%d]: {param.type} = %lx (id=%d)\", i, (int64_t){param.name}[i], cmd_id);");
++            output.append(f"        }}")
 +        elif param.num_pointers and not is_input and param.type not in ("void", "Display", "xcb_connection_t"):
-+            output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: *{param.name}: {param.type} = %lx\", (int64_t)*{param.name});")
++            output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: *{param.name}: {param.type} = %lx (id=%d)\", (int64_t)*{param.name}, cmd_id);")
 +        elif param.num_pointers:
-+            output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: {param.name}: {param.type}{'*' * param.num_pointers} = %lx\", (int64_t){param.name});")
++            output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: {param.name}: {param.type}{'*' * param.num_pointers} = %lx (id=%d)\", (int64_t){param.name}, cmd_id);")
 +        else:
-+            output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: {param.name}: {param.type} = %lx\", (int64_t){param.name});");
++            output.append(f"        VK_CMD_LOG_UNCONDITIONAL(\"  {token}: {param.name}: {param.type} = %lx (id=%d)\", (int64_t){param.name}, cmd_id);");
 +            pass
 +    # output.append(f"    }}")
 +    # output.append(f"#endif")
@@ -7964,7 +7968,7 @@ index 00000000000..2f75b1f16f9
 +        physical_device = "base->physical"
 +
 +    # handle_unwrap_logic.append(f"#ifdef NEEDS_PRINTING_{command.name}")
-+    handle_unwrap_logic.append(f"    VK_CMD_LOG(\"{command.name}\");")
++    handle_unwrap_logic.append(f"    VK_CMD_LOG(\"{command.name} (id=%d)\", cmd_id);")
 +    # handle_unwrap_logic.append(f"#endif")
 +
 +    handle_unwrap_logic.append(f"")
@@ -8341,7 +8345,7 @@ index 00000000000..2f75b1f16f9
 +    return entrypoints
 diff --git a/src/vulkan/wrapper/vk_printer.c.mako b/src/vulkan/wrapper/vk_printer.c.mako
 new file mode 100644
-index 00000000000..c769d2da6ff
+index 00000000000..3280aa648cc
 --- /dev/null
 +++ b/src/vulkan/wrapper/vk_printer.c.mako
 @@ -0,0 +1,156 @@
@@ -8440,7 +8444,7 @@ index 00000000000..c769d2da6ff
 +            % else:
 +        for (uint32_t i = 0; i < count_${member.name}; i++) {
 +                % if member.is_handle and get_wrapper_type_for_vk_type(member.type):
-+            VK_CMD_LOG_FD(fd, "%s.${member.name}[%d]: ${member.typep} (handle) = %p", prefix, i, in_info->${member.name});
++            VK_CMD_LOG_FD(fd, "%s.${member.name}[%d]: ${member.typep} (handle) = %lx", prefix, i, (int64_t) in_info->${member.name}[i]);
 +                % elif member.resolved_type in all_vk_types:
 +                    % if member.num_pointers == 2:
 +            #error "Not implemented ${member.text}"
@@ -9297,7 +9301,7 @@ index eef8d4bf85b..32e044b89a2 100644
     vk_set_physical_device_features(&physical_device->vk.supported_features,
                                     &supported_features2);
 diff --git a/src/vulkan/wrapper/vk_wrapper_trampolines_gen.py b/src/vulkan/wrapper/vk_wrapper_trampolines_gen.py
-index f20fde16034..1239198acf6 100644
+index f20fde16034..2f40a6e0ac2 100644
 --- a/src/vulkan/wrapper/vk_wrapper_trampolines_gen.py
 +++ b/src/vulkan/wrapper/vk_wrapper_trampolines_gen.py
 @@ -33,6 +33,7 @@ from mako.template import Template
@@ -9324,7 +9328,7 @@ index f20fde16034..1239198acf6 100644
 +    uint64_t f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10, f11, f12, f13, f14, f15;
 +};
 +
-+static struct wrapper_entry_masks wrapper_printer_masks = { 0 };
++extern struct wrapper_entry_masks wrapper_printer_masks;
 +
 +% for e in entrypoints:
 +% if e.alias:
@@ -9370,13 +9374,14 @@ index f20fde16034..1239198acf6 100644
  #ifdef __cplusplus
  }
  #endif
-@@ -61,7 +110,15 @@ TEMPLATE_C = Template(COPYRIGHT + """\
+@@ -61,7 +110,17 @@ TEMPLATE_C = Template(COPYRIGHT + """\
  
  #include "wrapper_private.h"
  #include "wrapper_trampolines.h"
--
 +#include "vk_unwrappers.h"
 +#include "vk_printers.h"
+ 
++_Atomic static int commands = 0;
 +
 +#define VK_PRINT_VkAccelerationStructureVersionInfoKHR(...)
 +#define VK_PRINT_VkAccelerationStructureBuildGeometryInfoKHR(...)
@@ -9387,7 +9392,7 @@ index f20fde16034..1239198acf6 100644
  % for e in entrypoints:
    % if not e.is_physical_device_entrypoint() or e.alias:
      <% continue %>
-@@ -69,17 +126,7 @@ TEMPLATE_C = Template(COPYRIGHT + """\
+@@ -69,17 +128,7 @@ TEMPLATE_C = Template(COPYRIGHT + """\
    % if e.guard is not None:
  #ifdef ${e.guard}
    % endif
@@ -9406,7 +9411,7 @@ index f20fde16034..1239198acf6 100644
    % if e.guard is not None:
  #endif
    % endif
-@@ -107,58 +154,7 @@ struct vk_physical_device_entrypoint_table wrapper_physical_device_trampolines =
+@@ -107,58 +156,7 @@ struct vk_physical_device_entrypoint_table wrapper_physical_device_trampolines =
    % if e.guard is not None:
  #ifdef ${e.guard}
    % endif
@@ -9466,7 +9471,7 @@ index f20fde16034..1239198acf6 100644
    % if e.guard is not None:
  #endif
    % endif
-@@ -178,6 +174,10 @@ struct vk_device_entrypoint_table wrapper_device_trampolines = {
+@@ -178,6 +176,10 @@ struct vk_device_entrypoint_table wrapper_device_trampolines = {
    % endif
  % endfor
  };
@@ -9477,7 +9482,7 @@ index f20fde16034..1239198acf6 100644
  """)
  
  def main():
-@@ -203,7 +203,7 @@ def main():
+@@ -203,7 +205,7 @@ def main():
                                            filename=os.path.basename(__file__)))
          if args.out_c:
              with open(args.out_c, 'w', encoding='utf-8') as f:
@@ -9531,14 +9536,26 @@ index 00000000000..407f30eabf9
 +#define WPCHECKV(call) {__W_WRAP__(call, { if(has_physical_device_wrapper_##call) { __CHECKV__(wrapper_physical_device_entrypoints. call); } else { PCHECKV(call); }})}
 diff --git a/src/vulkan/wrapper/wrapper_debug.c b/src/vulkan/wrapper/wrapper_debug.c
 new file mode 100644
-index 00000000000..0c3e8040990
+index 00000000000..344ed24510e
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_debug.c
-@@ -0,0 +1,314 @@
+@@ -0,0 +1,342 @@
 +#include "wrapper_private.h"
 +#include "wrapper_log.h"
 +#include "wrapper_trampolines.h"
 +#include "wrapper_debug.h"
++
++bool check_flag(const char* env, bool default_value) {
++   const char* value = getenv(env);
++   if (!value) return default_value;
++   if (strcmp(value, "1") == 0) {
++      return true;
++   } else if (strcmp(value, "0") == 0) {
++      return false;
++   } else {
++      return default_value;
++   }
++}
 +
 +uint32_t make_bcn_masks(const char* flag) {
 +    uint32_t mask = 0;
@@ -9686,6 +9703,8 @@ index 00000000000..0c3e8040990
 +    }
 +}
 +
++struct wrapper_entry_masks wrapper_printer_masks = { 0 };
++
 +void initialize_cmd_print_masks() {
 +    // set the various bits in wrapper_printer_masks
 +    const char* mask_bcn = getenv("WRAPPER_CMD_LOG_LEVEL");
@@ -9742,30 +9761,6 @@ index 00000000000..0c3e8040990
 +        wrapper_printer_masks.f1 |= 0x000001f000f03391ULL;
 +    }
 +
-+    if (strstr(mask_bcn, "gfx")) {
-+        // full mask = 0x1f000f03391c000000000000000
-+        // f0 0x4000000000000000 = vkCreateShaderModule
-+        // f0 0x8000000000000000 = vkDestroyShaderModule
-+        wrapper_printer_masks.f0 |= 0xc000000000000000ULL;
-+        // f1 0x0000000000000001 = vkCreatePipelineCache
-+        // f1 0x0000000000000010 = vkCreateGraphicsPipelines
-+        // f1 0x0000000000000080 = vkDestroyPipeline
-+        // f1 0x0000000000000100 = vkCreatePipelineLayout
-+        // f1 0x0000000000000200 = vkDestroyPipelineLayout
-+        // f1 0x0000000000001000 = vkCreateDescriptorSetLayout
-+        // f1 0x0000000000002000 = vkDestroyDescriptorSetLayout
-+        // f1 0x0000000000100000 = vkCreateFramebuffer
-+        // f1 0x0000000000200000 = vkDestroyFramebuffer
-+        // f1 0x0000000000400000 = vkCreateRenderPass
-+        // f1 0x0000000000800000 = vkDestroyRenderPass
-+        // f1 0x0000001000000000 = vkCmdSetViewport
-+        // f1 0x0000002000000000 = vkCmdSetScissor
-+        // f1 0x0000004000000000 = vkCmdSetLineWidth
-+        // f1 0x0000008000000000 = vkCmdSetDepthBias
-+        // f1 0x0000010000000000 = vkCmdSetBlendConstants
-+        wrapper_printer_masks.f1 |= 0x000001f000f03391ULL;
-+    }
-+
 +    if (strstr(mask_bcn, "mem")) {
 +        // full mask = 0x800000000000002800000000200000001002200000000000000000000000000000000000012200001c1400080
 +        // f0 0x0000000000000080 = vkGetPhysicalDeviceMemoryProperties
@@ -9789,6 +9784,44 @@ index 00000000000..0c3e8040990
 +        // f5 0x0000000800000000 = vkGetAndroidHardwareBufferPropertiesANDROID
 +        wrapper_printer_masks.f5 |= 0x0000000800000000ULL;
 +    }
++
++    if (strstr(mask_bcn, "debug1")) {
++        // full mask = 0x800000000200000000000000000000000000101000b0402005b008912070a0017000080000
++        // f0 0x0000000000080000 = vkQueueSubmit
++        // f0 0x0000001000000000 = vkCreateFence
++        // f0 0x0000002000000000 = vkDestroyFence
++        // f0 0x0000004000000000 = vkResetFences
++        // f0 0x0000010000000000 = vkWaitForFences
++        // f0 0x0020000000000000 = vkCreateBuffer
++        // f0 0x0080000000000000 = vkCreateBufferView
++        // f0 0x1000000000000000 = vkCreateImageView
++        // f0 0x2000000000000000 = vkDestroyImageView
++        // f0 0x4000000000000000 = vkCreateShaderModule
++        wrapper_printer_masks.f0 |= 0x70a0017000080000ULL;
++        // f1 0x0000000000000020 = vkCreateComputePipelines
++        // f1 0x0000000000000100 = vkCreatePipelineLayout
++        // f1 0x0000000000001000 = vkCreateDescriptorSetLayout
++        // f1 0x0000000000008000 = vkDestroyDescriptorPool
++        // f1 0x0000000000080000 = vkUpdateDescriptorSets
++        // f1 0x0000000010000000 = vkResetCommandPool
++        // f1 0x0000000020000000 = vkAllocateCommandBuffers
++        // f1 0x0000000080000000 = vkBeginCommandBuffer
++        // f1 0x0000000100000000 = vkEndCommandBuffer
++        // f1 0x0000000400000000 = vkCmdBindPipeline
++        // f1 0x0000200000000000 = vkCmdBindDescriptorSets
++        // f1 0x0040000000000000 = vkCmdDispatch
++        // f1 0x1000000000000000 = vkCmdCopyBuffer
++        // f1 0x2000000000000000 = vkCmdCopyImage
++        // f1 0x8000000000000000 = vkCmdCopyBufferToImage
++        wrapper_printer_masks.f1 |= 0xb0402005b0089120ULL;
++        // f2 0x0000000000001000 = vkCmdPipelineBarrier
++        // f2 0x0000000000100000 = vkCmdPushConstants
++        wrapper_printer_masks.f2 |= 0x0000000000101000ULL;
++        // f4 0x0000000000000002 = vkBindBufferMemory2
++        // f4 0x0000008000000000 = vkGetBufferMemoryRequirements2
++        wrapper_printer_masks.f4 |= 0x0000008000000002ULL;
++    }
++
 +
 +// #define CHECK_CMD_MASK(cmd) \
 +//     if (strstr(mask_bcn, #cmd)) SET_VK_ID_##cmd##_ON(wrapper_printer_masks);
@@ -9851,11 +9884,21 @@ index 00000000000..0c3e8040990
 +}
 diff --git a/src/vulkan/wrapper/wrapper_debug.h b/src/vulkan/wrapper/wrapper_debug.h
 new file mode 100644
-index 00000000000..9e4014403d4
+index 00000000000..0772c602306
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_debug.h
-@@ -0,0 +1,15 @@
+@@ -0,0 +1,25 @@
 +#pragma once
++
++bool check_flag(const char* env, bool default_value);
++
++#define CHECK_FLAG(name) ({ \
++    static bool __value; \
++    static bool __initialized; \
++    if (!__initialized) \
++        __value = check_flag(name, false); \
++    __value; \
++})
 +
 +uint32_t make_bcn_masks(const char* flag);
 +
@@ -9872,10 +9915,10 @@ index 00000000000..9e4014403d4
 +bool use_compute_shader_mode(void);
 \ No newline at end of file
 diff --git a/src/vulkan/wrapper/wrapper_device.c b/src/vulkan/wrapper/wrapper_device.c
-index 2ea37d1b392..7169f26d834 100644
+index 2ea37d1b392..1a09e941519 100644
 --- a/src/vulkan/wrapper/wrapper_device.c
 +++ b/src/vulkan/wrapper/wrapper_device.c
-@@ -8,8 +8,68 @@
+@@ -8,8 +8,48 @@
  #include "vk_extensions.h"
  #include "vk_queue.h"
  #include "vk_util.h"
@@ -9914,22 +9957,6 @@ index 2ea37d1b392..7169f26d834 100644
 +#include "bc7_iv.spv.h"
 +};
 +
-+#define CHECK_W(call) ({ \
-+   VkResult __result = wrapper_##call; \
-+   if (__result) { WLOGE("%s failed with %d", #call, __result); } \
-+   __result; \
-+})
-+
-+// A struct to hold the state required by our interceptor
-+typedef struct InterceptorState {
-+   VkDevice device;
-+   VkPipeline pipeline;
-+   VkPipelineLayout pipelineLayout;
-+   VkDescriptorSetLayout descriptorSetLayout;
-+   VkBuffer constantsBuffer;
-+   VkDeviceMemory constantsBufferMemory;
-+} InterceptorState;
-+
 +// Initializes the Vulkan objects needed for the compute dispatch.
 +// Call this after intercepting vkCreateDevice.
 +static VkResult InterceptorState_Init(InterceptorState* state, VkDevice device, size_t spv_size, const uint32_t* spv_code, bool use_image_view, int bc_mode);
@@ -9937,14 +9964,10 @@ index 2ea37d1b392..7169f26d834 100644
 +// Cleans up the Vulkan objects.
 +// Call this before intercepting vkDestroyDevice.
 +static void InterceptorState_Cleanup(InterceptorState* state);
-+
-+static InterceptorState g_interceptorState_s3tc = {0};
-+static InterceptorState g_interceptorState_bc6 = {0};
-+static InterceptorState g_interceptorState_bc7 = {0};
  
  const struct vk_device_extension_table wrapper_device_extensions =
  {
-@@ -65,8 +125,7 @@ wrapper_append_required_extensions(const struct vk_device *device,
+@@ -65,8 +105,7 @@ wrapper_append_required_extensions(const struct vk_device *device,
                                    uint32_t *count,
                                    const char **exts) {
  #define REQUIRED_EXTENSION(name) \
@@ -9954,7 +9977,7 @@ index 2ea37d1b392..7169f26d834 100644
        exts[(*count)++] = "VK_" #name; \
     }
     REQUIRED_EXTENSION(KHR_external_fence);
-@@ -85,6 +144,8 @@ wrapper_append_required_extensions(const struct vk_device *device,
+@@ -85,6 +124,8 @@ wrapper_append_required_extensions(const struct vk_device *device,
     REQUIRED_EXTENSION(EXT_external_memory_dma_buf);
     REQUIRED_EXTENSION(EXT_image_drm_format_modifier);
     REQUIRED_EXTENSION(ANDROID_external_memory_android_hardware_buffer);
@@ -9963,7 +9986,7 @@ index 2ea37d1b392..7169f26d834 100644
  #undef REQUIRED_EXTENSION
  }
  
-@@ -96,6 +157,10 @@ wrapper_create_device_queue(struct wrapper_device *device,
+@@ -96,6 +137,10 @@ wrapper_create_device_queue(struct wrapper_device *device,
     struct wrapper_queue *queue;
     VkResult result;
  
@@ -9974,7 +9997,7 @@ index 2ea37d1b392..7169f26d834 100644
     for (int i = 0; i < pCreateInfo->queueCreateInfoCount; i++) {
        create_info = &pCreateInfo->pQueueCreateInfos[i];
        for (int j = 0; j < create_info->queueCount; j++) {
-@@ -120,12 +185,18 @@ wrapper_create_device_queue(struct wrapper_device *device,
+@@ -120,12 +165,18 @@ wrapper_create_device_queue(struct wrapper_device *device,
                 j, &queue->dispatch_handle);
           }
           queue->device = device;
@@ -9993,7 +10016,7 @@ index 2ea37d1b392..7169f26d834 100644
        }
     }
  
-@@ -148,6 +219,9 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -148,6 +199,9 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     VkPhysicalDeviceFeatures *pdf;
     VkResult result;
  
@@ -10003,7 +10026,7 @@ index 2ea37d1b392..7169f26d834 100644
     device = vk_zalloc2(&physical_device->instance->vk.alloc, pAllocator,
                         sizeof(*device), 8, VK_SYSTEM_ALLOCATION_SCOPE_DEVICE);
     if (!device)
-@@ -155,6 +229,12 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -155,6 +209,12 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
  
     list_inithead(&device->command_buffer_list);
     list_inithead(&device->device_memory_list);
@@ -10016,7 +10039,7 @@ index 2ea37d1b392..7169f26d834 100644
     simple_mtx_init(&device->resource_mutex, mtx_plain);
     device->physical = physical_device;
  
-@@ -165,10 +245,43 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -165,10 +225,43 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     vk_device_dispatch_table_from_entrypoints(
        &dispatch_table, &wrapper_device_trampolines, false);
  
@@ -10060,7 +10083,7 @@ index 2ea37d1b392..7169f26d834 100644
        vk_free2(&physical_device->instance->vk.alloc, pAllocator,
                 device);
        return vk_error(physical_device, result);
-@@ -186,64 +299,29 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -186,64 +279,29 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     pdf = (void *)pCreateInfo->pEnabledFeatures;
     pdf2 = __vk_find_struct((void *)pCreateInfo->pNext,
              VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2);
@@ -10146,13 +10169,13 @@ index 2ea37d1b392..7169f26d834 100644
     result = physical_device->dispatch_table.CreateDevice(
        physical_device->dispatch_handle, &wrapper_create_info,
           pAllocator, &device->dispatch_handle);
-@@ -259,12 +337,58 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -259,12 +317,58 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     vk_device_dispatch_table_load(&device->dispatch_table, gdpa,
                                   device->dispatch_handle);
  
 +   // Initialize the BCn interceptor states
 +   bool use_image_view = use_image_view_mode();
-+   result = InterceptorState_Init(&g_interceptorState_s3tc, 
++   result = InterceptorState_Init(&device->s3tc, 
 +      wrapper_device_to_handle(device), 
 +      use_image_view ? sizeof(s3tc_iv_spv) : sizeof(s3tc_spv), 
 +      use_image_view ? s3tc_iv_spv : s3tc_spv, 
@@ -10161,7 +10184,7 @@ index 2ea37d1b392..7169f26d834 100644
 +      WLOGE("Failed to initialize InterceptorState for s3tc");
 +      return vk_error(physical_device, result);
 +   }
-+   result = InterceptorState_Init(&g_interceptorState_bc6, 
++   result = InterceptorState_Init(&device->bc6, 
 +      wrapper_device_to_handle(device), 
 +      use_image_view ? sizeof(bc6_iv_spv) : sizeof(bc6_spv), 
 +      use_image_view ? bc6_iv_spv : bc6_spv, 
@@ -10170,7 +10193,7 @@ index 2ea37d1b392..7169f26d834 100644
 +      WLOGE("Failed to initialize InterceptorState for bc6");
 +      return vk_error(physical_device, result);
 +   }
-+   result = InterceptorState_Init(&g_interceptorState_bc7, 
++   result = InterceptorState_Init(&device->bc7, 
 +      wrapper_device_to_handle(device), 
 +      use_image_view ? sizeof(bc7_iv_spv) : sizeof(bc7_spv), 
 +      use_image_view ? bc7_iv_spv : bc7_spv, 
@@ -10205,7 +10228,7 @@ index 2ea37d1b392..7169f26d834 100644
     
     *pDevice = wrapper_device_to_handle(device);
  
-@@ -305,66 +429,37 @@ VKAPI_ATTR VkResult VKAPI_CALL
+@@ -305,66 +409,36 @@ VKAPI_ATTR VkResult VKAPI_CALL
  wrapper_QueueSubmit(VkQueue _queue, uint32_t submitCount,
                      const VkSubmitInfo* pSubmits, VkFence fence)
  {
@@ -10283,7 +10306,6 @@ index 2ea37d1b392..7169f26d834 100644
 -
 +   VkResult result = CHECK(QueueSubmit2(_queue, submitCount, pSubmits, fence));
 +   // VkResult result = base->device->dispatch_table.QueueSubmit2(base->dispatch_handle, submitCount, pSubmits__, fence);
-+   WLOGD("Result = %d", result);
     return result;
  }
  
@@ -10291,7 +10313,7 @@ index 2ea37d1b392..7169f26d834 100644
  VKAPI_ATTR void VKAPI_CALL
  wrapper_CmdExecuteCommands(VkCommandBuffer commandBuffer,
                             uint32_t commandBufferCount,
-@@ -377,6 +472,7 @@ wrapper_CmdExecuteCommands(VkCommandBuffer commandBuffer,
+@@ -377,6 +451,7 @@ wrapper_CmdExecuteCommands(VkCommandBuffer commandBuffer,
        command_buffers[i] =
           wrapper_command_buffer_from_handle(pCommandBuffers[i])->dispatch_handle;
     }
@@ -10299,7 +10321,7 @@ index 2ea37d1b392..7169f26d834 100644
     wcb->device->dispatch_table.CmdExecuteCommands(
        wcb->dispatch_handle, commandBufferCount, command_buffers);
  }
-@@ -396,6 +492,11 @@ wrapper_command_buffer_create(struct wrapper_device *device,
+@@ -396,6 +471,11 @@ wrapper_command_buffer_create(struct wrapper_device *device,
     wcb->device = device;
     wcb->pool = pool;
     wcb->dispatch_handle = dispatch_handle;
@@ -10311,7 +10333,7 @@ index 2ea37d1b392..7169f26d834 100644
     list_add(&wcb->link, &device->command_buffer_list);
  
     *pCommandBuffers = wrapper_command_buffer_to_handle(wcb);
-@@ -406,10 +507,13 @@ wrapper_command_buffer_create(struct wrapper_device *device,
+@@ -406,10 +486,13 @@ wrapper_command_buffer_create(struct wrapper_device *device,
  static void
  wrapper_command_buffer_destroy(struct wrapper_device *device,
                                 struct wrapper_command_buffer *wcb) {
@@ -10325,7 +10347,7 @@ index 2ea37d1b392..7169f26d834 100644
  VKAPI_ATTR VkResult VKAPI_CALL
  wrapper_AllocateCommandBuffers(VkDevice _device,
                                 const VkCommandBufferAllocateInfo* pAllocateInfo,
-@@ -420,9 +524,7 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
+@@ -420,9 +503,7 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
     VkResult result;
     uint32_t i;
     
@@ -10336,7 +10358,7 @@ index 2ea37d1b392..7169f26d834 100644
     if (result != VK_SUCCESS)
        return result;
  
-@@ -435,13 +537,16 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
+@@ -435,13 +516,16 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
                                               &pCommandBuffers[i]);
        if (result != VK_SUCCESS)
           break;
@@ -10350,14 +10372,14 @@ index 2ea37d1b392..7169f26d834 100644
 -                                                pAllocateInfo->commandBufferCount,
 -                                                dispatch_handles);
 +      WLOGE("Failed to allocate command buffers: %d", result);
-+      CHECKV(FreeCommandBuffers(device->dispatch_handle,
++      CHECKV(FreeCommandBuffers(_device,
 +                                 pAllocateInfo->commandPool,
 +                                 pAllocateInfo->commandBufferCount,
 +                                 dispatch_handles));
        for (int q = 0; q < i; q++) {
           VK_FROM_HANDLE(wrapper_command_buffer, wcb, pCommandBuffers[q]);
           wrapper_command_buffer_destroy(device, wcb);
-@@ -457,7 +562,6 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
+@@ -457,7 +541,6 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
     return result;
  }
  
@@ -10365,7 +10387,7 @@ index 2ea37d1b392..7169f26d834 100644
  VKAPI_ATTR void VKAPI_CALL
  wrapper_FreeCommandBuffers(VkDevice _device,
                             VkCommandPool commandPool,
-@@ -465,21 +569,37 @@ wrapper_FreeCommandBuffers(VkDevice _device,
+@@ -465,21 +548,37 @@ wrapper_FreeCommandBuffers(VkDevice _device,
                             const VkCommandBuffer* pCommandBuffers)
  {
     VK_FROM_HANDLE(wrapper_device, device, _device);
@@ -10406,7 +10428,7 @@ index 2ea37d1b392..7169f26d834 100644
  }
  
  VKAPI_ATTR void VKAPI_CALL
-@@ -499,8 +619,12 @@ wrapper_DestroyCommandPool(VkDevice _device, VkCommandPool commandPool,
+@@ -499,8 +598,12 @@ wrapper_DestroyCommandPool(VkDevice _device, VkCommandPool commandPool,
  
     simple_mtx_unlock(&device->resource_mutex);
  
@@ -10421,7 +10443,7 @@ index 2ea37d1b392..7169f26d834 100644
  }
  
  VKAPI_ATTR void VKAPI_CALL
-@@ -521,6 +645,24 @@ wrapper_DestroyDevice(VkDevice _device, const VkAllocationCallbacks* pAllocator)
+@@ -521,6 +624,24 @@ wrapper_DestroyDevice(VkDevice _device, const VkAllocationCallbacks* pAllocator)
  
     simple_mtx_unlock(&device->resource_mutex);
  
@@ -10446,7 +10468,7 @@ index 2ea37d1b392..7169f26d834 100644
     list_for_each_entry_safe(struct vk_queue, queue, &device->vk.queues, link) {
        vk_queue_finish(queue);
        vk_free2(&device->vk.alloc, pAllocator, queue);
-@@ -555,11 +697,9 @@ wrapper_SetPrivateData(VkDevice _device, VkObjectType objectType,
+@@ -555,11 +676,9 @@ wrapper_SetPrivateData(VkDevice _device, VkObjectType objectType,
                         uint64_t objectHandle,
                         VkPrivateDataSlot privateDataSlot,
                         uint64_t data) {
@@ -10460,7 +10482,7 @@ index 2ea37d1b392..7169f26d834 100644
  }
  
  VKAPI_ATTR void VKAPI_CALL
-@@ -567,9 +707,1157 @@ wrapper_GetPrivateData(VkDevice _device, VkObjectType objectType,
+@@ -567,9 +686,1178 @@ wrapper_GetPrivateData(VkDevice _device, VkObjectType objectType,
                         uint64_t objectHandle,
                         VkPrivateDataSlot privateDataSlot,
                         uint64_t* pData) {
@@ -10582,7 +10604,7 @@ index 2ea37d1b392..7169f26d834 100644
 +      .memoryOffset  = memoryOffset,
 +   };
 +
-+   return CHECK(BindBufferMemory2(device, 1, &bind));
++   return WCHECK(BindBufferMemory2(device, 1, &bind));
 +}
 +
 +VKAPI_ATTR VkResult VKAPI_CALL
@@ -10792,7 +10814,6 @@ index 2ea37d1b392..7169f26d834 100644
 +   };
 +   result = WCHECK(CreateComputePipelines(device, VK_NULL_HANDLE, 1, &pipelineCreateInfo, NULL, &state->pipeline));
 +   WCHECKV(DestroyShaderModule(device, computeShaderModule, NULL));
-+   if (result != VK_SUCCESS) return result;
 +   return result;
 +}
 +
@@ -11113,7 +11134,7 @@ index 2ea37d1b392..7169f26d834 100644
 +// Takes in the srcBuffer and decompresses it into a staging buffer
 +// Both buffers must be bound to memory and are host visible (for mapping)
 +// This is the software fallback for BCn decompression that aren't implemented by the compute shader
-+static void HostSideDecompression(
++static VkResult HostSideDecompression(
 +      struct wrapper_device* _device,
 +      wrapper_buffer* srcBuffer,
 +      VkDeviceMemory dstMemory,
@@ -11131,7 +11152,7 @@ index 2ea37d1b392..7169f26d834 100644
 +   VkResult result = WCHECK(MapMemory2KHR((VkDevice) _device, &mapInfoSrc, &srcData));
 +   if (result != VK_SUCCESS) {
 +      WLOGE("ERROR: Failed to map source buffer memory: %d", result);
-+      return;
++      return result;
 +   }
 +
 +   // Map the destination memory
@@ -11162,9 +11183,18 @@ index 2ea37d1b392..7169f26d834 100644
 +   //    dstPixels[i] = 0xFFFF00FF; // Magenta color in RGBA format
 +   // }
 +
++   VkMappedMemoryRange flushRange = {
++      .sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE,
++      .memory = dstMemory,
++      .offset = 0,
++      .size = VK_WHOLE_SIZE,
++   };
++   result = WCHECK(FlushMappedMemoryRanges((VkDevice) _device, 1, &flushRange));
++
 +   WCHECKV(UnmapMemory((VkDevice) _device, dstMemory));
 +final:
 +   WCHECKV(UnmapMemory((VkDevice) _device, srcBuffer->memory));
++   return result;
 +}
 +
 +static VkDeviceSize calculate_bc_copy_size(const VkBufferImageCopy* region, uint32_t block_size_in_bytes) {
@@ -11294,7 +11324,7 @@ index 2ea37d1b392..7169f26d834 100644
 +   VkDescriptorBufferInfo srcBufferInfo = {
 +      .buffer = srcBuffer,
 +      .offset = region->bufferOffset,
-+      .range = srcBufferSize,
++      .range = VK_WHOLE_SIZE,
 +   };
 +
 +   VkDescriptorBufferInfo uniformConstantBufferInfo = {
@@ -11418,8 +11448,8 @@ index 2ea37d1b392..7169f26d834 100644
 +      };
 +
 +      WCHECKV(CmdPipelineBarrier((VkCommandBuffer) _commandBuffer,
-+                           VK_PIPELINE_STAGE_TOP_OF_PIPE_BIT,
 +                           VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
++                           VK_PIPELINE_STAGE_FRAGMENT_SHADER_BIT | VK_PIPELINE_STAGE_TRANSFER_BIT | VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT | VK_PIPELINE_STAGE_COMPUTE_SHADER_BIT,
 +                           0, 0, NULL, 0, NULL, 1, &imageBarrier));
 +   }
 +}
@@ -11556,13 +11586,13 @@ index 2ea37d1b392..7169f26d834 100644
 +      }
 +
 +      if (use_compute_shader) {
-+         struct InterceptorState* state = &g_interceptorState_s3tc;
++         struct InterceptorState* state = &_device->s3tc;
 +         if (wimg->original_format == VK_FORMAT_BC7_UNORM_BLOCK 
 +            || wimg->original_format == VK_FORMAT_BC7_SRGB_BLOCK) {
-+            state = &g_interceptorState_bc7;
++            state = &_device->bc7;
 +         } else if (wimg->original_format == VK_FORMAT_BC6H_SFLOAT_BLOCK 
 +            || wimg->original_format == VK_FORMAT_BC6H_UFLOAT_BLOCK) {
-+            state = &g_interceptorState_bc6;
++            state = &_device->bc6;
 +         }
 +         struct CmdComputeShaderForDecompressionArgs args = {
 +            ._device = _device,
@@ -11579,9 +11609,22 @@ index 2ea37d1b392..7169f26d834 100644
 +            args.stagingBuffer = stagingBuffer;
 +         }
 +
-+         CmdComputeShaderForDecompression(wcb, &args);
++         if (CHECK_FLAG("WRAPPER_ONE_BY_ONE")) {
++            SubmitOneTimeCommands(
++               _device, 
++               wcb->pool, 
++               _device->graphics_queue, 
++               (void (*)(struct wrapper_command_buffer*, void*)) &CmdComputeShaderForDecompression,
++               &args);
++         } else {
++            CmdComputeShaderForDecompression(wcb, &args);
++         }
 +      } else {
-+         HostSideDecompression(_device, wbuf, stagingBufferMemory, region, wimg->original_format);
++         result = HostSideDecompression(_device, wbuf, stagingBufferMemory, region, wimg->original_format);
++         if (result != VK_SUCCESS) {
++            WLOGE("Host BCn decompression failed, expect visual glitches.");
++            return;
++         }
 +      }
 +
 +      if (!use_image_view) {
@@ -11623,7 +11666,7 @@ index 2ea37d1b392..7169f26d834 100644
 +   }
  }
 diff --git a/src/vulkan/wrapper/wrapper_device_memory.c b/src/vulkan/wrapper/wrapper_device_memory.c
-index 6d47a52fd18..a78198bf174 100644
+index 6d47a52fd18..f5b7998d070 100644
 --- a/src/vulkan/wrapper/wrapper_device_memory.c
 +++ b/src/vulkan/wrapper/wrapper_device_memory.c
 @@ -1,12 +1,13 @@
@@ -11675,6 +11718,11 @@ index 6d47a52fd18..a78198bf174 100644
  }
  
  VKAPI_ATTR void VKAPI_CALL
+@@ -487,4 +501,3 @@ wrapper_UnmapMemory2KHR(VkDevice _device,
+    mem->map_address = NULL;
+    return VK_SUCCESS;
+ }
+-
 diff --git a/src/vulkan/wrapper/wrapper_image.c b/src/vulkan/wrapper/wrapper_image.c
 new file mode 100644
 index 00000000000..f31c1be817b
@@ -11995,10 +12043,10 @@ index 237108ca6eb..ec527bbeb0d 100644
                                      &wrapper_instance_entrypoints,
 diff --git a/src/vulkan/wrapper/wrapper_log.c b/src/vulkan/wrapper/wrapper_log.c
 new file mode 100644
-index 00000000000..acb7ac08c4f
+index 00000000000..75188bd7b44
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_log.c
-@@ -0,0 +1,271 @@
+@@ -0,0 +1,280 @@
 +#include "wrapper_private.h"
 +#include "wrapper_log.h"
 +#include "wrapper_trampolines.h"
@@ -12018,7 +12066,7 @@ index 00000000000..acb7ac08c4f
 +static bool __cmd_log_initialized;
 +
 +FILE* get_wrapper_cmd_log_fd() {
-+    return __log_fd;
++    return __cmd_log_fd;
 +}
 +
 +static void cleanup_log_file(void) {
@@ -12060,6 +12108,7 @@ index 00000000000..acb7ac08c4f
 +    __cmd_log_initialized = true;
 +
 +    const char *log_level = getenv("WRAPPER_CMD_LOG_LEVEL");
++    LOG("Logging cmds at %s", log_level);
 +    if (!log_level) {
 +        __cmd_log_level = VK_CMD_NONE;
 +    } else if (strcmp(log_level, "all") == 0) {
@@ -12067,13 +12116,14 @@ index 00000000000..acb7ac08c4f
 +    } else if (strcmp(log_level, "name") == 0) {
 +        __cmd_log_level = VK_CMD_NAME;
 +    } else {
-+        __cmd_log_level = VK_CMD_NONE;
++        __cmd_log_level = VK_CMD_ALL;
 +    }
 +
-+    if (__log_level != LOG_LEVEL_NONE) {
++    if (__cmd_log_level != LOG_LEVEL_NONE) {
 +        __cmd_log_fd = open_log_file("wrapper_cmds");
 +        if (!__cmd_log_fd) {
-+            __cmd_log_level = LOG_LEVEL_NONE;
++            // Try to log to stdout / winelogs
++            __cmd_log_fd = stdout;
 +        } else {
 +            atexit(cleanup_cmd_log_file);
 +        }
@@ -12089,6 +12139,7 @@ index 00000000000..acb7ac08c4f
 +    __log_initialized = true;
 +
 +    const char *log_level = getenv("WRAPPER_LOG_LEVEL");
++    LOG("Logging logs at %s", log_level);
 +    if (!log_level) {
 +        __log_level = LOG_LEVEL_ERROR;
 +    } else if (strcmp(log_level, "all") == 0) {
@@ -12105,8 +12156,10 @@ index 00000000000..acb7ac08c4f
 +
 +    if (__log_level != LOG_LEVEL_NONE) {
 +        __log_fd = open_log_file("wrapper_log");
++        // If __log_fd failed to open, still log to logcat
 +        if (!__log_fd) {
-+            __log_level = LOG_LEVEL_NONE;
++            // Try to log to stdout / winelogs
++            __log_fd = stdout;
 +        } else {
 +            atexit(cleanup_log_file);
 +        }
@@ -12116,12 +12169,16 @@ index 00000000000..acb7ac08c4f
 +}
 +
 +void wlog(const char* fmt, ...) {
-+   va_list args;
-+   va_start(args, fmt);
-+   vfprintf(__log_fd, fmt, args);
-+   va_end(args);
-+   fprintf(__log_fd, "\n");
-+   fflush(__log_fd);
++    FILE* fd = __log_fd;
++    if (!fd) {
++        return;
++    }
++    va_list args;
++    va_start(args, fmt);
++    vfprintf(fd, fmt, args);
++    va_end(args);
++    fprintf(fd, "\n");
++    fflush(fd);
 +}
 +
 +VKAPI_ATTR VkBool32 VKAPI_CALL
@@ -12526,10 +12583,10 @@ index 00000000000..ea513a9b93f
 +}
 diff --git a/src/vulkan/wrapper/wrapper_objects.h b/src/vulkan/wrapper/wrapper_objects.h
 new file mode 100644
-index 00000000000..49fe82aa9f2
+index 00000000000..8e32906a820
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_objects.h
-@@ -0,0 +1,219 @@
+@@ -0,0 +1,233 @@
 +#pragma once
 +
 +#include "util/simple_mtx.h"
@@ -12599,6 +12656,16 @@ index 00000000000..49fe82aa9f2
 +VK_DEFINE_HANDLE_CASTS(wrapper_queue, vk.base, VkQueue,
 +                       VK_OBJECT_TYPE_QUEUE)
 +
++// A struct to hold the state required by our interceptor
++typedef struct InterceptorState {
++   VkDevice device;
++   VkPipeline pipeline;
++   VkPipelineLayout pipelineLayout;
++   VkDescriptorSetLayout descriptorSetLayout;
++   VkBuffer constantsBuffer;
++   VkDeviceMemory constantsBufferMemory;
++} InterceptorState;
++
 +struct wrapper_device {
 +   struct vk_device vk;
 +
@@ -12620,6 +12687,10 @@ index 00000000000..49fe82aa9f2
 +   uint32_t graphics_queue_idx;
 +
 +   VkCommandPool computePool;
++
++   InterceptorState s3tc;
++   InterceptorState bc6;
++   InterceptorState bc7;
 +};
 +
 +VK_DEFINE_HANDLE_CASTS(wrapper_device, vk.base, VkDevice,
@@ -12750,7 +12821,7 @@ index 00000000000..49fe82aa9f2
 +
 +MAKE_PROTOTYPES(wrapper_command_pool, VkCommandPool);
 diff --git a/src/vulkan/wrapper/wrapper_physical_device.c b/src/vulkan/wrapper/wrapper_physical_device.c
-index 384c45483c6..3690bb5cc26 100644
+index 384c45483c6..3e4c17d3f91 100644
 --- a/src/vulkan/wrapper/wrapper_physical_device.c
 +++ b/src/vulkan/wrapper/wrapper_physical_device.c
 @@ -11,6 +11,7 @@
@@ -12781,7 +12852,7 @@ index 384c45483c6..3690bb5cc26 100644
     }
  
     exts->KHR_present_wait = exts->KHR_timeline_semaphore;
-+   if (check_flag("NO_PRESENT_WAIT", false)) {
++   if (CHECK_FLAG("NO_PRESENT_WAIT")) {
 +      if (exts->KHR_present_wait) {
 +         WLOG("Disabling KHR_present_wait, some drivers misreport KHR_timeline_semaphore support (e.g. Adreno 6XX, disable by setting NO_PRESENT_WAIT=0)");
 +         exts->KHR_present_wait = false;
@@ -12856,7 +12927,7 @@ index 384c45483c6..3690bb5cc26 100644
 +      pdevice->needs_bc1_emulation = !pdevice->base_supported_features.textureCompressionBC && !has_bc1_support(pdevice);
 +      pdevice->needs_bc4_emulation = !pdevice->base_supported_features.textureCompressionBC && !has_bc4_support(pdevice);
 +
-+      if (check_flag("FORCE_BCN_EMULATION", false)) {
++      if (CHECK_FLAG("FORCE_BCN_EMULATION")) {
 +         if (pdevice->base_supported_features.textureCompressionBC) {
 +            WLOG("Forcing BCn emulation (disable by setting FORCE_BCN_EMULATION=0)");
 +            pdevice->base_supported_features.textureCompressionBC = false;
@@ -12865,13 +12936,13 @@ index 384c45483c6..3690bb5cc26 100644
 +         pdevice->needs_bc4_emulation = true;
 +      }
 +
-+      if (check_flag("NO_BCN_EMULATION", false)) {
++      if (CHECK_FLAG("NO_BCN_EMULATION")) {
 +         WLOG("Disabling BCn emulation (disable by setting NO_BCN_EMULATION=0)");
 +         pdevice->needs_bc1_emulation = false;
 +         pdevice->needs_bc4_emulation = false;
 +      }
 +
-+      if (check_flag("NO_BC123_EMULATION", false)) {
++      if (CHECK_FLAG("NO_BC123_EMULATION")) {
 +         WLOG("Disabling BC123 emulation (disable by setting NO_BC123_EMULATION=0)");
 +         pdevice->needs_bc1_emulation = false;
 +      }
@@ -13084,10 +13155,10 @@ index 384c45483c6..3690bb5cc26 100644
 +}
 +
 diff --git a/src/vulkan/wrapper/wrapper_private.h b/src/vulkan/wrapper/wrapper_private.h
-index 7f8cc6e8c84..a4e34a377f3 100644
+index 7f8cc6e8c84..eba6226fcab 100644
 --- a/src/vulkan/wrapper/wrapper_private.h
 +++ b/src/vulkan/wrapper/wrapper_private.h
-@@ -1,110 +1,565 @@
+@@ -1,110 +1,489 @@
 +#pragma once
 +
  #include <sys/stat.h>
@@ -13112,6 +13183,7 @@ index 7f8cc6e8c84..a4e34a377f3 100644
 +#include "wrapper_objects.h"
 +#include "wrapper_log.h"
 +#include "wrapper_trampolines.h"
++#include "wrapper_debug.h"
 +
 +#ifdef __cplusplus
 +extern "C" {
@@ -13155,71 +13227,6 @@ index 7f8cc6e8c84..a4e34a377f3 100644
 +#ifdef __cplusplus
 +}
 +#endif
-+
-+// #define NEEDS_PRINTING_CmdCopyBuffer 1;
-+// #define NEEDS_PRINTING_AllocateDescriptorSets 1;
-+#define NEEDS_PRINTING_BindBufferMemory 1
-+#define NEEDS_PRINTING_BindBufferMemory2 1
-+// #define NEEDS_PRINTING_CmdBeginRenderPass 1;
-+// #define NEEDS_PRINTING_CmdBindDescriptorSets 1;
-+// #define NEEDS_PRINTING_CmdBindIndexBuffer 1;
-+// #define NEEDS_PRINTING_CmdBindPipeline 1;
-+// #define NEEDS_PRINTING_CmdBindVertexBuffers 1;
-+// #define NEEDS_PRINTING_CmdDraw 1;
-+// #define NEEDS_PRINTING_CmdPipelineBarrier 1;
-+// #define NEEDS_PRINTING_CmdPushConstants 1;
-+// #define NEEDS_PRINTING_CmdSetScissor 1;
-+// #define NEEDS_PRINTING_CmdSetViewport 1;
-+// #define NEEDS_PRINTING_CreateBuffer 1;
-+// #define NEEDS_PRINTING_CreateDescriptorPool 1;
-+// #define NEEDS_PRINTING_CreateDescriptorSetLayout 1;
-+// #define NEEDS_PRINTING_CreateDescriptorUpdateTemplate 1;
-+// #define NEEDS_PRINTING_CreateFramebuffer 1;
-+// #define NEEDS_PRINTING_CreateGraphicsPipelines 1;
-+// #define NEEDS_PRINTING_CreatePipelineLayout 1;
-+// #define NEEDS_PRINTING_CreateRenderPass 1;
-+// #define NEEDS_PRINTING_CreateShaderModule 1;
-+// #define NEEDS_PRINTING_DestroyShaderModule 1;
-+// #define NEEDS_PRINTING_GetBufferMemoryRequirements2 1;
-+// #define NEEDS_PRINTING_MapMemory 1;
-+// #define NEEDS_PRINTING_UpdateDescriptorSetWithTemplate 1;
-+// #define NEEDS_PRINTING_CmdCopyBufferToImage 1;
-+#define NEEDS_PRINTING_CreateImage 1
-+// #define NEEDS_PRINTING_DestroyImage 1
-+// #define NEEDS_PRINTING_CreateImageView 1;
-+// #define NEEDS_PRINTING_GetAndroidHardwareBufferPropertiesANDROID 1;
-+#define NEEDS_PRINTING_CreateBuffer 1
-+// #define NEEDS_PRINTING_WaitForFences 1;
-+#define NEEDS_PRINTING_GetBufferMemoryRequirements2 1
-+#define NEEDS_PRINTING_GetImageMemoryRequirements2 1
-+#define NEEDS_PRINTING_GetImageMemoryRequirements 1
-+#define NEEDS_PRINTING_BindImageMemory 1
-+// #define NEEDS_PRINTING_QueueSubmit2 1;
-+#define NEEDS_PRINTING_AllocateMemory 1
-+// #define NEEDS_PRINTING_GetPhysicalDeviceImageFormatProperties2 1
-+#define NEEDS_PRINTING_GetMemoryFdKHR 1
-+#define NEEDS_PRINTING_GetMemoryFd 1
-+#define NEEDS_PRINTING_GetPhysicalDeviceMemoryProperties 1
-+#define NEEDS_PRINTING_GetPhysicalDeviceMemoryProperties2 1
-+
-+#define NEEDS_PRINTING_CreateGraphicsPipelines 1
-+#define NEEDS_PRINTING_CreatePipelineCache 1
-+#define NEEDS_PRINTING_DestroyPipeline 1
-+#define NEEDS_PRINTING_CreateShaderModule 1
-+#define NEEDS_PRINTING_DestroyShaderModule 1
-+#define NEEDS_PRINTING_CreatePipelineLayout 1
-+#define NEEDS_PRINTING_DestroyPipelineLayout 1
-+#define NEEDS_PRINTING_CreateDescriptorSetLayout 1
-+#define NEEDS_PRINTING_DestroyDescriptorSetLayout 1
-+#define NEEDS_PRINTING_CreateRenderPass 1
-+#define NEEDS_PRINTING_DestroyRenderPass 1
-+#define NEEDS_PRINTING_CreateFramebuffer 1
-+#define NEEDS_PRINTING_DestroyFramebuffer 1
-+#define NEEDS_PRINTING_CmdSetViewport 1
-+#define NEEDS_PRINTING_CmdSetScissor 1
-+#define NEEDS_PRINTING_CmdSetLineWidth 1
-+#define NEEDS_PRINTING_CmdSetDepthBias 1
-+#define NEEDS_PRINTING_CmdSetBlendConstants 1
  
  extern const struct vk_instance_extension_table wrapper_instance_extensions;
  extern const struct vk_device_extension_table wrapper_device_extensions;
@@ -13471,18 +13478,6 @@ index 7f8cc6e8c84..a4e34a377f3 100644
 +   }
 +   // Replace BCn formats with R8G8B8A8_UNORM if they are emulated
 +   return unwrap_vk_format_physical_device(device->physical, in_format);
-+}
-+
-+static bool check_flag(const char* env, bool default_value) {
-+   const char* value = getenv(env);
-+   if (!value) return default_value;
-+   if (strcmp(value, "1") == 0) {
-+      return true;
-+   } else if (strcmp(value, "0") == 0) {
-+      return false;
-+   } else {
-+      return default_value;
-+   }
 +}
 +
 +typedef struct {

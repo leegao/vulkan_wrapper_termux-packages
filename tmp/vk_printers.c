@@ -8192,7 +8192,7 @@ vk_print_VkDeviceGroupDeviceCreateInfo(int can_log_level, int log_level, FILE* f
     int count_pPhysicalDevices = in_info->physicalDeviceCount;
     if (in_info->pPhysicalDevices) {
         for (uint32_t i = 0; i < count_pPhysicalDevices; i++) {
-            VK_CMD_LOG_FD(fd, "%s.pPhysicalDevices[%d]: VkPhysicalDevice* (handle) = %p", prefix, i, in_info->pPhysicalDevices);
+            VK_CMD_LOG_FD(fd, "%s.pPhysicalDevices[%d]: VkPhysicalDevice* (handle) = %lx", prefix, i, (int64_t) in_info->pPhysicalDevices[i]);
         }
     }
 
@@ -35716,7 +35716,7 @@ vk_print_VkSubmitInfo(int can_log_level, int log_level, FILE* fd, const char* pr
     int count_pCommandBuffers = in_info->commandBufferCount;
     if (in_info->pCommandBuffers) {
         for (uint32_t i = 0; i < count_pCommandBuffers; i++) {
-            VK_CMD_LOG_FD(fd, "%s.pCommandBuffers[%d]: VkCommandBuffer* (handle) = %p", prefix, i, in_info->pCommandBuffers);
+            VK_CMD_LOG_FD(fd, "%s.pCommandBuffers[%d]: VkCommandBuffer* (handle) = %lx", prefix, i, (int64_t) in_info->pCommandBuffers[i]);
         }
     }
     // uint32_t signalSemaphoreCount = member{'name': 'signalSemaphoreCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t       signalSemaphoreCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}

@@ -23,11 +23,13 @@ ninja
 cd -
 
 echo Moving files
-cp /root/.termux-build/vulkan-wrapper-android/build/src/vulkan/wrapper/libvulkan_wrapper.so wrapper/usr/lib/libvulkan_wrapper.so"
-sudo ./scripts/run-docker.sh sudo bash -c "cp /root/.termux-build/vulkan-wrapper-android/build/src/vulkan/wrapper/* tmp/"
-sudo ./scripts/run-docker.sh sudo bash -c "cp /root/.termux-build/vulkan-wrapper-android/build/src/vulkan/wsi/* tmp_wsi/"
-sudo ./scripts/run-docker.sh sudo bash -c "cp /root/.termux-build/vulkan-wrapper-android/build/src/vulkan/util/* tmp_util/"
-sudo ./scripts/run-docker.sh sudo bash -c "cp /root/.termux-build/vulkan-wrapper-android/build/src/vulkan/runtime/* tmp_runtime/"
+cp /root/.termux-build/vulkan-wrapper-android/build/src/vulkan/wrapper/libvulkan_wrapper.so wrapper/usr/lib/libvulkan_wrapper.so
+cp /root/.termux-build/vulkan-wrapper-android/build/src/vulkan/wrapper/libvulkan_wrapper.so wrapper/termux/data/data/com.termux/files/usr/lib/libvulkan_wrapper.so
+cp /root/.termux-build/vulkan-wrapper-android/build/src/vulkan/wrapper/* tmp/
+cp /root/.termux-build/vulkan-wrapper-android/build/src/vulkan/wsi/* tmp_wsi/
+cp /root/.termux-build/vulkan-wrapper-android/build/src/vulkan/util/* tmp_util/
+cp /root/.termux-build/vulkan-wrapper-android/build/src/vulkan/runtime/* tmp_runtime/
+"
 
 cd wrapper
 sh push.sh
