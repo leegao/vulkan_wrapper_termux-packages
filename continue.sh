@@ -12,8 +12,10 @@ sudo ./scripts/run-docker.sh sudo bash -c "
 echo Applying patches ...
 cd /root/.termux-build/vulkan-wrapper-android/src
 git restore .
-git clean -f
+git clean -fd
 git apply --allow-empty /home/builder/termux-packages/packages/vulkan-wrapper-android/*.patch
+mkdir -p src/vulkan/wrapper/lib/
+cp /home/builder/termux-packages/mesa_bionic/src/vulkan/wrapper/lib/*.a src/vulkan/wrapper/lib/
 cd -
 
 echo Building ...

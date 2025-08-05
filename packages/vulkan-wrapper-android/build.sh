@@ -59,10 +59,16 @@ termux_step_pre_configure() {
 	fi
 	export PATH=$_WRAPPER_BIN:$PATH
 	which cmake
+
+	echo "PRECONFIGURE"
+	echo $PWD
+	mkdir -p src/vulkan/wrapper/lib/
+	cp /home/builder/termux-packages/mesa_bionic/src/vulkan/wrapper/lib/*.a src/vulkan/wrapper/lib/
 }
 
 termux_step_post_configure() {
 	rm -f $_WRAPPER_BIN/cmake
+	echo $PWD
 	echo "Postconfigure"
 	which ninja
 	echo "PATH='$PATH'"
