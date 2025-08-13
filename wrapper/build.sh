@@ -26,8 +26,8 @@ echo "Adding Wrapper to base.apk"
 zip -u base.apk assets/graphics_driver/wrapper.tzst
 
 # Need to re-align the APK if we add libVkLayer_khronos_validation.so as an uncompressed native lib
-# zip -u base.apk -n .so lib/arm64-v8a/libVkLayer_khronos_validation.so
-# ~/Android/Sdk/build-tools/35.0.0/zipalign -P 16 16 -f base.apk
+zip -u base.apk -n .so lib/arm64-v8a/libVkLayer_khronos_validation.so
+~/Android/Sdk/build-tools/35.0.0/zipalign -P 16 16 -f base.apk
 
 echo "Signing base.apk"
 java -Xmx256m -jar uber-apk-signer-1.3.0.jar -a base.apk --allowResign --overwrite

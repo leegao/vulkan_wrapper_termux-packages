@@ -47,6 +47,8 @@ void vk_print_VkDeviceQueueCreateInfo(int can_log_level, int log_level, FILE*, c
 #define VK_PRINT_VkDeviceQueueCreateInfo(prefix, in_info) vk_print_VkDeviceQueueCreateInfo(VK_CMD_CAN_LOG_LEVEL, VK_CMD_ALL, VK_CMD_FD, prefix, in_info)
 void vk_print_VkDeviceCreateInfo(int can_log_level, int log_level, FILE*, const char* prefix, const VkDeviceCreateInfo *in_info);
 #define VK_PRINT_VkDeviceCreateInfo(prefix, in_info) vk_print_VkDeviceCreateInfo(VK_CMD_CAN_LOG_LEVEL, VK_CMD_ALL, VK_CMD_FD, prefix, in_info)
+void vk_print_VkInstanceCreateInfo(int can_log_level, int log_level, FILE*, const char* prefix, const VkInstanceCreateInfo *in_info);
+#define VK_PRINT_VkInstanceCreateInfo(prefix, in_info) vk_print_VkInstanceCreateInfo(VK_CMD_CAN_LOG_LEVEL, VK_CMD_ALL, VK_CMD_FD, prefix, in_info)
 void vk_print_VkQueueFamilyProperties(int can_log_level, int log_level, FILE*, const char* prefix, const VkQueueFamilyProperties *in_info);
 #define VK_PRINT_VkQueueFamilyProperties(prefix, in_info) vk_print_VkQueueFamilyProperties(VK_CMD_CAN_LOG_LEVEL, VK_CMD_ALL, VK_CMD_FD, prefix, in_info)
 void vk_print_VkPhysicalDeviceMemoryProperties(int can_log_level, int log_level, FILE*, const char* prefix, const VkPhysicalDeviceMemoryProperties *in_info);

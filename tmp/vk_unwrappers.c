@@ -33,7 +33,7 @@
         void** x: x
         cstr[n]* x: x
 
-    Tainted: {'VkPhysicalDevice': ['VkPhysicalDevice'], 'VkDevice': ['VkDevice'], 'VkCommandBuffer': ['VkCommandBuffer'], 'VkQueue': ['VkQueue'], 'VkInstance': ['VkInstance'], 'VkSubmitInfo': ['VkCommandBuffer'], 'VkDeviceGroupDeviceCreateInfo': ['VkPhysicalDevice'], 'VkCommandBufferSubmitInfo': ['VkCommandBuffer'], 'VkSubmitInfo2': ['VkCommandBufferSubmitInfo'], 'VkDeviceCreateInfo': ['VkDeviceGroupDeviceCreateInfo']}
+    Tainted: ['VkCommandBuffer', 'VkCommandBufferSubmitInfo', 'VkDevice', 'VkDeviceCreateInfo', 'VkDeviceGroupDeviceCreateInfo', 'VkInstance', 'VkPhysicalDevice', 'VkQueue', 'VkSubmitInfo', 'VkSubmitInfo2']
 */
 
 
@@ -9700,6 +9700,74 @@ void unwrap_VkInitializePerformanceApiInfoINTEL(struct temporary_objects* temp, 
     unwrap_VkInitializePerformanceApiInfoINTEL_members_only(temp, device, out_info, in_info);
     // TODO: Fix potentially unknown pNext structs (don't lose anything here)
     /*
+    */
+}
+
+
+
+
+
+// VkInstanceCreateInfo - Not tainted, unwrapping is just a copy
+void
+unwrap_VkInstanceCreateInfo_members_only(struct temporary_objects* temp, struct wrapper_device *device,
+                          VkInstanceCreateInfo *out_info,
+                          const VkInstanceCreateInfo *in_info)
+{
+    if (!in_info)
+        return;
+
+    *out_info = *in_info;
+
+    // VkStructureType sType = member{'name': 'sType', 'type': 'VkStructureType', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': 'VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO', 'typep': 'VkStructureType', 'api': 'vulkan', 'text': 'VkStructureType sType', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // void* pNext = member{'name': 'pNext', 'type': 'void', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'void*', 'api': 'vulkan', 'text': 'const void*     pNext', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // VkInstanceCreateFlags flags = member{'name': 'flags', 'type': 'VkInstanceCreateFlags', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'VkInstanceCreateFlags', 'api': 'vulkan', 'text': 'VkInstanceCreateFlags  flags', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // VkApplicationInfo* pApplicationInfo = member{'name': 'pApplicationInfo', 'type': 'VkApplicationInfo', 'is_const': True, 'num_pointers': 1, 'array_count_member': None, 'is_handle': False, 'is_struct': True, 'is_union': False, 'values': None, 'typep': 'VkApplicationInfo*', 'api': 'vulkan', 'text': 'const VkApplicationInfo* pApplicationInfo', 'resolved_type': VkApplicationInfo, 'needs_unwrapping': False, 'is_vk_struct': True, 'is_blacklisted': False}
+    // uint32_t enabledLayerCount = member{'name': 'enabledLayerCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t               enabledLayerCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // char** ppEnabledLayerNames = member{'name': 'ppEnabledLayerNames', 'type': 'char', 'is_const': True, 'num_pointers': 2, 'array_count_member': 'enabledLayerCount,null-terminated', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'char**', 'api': 'vulkan', 'text': 'const char* const*      ppEnabledLayerNamesOrdered list of layer names to be enabled', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // uint32_t enabledExtensionCount = member{'name': 'enabledExtensionCount', 'type': 'uint32_t', 'is_const': False, 'num_pointers': 0, 'array_count_member': None, 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'uint32_t', 'api': 'vulkan', 'text': 'uint32_t               enabledExtensionCount', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+    // char** ppEnabledExtensionNames = member{'name': 'ppEnabledExtensionNames', 'type': 'char', 'is_const': True, 'num_pointers': 2, 'array_count_member': 'enabledExtensionCount,null-terminated', 'is_handle': False, 'is_struct': False, 'is_union': False, 'values': None, 'typep': 'char**', 'api': 'vulkan', 'text': 'const char* const*      ppEnabledExtensionNamesExtension names to be enabled', 'resolved_type': None, 'needs_unwrapping': False, 'is_vk_struct': False, 'is_blacklisted': False}
+}
+
+void unwrap_VkInstanceCreateInfo(struct temporary_objects* temp, struct wrapper_device *device,
+                          VkInstanceCreateInfo *out_info,
+                          const VkInstanceCreateInfo *in_info)
+{
+    if (!in_info)
+        return;
+
+    unwrap_VkInstanceCreateInfo_members_only(temp, device, out_info, in_info);
+    // TODO: Fix potentially unknown pNext structs (don't lose anything here)
+    /*
+    // Has pNexts: [VkDebugReportCallbackCreateInfoEXT, VkValidationFlagsEXT, VkValidationFeaturesEXT, VkLayerSettingsCreateInfoEXT, VkDebugUtilsMessengerCreateInfoEXT, VkDirectDriverLoadingListLUNARG]
+    struct VkBaseOutStructure *head = NULL, *tail = NULL;
+    vk_foreach_struct_const(item, in_info->pNext) {
+        size_t item_size = vk_structure_type_size(item);
+        WLOGE("VkInstanceCreateInfo pnext: sType = %d, size = %d", item->sType, item_size);
+        if (item_size == 0) {
+            // Invalid structure, skip it.
+            WLOGE("Invalid structure in pNext (%d) chain: %p", item->sType, item);
+            continue;
+        }
+
+
+        struct VkBaseOutStructure *new_item = __VK_ALLOC2(VkBaseOutStructure, item_size);
+        memcpy(new_item, item, item_size);
+
+        switch ((int32_t)item->sType) {
+        default:
+            break;
+        }
+
+
+        if (!head)
+            head = new_item;
+        if (tail)
+            tail->pNext = new_item;
+        tail = new_item;
+    }
+
+    out_info->pNext = head;
+
     */
 }
 

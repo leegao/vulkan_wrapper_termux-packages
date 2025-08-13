@@ -2668,6 +2668,17 @@ unwrap_VkInitializePerformanceApiInfoINTEL(struct temporary_objects*, struct wra
 
 
 void
+unwrap_VkInstanceCreateInfo_members_only(struct temporary_objects*, struct wrapper_device *device,
+                          VkInstanceCreateInfo *out_info,
+                          const VkInstanceCreateInfo *in_info);
+
+void
+unwrap_VkInstanceCreateInfo(struct temporary_objects*, struct wrapper_device *device,
+                          VkInstanceCreateInfo *out_info,
+                          const VkInstanceCreateInfo *in_info);
+
+
+void
 unwrap_VkLatencySleepInfoNV_members_only(struct temporary_objects*, struct wrapper_device *device,
                           VkLatencySleepInfoNV *out_info,
                           const VkLatencySleepInfoNV *in_info);

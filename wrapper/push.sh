@@ -22,4 +22,5 @@ cp usr/lib/libvulkan_wrapper.so ./
 rm libvulkan_wrapper.so.zip
 zip libvulkan_wrapper.so.zip libvulkan_wrapper.so
 
-adb shell rm /sdcard/Documents/Wrapper/*.txt
+adb shell rm -rf /sdcard/Documents/Wrapper
+adb shell mkdir /sdcard/Documents/Wrapper
