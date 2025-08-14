@@ -1,3 +1,69 @@
+diff --git a/.github/workflows/macos.yml b/.github/workflows/macos.yml
+deleted file mode 100644
+index d1b66ef4cad..00000000000
+--- a/.github/workflows/macos.yml
++++ /dev/null
+@@ -1,60 +0,0 @@
+-name: macOS-CI
+-on: push
+-
+-permissions:
+-  contents: read
+-
+-jobs:
+-  macOS-CI:
+-    strategy:
+-      matrix:
+-        glx_option: ['dri', 'xlib']
+-    runs-on: macos-11
+-    env:
+-      GALLIUM_DUMP_CPU: true
+-      MESON_EXEC: /Users/runner/Library/Python/3.11/bin/meson
+-    steps:
+-    - name: Checkout
+-      uses: actions/checkout@v3
+-    - name: Install Dependencies
+-      run: |
+-        cat > Brewfile <<EOL
+-        brew "bison"
+-        brew "expat"
+-        brew "gettext"
+-        brew "libx11"
+-        brew "libxcb"
+-        brew "libxdamage"
+-        brew "libxext"
+-        brew "molten-vk"
+-        brew "ninja"
+-        brew "pkg-config"
+-        brew "python@3.10"
+-        EOL
+-
+-        brew update
+-        brew bundle --verbose
+-    - name: Install Mako and meson
+-      run: pip3 install --user mako meson
+-    - name: Configure
+-      run: |
+-        cat > native_config <<EOL
+-        [binaries]
+-        llvm-config = '/usr/local/opt/llvm/bin/llvm-config'
+-        EOL
+-        $MESON_EXEC . build --native-file=native_config -Dmoltenvk-dir=$(brew --prefix molten-vk) -Dbuild-tests=true -Dosmesa=true -Dgallium-drivers=swrast,zink -Dglx=${{ matrix.glx_option }}
+-    - name: Build
+-      run: $MESON_EXEC compile -C build
+-    - name: Test
+-      run: $MESON_EXEC test -C build --print-errorlogs
+-    - name: Install
+-      run: $MESON_EXEC install -C build --destdir $PWD/install
+-    - name: 'Upload Artifact'
+-      if: always()
+-      uses: actions/upload-artifact@v3
+-      with:
+-        name: macos-${{ matrix.glx_option }}-result
+-        path: |
+-          build/meson-logs/
+-          install/
+-        retention-days: 5
 diff --git a/.gitignore b/.gitignore
 index 30f4e69ea7d..db63e72c675 100644
 --- a/.gitignore
@@ -3500,46 +3566,120 @@ index 00000000000..cf334d7167a
 \ No newline at end of file
 diff --git a/src/vulkan/wrapper/artifacts.cpp b/src/vulkan/wrapper/artifacts.cpp
 new file mode 100644
-index 00000000000..7b588cb1545
+index 00000000000..def2528176b
 --- /dev/null
 +++ b/src/vulkan/wrapper/artifacts.cpp
-@@ -0,0 +1,33 @@
+@@ -0,0 +1,107 @@
 +#include "artifacts.h"
 +#include "wrapper_objects.h"
 +#include "wrapper_private.h"
++#include "wrapper_entrypoints.h"
++#include "wrapper_checks.h"
++#include "vk_printers.h"
 +
 +#include <string>
++#include <sstream>
++#include <iomanip>
 +
-+static FILE* open_log_file(const char* postfix, int id) {
-+    static char dir[256];
++static FILE* open_log_file(const std::string postfix, VkFormat original_format, int id, const char* mode) {
++    static std::string dir;
 +    static bool initialized = false;
 +    if (!initialized) {
 +        initialized = true;
 +        char time_str[20];
 +        get_current_time_string(time_str, sizeof(time_str));
-+        sprintf(dir, "/sdcard/Documents/Wrapper/artifacts_%s.%s.%d", time_str, getprogname(), getpid());
-+        if (mkdir(dir, 0777) == 0) {
-+            WLOGE("Failed to create the artifacts directory %s", dir);
++        dir = std::string("/sdcard/Documents/Wrapper/artifacts_") + time_str + "." + getprogname() + "." + std::to_string(getpid());
++        if (mkdir(dir.c_str(), 0777) == 0) {
++            WLOGE("Failed to create the artifacts directory %s", dir.c_str());
 +        } else {
-+            WLOGD("Logging artifacts to %s", dir);
++            WLOGD("Logging artifacts to %s", dir.c_str());
 +        }
 +    }
-+    std::string path = std::string(dir) + "/" + std::to_string(id) + "_" + postfix;
-+    return fopen(path.c_str(), "w");
++    std::stringstream padded_id;
++    padded_id << std::setw(5) << std::setfill('0') << id;
++
++    std::string path = dir + "/" + padded_id.str() + "_fmt" + std::to_string(original_format) + postfix;
++    return fopen(path.c_str(), mode);
 +}
 +
 +extern "C"
-+void RecordBCnArtifacts(struct wrapper_device* device, const VkBufferImageCopy* region, VkBuffer srcBuffer, VkBuffer stagingBuffer, int decode_id) {
-+    // auto fd = open_log_file("region.txt", decode_id);
++void RecordBCnArtifacts(struct wrapper_device* device, VkFormat original_format,
++                        const VkBufferImageCopy* region, VkBuffer srcBuffer, VkBuffer stagingBuffer, int decode_id) {
++    if (region) {
++        auto fd = open_log_file("_region.txt", original_format, decode_id, "w");
++        fprintf(fd, "src: %p\n", srcBuffer);
++        vk_print_VkBufferImageCopy(0, 0, fd, "", region);
++        fclose(fd);
++    }
++
 +    struct wrapper_buffer* wbuf = get_wrapper_buffer(device, srcBuffer);
 +    if (!wbuf) {
 +        WLOGE("srcBuffer not tracked, skipping (decode_id=%d)", decode_id);
++    } else if (wbuf->memory == VK_NULL_HANDLE) {
++        WLOGE("srcBuffer not bound, skipping (decode_id=%d)", decode_id);
++    } else {
++        void* srcData;
++        VkMemoryMapInfoKHR mapInfoSrc = {
++            .sType = VK_STRUCTURE_TYPE_MEMORY_MAP_INFO_KHR,
++            .memory = wbuf->memory,
++            .offset = wbuf->memoryOffset,
++            .size = VK_WHOLE_SIZE,
++        };
++        VkResult result = WCHECK(MapMemory2KHR((VkDevice) device, &mapInfoSrc, &srcData));
++        if (result != VK_SUCCESS) {
++            WLOGE("Failed to map srcBuffer memory: %d", result);
++        } else {
++            int w = region->bufferRowLength ? region->bufferRowLength : region->imageExtent.width;
++            int h = region->bufferImageHeight ? region->bufferImageHeight : region->imageExtent.height;
++            int blocks_stride = (w + 3) / 4;
++            int block_rows = (h + 3) / 4;
++            int blocks = blocks_stride * block_rows;
++            int block_size = get_bc_block_size(original_format);
++            auto fd = open_log_file("_src.dat", original_format, decode_id, "wb");
++            fwrite(srcData, block_size, blocks, fd);
++            fclose(fd);
++        }
 +    }
-+    // TODO: Implement this
++
++    wbuf = get_wrapper_buffer(device, stagingBuffer);
++    if (!wbuf) {
++        WLOGE("dstBuffer not tracked, skipping (decode_id=%d)", decode_id);
++    } else if (wbuf->memory == VK_NULL_HANDLE) {
++        WLOGE("dstBuffer not bound, skipping (decode_id=%d)", decode_id);
++    } else {
++        // Invalidate the memory to be visible to the host in case this was decoded via the compute shader
++        VkMappedMemoryRange flushRange = {
++            .sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE,
++            .memory = wbuf->memory,
++            .offset = 0,
++            .size = VK_WHOLE_SIZE,
++        };
++        VkResult result = WCHECK(InvalidateMappedMemoryRanges((VkDevice) device, 1, &flushRange));
++        if (result != VK_SUCCESS) {
++            WLOGE("Failed to flush dstBuffer memory: %d", result);
++        }
++        void* dstData;
++        VkMemoryMapInfoKHR mapInfoSrc = {
++            .sType = VK_STRUCTURE_TYPE_MEMORY_MAP_INFO_KHR,
++            .memory = wbuf->memory,
++            .offset = 0,
++            .size = VK_WHOLE_SIZE,
++        };
++        result = WCHECK(MapMemory2KHR((VkDevice) device, &mapInfoSrc, &dstData));
++        if (result != VK_SUCCESS) {
++            WLOGE("Failed to map dstBuffer memory: %d", result);
++        } else {
++            int block_size = get_bc_target_size(device->physical, original_format);
++            auto fd = open_log_file("_dst.dat", original_format, decode_id, "wb");
++            fwrite(dstData, block_size, region->imageExtent.width * region->imageExtent.height, fd);
++            fclose(fd);
++            WCHECKV(UnmapMemory((VkDevice) device, wbuf->memory));
++        }
++    }
 +}
 diff --git a/src/vulkan/wrapper/artifacts.h b/src/vulkan/wrapper/artifacts.h
 new file mode 100644
-index 00000000000..91333c6a6cf
+index 00000000000..021a2943338
 --- /dev/null
 +++ b/src/vulkan/wrapper/artifacts.h
 @@ -0,0 +1,13 @@
@@ -3551,7 +3691,7 @@ index 00000000000..91333c6a6cf
 +
 +#include <vulkan/vulkan_core.h>
 +
-+void RecordBCnArtifacts(struct wrapper_device* device, const VkBufferImageCopy* region, VkBuffer srcBuffer, VkBuffer stagingBuffer, int decode_id);
++void RecordBCnArtifacts(struct wrapper_device* device, VkFormat original_format, const VkBufferImageCopy* region, VkBuffer srcBuffer, VkBuffer stagingBuffer, int decode_id);
 +
 +#ifdef __cplusplus
 +}
@@ -13163,7 +13303,7 @@ index 00000000000..f45b7ed9bec
 +bool should_log_memory_debug(void);
 \ No newline at end of file
 diff --git a/src/vulkan/wrapper/wrapper_device.c b/src/vulkan/wrapper/wrapper_device.c
-index 2ea37d1b392..73343310ae1 100644
+index 2ea37d1b392..55e782089e9 100644
 --- a/src/vulkan/wrapper/wrapper_device.c
 +++ b/src/vulkan/wrapper/wrapper_device.c
 @@ -8,8 +8,51 @@
@@ -13454,8 +13594,8 @@ index 2ea37d1b392..73343310ae1 100644
                                   device->dispatch_handle);
  
 +   // Initialize the BCn interceptor states
-+   bool record_artifacts = CHECK_FLAG("RECORD_ARTIFACTS");
-+   bool use_image_view = use_image_view_mode() && !record_artifacts;
++   bool dump_artifacts = CHECK_FLAG("DUMP_BCN_ARTIFACTS");
++   bool use_image_view = use_image_view_mode() && !dump_artifacts;
 +   
 +   result = InterceptorState_Init(&device->s3tc, 
 +      wrapper_device_to_handle(device), 
@@ -13795,7 +13935,7 @@ index 2ea37d1b392..73343310ae1 100644
     list_for_each_entry_safe(struct vk_queue, queue, &device->vk.queues, link) {
        vk_queue_finish(queue);
        vk_free2(&device->vk.alloc, pAllocator, queue);
-@@ -550,26 +680,1295 @@ unwrap_device_object(VkObjectType objectType,
+@@ -550,26 +680,1324 @@ unwrap_device_object(VkObjectType objectType,
     }
  }
  
@@ -13964,7 +14104,7 @@ index 2ea37d1b392..73343310ae1 100644
 +   }
 +
 +   return CHECK(BindBufferMemory2(device, bindInfoCount, pBindInfos));
-+}
+ }
 +
 +// Helper function to find a suitable memory type
 +static uint32_t FindMemoryType(VkPhysicalDevice physicalDevice, uint32_t typeFilter, VkMemoryPropertyFlags properties) {
@@ -14523,7 +14663,7 @@ index 2ea37d1b392..73343310ae1 100644
 +      wrapper_buffer* srcBuffer,
 +      VkDeviceMemory dstMemory,
 +      const VkBufferImageCopy* region,
-+      VkFormat dstFormat
++      VkFormat in_format
 +) {
 +   // Map the source buffer
 +   void* srcData;
@@ -14544,8 +14684,8 @@ index 2ea37d1b392..73343310ae1 100644
 +   VkMemoryMapInfoKHR mapInfoDst = {
 +      .sType = VK_STRUCTURE_TYPE_MEMORY_MAP_INFO_KHR,
 +      .memory = dstMemory,
-+      .offset = 0, // Assuming dstMemory is large enough to hold the decompressed
-+      .size = region->imageExtent.width * region->imageExtent.height * 4, // 4 bytes per pixel for RGBA
++      .offset = 0,
++      .size = region->imageExtent.width * region->imageExtent.height * get_bc_target_size(_device->physical, in_format),
 +   };
 +   result = WCHECK(MapMemory2KHR((VkDevice) _device, &mapInfoDst, &dstData));
 +   if (result != VK_SUCCESS) {
@@ -14554,7 +14694,7 @@ index 2ea37d1b392..73343310ae1 100644
 +
 +   // Decompress the data from srcData to dstData
 +   BCnDecompression(
-+      dstFormat,
++      in_format,
 +      srcData,
 +      dstData,
 +      region
@@ -14935,10 +15075,10 @@ index 2ea37d1b392..73343310ae1 100644
 +   int decode_id = counter++;
 +   WLOG("Emulating support for format=%d, decode_id=%d", wimg->original_format, decode_id);
 +
-+   bool record_artifacts = CHECK_FLAG("RECORD_ARTIFACTS");
++   bool dump_artifacts = CHECK_FLAG("DUMP_BCN_ARTIFACTS");
 +   bool use_cpu_bcn = (get_host_decoding_bcn_masks() & (1 << (wimg->original_format - 131))) != 0;
 +   bool use_compute_shader = use_compute_shader_mode() && !use_cpu_bcn;
-+   bool use_image_view = use_image_view_mode() && !use_cpu_bcn && !record_artifacts;
++   bool use_image_view = use_image_view_mode() && !use_cpu_bcn && !dump_artifacts;
 +   
 +   // Check if the queues are the same
 +   struct wrapper_command_pool *pool = get_wrapper_command_pool(_device, wcb->pool);
@@ -14968,7 +15108,7 @@ index 2ea37d1b392..73343310ae1 100644
 +      if (!use_image_view) {
 +         result = CreateStagingBuffer(
 +            _device, 
-+            region->imageExtent.width * region->imageExtent.height * region->imageExtent.depth * 4,
++            region->imageExtent.width * region->imageExtent.height * get_bc_target_size(_device->physical, wimg->original_format),
 +            VK_BUFFER_USAGE_TRANSFER_SRC_BIT | VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
 +            VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT,
 +            &stagingBuffer, &stagingBufferMemory);
@@ -14978,6 +15118,7 @@ index 2ea37d1b392..73343310ae1 100644
 +         }
 +
 +         // TODO: track these using the fence/semaphore for the submitted queue
++         // This should be safe to do now with the queue synchronization, check with vvl
 +         WLOGD("Tracking new staging buffer for image %d", wimg->obj_id);
 +         TRACK_STAGING(_device, BUFFER, stagingBuffer, wimg);
 +         TRACK_STAGING(_device, DEVICE_MEMORY, stagingBufferMemory, wimg);
@@ -15008,7 +15149,7 @@ index 2ea37d1b392..73343310ae1 100644
 +            args.stagingBuffer = stagingBuffer;
 +         }
 +
-+         if (CHECK_FLAG("WRAPPER_ONE_BY_ONE") || record_artifacts) {
++         if (CHECK_FLAG("WRAPPER_ONE_BY_ONE") || dump_artifacts) {
 +            WLOGD("Submitting decode_id %d", decode_id);
 +            result = SubmitOneTimeCommands(
 +               _device, 
@@ -15031,9 +15172,9 @@ index 2ea37d1b392..73343310ae1 100644
 +         }
 +      }
 +
-+      if (record_artifacts) {
++      if (dump_artifacts) {
 +         // Invariant: srcBuffer contains the BCn blocks, stagingBuffer contains the output
-+         RecordBCnArtifacts(_device, region, srcBuffer, stagingBuffer, decode_id);
++         RecordBCnArtifacts(_device, wimg->original_format, region, srcBuffer, stagingBuffer, decode_id);
 +      }
 +
 +      if (!use_image_view) {
@@ -15102,7 +15243,36 @@ index 2ea37d1b392..73343310ae1 100644
 +   newCreateInfo.codeSize = lowered.spirv_word_count * 4;
 +   newCreateInfo.pCode = lowered.spirv_code;
 +   return CHECK(CreateShaderModule(device, &newCreateInfo, pAllocator, pShaderModule));
- }
++}
++
++WRAPPER_CreateGraphicsPipelines(
++    VkDevice device,
++    VkPipelineCache pipelineCache,
++    uint32_t createInfoCount,
++    const VkGraphicsPipelineCreateInfo* pCreateInfos,
++    const VkAllocationCallbacks* pAllocator,
++    VkPipeline* pPipelines) {
++   VK_FROM_HANDLE(wrapper_device, wdev, device);
++   // Check for fillModeNonSolid support
++   if (!wdev->physical->base_supported_features.fillModeNonSolid) {
++      _Atomic static int counter = 0;
++      for (int i = 0; i < createInfoCount; i++) {
++         if (!pCreateInfos[i].pRasterizationState || pCreateInfos[i].pRasterizationState->polygonMode != VK_POLYGON_MODE_LINE) {
++            continue;
++         }
++         int id = counter++;
++         if (id < 10) {
++            WLOGE("VK_POLYGON_MODE_LINE requested, but fillModeNonSolid is not supported on this device");
++         } else if (id == 10) {
++            WLOGE("VK_POLYGON_MODE_LINE requested, but fillModeNonSolid is not supported on this device");
++            WLOGE("(this message has been shown 10 times, not reporting again)")
++         }
++      }
++   }
++
++   return CHECK(CreateGraphicsPipelines(device, pipelineCache, createInfoCount, pCreateInfos, pAllocator, pPipelines));
++}
+\ No newline at end of file
 diff --git a/src/vulkan/wrapper/wrapper_device_memory.c b/src/vulkan/wrapper/wrapper_device_memory.c
 index 6d47a52fd18..bfc46f05633 100644
 --- a/src/vulkan/wrapper/wrapper_device_memory.c
@@ -17036,10 +17206,10 @@ index 384c45483c6..b53c5e28ed7 100644
 +}
 +
 diff --git a/src/vulkan/wrapper/wrapper_private.h b/src/vulkan/wrapper/wrapper_private.h
-index 7f8cc6e8c84..d9661730691 100644
+index 7f8cc6e8c84..2aff95dcda2 100644
 --- a/src/vulkan/wrapper/wrapper_private.h
 +++ b/src/vulkan/wrapper/wrapper_private.h
-@@ -1,110 +1,439 @@
+@@ -1,110 +1,454 @@
 +#pragma once
 +
  #include <sys/stat.h>
@@ -17263,9 +17433,7 @@ index 7f8cc6e8c84..d9661730691 100644
 +        // VK_FORMAT_BC2_SRGB_BLOCK = 136, -> VK_FORMAT_R8G8B8A8_UNORM
 +        // VK_FORMAT_BC3_UNORM_BLOCK = 137, -> VK_FORMAT_R8G8B8A8_UNORM
 +        // VK_FORMAT_BC3_SRGB_BLOCK = 138, -> VK_FORMAT_R8G8B8A8_UNORM
- 
--VK_DEFINE_HANDLE_CASTS(wrapper_device, vk.base, VkDevice,
--                       VK_OBJECT_TYPE_DEVICE)
++
 +        return VK_FORMAT_R8G8B8A8_UNORM;
 +    }
 +    if (is_bc4567_image_format(in_format) && pdevice->needs_bc4_emulation) {
@@ -17278,8 +17446,8 @@ index 7f8cc6e8c84..d9661730691 100644
 +        // VK_FORMAT_BC7_UNORM_BLOCK = 145, -> VK_FORMAT_R8G8B8A8_UNORM
 +        // VK_FORMAT_BC7_SRGB_BLOCK = 146, -> VK_FORMAT_R8G8B8A8_UNORM
  
--struct wrapper_command_buffer {
--   struct vk_command_buffer vk;
+-VK_DEFINE_HANDLE_CASTS(wrapper_device, vk.base, VkDevice,
+-                       VK_OBJECT_TYPE_DEVICE)
 +        // VK_FORMAT_R16G16B16A16_SFLOAT Formats
 +        if (in_format == VK_FORMAT_BC6H_UFLOAT_BLOCK || in_format == VK_FORMAT_BC6H_SFLOAT_BLOCK) {
 +            return VK_FORMAT_R16G16B16A16_SFLOAT;
@@ -17293,10 +17461,8 @@ index 7f8cc6e8c84..d9661730691 100644
 +    return in_format;
 +}
  
--   struct wrapper_device *device;
--   struct list_head link;
--   VkCommandPool pool;
--   VkCommandBuffer dispatch_handle;
+-struct wrapper_command_buffer {
+-   struct vk_command_buffer vk;
 +static VkFormat unwrap_vk_format(struct wrapper_device* device, VkFormat in_format) {
 +   if (!device) {
 +      WLOGE("unwrap_vk_format: null device");
@@ -17304,6 +17470,25 @@ index 7f8cc6e8c84..d9661730691 100644
 +   }
 +   // Replace BCn formats with R8G8B8A8_UNORM if they are emulated
 +   return unwrap_vk_format_physical_device(device->physical, in_format);
++}
+ 
+-   struct wrapper_device *device;
+-   struct list_head link;
+-   VkCommandPool pool;
+-   VkCommandBuffer dispatch_handle;
++static inline uint32_t get_bc_target_size(struct wrapper_physical_device* pdevice, VkFormat in_format) {
++    VkFormat out_format = unwrap_vk_format_physical_device(pdevice, in_format);
++    switch (out_format) {
++    case VK_FORMAT_R8G8B8A8_UNORM:
++    case VK_FORMAT_R8G8B8A8_SNORM:
++        return 4;
++    case VK_FORMAT_R16G16B16A16_SFLOAT:
++        return 8;
++    default:
++        WLOGE("Unknown out_format: %d", out_format);
++        return 4;
++        break;
++    }
 +}
 +
 +typedef struct {
@@ -17620,10 +17805,10 @@ index 92c25c08a58..cd1057d48bd 100644
         (common_props & VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT)) {
        /* If they asked for non-device-local and all the types are device-local
 diff --git a/src/vulkan/wsi/wsi_common.h b/src/vulkan/wsi/wsi_common.h
-index 8f79000f103..1b1acc01442 100644
+index 8f79000f103..132c987991a 100644
 --- a/src/vulkan/wsi/wsi_common.h
 +++ b/src/vulkan/wsi/wsi_common.h
-@@ -381,6 +381,15 @@ wsi_device_supports_explicit_sync(struct wsi_device *device);
+@@ -381,6 +381,33 @@ wsi_device_supports_explicit_sync(struct wsi_device *device);
        } \
     } while (0)
  
@@ -17634,20 +17819,38 @@ index 8f79000f103..1b1acc01442 100644
 +  ...
 +);
 +
-+#define LOG_A(...) __android_log_print(6, "Wrapper", __VA_ARGS__)
++int should_log(void);
++
++void wlog(const char* fmt, ...);
++
++#define LOG_A(...) __android_log_print(6, "VkWrapper", __VA_ARGS__)
++
++#define W_WFORMAT(fmt, ...) fmt " \t (%s:%d)", ## __VA_ARGS__, __FUNCTION__, __LINE__
++
++#define W___WLOG__(LEVEL, fmt, ...) \
++    if (should_log() >= LEVEL) { \
++        wlog(W_WFORMAT(fmt, ## __VA_ARGS__)); \
++        LOG_A(W_WFORMAT(fmt, ## __VA_ARGS__)); \
++    }
++
++#define WSI_LOGT(fmt, ...) W___WLOG__(4, "" fmt, ## __VA_ARGS__)
++#define WSI_LOGA(fmt, ...) W___WLOG__(5, "! " fmt, ## __VA_ARGS__)
++#define WSI_LOGD(fmt, ...) W___WLOG__(3, fmt, ## __VA_ARGS__)
++#define WSI_LOG(fmt, ...)  W___WLOG__(2, fmt, ## __VA_ARGS__)
++#define WSI_LOGE(fmt, ...) W___WLOG__(1, "[ERROR] " fmt, ## __VA_ARGS__)
 +
  #ifdef __cplusplus
  }
  #endif
 diff --git a/src/vulkan/wsi/wsi_common_ahardware_buffer.c b/src/vulkan/wsi/wsi_common_ahardware_buffer.c
-index af193f87365..5753dc119b1 100644
+index af193f87365..1586087a03e 100644
 --- a/src/vulkan/wsi/wsi_common_ahardware_buffer.c
 +++ b/src/vulkan/wsi/wsi_common_ahardware_buffer.c
 @@ -75,6 +75,7 @@ wsi_create_ahardware_buffer_image_mem(const struct wsi_swapchain *chain,
                                        const struct wsi_image_info *info,
                                        struct wsi_image *image)
  {
-+   LOG_A("In wsi_create_ahardware_buffer_image_mem");
++   WSI_LOGT("not blitting");
     const struct wsi_device *wsi = chain->wsi;
     VkImage old_image = image->image;
     VkResult result;
@@ -17665,10 +17868,48 @@ index af193f87365..5753dc119b1 100644
     };
     result = wsi->AllocateMemory(chain->device, &memory_info,
                                  &chain->alloc, &image->memory);
-+   LOG_A("wsi->AllocateMemory: %d", result);
++   WSI_LOGT("wsi->AllocateMemory: %d", result);
     if (result != VK_SUCCESS)
        return vk_errorf(NULL, result, "Failed to allocate memory");
     image->num_planes = 1;
+@@ -137,6 +142,7 @@ wsi_create_ahardware_buffer_blit_context(const struct wsi_swapchain *chain,
+                                          const struct wsi_image_info *info,
+                                          struct wsi_image *image)
+ {
++   WSI_LOGT("blitting");
+    assert(chain->blit.type == WSI_SWAPCHAIN_IMAGE_BLIT);
+    const struct wsi_device *wsi = chain->wsi;
+    VkResult result;
+@@ -167,7 +173,7 @@ wsi_create_ahardware_buffer_blit_context(const struct wsi_swapchain *chain,
+       .pNext = &external_format,
+       .handleTypes = handle_types,
+    };
+-   const VkImageCreateInfo image_info = {
++   VkImageCreateInfo image_info = {
+       .sType = VK_STRUCTURE_TYPE_IMAGE_CREATE_INFO,
+       .pNext = &external_memory_info,
+       .flags = 0u,
+@@ -186,6 +192,20 @@ wsi_create_ahardware_buffer_blit_context(const struct wsi_swapchain *chain,
+          info->create.pQueueFamilyIndices,
+       .initialLayout = VK_IMAGE_LAYOUT_UNDEFINED,
+    };
++
++   // VVL if external_format.externalFormat
++   // Validation Error: [ VUID-VkImageCreateInfo-pNext-01974 ] | MessageID = 0xee97da05
++   // vkCreateImage(): pCreateInfo->pNext<VkExternalFormatANDROID>.externalFormat (40) is non-zero, format is VK_FORMAT_R8G8B8A8_UNORM.
++   // Validation Error: [ VUID-VkImageCreateInfo-pNext-02397 ] | MessageID = 0xcac730da
++   // vkCreateImage(): pCreateInfo->pNext<VkExternalFormatANDROID>.externalFormat (40) is non-zero, but usage is VK_IMAGE_USAGE_TRANSFER_DST_BIT.
++   // Validation Error: [ VUID-VkImageCreateInfo-pNext-02398 ] | MessageID = 0xc94b7919
++   // vkCreateImage(): pCreateInfo->pNext<VkExternalFormatANDROID>.externalFormat (40) is non-zero, but layout is VK_IMAGE_TILING_LINEAR.
++   if (external_format.externalFormat != 0) {
++      image_info.format = VK_FORMAT_UNDEFINED;
++      image_info.tiling = VK_IMAGE_TILING_OPTIMAL;
++      image_info.usage = VK_IMAGE_USAGE_SAMPLED_BIT;
++   }
++
+    result = wsi->CreateImage(chain->device, &image_info,
+                              &chain->alloc, &image->blit.image);
+    if (result != VK_SUCCESS)
 diff --git a/src/vulkan/wsi/wsi_common_display.c b/src/vulkan/wsi/wsi_common_display.c
 index c0f0dd52b41..a8a93913c2e 100644
 --- a/src/vulkan/wsi/wsi_common_display.c
