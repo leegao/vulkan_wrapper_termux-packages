@@ -3566,10 +3566,10 @@ index 00000000000..cf334d7167a
 \ No newline at end of file
 diff --git a/src/vulkan/wrapper/artifacts.cpp b/src/vulkan/wrapper/artifacts.cpp
 new file mode 100644
-index 00000000000..def2528176b
+index 00000000000..36e5ca38c5f
 --- /dev/null
 +++ b/src/vulkan/wrapper/artifacts.cpp
-@@ -0,0 +1,107 @@
+@@ -0,0 +1,206 @@
 +#include "artifacts.h"
 +#include "wrapper_objects.h"
 +#include "wrapper_private.h"
@@ -3577,11 +3577,14 @@ index 00000000000..def2528176b
 +#include "wrapper_checks.h"
 +#include "vk_printers.h"
 +
++#define XXH_INLINE_ALL
++#include "util/xxhash.h"
++
 +#include <string>
 +#include <sstream>
 +#include <iomanip>
 +
-+static FILE* open_log_file(const std::string postfix, VkFormat original_format, int id, const char* mode) {
++static FILE* open_log_file(const std::string postfix, VkFormat original_format, int w, int h, int id, const char* mode) {
 +    static std::string dir;
 +    static bool initialized = false;
 +    if (!initialized) {
@@ -3598,91 +3601,187 @@ index 00000000000..def2528176b
 +    std::stringstream padded_id;
 +    padded_id << std::setw(5) << std::setfill('0') << id;
 +
-+    std::string path = dir + "/" + padded_id.str() + "_fmt" + std::to_string(original_format) + postfix;
++    std::string path = dir + "/" + padded_id.str() + "_fmt" + std::to_string(original_format) + "_" + std::to_string(w) + "x" + std::to_string(h) + postfix;
 +    return fopen(path.c_str(), mode);
++}
++
++static bool ValidateBCn(struct wrapper_device* device, VkFormat original_format,
++                        const VkBufferImageCopy* region, void* srcData, void* dstData,
++                        int decode_id, void** out) {
++    uint32_t block_size = get_bc_target_size(device->physical, original_format);
++    uint32_t data_size = block_size * region->imageExtent.width * region->imageExtent.height;
++
++    int block_rows = (region->imageExtent.width + 3) / 4;
++    int block_cols = (region->imageExtent.height + 3) / 4;
++    void* stagingData = malloc(block_rows * block_cols * 16 * block_size);
++    WLOGD("Decoding for validation, fmt=%d, size=%d", original_format,  data_size);
++    BCnDecompression(original_format, srcData, stagingData, region, false);
++
++    WLOGD("Calculating h1 for stagingData, fmt=%d, size=%d", original_format,  data_size);
++    auto h1 = XXH32(stagingData, data_size, 0);
++    WLOGD("Calculated h1 = %x for stagingData, fmt=%d, size=%d", h1, original_format,  data_size);
++
++    WLOGD("Calculating h2 for dstData, fmt=%d, size=%d", original_format,  data_size);
++    auto h2 = XXH32(dstData, data_size, 0);
++    WLOGD("Calculated h2 = %x for dstData, fmt=%d, size=%d", h2, original_format,  data_size);
++    *out = stagingData;
++    return h1 == h2;
 +}
 +
 +extern "C"
 +void RecordBCnArtifacts(struct wrapper_device* device, VkFormat original_format,
-+                        const VkBufferImageCopy* region, VkBuffer srcBuffer, VkBuffer stagingBuffer, int decode_id) {
-+    if (region) {
-+        auto fd = open_log_file("_region.txt", original_format, decode_id, "w");
++                        const VkBufferImageCopy* region, VkBuffer srcBuffer, VkBuffer stagingBuffer,
++                        int decode_id, bool validate_bcn) {
++    void *srcData;
++    void *dstData;
++    VkResult result;
++
++    struct wrapper_buffer* src_wbuf = get_wrapper_buffer(device, srcBuffer);
++    if (!src_wbuf) {
++        WLOGE("srcBuffer not tracked, skipping (decode_id=%d)", decode_id);
++        return;
++    } else if (src_wbuf->memory == VK_NULL_HANDLE) {
++        WLOGE("srcBuffer not bound, skipping (decode_id=%d)", decode_id);
++        return;
++    }
++    VkMemoryMapInfoKHR mapInfoSrc = {
++        .sType = VK_STRUCTURE_TYPE_MEMORY_MAP_INFO_KHR,
++        .memory = src_wbuf->memory,
++        .offset = src_wbuf->memoryOffset,
++        .size = VK_WHOLE_SIZE,
++    };
++    result = WCHECK(MapMemory2KHR((VkDevice) device, &mapInfoSrc, &srcData));
++    if (result != VK_SUCCESS) {
++        WLOGE("Failed to map srcBuffer memory: %d", result);
++        return;
++    }
++
++    struct wrapper_buffer* dst_wbuf = get_wrapper_buffer(device, stagingBuffer);
++    if (!dst_wbuf) {
++        WLOGE("dstBuffer not tracked, skipping (decode_id=%d)", decode_id);
++    } else if (dst_wbuf->memory == VK_NULL_HANDLE) {
++        WLOGE("dstBuffer not bound, skipping (decode_id=%d)", decode_id);
++    }
++    // Invalidate the memory to be visible to the host in case this was decoded via the compute shader
++    VkMemoryMapInfoKHR mapInfoDst = {
++        .sType = VK_STRUCTURE_TYPE_MEMORY_MAP_INFO_KHR,
++        .memory = dst_wbuf->memory,
++        .offset = dst_wbuf->memoryOffset,
++        .size = VK_WHOLE_SIZE,
++    };
++    result = WCHECK(MapMemory2KHR((VkDevice) device, &mapInfoDst, &dstData));
++    if (result != VK_SUCCESS) {
++        WLOGE("Failed to map dstBuffer memory: %d", result);
++        return;
++    }
++    VkMappedMemoryRange flushRange = {
++        .sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE,
++        .memory = dst_wbuf->memory,
++        .offset = 0,
++        .size = VK_WHOLE_SIZE,
++    };
++    result = WCHECK(InvalidateMappedMemoryRanges((VkDevice) device, 1, &flushRange));
++    if (result != VK_SUCCESS) {
++        WLOGE("Failed to flush dstBuffer memory: %d", result);
++    }
++
++    void* referenceData = NULL;
++    if (validate_bcn) {
++        if (ValidateBCn(device, original_format, region, srcData, dstData, decode_id, &referenceData)) {
++            // No difference between reference and compute implementations
++            WLOGD("Reference and compute implementations of ValidateBCn(fmt=%d, id=%d) are the same.", original_format, decode_id);
++            free(referenceData);
++            WCHECKV(UnmapMemory((VkDevice) device, dst_wbuf->memory));
++            return;
++        }
++        WLOGE("Reference and compute implementations of ValidateBCn(fmt=%d, id=%d) differ.", original_format, decode_id);
++    }
++
++    int width = region->imageExtent.width;
++    int height = region->imageExtent.height;
++    FILE* fd;
++    if (region && (fd = open_log_file("_region.txt", original_format, width, height, decode_id, "w"))) {
 +        fprintf(fd, "src: %p\n", srcBuffer);
 +        vk_print_VkBufferImageCopy(0, 0, fd, "", region);
 +        fclose(fd);
 +    }
 +
-+    struct wrapper_buffer* wbuf = get_wrapper_buffer(device, srcBuffer);
-+    if (!wbuf) {
-+        WLOGE("srcBuffer not tracked, skipping (decode_id=%d)", decode_id);
-+    } else if (wbuf->memory == VK_NULL_HANDLE) {
-+        WLOGE("srcBuffer not bound, skipping (decode_id=%d)", decode_id);
-+    } else {
-+        void* srcData;
-+        VkMemoryMapInfoKHR mapInfoSrc = {
-+            .sType = VK_STRUCTURE_TYPE_MEMORY_MAP_INFO_KHR,
-+            .memory = wbuf->memory,
-+            .offset = wbuf->memoryOffset,
-+            .size = VK_WHOLE_SIZE,
-+        };
-+        VkResult result = WCHECK(MapMemory2KHR((VkDevice) device, &mapInfoSrc, &srcData));
-+        if (result != VK_SUCCESS) {
-+            WLOGE("Failed to map srcBuffer memory: %d", result);
-+        } else {
-+            int w = region->bufferRowLength ? region->bufferRowLength : region->imageExtent.width;
-+            int h = region->bufferImageHeight ? region->bufferImageHeight : region->imageExtent.height;
-+            int blocks_stride = (w + 3) / 4;
-+            int block_rows = (h + 3) / 4;
-+            int blocks = blocks_stride * block_rows;
-+            int block_size = get_bc_block_size(original_format);
-+            auto fd = open_log_file("_src.dat", original_format, decode_id, "wb");
-+            fwrite(srcData, block_size, blocks, fd);
-+            fclose(fd);
-+        }
++    if ((fd = open_log_file("_src.dat", original_format, width, height, decode_id, "wb"))) {
++        int w = region->bufferRowLength ? region->bufferRowLength : region->imageExtent.width;
++        int h = region->bufferImageHeight ? region->bufferImageHeight : region->imageExtent.height;
++        int blocks_stride = (w + 3) / 4;
++        int block_rows = (h + 3) / 4;
++        int blocks = blocks_stride * block_rows;
++        int block_size = get_bc_block_size(original_format);
++        fwrite((uint8_t*) srcData + region->bufferOffset, block_size, blocks, fd);
++        fclose(fd);
 +    }
 +
-+    wbuf = get_wrapper_buffer(device, stagingBuffer);
-+    if (!wbuf) {
-+        WLOGE("dstBuffer not tracked, skipping (decode_id=%d)", decode_id);
-+    } else if (wbuf->memory == VK_NULL_HANDLE) {
-+        WLOGE("dstBuffer not bound, skipping (decode_id=%d)", decode_id);
-+    } else {
-+        // Invalidate the memory to be visible to the host in case this was decoded via the compute shader
-+        VkMappedMemoryRange flushRange = {
-+            .sType = VK_STRUCTURE_TYPE_MAPPED_MEMORY_RANGE,
-+            .memory = wbuf->memory,
-+            .offset = 0,
-+            .size = VK_WHOLE_SIZE,
-+        };
-+        VkResult result = WCHECK(InvalidateMappedMemoryRanges((VkDevice) device, 1, &flushRange));
-+        if (result != VK_SUCCESS) {
-+            WLOGE("Failed to flush dstBuffer memory: %d", result);
-+        }
-+        void* dstData;
-+        VkMemoryMapInfoKHR mapInfoSrc = {
-+            .sType = VK_STRUCTURE_TYPE_MEMORY_MAP_INFO_KHR,
-+            .memory = wbuf->memory,
-+            .offset = 0,
-+            .size = VK_WHOLE_SIZE,
-+        };
-+        result = WCHECK(MapMemory2KHR((VkDevice) device, &mapInfoSrc, &dstData));
-+        if (result != VK_SUCCESS) {
-+            WLOGE("Failed to map dstBuffer memory: %d", result);
-+        } else {
-+            int block_size = get_bc_target_size(device->physical, original_format);
-+            auto fd = open_log_file("_dst.dat", original_format, decode_id, "wb");
-+            fwrite(dstData, block_size, region->imageExtent.width * region->imageExtent.height, fd);
-+            fclose(fd);
-+            WCHECKV(UnmapMemory((VkDevice) device, wbuf->memory));
-+        }
++    if ((fd = open_log_file("_dst.dat", original_format, width, height, decode_id, "wb"))) {
++        int block_size = get_bc_target_size(device->physical, original_format);
++        auto fd = open_log_file("_dst.dat", original_format, width, height, decode_id, "wb");
++        fwrite(dstData, block_size, region->imageExtent.width * region->imageExtent.height, fd);
++        fclose(fd);
++        WCHECKV(UnmapMemory((VkDevice) device, dst_wbuf->memory));
++    }
++
++    if (referenceData && (fd = open_log_file("_ref.dat", original_format, width, height, decode_id, "wb"))) {
++        int block_size = get_bc_target_size(device->physical, original_format);
++        fwrite(referenceData, block_size, region->imageExtent.width * region->imageExtent.height, fd);
++        fclose(fd);
++        free(referenceData);
++    }
++}
++
++
++extern "C"
++void RecordBCnSrcArtifacts(struct wrapper_device* device, VkFormat original_format,
++    const VkBufferImageCopy* region, VkBuffer srcBuffer, int decode_id) {
++    void *srcData;
++    VkResult result;
++
++    struct wrapper_buffer* src_wbuf = get_wrapper_buffer(device, srcBuffer);
++    if (!src_wbuf) {
++        WLOGE("srcBuffer not tracked, skipping (decode_id=%d)", decode_id);
++        return;
++    } else if (src_wbuf->memory == VK_NULL_HANDLE) {
++        WLOGE("srcBuffer not bound, skipping (decode_id=%d)", decode_id);
++        return;
++    }
++    VkMemoryMapInfoKHR mapInfoSrc = {
++        .sType = VK_STRUCTURE_TYPE_MEMORY_MAP_INFO_KHR,
++        .memory = src_wbuf->memory,
++        .offset = src_wbuf->memoryOffset,
++        .size = VK_WHOLE_SIZE,
++    };
++    result = WCHECK(MapMemory2KHR((VkDevice) device, &mapInfoSrc, &srcData));
++    if (result != VK_SUCCESS) {
++        WLOGE("Failed to map srcBuffer memory: %d", result);
++        return;
++    }
++
++    int width = region->imageExtent.width;
++    int height = region->imageExtent.height;
++
++    FILE* fd;
++    if (region && (fd = open_log_file("_sregion.txt", original_format, width, height, decode_id, "w"))) {
++        fprintf(fd, "src: %p\n", srcBuffer);
++        fprintf(fd, "src_id: %d\n", src_wbuf->obj_id);
++        vk_print_VkBufferImageCopy(0, 0, fd, "", region);
++        fclose(fd);
++    }
++
++    if ((fd = open_log_file("_sbuf.dat", VK_FORMAT_BC1_RGBA_UNORM_BLOCK, src_wbuf->vk.size, 1, src_wbuf->obj_id, "wb"))) {
++        fwrite((uint8_t*) srcData, 1, src_wbuf->vk.size, fd);
++        fclose(fd);
 +    }
 +}
 diff --git a/src/vulkan/wrapper/artifacts.h b/src/vulkan/wrapper/artifacts.h
 new file mode 100644
-index 00000000000..021a2943338
+index 00000000000..d6430f35a1a
 --- /dev/null
 +++ b/src/vulkan/wrapper/artifacts.h
-@@ -0,0 +1,13 @@
+@@ -0,0 +1,21 @@
 +#pragma once
 +
 +#ifdef __cplusplus
@@ -3691,7 +3790,15 @@ index 00000000000..021a2943338
 +
 +#include <vulkan/vulkan_core.h>
 +
-+void RecordBCnArtifacts(struct wrapper_device* device, VkFormat original_format, const VkBufferImageCopy* region, VkBuffer srcBuffer, VkBuffer stagingBuffer, int decode_id);
++void RecordBCnArtifacts(
++    struct wrapper_device* device, VkFormat original_format,
++    const VkBufferImageCopy* region, VkBuffer srcBuffer,
++    VkBuffer stagingBuffer, int decode_id, bool validate_bcn);
++
++void RecordBCnSrcArtifacts(
++    struct wrapper_device* device, VkFormat original_format,
++    const VkBufferImageCopy* region, VkBuffer srcBuffer,
++    int decode_id);
 +
 +#ifdef __cplusplus
 +}
@@ -5022,6 +5129,265 @@ index 00000000000..18f8dd23579
 +    int dst_index = int(coord.y * push_constants.dst_width + coord.x);
 +    dstBuffer.data[dst_index] =  packUnorm4x8(decompressed_color);
 +#endif
++}
+diff --git a/src/vulkan/wrapper/bcdec.c b/src/vulkan/wrapper/bcdec.c
+new file mode 100644
+index 00000000000..eabc5cb23c3
+--- /dev/null
++++ b/src/vulkan/wrapper/bcdec.c
+@@ -0,0 +1,253 @@
++#include <stdbool.h>
++#include <stdint.h>
++#include <stdio.h>
++
++#include "wrapper_log.h"
++#include "wrapper_debug.h"
++#include "wrapper_private.h"
++
++#include "bcdec.h"
++
++bool is_striped(VkFormat format, void* mappedSrcBase, const VkBufferImageCopy* regions) {
++    uint8_t* startCompressedData = (uint8_t*)mappedSrcBase + (regions ? regions->bufferOffset : 0);
++    uint32_t format_id = format - VK_FORMAT_BC1_RGB_UNORM_BLOCK;
++    uint32_t block_size = get_bc_block_size(format);
++
++    int height = regions->imageExtent.height;
++    int width = regions->imageExtent.width;
++    if (height < 16) {
++        return false;
++    }
++
++    void *srcDataBlock = startCompressedData;
++    for (int y = 0; y < height; y += 4) {
++        for (int x = 0; x < width; x += 4) {
++            uint64_t* data = (uint64_t*) srcDataBlock;
++            // Check alternating rows for stripping
++            if ((y / 4) % 2 == 1) {
++                if (data[0] != 0) return false;
++                if (block_size == 16 && data[1] != 0) return false;
++            }
++            srcDataBlock += block_size;
++        }
++    }
++    return true;
++}
++
++void BCnDecompression(VkFormat format,
++      void* mappedSrcBase,
++      void* mappedDst,
++      const VkBufferImageCopy* regions,
++      bool is_striped) {
++    uint8_t* startCompressedData = (uint8_t*)mappedSrcBase + (regions ? regions->bufferOffset : 0);
++
++    // Determine the block size and decoding function based on the format
++    uint32_t format_id = format - VK_FORMAT_BC1_RGB_UNORM_BLOCK;
++    uint32_t block_size = get_bc_block_size(format);
++
++    int texel_size;
++    if (format_id == 12 || format_id == 13) { // BC6H_UFLOAT or BC6H_SFLOAT
++        texel_size = 8; // R16G16B16A16_SFLOAT = 8 bytes per pixel
++    } else {
++        texel_size = 4; // R8G8B8A8_UNORM/SNORM = 4 bytes per pixel
++    }
++
++    int height = regions->imageExtent.height;
++    int width = regions->imageExtent.width;
++    int dst_stride = texel_size * width;
++    int src_stride = block_size * (regions->bufferRowLength ? regions->bufferRowLength : width);
++    if (regions->bufferRowLength != 0 && (width + 3) / 4 * 4 != regions->bufferRowLength) {
++        WLOGE("Texture (fmt=%d) is not tightly packed, block_size = %d, width = %d, bufferRowLength = %d", format, block_size, width, regions->bufferRowLength);
++    }
++
++    uint16_t temp_rgb_block[4 * 4 * 4]; // 4x4, 3 channels (rgb) for bc6h, 4 for everyone else
++
++    uint32_t unsupportedBitsBc = get_unsupported_bcn_masks();
++    uint32_t watermarkedBitsBc = get_watermarked_bcn_masks();
++    uint32_t watermark_size = get_watermark_size();
++
++    bool is_masked = (unsupportedBitsBc & (1 << format_id)) != 0;
++    bool is_watermarked = (watermarkedBitsBc & (1 << format_id)) != 0;
++
++    // Loop over the image in 4x4 blocks
++    void *srcDataBlock = startCompressedData;
++    for (int row = 0; row < (is_striped ? height * 2 : height); row += 4) {
++        for (int x = 0; x < width; x += 4) {
++            // Process striped rows (odd rows)
++            int y = is_striped ? row / 2 : row;
++            bool is_striped_row = is_striped && ((row / 4) % 2 == 1);
++            if (is_striped_row) {
++                srcDataBlock += block_size;
++                continue;
++            }
++            if (is_striped && (row + 1) / 2 >= height) {
++                continue;
++            }
++
++            void *dstPixelBlock = (uint8_t *) mappedDst + (y * dst_stride) + (x * texel_size);
++            if (is_masked || (is_watermarked && x < watermark_size && y < watermark_size)) {
++                for (int i = 0; i < 4; ++i) {
++                    for (int j = 0; j < 4; ++j) {
++                        #define WATERMARK(r,g,b) { \
++                            uint8_t* dstRow = (uint8_t*)dstPixelBlock + (i * dst_stride); \
++                            dstRow[j * 4 + 0] = r; \
++                            dstRow[j * 4 + 1] = g; \
++                            dstRow[j * 4 + 2] = b; \
++                            dstRow[j * 4 + 3] = 0xff; \
++                            break; \
++                        }
++
++                        switch (format_id) {
++                            case 0: // BC1_RGB_UNORM_BLOCK
++                            WATERMARK(0x80, 0, 0); // Maroon
++                            case 1: // BC1_RGB_SRGB_BLOCK
++                            WATERMARK(0x9a, 0x63, 0x24); // Brown
++                            case 2: // BC1_RGBA_UNORM_BLOCK
++                            WATERMARK(0x80, 0x80, 0); // Olive
++                            case 3: // BC1_RGBA_SRGB_BLOCK
++                            WATERMARK(0x46, 0x99, 0x90); // Dark Teal
++                            case 4: // BC2_UNORM_BLOCK
++                            WATERMARK(0x00, 0x00, 0x75); // Navy
++                            case 5: // BC2_SRGB_BLOCK
++                            WATERMARK(0xff, 0xfa, 0xc8); // Beige
++                            case 6: // BC3_UNORM_BLOCK
++                            WATERMARK(0xf5, 0x82, 0x31); // Orange
++                            case 7: // BC3_SRGB_BLOCK
++                            WATERMARK(0xff, 0xe1, 0x19); // Yellow
++                            case 8: // BC4_UNORM_BLOCK
++                            WATERMARK(0xbf, 0xef, 0x45); // Lime green
++                            case 9: // BC4_SNORM_BLOCK
++                            WATERMARK(0x3c, 0xb4, 0x4b); // Green
++                            case 10: // BC5_UNORM_BLOCK
++                            WATERMARK(0x42, 0xd4, 0xf4); // Cyan
++                            case 11: // BC5_SNORM_BLOCK
++                            WATERMARK(0x91, 0x1e, 0xb4); // Purple
++                            case 12: // BC6H_UFLOAT
++                            {
++                                // Magenta
++                                uint16_t* dstRow = (uint16_t*)((uint8_t*)dstPixelBlock + (i * dst_stride));
++                                dstRow[j * 4 + 0] = 0x3c00;
++                                dstRow[j * 4 + 1] = 0x3c00;
++                                dstRow[j * 4 + 2] = 0;
++                                dstRow[j * 4 + 3] = 0x3C00;
++                                break;
++                            }
++                            case 13: // BC6H_SFLOAT
++                            {
++                                // Red
++                                uint16_t* dstRow = (uint16_t*)((uint8_t*)dstPixelBlock + (i * dst_stride));
++                                dstRow[j * 4 + 0] = 0x3c00;
++                                dstRow[j * 4 + 1] = 0;
++                                dstRow[j * 4 + 2] = 0;
++                                dstRow[j * 4 + 3] = 0x3C00;
++                                break;
++                            }
++                            case 14:
++                            WATERMARK(0xaa, 0xff, 0xc3); // Mint
++                            case 15:
++                            WATERMARK(0xfa, 0xbe, 0xd4); // Pink
++                            default:
++                            // Unknown/unsupported format, do nothing.
++                            WLOGE("ERROR: Unsupported BCn format %d", format);
++                            break;
++                        }
++                    }
++                }
++
++                srcDataBlock += block_size;
++                continue;
++            }
++
++            switch (format_id) {
++            case 0: // BC1_RGB_UNORM_BLOCK
++            case 1: // BC1_RGB_SRGB_BLOCK
++            case 2: // BC1_RGBA_UNORM_BLOCK
++            case 3: // BC1_RGBA_SRGB_BLOCK
++                    bcdec_bc1(srcDataBlock, dstPixelBlock, dst_stride);
++                    break;
++
++            case 4: // BC2_UNORM_BLOCK
++            case 5: // BC2_SRGB_BLOCK
++                    bcdec_bc2(srcDataBlock, dstPixelBlock, dst_stride);
++                    break;
++
++            case 6: // BC3_UNORM_BLOCK
++            case 7: // BC3_SRGB_BLOCK
++                    bcdec_bc3(srcDataBlock, dstPixelBlock, dst_stride);
++                    break;
++
++            case 8: // BC4_UNORM_BLOCK
++            case 9: // BC4_SNORM_BLOCK
++                    bcdec__bc4_block(srcDataBlock, dstPixelBlock, dst_stride, 4, format_id == 9);
++                    {
++                        // Fill the remaining GBA channels with G=R, B=R, and A=255
++                        unsigned char* block = (unsigned char*) dstPixelBlock;
++                        for (int i = 0; i < 4; i++) {
++                            for (int j = 0; j < 4; j++) {
++                                block[j * 4 + 1] = block[j * 4];
++                                block[j * 4 + 2] = block[j * 4];
++                                if (format_id == 8) {
++                                    block[j * 4 + 3] = 255;
++                                } else {
++                                    ((signed char*) block)[j * 4 + 3] = (signed char) 127;
++                                }
++                            }
++                            block += dst_stride;
++                        }
++                    }
++                    break;
++
++            case 10: // BC5_UNORM_BLOCK
++            case 11: // BC5_SNORM_BLOCK
++                    bcdec__bc4_block(srcDataBlock, dstPixelBlock, dst_stride, 4, format_id == 11);
++                    bcdec__bc4_block(((char*)srcDataBlock) + 8, ((char*)dstPixelBlock) + 1, dst_stride, 4, format_id == 11);
++                    {
++                        // Fill the remaining BA channel with B=0 and A=255
++                        unsigned char* block = (unsigned char*) dstPixelBlock;
++                        for (int i = 0; i < 4; i++) {
++                            for (int j = 0; j < 4; j++) {
++                                block[j * 4 + 2] = 0;
++                                block[j * 4 + 3] = 255;
++                                if (format_id == 10) {
++                                    block[j * 4 + 2] = 0;
++                                    block[j * 4 + 3] = 255;
++                                } else {
++                                    ((signed char*) block)[j * 4 + 2] = (signed char) 0;
++                                    ((signed char*) block)[j * 4 + 3] = (signed char) 127;
++                                }
++                            }
++                            block += dst_stride;
++                        }
++                    }
++                    break;
++            case 12: // BC6H_UFLOAT
++            case 13: // BC6H_SFLOAT
++                    {
++                        bcdec_bc6h_half(srcDataBlock, temp_rgb_block, 4 * 3, format_id==13);
++                        for (int i = 0; i < 4; ++i) {
++                        // Start of the current destination row for the 4x4 block
++                        uint16_t* dstRow = (uint16_t*)((uint8_t*)dstPixelBlock + (i * dst_stride));
++                        for (int j = 0; j < 4; ++j) {
++                            // Calculate index into the temporary RGB half-float array
++                            int src_pixel_offset = (i * 4 + j) * 3; // 3 channels per texel
++                            dstRow[j * 4 + 0] = temp_rgb_block[src_pixel_offset + 0]; // R
++                            dstRow[j * 4 + 1] = temp_rgb_block[src_pixel_offset + 1]; // G
++                            dstRow[j * 4 + 2] = temp_rgb_block[src_pixel_offset + 2]; // B
++                            dstRow[j * 4 + 3] = 0x3C00; // A
++                        }
++                        }
++                        break;
++                    }
++            case 14:
++            case 15:
++                    bcdec_bc7(srcDataBlock, dstPixelBlock, dst_stride);
++                    break;
++            default:
++                    // Unknown/unsupported format, do nothing.
++                    WLOGE("ERROR: Unsupported BCn format %d", format);
++                    break;
++            }
++            srcDataBlock += block_size;
++        }
++    }
 +}
 diff --git a/src/vulkan/wrapper/bcdec.h b/src/vulkan/wrapper/bcdec.h
 new file mode 100644
@@ -10233,10 +10599,10 @@ index 00000000000..4a5c237a2dd
 +print_mask(mask)
 \ No newline at end of file
 diff --git a/src/vulkan/wrapper/meson.build b/src/vulkan/wrapper/meson.build
-index 5b818b3b4bd..975367bdfff 100644
+index 5b818b3b4bd..5baeac58780 100644
 --- a/src/vulkan/wrapper/meson.build
 +++ b/src/vulkan/wrapper/meson.build
-@@ -66,37 +66,154 @@ wrapper_features = custom_target(
+@@ -66,37 +66,155 @@ wrapper_features = custom_target(
    depend_files: vk_physical_device_features_gen_depend_files,
  )
  
@@ -10301,6 +10667,7 @@ index 5b818b3b4bd..975367bdfff 100644
 +  'spirv_edit.cpp',
 +  'graphics_env_hooks.cpp',
 +  'artifacts.cpp',
++  'bcdec.c',
  )
  
  wrapper_deps = [
@@ -12912,10 +13279,10 @@ index 00000000000..997ff2bad39
 +#define __WRAPV(call) call
 diff --git a/src/vulkan/wrapper/wrapper_debug.c b/src/vulkan/wrapper/wrapper_debug.c
 new file mode 100644
-index 00000000000..4b4722c6c5f
+index 00000000000..830612272a7
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_debug.c
-@@ -0,0 +1,346 @@
+@@ -0,0 +1,398 @@
 +#include "wrapper_private.h"
 +#include "wrapper_log.h"
 +#include "wrapper_trampolines.h"
@@ -13071,6 +13438,21 @@ index 00000000000..4b4722c6c5f
 +    return mask = make_bcn_masks("DISABLE_BCN");
 +}
 +
++uint32_t get_dump_bcn_masks() {
++    STATIC_INIT(mask, 0);
++    return mask = make_bcn_masks("DUMP_BCN");
++}
++
++uint32_t get_validate_bcn_masks() {
++    STATIC_INIT(mask, 0);
++    return mask = make_bcn_masks("VALIDATE_BCN");
++}
++
++uint32_t get_dump_src_bcn_masks() {
++    STATIC_INIT(mask, 0);
++    return mask = make_bcn_masks("DUMP_SRC_BCN");
++}
++
 +static void parse_hex_to_struct(struct wrapper_entry_masks *masks, const char *hex_string) {
 +    uint64_t *fields[16] = {
 +        &masks->f0, &masks->f1, &masks->f2, &masks->f3, &masks->f4,
@@ -13206,6 +13588,43 @@ index 00000000000..4b4722c6c5f
 +        CMD(GetBufferMemoryRequirements2);
 +    }
 +
++    if (strstr(mask_bcn, "bcn")) {
++        CMD(QueueSubmit);
++        CMD(CreateFence);
++        CMD(DestroyFence);
++        CMD(ResetFences);
++        CMD(WaitForFences);
++        CMD(CreateBuffer);
++        CMD(CreateBufferView);
++        CMD(CreateImageView);
++        // CMD(CreateShaderModule);
++        CMD(CreateComputePipelines);
++        CMD(CreateGraphicsPipelines);
++        CMD(CreatePipelineLayout);
++        CMD(CreateDescriptorSetLayout);
++        CMD(UpdateDescriptorSets);
++        CMD(ResetCommandPool);
++        CMD(AllocateCommandBuffers);
++        CMD(BeginCommandBuffer);
++        CMD(EndCommandBuffer);
++        CMD(CmdBindPipeline);
++        CMD(CmdBindDescriptorSets);
++        CMD(CmdDispatch);
++        CMD(CmdCopyBuffer);
++        CMD(CmdCopyImage);
++        CMD(CmdCopyBufferToImage);
++        CMD(CmdPipelineBarrier);
++        CMD(CmdPushConstants);
++        CMD(BindBufferMemory);
++        CMD(BindBufferMemory2);
++        CMD(BindImageMemory);
++        CMD(BindImageMemory2);
++        CMD(GetBufferMemoryRequirements2);
++        CMD(GetBufferMemoryRequirements);
++        CMD(AllocateMemory);
++        CMD(MapMemory2KHR);
++        CMD(UnmapMemory);
++    }
 +
 +// #define CHECK_CMD_MASK(cmd) \
 +//     if (strstr(mask_bcn, #cmd)) SET_VK_ID_##cmd##_ON(wrapper_printer_masks);
@@ -13264,10 +13683,10 @@ index 00000000000..4b4722c6c5f
 +}
 diff --git a/src/vulkan/wrapper/wrapper_debug.h b/src/vulkan/wrapper/wrapper_debug.h
 new file mode 100644
-index 00000000000..f45b7ed9bec
+index 00000000000..c2b6220547b
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_debug.h
-@@ -0,0 +1,33 @@
+@@ -0,0 +1,39 @@
 +#pragma once
 +
 +bool check_flag(const char* env, bool default_value);
@@ -13290,6 +13709,12 @@ index 00000000000..f45b7ed9bec
 +
 +uint32_t get_disabled_bcn_masks(void);
 +
++uint32_t get_dump_bcn_masks(void);
++
++uint32_t get_validate_bcn_masks(void);
++
++uint32_t get_dump_src_bcn_masks(void);
++
 +uint32_t get_watermark_size(void);
 +
 +void initialize_cmd_print_masks(void);
@@ -13303,10 +13728,10 @@ index 00000000000..f45b7ed9bec
 +bool should_log_memory_debug(void);
 \ No newline at end of file
 diff --git a/src/vulkan/wrapper/wrapper_device.c b/src/vulkan/wrapper/wrapper_device.c
-index 2ea37d1b392..55e782089e9 100644
+index 2ea37d1b392..b8d2557a844 100644
 --- a/src/vulkan/wrapper/wrapper_device.c
 +++ b/src/vulkan/wrapper/wrapper_device.c
-@@ -8,8 +8,51 @@
+@@ -8,8 +8,49 @@
  #include "vk_extensions.h"
  #include "vk_queue.h"
  #include "vk_util.h"
@@ -13321,8 +13746,6 @@ index 2ea37d1b392..55e782089e9 100644
 +#include "vk_printers.h"
 +#include "spirv_edit.h"
 +#include "artifacts.h"
-+
-+#include "bcdec.h"
 +
 +static const uint32_t s3tc_spv[] = {
 +#include "s3tc.spv.h"
@@ -13358,7 +13781,7 @@ index 2ea37d1b392..55e782089e9 100644
  
  const struct vk_device_extension_table wrapper_device_extensions =
  {
-@@ -65,8 +108,7 @@ wrapper_append_required_extensions(const struct vk_device *device,
+@@ -65,8 +106,7 @@ wrapper_append_required_extensions(const struct vk_device *device,
                                    uint32_t *count,
                                    const char **exts) {
  #define REQUIRED_EXTENSION(name) \
@@ -13368,7 +13791,7 @@ index 2ea37d1b392..55e782089e9 100644
        exts[(*count)++] = "VK_" #name; \
     }
     REQUIRED_EXTENSION(KHR_external_fence);
-@@ -85,6 +127,8 @@ wrapper_append_required_extensions(const struct vk_device *device,
+@@ -85,6 +125,8 @@ wrapper_append_required_extensions(const struct vk_device *device,
     REQUIRED_EXTENSION(EXT_external_memory_dma_buf);
     REQUIRED_EXTENSION(EXT_image_drm_format_modifier);
     REQUIRED_EXTENSION(ANDROID_external_memory_android_hardware_buffer);
@@ -13377,7 +13800,7 @@ index 2ea37d1b392..55e782089e9 100644
  #undef REQUIRED_EXTENSION
  }
  
-@@ -96,6 +140,10 @@ wrapper_create_device_queue(struct wrapper_device *device,
+@@ -96,6 +138,10 @@ wrapper_create_device_queue(struct wrapper_device *device,
     struct wrapper_queue *queue;
     VkResult result;
  
@@ -13388,7 +13811,7 @@ index 2ea37d1b392..55e782089e9 100644
     for (int i = 0; i < pCreateInfo->queueCreateInfoCount; i++) {
        create_info = &pCreateInfo->pQueueCreateInfos[i];
        for (int j = 0; j < create_info->queueCount; j++) {
-@@ -120,20 +168,25 @@ wrapper_create_device_queue(struct wrapper_device *device,
+@@ -120,20 +166,25 @@ wrapper_create_device_queue(struct wrapper_device *device,
                 j, &queue->dispatch_handle);
           }
           queue->device = device;
@@ -13416,7 +13839,7 @@ index 2ea37d1b392..55e782089e9 100644
                       const VkDeviceCreateInfo* pCreateInfo,
                       const VkAllocationCallbacks* pAllocator,
                       VkDevice* pDevice)
-@@ -148,6 +201,9 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -148,6 +199,9 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     VkPhysicalDeviceFeatures *pdf;
     VkResult result;
  
@@ -13426,7 +13849,7 @@ index 2ea37d1b392..55e782089e9 100644
     device = vk_zalloc2(&physical_device->instance->vk.alloc, pAllocator,
                         sizeof(*device), 8, VK_SYSTEM_ALLOCATION_SCOPE_DEVICE);
     if (!device)
-@@ -155,6 +211,12 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -155,6 +209,12 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
  
     list_inithead(&device->command_buffer_list);
     list_inithead(&device->device_memory_list);
@@ -13439,7 +13862,7 @@ index 2ea37d1b392..55e782089e9 100644
     simple_mtx_init(&device->resource_mutex, mtx_plain);
     device->physical = physical_device;
  
-@@ -165,10 +227,43 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -165,10 +225,43 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     vk_device_dispatch_table_from_entrypoints(
        &dispatch_table, &wrapper_device_trampolines, false);
  
@@ -13483,7 +13906,7 @@ index 2ea37d1b392..55e782089e9 100644
        vk_free2(&physical_device->instance->vk.alloc, pAllocator,
                 device);
        return vk_error(physical_device, result);
-@@ -186,66 +281,47 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -186,66 +279,47 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     pdf = (void *)pCreateInfo->pEnabledFeatures;
     pdf2 = __vk_find_struct((void *)pCreateInfo->pNext,
              VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2);
@@ -13589,12 +14012,13 @@ index 2ea37d1b392..55e782089e9 100644
           pAllocator, &device->dispatch_handle);
  
     if (result != VK_SUCCESS) {
-@@ -259,26 +335,72 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -259,26 +333,73 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     vk_device_dispatch_table_load(&device->dispatch_table, gdpa,
                                   device->dispatch_handle);
  
 +   // Initialize the BCn interceptor states
-+   bool dump_artifacts = CHECK_FLAG("DUMP_BCN_ARTIFACTS");
++   bool validate_bcn = get_validate_bcn_masks() > 0;
++   bool dump_artifacts = (get_dump_bcn_masks() > 0) || validate_bcn;
 +   bool use_image_view = use_image_view_mode() && !dump_artifacts;
 +   
 +   result = InterceptorState_Init(&device->s3tc, 
@@ -13666,7 +14090,7 @@ index 2ea37d1b392..55e782089e9 100644
                          VkQueue* pQueue) {
     VK_FROM_HANDLE(vk_device, device, _device);
  
-@@ -295,78 +417,44 @@ wrapper_GetDeviceQueue2(VkDevice _device, const VkDeviceQueueInfo2* pQueueInfo,
+@@ -295,78 +416,24 @@ wrapper_GetDeviceQueue2(VkDevice _device, const VkDeviceQueueInfo2* pQueueInfo,
     *pQueue = queue ? vk_queue_to_handle(queue) : VK_NULL_HANDLE;
  }
  
@@ -13720,9 +14144,7 @@ index 2ea37d1b392..55e782089e9 100644
 -   VkCommandBufferSubmitInfo *command_buffers;
 -   VkResult result;
 -
-+   #ifdef WRAPPER_DEBUG
-+   WLOGD("Inside of wrapper_QueueSubmit2");
-    for (int i = 0; i < submitCount; i++) {
+-   for (int i = 0; i < submitCount; i++) {
 -      const VkSubmitInfo2 *submit_info = &pSubmits[i];
 -      command_buffers = malloc(sizeof(VkCommandBufferSubmitInfo) *
 -         submit_info->commandBufferInfoCount);
@@ -13734,30 +14156,16 @@ index 2ea37d1b392..55e782089e9 100644
 -      }
 -      wrapper_submits[i] = pSubmits[i];
 -      wrapper_submits[i].pCommandBufferInfos = command_buffers;
-+      WLOGD("+ pSubmits[%d]", i);
-+      LOG_STRUCT(VkSubmitInfo2, &pSubmits[i]);
-    }
-+   struct temporary_objects temp;
-+   list_inithead(&temp.objects);
-+   VK_FROM_HANDLE(wrapper_queue, base, _queue);
-+   const VkSubmitInfo2* pSubmits__ = pSubmits;
-+   pSubmits__ = alloca(submitCount * sizeof(VkSubmitInfo2));
-+   for (int i = 0; i < submitCount; i++) {
-+      unwrap_VkSubmitInfo2(&temp, base->device, (VkSubmitInfo2 *) &pSubmits__[i], &pSubmits[i]);
-+      WLOGD("+ pSubmits__[%d]", i);
-+      LOG_STRUCT(VkSubmitInfo2, &pSubmits__[i]);
-+   }
-+   #endif
- 
+-   }
+-
 -   result = queue->device->dispatch_table.QueueSubmit2(
 -      queue->dispatch_handle, submitCount, wrapper_submits, fence);
 -
 -   for (int i = 0; i < submitCount; i++)
 -      free((void *)wrapper_submits[i].pCommandBufferInfos);
 -
-+   VkResult result = CHECK(QueueSubmit2(_queue, submitCount, pSubmits, fence));
-+   // VkResult result = base->device->dispatch_table.QueueSubmit2(base->dispatch_handle, submitCount, pSubmits__, fence);
-    return result;
+-   return result;
++   return CHECK(QueueSubmit2(_queue, submitCount, pSubmits, fence));
  }
  
 -
@@ -13767,7 +14175,7 @@ index 2ea37d1b392..55e782089e9 100644
                             uint32_t commandBufferCount,
                             const VkCommandBuffer* pCommandBuffers)
  {
-@@ -377,6 +465,7 @@ wrapper_CmdExecuteCommands(VkCommandBuffer commandBuffer,
+@@ -377,41 +444,12 @@ wrapper_CmdExecuteCommands(VkCommandBuffer commandBuffer,
        command_buffers[i] =
           wrapper_command_buffer_from_handle(pCommandBuffers[i])->dispatch_handle;
     }
@@ -13775,36 +14183,43 @@ index 2ea37d1b392..55e782089e9 100644
     wcb->device->dispatch_table.CmdExecuteCommands(
        wcb->dispatch_handle, commandBufferCount, command_buffers);
  }
-@@ -396,6 +485,11 @@ wrapper_command_buffer_create(struct wrapper_device *device,
-    wcb->device = device;
-    wcb->pool = pool;
-    wcb->dispatch_handle = dispatch_handle;
-+   list_inithead(&wcb->staging_resources);
-+   simple_mtx_init(&wcb->resource_mutex, mtx_plain);
-+
-+   static uint32_t obj_id = 0;
-+   wcb->obj_id = obj_id++;
-    list_add(&wcb->link, &device->command_buffer_list);
  
-    *pCommandBuffers = wrapper_command_buffer_to_handle(wcb);
-@@ -406,12 +500,14 @@ wrapper_command_buffer_create(struct wrapper_device *device,
- static void
- wrapper_command_buffer_destroy(struct wrapper_device *device,
-                                struct wrapper_command_buffer *wcb) {
-+   free_staging_resources_final(device, wcb, &wcb->staging_resources);
-+   simple_mtx_destroy(&wcb->resource_mutex);
-    list_del(&wcb->link);
-    vk_object_free(&device->vk, &device->vk.alloc, wcb);
- }
- 
+-static VkResult
+-wrapper_command_buffer_create(struct wrapper_device *device,
+-                              VkCommandPool pool,
+-                              VkCommandBuffer dispatch_handle,
+-                              VkCommandBuffer *pCommandBuffers) {
+-   struct wrapper_command_buffer *wcb;
+-   wcb = vk_object_zalloc(&device->vk, &device->vk.alloc,
+-                          sizeof(struct wrapper_command_buffer),
+-                          VK_OBJECT_TYPE_COMMAND_BUFFER);
+-   if (!wcb)
+-      return vk_error(&device->vk, VK_ERROR_OUT_OF_HOST_MEMORY);
+-
+-   wcb->device = device;
+-   wcb->pool = pool;
+-   wcb->dispatch_handle = dispatch_handle;
+-   list_add(&wcb->link, &device->command_buffer_list);
+-
+-   *pCommandBuffers = wrapper_command_buffer_to_handle(wcb);
+-
+-   return VK_SUCCESS;
+-}
+-
+-static void
+-wrapper_command_buffer_destroy(struct wrapper_device *device,
+-                               struct wrapper_command_buffer *wcb) {
+-   list_del(&wcb->link);
+-   vk_object_free(&device->vk, &device->vk.alloc, wcb);
+-}
+-
 -VKAPI_ATTR VkResult VKAPI_CALL
 -wrapper_AllocateCommandBuffers(VkDevice _device,
-+
 +WRAPPER_AllocateCommandBuffers(VkDevice _device,
                                 const VkCommandBufferAllocateInfo* pAllocateInfo,
                                 VkCommandBuffer* pCommandBuffers)
  {
-@@ -420,9 +516,7 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
+@@ -420,9 +458,7 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
     VkResult result;
     uint32_t i;
     
@@ -13815,7 +14230,7 @@ index 2ea37d1b392..55e782089e9 100644
     if (result != VK_SUCCESS)
        return result;
  
-@@ -435,13 +529,16 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
+@@ -435,13 +471,16 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
                                               &pCommandBuffers[i]);
        if (result != VK_SUCCESS)
           break;
@@ -13836,7 +14251,7 @@ index 2ea37d1b392..55e782089e9 100644
        for (int q = 0; q < i; q++) {
           VK_FROM_HANDLE(wrapper_command_buffer, wcb, pCommandBuffers[q]);
           wrapper_command_buffer_destroy(device, wcb);
-@@ -457,33 +554,45 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
+@@ -457,33 +496,45 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
     return result;
  }
  
@@ -13871,10 +14286,8 @@ index 2ea37d1b392..55e782089e9 100644
 -                                             commandPool, commandBufferCount,
 -                                             dispatch_handles);
 +   CHECKV(FreeCommandBuffers(_device, commandPool, commandBufferCount, dispatch_handles));
- }
- 
--VKAPI_ATTR void VKAPI_CALL
--wrapper_DestroyCommandPool(VkDevice _device, VkCommandPool commandPool,
++}
++
 +WRAPPER_CreateCommandPool(VkDevice device,
 +    const VkCommandPoolCreateInfo* pCreateInfo,
 +    const VkAllocationCallbacks* pAllocator,
@@ -13884,13 +14297,15 @@ index 2ea37d1b392..55e782089e9 100644
 +   struct wrapper_command_pool *pool = wrapper_command_pool_create(_device, pCreateInfo, *pCommandPool);
 +   pool->queue_idx = pCreateInfo->queueFamilyIndex;
 +   return result;
-+}
-+
+ }
+ 
+-VKAPI_ATTR void VKAPI_CALL
+-wrapper_DestroyCommandPool(VkDevice _device, VkCommandPool commandPool,
 +WRAPPER_DestroyCommandPool(VkDevice _device, VkCommandPool commandPool,
                             const VkAllocationCallbacks* pAllocator)
  {
     VK_FROM_HANDLE(wrapper_device, device, _device);
-@@ -499,12 +608,15 @@ wrapper_DestroyCommandPool(VkDevice _device, VkCommandPool commandPool,
+@@ -499,12 +550,15 @@ wrapper_DestroyCommandPool(VkDevice _device, VkCommandPool commandPool,
  
     simple_mtx_unlock(&device->resource_mutex);
  
@@ -13910,7 +14325,7 @@ index 2ea37d1b392..55e782089e9 100644
  {
     VK_FROM_HANDLE(wrapper_device, device, _device);
  
-@@ -521,6 +633,24 @@ wrapper_DestroyDevice(VkDevice _device, const VkAllocationCallbacks* pAllocator)
+@@ -521,6 +575,24 @@ wrapper_DestroyDevice(VkDevice _device, const VkAllocationCallbacks* pAllocator)
  
     simple_mtx_unlock(&device->resource_mutex);
  
@@ -13935,7 +14350,7 @@ index 2ea37d1b392..55e782089e9 100644
     list_for_each_entry_safe(struct vk_queue, queue, &device->vk.queues, link) {
        vk_queue_finish(queue);
        vk_free2(&device->vk.alloc, pAllocator, queue);
-@@ -550,26 +680,1324 @@ unwrap_device_object(VkObjectType objectType,
+@@ -550,26 +622,1165 @@ unwrap_device_object(VkObjectType objectType,
     }
  }
  
@@ -14006,7 +14421,7 @@ index 2ea37d1b392..55e782089e9 100644
 +      WLOG("Total of %d temp descriptor pools created for buffer %d (%p)", list_length(&wbuf->temp_descriptor_pools), wbuf->obj_id, wbuf->dispatch_handle);
 +   }
 +   return result;
-+}
+ }
 +
 +static void free_temp_pool_from_buffer(VkDevice device, struct wrapper_buffer* wbuf) {
 +   // // Clean up temporary descriptor pools associated with this command buffer
@@ -14104,7 +14519,7 @@ index 2ea37d1b392..55e782089e9 100644
 +   }
 +
 +   return CHECK(BindBufferMemory2(device, bindInfoCount, pBindInfos));
- }
++}
 +
 +// Helper function to find a suitable memory type
 +static uint32_t FindMemoryType(VkPhysicalDevice physicalDevice, uint32_t typeFilter, VkMemoryPropertyFlags properties) {
@@ -14263,8 +14678,12 @@ index 2ea37d1b392..55e782089e9 100644
 +   if (result != VK_SUCCESS) return result;
 +
 +   // TEST: run a debug run of the pass of the lowering pass on the compute shader
-+   struct SpirvCode spirv_code = { 0 };
-+   optimize_spirv_for_size(spv_code, spv_size / sizeof(uint32_t), &spirv_code);
++   if (CHECK_FLAG("OPT_SHADERS")) {
++      struct SpirvCode spirv_code = { 0 };
++      optimize_spirv_for_size(spv_code, spv_size / sizeof(uint32_t), &spirv_code);
++      spv_size = spirv_code.spirv_word_count * 4;
++      spv_code = spirv_code.spirv_code;
++   }
 +
 +   VkShaderModule computeShaderModule;
 +   VkShaderModuleCreateInfo shaderModuleCreateInfo = {
@@ -14445,216 +14864,6 @@ index 2ea37d1b392..55e782089e9 100644
 +   return VK_SUCCESS;
 +}
 +
-+static void BCnDecompression(VkFormat format,
-+      void* mappedSrcBase,
-+      void* mappedDst,
-+      const VkBufferImageCopy* regions) {
-+
-+   const uint8_t* compressedData = (const uint8_t*)mappedSrcBase + (regions ? regions->bufferOffset : 0);
-+
-+   int height = regions->imageExtent.height;
-+   int width = regions->imageExtent.width;
-+
-+   // Determine the block size and decoding function based on the format
-+   uint32_t format_id = format - VK_FORMAT_BC1_RGB_UNORM_BLOCK;
-+   uint32_t block_size = 16;
-+
-+   switch (format_id) {
-+   case 0:
-+   case 1:
-+   case 2:
-+   case 3:
-+      block_size = BCDEC_BC1_BLOCK_SIZE;
-+      break;
-+   case 4:
-+   case 5:
-+      block_size = BCDEC_BC2_BLOCK_SIZE;
-+      break;
-+   case 6:
-+   case 7:
-+      block_size = BCDEC_BC3_BLOCK_SIZE;
-+      break;
-+   case 8:
-+   case 9:
-+      block_size = BCDEC_BC4_BLOCK_SIZE;
-+      break;
-+   case 10:
-+   case 11:
-+      block_size = BCDEC_BC5_BLOCK_SIZE;
-+      break;
-+   case 12:
-+   case 13:
-+      block_size = BCDEC_BC6H_BLOCK_SIZE;
-+      break;
-+   case 14:
-+   case 15:
-+      block_size = BCDEC_BC7_BLOCK_SIZE;
-+      break;
-+   default:
-+      break;
-+   }
-+
-+   int output_pixel_size_bytes;
-+   if (format_id == 12 || format_id == 13) { // BC6H_UFLOAT or BC6H_SFLOAT
-+       output_pixel_size_bytes = 8; // R16G16B16A16_SFLOAT = 8 bytes per pixel
-+   } else {
-+       output_pixel_size_bytes = 4; // R8G8B8A8_UNORM/SNORM = 4 bytes per pixel
-+   }
-+   int pitch = output_pixel_size_bytes * (regions->bufferRowLength ? regions->bufferRowLength : width);
-+
-+   uint16_t temp_rgb_block[4 * 4 * 4]; // 4x4, 3 channels (rgb) for bc6h, 4 for everyone else
-+
-+
-+   uint32_t unsupportedBitsBc = get_unsupported_bcn_masks();
-+   uint32_t watermarkedBitsBc = get_watermarked_bcn_masks();
-+   uint32_t watermark_size = get_watermark_size();
-+
-+   bool is_masked = (unsupportedBitsBc & (1 << format_id)) != 0;
-+   bool is_watermarked = (watermarkedBitsBc & (1 << format_id)) != 0;
-+
-+   // Loop over the image in 4x4 blocks
-+   for (int y = 0; y < height; y += 4) {
-+      for (int x = 0; x < width; x += 4) {
-+         // Calculate pointer to the destination 4x4 block
-+         void *dstPixelBlock =
-+                  (uint8_t *) mappedDst + (y * pitch) + (x * output_pixel_size_bytes);
-+         
-+         if (is_masked || (is_watermarked && x < watermark_size && y < watermark_size)) {
-+            for (int i = 0; i < 4; ++i) {
-+               for (int j = 0; j < 4; ++j) {
-+                  #define WATERMARK(r,g,b) { \
-+                     uint8_t* dstRow = (uint8_t*)dstPixelBlock + (i * pitch); \
-+                     dstRow[j * 4 + 0] = r; \
-+                     dstRow[j * 4 + 1] = g; \
-+                     dstRow[j * 4 + 2] = b; \
-+                     dstRow[j * 4 + 3] = 0xff; \
-+                     break; \
-+                  }
-+
-+                  switch (format_id) {
-+                     case 0: // BC1_RGB_UNORM_BLOCK
-+                        WATERMARK(0x80, 0, 0); // Maroon
-+                     case 1: // BC1_RGB_SRGB_BLOCK
-+                        WATERMARK(0x9a, 0x63, 0x24); // Brown
-+                     case 2: // BC1_RGBA_UNORM_BLOCK
-+                        WATERMARK(0x80, 0x80, 0); // Olive
-+                     case 3: // BC1_RGBA_SRGB_BLOCK
-+                        WATERMARK(0x46, 0x99, 0x90); // Dark Teal
-+                     case 4: // BC2_UNORM_BLOCK
-+                        WATERMARK(0x00, 0x00, 0x75); // Navy
-+                     case 5: // BC2_SRGB_BLOCK
-+                        WATERMARK(0xff, 0xfa, 0xc8); // Beige
-+                     case 6: // BC3_UNORM_BLOCK
-+                        WATERMARK(0xf5, 0x82, 0x31); // Orange
-+                     case 7: // BC3_SRGB_BLOCK
-+                        WATERMARK(0xff, 0xe1, 0x19); // Yellow
-+                     case 8: // BC4_UNORM_BLOCK
-+                        WATERMARK(0xbf, 0xef, 0x45); // Lime green
-+                     case 9: // BC4_SNORM_BLOCK
-+                        WATERMARK(0x3c, 0xb4, 0x4b); // Green
-+                     case 10: // BC5_UNORM_BLOCK
-+                        WATERMARK(0x42, 0xd4, 0xf4); // Cyan
-+                     case 11: // BC5_SNORM_BLOCK
-+                        WATERMARK(0x91, 0x1e, 0xb4); // Purple
-+                     case 12: // BC6H_UFLOAT
-+                        {
-+                           // Magenta
-+                           uint16_t* dstRow = (uint16_t*)((uint8_t*)dstPixelBlock + (i * pitch));
-+                           dstRow[j * 4 + 0] = 0x3c00;
-+                           dstRow[j * 4 + 1] = 0x3c00;
-+                           dstRow[j * 4 + 2] = 0;
-+                           dstRow[j * 4 + 3] = 0x3C00;
-+                           break;
-+                        }
-+                     case 13: // BC6H_SFLOAT
-+                        {
-+                           // Red
-+                           uint16_t* dstRow = (uint16_t*)((uint8_t*)dstPixelBlock + (i * pitch));
-+                           dstRow[j * 4 + 0] = 0x3c00;
-+                           dstRow[j * 4 + 1] = 0;
-+                           dstRow[j * 4 + 2] = 0;
-+                           dstRow[j * 4 + 3] = 0x3C00;
-+                           break;
-+                        }
-+                     case 14:
-+                        WATERMARK(0xaa, 0xff, 0xc3); // Mint
-+                     case 15:
-+                        WATERMARK(0xfa, 0xbe, 0xd4); // Pink
-+                     default:
-+                        // Unknown/unsupported format, do nothing.
-+                        WLOGE("ERROR: Unsupported BCn format %d", format);
-+                        break;
-+                  }
-+               }
-+            }
-+
-+            compressedData += block_size;
-+            continue;
-+         }
-+
-+         switch (format_id) {
-+            case 0: // BC1_RGB_UNORM_BLOCK
-+            case 1: // BC1_RGB_SRGB_BLOCK
-+            case 2: // BC1_RGBA_UNORM_BLOCK
-+            case 3: // BC1_RGBA_SRGB_BLOCK
-+                  bcdec_bc1(compressedData, dstPixelBlock, pitch);
-+                  break;
-+
-+            case 4: // BC2_UNORM_BLOCK
-+            case 5: // BC2_SRGB_BLOCK
-+                  bcdec_bc2(compressedData, dstPixelBlock, pitch);
-+                  break;
-+
-+            case 6: // BC3_UNORM_BLOCK
-+            case 7: // BC3_SRGB_BLOCK
-+                  bcdec_bc3(compressedData, dstPixelBlock, pitch);
-+                  break;
-+
-+            case 8: // BC4_UNORM_BLOCK
-+            case 9: // BC4_SNORM_BLOCK
-+                  bcdec_bc4(compressedData, dstPixelBlock,
-+                                 pitch, format_id == 9);
-+                  break;
-+
-+            case 10: // BC5_UNORM_BLOCK
-+            case 11: // BC5_SNORM_BLOCK
-+                  bcdec_bc5(compressedData, dstPixelBlock,
-+                                 pitch, format_id == 11);
-+                  break;
-+            case 12: // BC6H_UFLOAT
-+            case 13: // BC6H_SFLOAT
-+                  {
-+                     bcdec_bc6h_half(compressedData, temp_rgb_block, 4 * 3, format_id==13);
-+                     for (int i = 0; i < 4; ++i) {
-+                        // Start of the current destination row for the 4x4 block
-+                        uint16_t* dstRow = (uint16_t*)((uint8_t*)dstPixelBlock + (i * pitch));
-+                        for (int j = 0; j < 4; ++j) {
-+                           // Calculate index into the temporary RGB half-float array
-+                           int src_pixel_offset = (i * 4 + j) * 3; // 3 channels per texel
-+                           dstRow[j * 4 + 0] = temp_rgb_block[src_pixel_offset + 0]; // R
-+                           dstRow[j * 4 + 1] = temp_rgb_block[src_pixel_offset + 1]; // G
-+                           dstRow[j * 4 + 2] = temp_rgb_block[src_pixel_offset + 2]; // B
-+                           dstRow[j * 4 + 3] = 0x3C00; // A
-+                        }
-+                     }
-+                     break;
-+                  }
-+            case 14:
-+            case 15:
-+                  bcdec_bc7(compressedData, dstPixelBlock, pitch);
-+                  break;
-+            default:
-+                  // Unknown/unsupported format, do nothing.
-+                  WLOGE("ERROR: Unsupported BCn format %d", format);
-+                  break;
-+         }
-+
-+         // Advance the source pointer to the next block
-+         compressedData += block_size;
-+      }
-+   }
-+}
-+
 +// Takes in the srcBuffer and decompresses it into a staging buffer
 +// Both buffers must be bound to memory and are host visible (for mapping)
 +// This is the software fallback for BCn decompression that aren't implemented by the compute shader
@@ -14663,7 +14872,8 @@ index 2ea37d1b392..55e782089e9 100644
 +      wrapper_buffer* srcBuffer,
 +      VkDeviceMemory dstMemory,
 +      const VkBufferImageCopy* region,
-+      VkFormat in_format
++      VkFormat in_format,
++      bool is_striped
 +) {
 +   // Map the source buffer
 +   void* srcData;
@@ -14697,7 +14907,8 @@ index 2ea37d1b392..55e782089e9 100644
 +      in_format,
 +      srcData,
 +      dstData,
-+      region
++      region,
++      is_striped
 +   );
 +
 +   // Upload a magenta color for debugging
@@ -15063,6 +15274,15 @@ index 2ea37d1b392..55e782089e9 100644
 +      return;
 +   }
 +
++   _Atomic static int counter = 0;
++   int decode_id = counter++;
++
++   bool dump_src_bcn = (get_dump_src_bcn_masks() & (1 << (wimg->original_format - 131))) != 0;
++   if (dump_src_bcn) {
++      WLOGD("Dumping bcn src artifacts for format=%d, decode_id=%d", wimg->original_format, decode_id);
++      RecordBCnSrcArtifacts(_device, wimg->original_format, pRegions, srcBuffer, decode_id);
++   }
++
 +   if (!wimg->is_bcn_emulated) {
 +      // If no BCn emulation needed, just fall-through
 +      CHECKV(CmdCopyBufferToImage(commandBuffer, srcBuffer, dstImage,
@@ -15071,15 +15291,15 @@ index 2ea37d1b392..55e782089e9 100644
 +   }
 +
 +   // --- Decompression Path ---
-+   _Atomic static int counter = 0;
-+   int decode_id = counter++;
 +   WLOG("Emulating support for format=%d, decode_id=%d", wimg->original_format, decode_id);
++   VK_CMD_LOG("\nEmulating BCn for format=%d, decode_id=%d", wimg->original_format, decode_id);
 +
-+   bool dump_artifacts = CHECK_FLAG("DUMP_BCN_ARTIFACTS");
++   bool validate_bcn = (get_validate_bcn_masks() & (1 << (wimg->original_format - 131))) != 0;
++   bool dump_artifacts = ((get_dump_bcn_masks() & (1 << (wimg->original_format - 131))) != 0) || validate_bcn;
 +   bool use_cpu_bcn = (get_host_decoding_bcn_masks() & (1 << (wimg->original_format - 131))) != 0;
 +   bool use_compute_shader = use_compute_shader_mode() && !use_cpu_bcn;
-+   bool use_image_view = use_image_view_mode() && !use_cpu_bcn && !dump_artifacts;
-+   
++   bool use_image_view = use_image_view_mode() && !use_cpu_bcn && get_validate_bcn_masks() == 0 && get_dump_bcn_masks() == 0;
++   bool check_for_striping = CHECK_FLAG("CHECK_FOR_STRIPING");
 +   // Check if the queues are the same
 +   struct wrapper_command_pool *pool = get_wrapper_command_pool(_device, wcb->pool);
 +   if (!pool) {
@@ -15093,8 +15313,6 @@ index 2ea37d1b392..55e782089e9 100644
 +      wcb->bcnCommands++;
 +   }
 +
-+   WLOGD("  + use_compute_shader=%d, use_image_view=%d", use_compute_shader, use_image_view);
-+
 +   struct wrapper_buffer* wbuf = get_wrapper_buffer(_device, srcBuffer);
 +   if (!wbuf) {
 +      WLOG("wrapper_CmdCopyBufferToImage: srcBuffer not tracked");
@@ -15102,6 +15320,42 @@ index 2ea37d1b392..55e782089e9 100644
 +
 +   for (uint32_t i = 0; i < regionCount; ++i) {
 +      const VkBufferImageCopy* region = &pRegions[i];
++      bool striped = false;
++      if (check_for_striping) {
++         if (!wbuf) {
++            WLOGE("srcBuffer not tracked, skipping (decode_id=%d)", decode_id);
++            return;
++         } else if (wbuf->memory == VK_NULL_HANDLE) {
++            WLOGE("srcBuffer not bound, skipping (decode_id=%d)", decode_id);
++            return;
++         }
++         VkMemoryMapInfoKHR mapInfoSrc = {
++            .sType = VK_STRUCTURE_TYPE_MEMORY_MAP_INFO_KHR,
++            .memory = wbuf->memory,
++            .offset = wbuf->memoryOffset,
++            .size = VK_WHOLE_SIZE,
++         };
++         void* srcData;
++         result = WCHECK(MapMemory2KHR((VkDevice) _device, &mapInfoSrc, &srcData));
++         if (result != VK_SUCCESS) {
++            WLOGE("Failed to map srcBuffer memory: %d", result);
++            return;
++         }
++         // Check if we have enough space
++         int block_size = get_bc_block_size(wimg->original_format);
++         int buffer_size = block_size * ((region->imageExtent.width + 3) / 4) * ((region->imageExtent.height + 3) / 4);
++         // TODO: figure out the right boundary size
++         striped = is_striped(wimg->original_format, srcData, region) && wbuf->vk.size >= 4 * buffer_size;
++         if (striped) {
++            WLOG("WARN: BCn Buffer %p (fmt=%d) is striped (decode_id=%d)", srcBuffer, wimg->original_format, decode_id);
++            // TODO: Compute shader de-striping not supported
++            use_compute_shader = false;
++            use_image_view = false;
++         }
++         // TODO: cleanup memory mapping when wrapper_device_memory is virtualized
++      }
++
++      WLOGD("use_compute_shader=%d, use_image_view=%d", use_compute_shader, use_image_view);
 +
 +      VkBuffer stagingBuffer;
 +      VkDeviceMemory stagingBufferMemory;
@@ -15165,7 +15419,7 @@ index 2ea37d1b392..55e782089e9 100644
 +            CmdComputeShaderForDecompression(wcb, &args);
 +         }
 +      } else {
-+         result = HostSideDecompression(_device, wbuf, stagingBufferMemory, region, wimg->original_format);
++         result = HostSideDecompression(_device, wbuf, stagingBufferMemory, region, wimg->original_format, striped);
 +         if (result != VK_SUCCESS) {
 +            WLOGE("Host BCn decompression failed, expect visual glitches.");
 +            return;
@@ -15174,7 +15428,7 @@ index 2ea37d1b392..55e782089e9 100644
 +
 +      if (dump_artifacts) {
 +         // Invariant: srcBuffer contains the BCn blocks, stagingBuffer contains the output
-+         RecordBCnArtifacts(_device, wimg->original_format, region, srcBuffer, stagingBuffer, decode_id);
++         RecordBCnArtifacts(_device, wimg->original_format, region, srcBuffer, stagingBuffer, decode_id, validate_bcn);
 +      }
 +
 +      if (!use_image_view) {
@@ -15199,8 +15453,10 @@ index 2ea37d1b392..55e782089e9 100644
 +         ));
 +
 +         VkBufferImageCopy local_region = *region;
-+         // Adjust the bufferOffset to point to the start of the staging buffer
++         // Adjust the bufferOffset to point to the start of the staging buffer and tightly packed src stride
 +         local_region.bufferOffset = 0;
++         local_region.bufferRowLength = 0;
++         local_region.bufferImageHeight = 0;
 +         CHECKV(CmdCopyBufferToImage(commandBuffer, stagingBuffer, dstImage, dstImageLayout, 1, &local_region));
 +      }
 +
@@ -16278,21 +16534,22 @@ index 00000000000..fb7a1b51dfe
 +}
 diff --git a/src/vulkan/wrapper/wrapper_log.h b/src/vulkan/wrapper/wrapper_log.h
 new file mode 100644
-index 00000000000..03b8c855ddb
+index 00000000000..5071f582878
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_log.h
-@@ -0,0 +1,110 @@
+@@ -0,0 +1,111 @@
 +#pragma once
 +
 +#ifdef __cplusplus
 +extern "C" {
 +#endif
 +
-+#include "wrapper_debug.h"
-+
 +#include <vulkan/vulkan_core.h>
 +#include <stdbool.h>
 +#include <stdint.h>
++#include <stdio.h>
++
++#include "wrapper_debug.h"
 +
 +extern int __android_log_print(
 +  int prio,
@@ -16394,10 +16651,10 @@ index 00000000000..03b8c855ddb
 +#endif
 diff --git a/src/vulkan/wrapper/wrapper_objects.c b/src/vulkan/wrapper/wrapper_objects.c
 new file mode 100644
-index 00000000000..ea513a9b93f
+index 00000000000..f53d7371bd3
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_objects.c
-@@ -0,0 +1,147 @@
+@@ -0,0 +1,181 @@
 +#include "wrapper_objects.h"
 +#include "wrapper_log.h"
 +
@@ -16545,12 +16802,46 @@ index 00000000000..ea513a9b93f
 +    if (cleaned_up)
 +        WLOGD("Released %d staging resources for handle %p", cleaned_up, handle);
 +}
++
++VkResult wrapper_command_buffer_create(struct wrapper_device *device,
++                              VkCommandPool pool,
++                              VkCommandBuffer dispatch_handle,
++                              VkCommandBuffer *pCommandBuffers) {
++   struct wrapper_command_buffer *wcb;
++   wcb = vk_object_zalloc(&device->vk, &device->vk.alloc,
++                          sizeof(struct wrapper_command_buffer),
++                          VK_OBJECT_TYPE_COMMAND_BUFFER);
++   if (!wcb)
++      return vk_error(&device->vk, VK_ERROR_OUT_OF_HOST_MEMORY);
++
++   wcb->device = device;
++   wcb->pool = pool;
++   wcb->dispatch_handle = dispatch_handle;
++   list_inithead(&wcb->staging_resources);
++   simple_mtx_init(&wcb->resource_mutex, mtx_plain);
++
++   static uint32_t obj_id = 0;
++   wcb->obj_id = obj_id++;
++   list_add(&wcb->link, &device->command_buffer_list);
++
++   *pCommandBuffers = wrapper_command_buffer_to_handle(wcb);
++
++   return VK_SUCCESS;
++}
++
++void wrapper_command_buffer_destroy(struct wrapper_device *device,
++                               struct wrapper_command_buffer *wcb) {
++   free_staging_resources_final(device, wcb, &wcb->staging_resources);
++   simple_mtx_destroy(&wcb->resource_mutex);
++   list_del(&wcb->link);
++   vk_object_free(&device->vk, &device->vk.alloc, wcb);
++}
 diff --git a/src/vulkan/wrapper/wrapper_objects.h b/src/vulkan/wrapper/wrapper_objects.h
 new file mode 100644
-index 00000000000..dca6f52a68c
+index 00000000000..b26c7564b2f
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_objects.h
-@@ -0,0 +1,242 @@
+@@ -0,0 +1,250 @@
 +#pragma once
 +
 +
@@ -16711,6 +17002,14 @@ index 00000000000..dca6f52a68c
 +
 +void
 +wrapper_device_memory_destroy(struct wrapper_device_memory *mem);
++
++VkResult wrapper_command_buffer_create(struct wrapper_device *device,
++                              VkCommandPool pool,
++                              VkCommandBuffer dispatch_handle,
++                              VkCommandBuffer *pCommandBuffers);
++
++void wrapper_command_buffer_destroy(struct wrapper_device *device,
++                               struct wrapper_command_buffer *wcb);
 +
 +typedef struct wrapper_staging_resources {
 +    struct list_head link_in_parent;
@@ -17206,10 +17505,10 @@ index 384c45483c6..b53c5e28ed7 100644
 +}
 +
 diff --git a/src/vulkan/wrapper/wrapper_private.h b/src/vulkan/wrapper/wrapper_private.h
-index 7f8cc6e8c84..2aff95dcda2 100644
+index 7f8cc6e8c84..a94ec82d711 100644
 --- a/src/vulkan/wrapper/wrapper_private.h
 +++ b/src/vulkan/wrapper/wrapper_private.h
-@@ -1,110 +1,454 @@
+@@ -1,110 +1,462 @@
 +#pragma once
 +
  #include <sys/stat.h>
@@ -17286,10 +17585,7 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +   wrapper_physical_device_trampolines.GetPhysicalDeviceQueueFamilyProperties((VkPhysicalDevice) physical_device, &queueFamilyCount, NULL);
 +   VkQueueFamilyProperties queueFamilies[32];
 +   wrapper_physical_device_trampolines.GetPhysicalDeviceQueueFamilyProperties((VkPhysicalDevice) physical_device, &queueFamilyCount, queueFamilies);
- 
--   VkInstance dispatch_handle;
--   struct vk_instance_dispatch_table dispatch_table;
--};
++
 +   for (int i = 0; i < queueFamilyCount; i++) {
 +      if ((queueFamilies[i].queueFlags & VK_QUEUE_COMPUTE_BIT) != 0 && (queueFamilies[i].queueFlags & VK_QUEUE_GRAPHICS_BIT) != 0) {
 +         return i;
@@ -17297,36 +17593,15 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +   }
 +   return -1; // No compute queue family found
 +}
- 
--VK_DEFINE_HANDLE_CASTS(wrapper_instance, vk.base, VkInstance,
--                       VK_OBJECT_TYPE_INSTANCE)
--
--struct wrapper_physical_device {
--   struct vk_physical_device vk;
--
--   int dma_heap_fd;
--   VkPhysicalDevice dispatch_handle;
--   VkPhysicalDeviceProperties2 properties2;
--   VkPhysicalDeviceDriverProperties driver_properties;
--   VkPhysicalDeviceMemoryProperties memory_properties;
--   struct wsi_device wsi_device;
--   struct wrapper_instance *instance;
--   struct vk_features base_supported_features;
--   struct vk_device_extension_table base_supported_extensions;
--   struct vk_physical_device_dispatch_table dispatch_table;
--};
++
 +static bool has_bc1_support(struct wrapper_physical_device* pdevice) {
 +   return pdevice->bc1_format_properties.optimalTilingFeatures != 0;
 +}
- 
--VK_DEFINE_HANDLE_CASTS(wrapper_physical_device, vk.base, VkPhysicalDevice,
--                       VK_OBJECT_TYPE_PHYSICAL_DEVICE)
++
 +static bool has_bc4_support(struct wrapper_physical_device* pdevice) {
 +   return pdevice->bc4_format_properties.optimalTilingFeatures != 0;
 +}
- 
--struct wrapper_queue {
--   struct vk_queue vk;
++
 +static bool is_bc_image_format(VkFormat format) {
 +   switch (format) {
 +   case VK_FORMAT_BC1_RGB_UNORM_BLOCK:
@@ -17350,10 +17625,7 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +      return false;
 +   }
 +}
- 
--   struct wrapper_device *device;
--   VkQueue dispatch_handle;
--};
++
 +static bool is_bc123_image_format(VkFormat format) {
 +   switch (format) {
 +   case VK_FORMAT_BC1_RGB_UNORM_BLOCK:
@@ -17370,8 +17642,8 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +   }
 +}
  
--VK_DEFINE_HANDLE_CASTS(wrapper_queue, vk.base, VkQueue,
--                       VK_OBJECT_TYPE_QUEUE)
+-   VkInstance dispatch_handle;
+-   struct vk_instance_dispatch_table dispatch_table;
 +static bool is_bc4567_image_format(VkFormat format) {
 +   switch (format) {
 +   case VK_FORMAT_BC4_UNORM_BLOCK:
@@ -17387,17 +17659,8 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +      return false;
 +   }
 +}
- 
--struct wrapper_device {
--   struct vk_device vk;
- 
--   VkDevice dispatch_handle;
--   simple_mtx_t resource_mutex;
--   struct list_head command_buffer_list;
--   struct list_head device_memory_list;
--   struct wrapper_physical_device *physical;
--   struct vk_device_dispatch_table dispatch_table;
--};
++
++
 +static inline uint32_t get_bc_block_size(VkFormat format) {
 +   if (!is_bc_image_format(format)) return 4;
 +    switch (format) {
@@ -17445,9 +17708,7 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +        // VK_FORMAT_BC6H_SFLOAT_BLOCK = 144, -> VK_FORMAT_R16G16B16A16_SFLOAT *
 +        // VK_FORMAT_BC7_UNORM_BLOCK = 145, -> VK_FORMAT_R8G8B8A8_UNORM
 +        // VK_FORMAT_BC7_SRGB_BLOCK = 146, -> VK_FORMAT_R8G8B8A8_UNORM
- 
--VK_DEFINE_HANDLE_CASTS(wrapper_device, vk.base, VkDevice,
--                       VK_OBJECT_TYPE_DEVICE)
++
 +        // VK_FORMAT_R16G16B16A16_SFLOAT Formats
 +        if (in_format == VK_FORMAT_BC6H_UFLOAT_BLOCK || in_format == VK_FORMAT_BC6H_SFLOAT_BLOCK) {
 +            return VK_FORMAT_R16G16B16A16_SFLOAT;
@@ -17460,9 +17721,7 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +    }
 +    return in_format;
 +}
- 
--struct wrapper_command_buffer {
--   struct vk_command_buffer vk;
++
 +static VkFormat unwrap_vk_format(struct wrapper_device* device, VkFormat in_format) {
 +   if (!device) {
 +      WLOGE("unwrap_vk_format: null device");
@@ -17471,11 +17730,7 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +   // Replace BCn formats with R8G8B8A8_UNORM if they are emulated
 +   return unwrap_vk_format_physical_device(device->physical, in_format);
 +}
- 
--   struct wrapper_device *device;
--   struct list_head link;
--   VkCommandPool pool;
--   VkCommandBuffer dispatch_handle;
++
 +static inline uint32_t get_bc_target_size(struct wrapper_physical_device* pdevice, VkFormat in_format) {
 +    VkFormat out_format = unwrap_vk_format_physical_device(pdevice, in_format);
 +    switch (out_format) {
@@ -17617,19 +17872,22 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +    P3(0,1,0,1,2,2,2,2,2,2,2,2,2,2,2,2), P3(0,1,1,1,2,0,1,1,2,2,0,1,2,2,2,0)
  };
  
--VK_DEFINE_HANDLE_CASTS(wrapper_command_buffer, vk.base, VkCommandBuffer,
--                       VK_OBJECT_TYPE_COMMAND_BUFFER)
+-VK_DEFINE_HANDLE_CASTS(wrapper_instance, vk.base, VkInstance,
+-                       VK_OBJECT_TYPE_INSTANCE)
 -
--struct wrapper_device_memory {
--   struct AHardwareBuffer *ahardware_buffer;
--   struct wrapper_device *device;
--   struct list_head link;
--   int dmabuf_fd;
--   void *map_address;
--   size_t map_size;
--   size_t alloc_size;
--   VkDeviceMemory dispatch_handle;
--   const VkAllocationCallbacks *alloc;
+-struct wrapper_physical_device {
+-   struct vk_physical_device vk;
+-
+-   int dma_heap_fd;
+-   VkPhysicalDevice dispatch_handle;
+-   VkPhysicalDeviceProperties2 properties2;
+-   VkPhysicalDeviceDriverProperties driver_properties;
+-   VkPhysicalDeviceMemoryProperties memory_properties;
+-   struct wsi_device wsi_device;
+-   struct wrapper_instance *instance;
+-   struct vk_features base_supported_features;
+-   struct vk_device_extension_table base_supported_extensions;
+-   struct vk_physical_device_dispatch_table dispatch_table;
 +// --- Anchor Tables ---
 +static const int32_t_std140 BC7_ANCHOR_TABLE2_DATA[64] = {
 +    15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,15,
@@ -17648,8 +17906,8 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +    {5,15},{10,15},{8,15},{13,15},{15,3},{12,15},{3,15},{3,8}
  };
  
--VkResult enumerate_physical_device(struct vk_instance *_instance);
--void destroy_physical_device(struct vk_physical_device *pdevice);
+-VK_DEFINE_HANDLE_CASTS(wrapper_physical_device, vk.base, VkPhysicalDevice,
+-                       VK_OBJECT_TYPE_PHYSICAL_DEVICE)
 +static void populate_bc7_decoding_constants(Bc7Constants* constants) {
 +    memcpy(constants->weight_table2,     BC7_WEIGHT_TABLE2_DATA,     sizeof(BC7_WEIGHT_TABLE2_DATA));
 +    memcpy(constants->weight_table3,     BC7_WEIGHT_TABLE3_DATA,     sizeof(BC7_WEIGHT_TABLE3_DATA));
@@ -17660,20 +17918,34 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +    memcpy(constants->anchor_table3,     BC7_ANCHOR_TABLE3_DATA,     sizeof(BC7_ANCHOR_TABLE3_DATA));
 +}
  
--void
--wrapper_setup_device_features(struct wrapper_physical_device *physical_device);
+-struct wrapper_queue {
+-   struct vk_queue vk;
 +typedef struct __attribute__((aligned(16))) Bc6Constants {
 +   int32_t_std140 weight_table3[16];
 +   int32_t_std140 weight_table4[16];
-+
+ 
+-   struct wrapper_device *device;
+-   VkQueue dispatch_handle;
+-};
 +   int32_t_std140 partition_table2[32];
 +   int32_t_std140 anchor_table2[32];
 +} Bc6Constants;
-+
-+
+ 
+-VK_DEFINE_HANDLE_CASTS(wrapper_queue, vk.base, VkQueue,
+-                       VK_OBJECT_TYPE_QUEUE)
+ 
+-struct wrapper_device {
+-   struct vk_device vk;
 +static const int32_t_std140 BC6_WEIGHT_TABLE3_DATA[16] = {0, 9, 18, 27, 37, 46, 55, 64, 0,0,0,0,0,0,0,0};
 +static const int32_t_std140 BC6_WEIGHT_TABLE4_DATA[16] = {0, 4, 9, 13, 17, 21, 26, 30, 34, 38, 43, 47, 51, 55, 60, 64};
-+
+ 
+-   VkDevice dispatch_handle;
+-   simple_mtx_t resource_mutex;
+-   struct list_head command_buffer_list;
+-   struct list_head device_memory_list;
+-   struct wrapper_physical_device *physical;
+-   struct vk_device_dispatch_table dispatch_table;
+-};
 +static const int32_t_std140 BC6_PARTITION_TABLE2_DATA[32] = {
 +    P2(0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1),
 +    P2(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1),
@@ -17683,7 +17955,9 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +    P2(0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1),
 +    P2(0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1),
 +    P2(0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 0, 1, 1, 1),
-+
+ 
+-VK_DEFINE_HANDLE_CASTS(wrapper_device, vk.base, VkDevice,
+-                       VK_OBJECT_TYPE_DEVICE)
 +    P2(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1),
 +    P2(0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 +    P2(0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1),
@@ -17692,7 +17966,9 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +    P2(0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1),
 +    P2(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 +    P2(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1),
-+
+ 
+-struct wrapper_command_buffer {
+-   struct vk_command_buffer vk;
 +    P2(0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1),
 +    P2(0, 1, 1, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0),
 +    P2(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 0),
@@ -17701,7 +17977,11 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +    P2(0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0),
 +    P2(0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0),
 +    P2(0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 1),
-+
+ 
+-   struct wrapper_device *device;
+-   struct list_head link;
+-   VkCommandPool pool;
+-   VkCommandBuffer dispatch_handle;
 +    P2(0, 0, 1, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0),
 +    P2(0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0),
 +    P2(0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0),
@@ -17710,24 +17990,34 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +    P2(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0),
 +    P2(0, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 0),
 +    P2(0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0)
-+};
-+
+ };
+ 
+-VK_DEFINE_HANDLE_CASTS(wrapper_command_buffer, vk.base, VkCommandBuffer,
+-                       VK_OBJECT_TYPE_COMMAND_BUFFER)
+-
+-struct wrapper_device_memory {
+-   struct AHardwareBuffer *ahardware_buffer;
+-   struct wrapper_device *device;
+-   struct list_head link;
+-   int dmabuf_fd;
+-   void *map_address;
+-   size_t map_size;
+-   size_t alloc_size;
+-   VkDeviceMemory dispatch_handle;
+-   const VkAllocationCallbacks *alloc;
 +static const int32_t_std140 BC6_ANCHOR_TABLE2_DATA[32] = {
 +    15, 15, 15, 15, 15, 15, 15, 15,
 +    15, 15, 15, 15, 15, 15, 15, 15,
 +    15, 2, 8, 2, 2, 8, 8, 15,
 +    2, 8, 2, 2, 8, 8, 2, 2
-+};
+ };
  
--uint32_t
--wrapper_select_device_memory_type(struct wrapper_device *device,
--                                  VkMemoryPropertyFlags flags);
+-VkResult enumerate_physical_device(struct vk_instance *_instance);
+-void destroy_physical_device(struct vk_physical_device *pdevice);
 +#pragma GCC diagnostic pop
  
--VkResult
--wrapper_device_memory_create(struct wrapper_device *device,
--                             const VkAllocationCallbacks *alloc,
--                             struct wrapper_device_memory **out_mem);
+-void
+-wrapper_setup_device_features(struct wrapper_physical_device *physical_device);
 +static void populate_bc6_decoding_constants(Bc6Constants* constants) {
 +    memcpy(constants->weight_table3,     BC6_WEIGHT_TABLE3_DATA,     sizeof(BC6_WEIGHT_TABLE3_DATA));
 +    memcpy(constants->weight_table4,     BC6_WEIGHT_TABLE4_DATA,     sizeof(BC6_WEIGHT_TABLE4_DATA));
@@ -17735,13 +18025,28 @@ index 7f8cc6e8c84..2aff95dcda2 100644
 +    memcpy(constants->anchor_table2,     BC6_ANCHOR_TABLE2_DATA,     sizeof(BC6_ANCHOR_TABLE2_DATA));
 +}
  
+-uint32_t
+-wrapper_select_device_memory_type(struct wrapper_device *device,
+-                                  VkMemoryPropertyFlags flags);
++void BCnDecompression(VkFormat format,
++      void* mappedSrcBase,
++      void* mappedDst,
++      const VkBufferImageCopy* regions,
++      bool is_striped);
+ 
+-VkResult
+-wrapper_device_memory_create(struct wrapper_device *device,
+-                             const VkAllocationCallbacks *alloc,
+-                             struct wrapper_device_memory **out_mem);
++bool is_striped(VkFormat format, void* mappedSrcBase, const VkBufferImageCopy* regions);
+ 
 -void
 -wrapper_device_memory_destroy(struct wrapper_device_memory *mem);
 +#ifdef __cplusplus
 +}
 +#endif
 diff --git a/src/vulkan/wsi/wsi_common.c b/src/vulkan/wsi/wsi_common.c
-index 92c25c08a58..cd1057d48bd 100644
+index 92c25c08a58..5c10f4704c5 100644
 --- a/src/vulkan/wsi/wsi_common.c
 +++ b/src/vulkan/wsi/wsi_common.c
 @@ -768,6 +768,7 @@ wsi_create_image(const struct wsi_swapchain *chain,
@@ -17785,7 +18090,15 @@ index 92c25c08a58..cd1057d48bd 100644
        const VkSemaphoreTypeCreateInfo type_info = {
           .sType = VK_STRUCTURE_TYPE_SEMAPHORE_TYPE_CREATE_INFO,
           .semaphoreType = VK_SEMAPHORE_TYPE_TIMELINE,
-@@ -1813,6 +1817,7 @@ wsi_select_memory_type(const struct wsi_device *wsi,
+@@ -1135,6 +1139,7 @@ wsi_DestroySwapchainKHR(VkDevice _device,
+    else
+      alloc = &device->alloc;
+ 
++   WSI_LOGD("Destroying swapchain");
+    swapchain->destroy(swapchain, alloc);
+ }
+ 
+@@ -1813,6 +1818,7 @@ wsi_select_memory_type(const struct wsi_device *wsi,
     assert(type_bits != 0);
  
     VkMemoryPropertyFlags common_props = ~0;
@@ -17793,7 +18106,7 @@ index 92c25c08a58..cd1057d48bd 100644
     u_foreach_bit(t, type_bits) {
        const VkMemoryType type = wsi->memory_props.memoryTypes[t];
  
-@@ -1825,6 +1830,10 @@ wsi_select_memory_type(const struct wsi_device *wsi,
+@@ -1825,6 +1831,10 @@ wsi_select_memory_type(const struct wsi_device *wsi,
           return t;
     }
  
