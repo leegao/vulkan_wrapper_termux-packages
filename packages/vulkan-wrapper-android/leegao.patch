@@ -65,16 +65,16 @@ index d1b66ef4cad..00000000000
 -          install/
 -        retention-days: 5
 diff --git a/.gitignore b/.gitignore
-index 30f4e69ea7d..db63e72c675 100644
+index 30f4e69ea7d..7fce34536ba 100644
 --- a/.gitignore
 +++ b/.gitignore
-@@ -5,3 +5,5 @@
+@@ -5,3 +5,6 @@
  *.out
  /build
  .venv/
 +s3tc2.comp
 +src/vulkan/wrapper/lib/
-\ No newline at end of file
++.idea
 diff --git a/granite_decode.txt b/granite_decode.txt
 new file mode 100644
 index 00000000000..e14a4c9dd73
@@ -7159,7 +7159,7 @@ index 00000000000..8782aa6a049
 \ No newline at end of file
 diff --git a/src/vulkan/wrapper/graphics_env_hooks.cpp b/src/vulkan/wrapper/graphics_env_hooks.cpp
 new file mode 100644
-index 00000000000..7f7462755f5
+index 00000000000..acf4b66e059
 --- /dev/null
 +++ b/src/vulkan/wrapper/graphics_env_hooks.cpp
 @@ -0,0 +1,77 @@
@@ -7174,7 +7174,7 @@ index 00000000000..7f7462755f5
 +#include "wrapper_debug.h"
 +}
 +
-+#define PATH "/data/data/com.winlator.cmod/files/imagefs/usr/lib"
++#define PATH "/data/data/com.winlator.cmod/files/imagefs/usr/lib:/data/data/com.micewine.emu/files/usr/lib:/data/local/tmp"
 +
 +extern "C"
 +bool set_layer_paths() {
@@ -7240,10 +7240,9 @@ index 00000000000..7f7462755f5
 +    WLOGD("GraphicsEnv::mLayerPaths set to %s", path.c_str());
 +    return true;
 +}
-\ No newline at end of file
 diff --git a/src/vulkan/wrapper/graphics_env_hooks.h b/src/vulkan/wrapper/graphics_env_hooks.h
 new file mode 100644
-index 00000000000..ba50e1ec051
+index 00000000000..506d39accef
 --- /dev/null
 +++ b/src/vulkan/wrapper/graphics_env_hooks.h
 @@ -0,0 +1,11 @@
@@ -7258,13 +7257,12 @@ index 00000000000..ba50e1ec051
 +#ifdef __cplusplus
 +}
 +#endif
-\ No newline at end of file
 diff --git a/src/vulkan/wrapper/include/spirv-tools/spirv-tools/libspirv.h b/src/vulkan/wrapper/include/spirv-tools/spirv-tools/libspirv.h
 new file mode 100644
-index 00000000000..2a604e94d91
+index 00000000000..c0b686a68f4
 --- /dev/null
 +++ b/src/vulkan/wrapper/include/spirv-tools/spirv-tools/libspirv.h
-@@ -0,0 +1,1069 @@
+@@ -0,0 +1,1071 @@
 +// Copyright (c) 2015-2020 The Khronos Group Inc.
 +// Modifications Copyright (C) 2020 Advanced Micro Devices, Inc. All rights
 +// reserved.
@@ -7347,6 +7345,8 @@ index 00000000000..2a604e94d91
 +  SPV_ERROR_INVALID_DATA = -14,  // Indicates data rules validation failure.
 +  SPV_ERROR_MISSING_EXTENSION = -15,
 +  SPV_ERROR_WRONG_VERSION = -16,  // Indicates wrong SPIR-V version
++  SPV_ERROR_FNVAR =
++      -17,  // Error related to SPV_INTEL_function_variants extension
 +  SPV_FORCE_32_BIT_ENUM(spv_result_t)
 +} spv_result_t;
 +
@@ -8752,10 +8752,10 @@ index 00000000000..1b3ed86a801
 +#endif  // INCLUDE_SPIRV_TOOLS_LIBSPIRV_HPP_
 diff --git a/src/vulkan/wrapper/include/spirv-tools/spirv-tools/linker.hpp b/src/vulkan/wrapper/include/spirv-tools/spirv-tools/linker.hpp
 new file mode 100644
-index 00000000000..9037b948897
+index 00000000000..99527ed6d65
 --- /dev/null
 +++ b/src/vulkan/wrapper/include/spirv-tools/spirv-tools/linker.hpp
-@@ -0,0 +1,104 @@
+@@ -0,0 +1,128 @@
 +// Copyright (c) 2017 Pierre Moreau
 +//
 +// Licensed under the Apache License, Version 2.0 (the "License");
@@ -8825,12 +8825,36 @@ index 00000000000..9037b948897
 +    allow_ptr_type_mismatch_ = allow_ptr_type_mismatch;
 +  }
 +
++  std::string GetFnVarTargetsCsv() const { return fnvar_targets_csv_; }
++  void SetFnVarTargetsCsv(std::string fnvar_targets_csv) {
++    fnvar_targets_csv_ = fnvar_targets_csv;
++  }
++
++  std::string GetFnVarArchitecturesCsv() const {
++    return fnvar_architectures_csv_;
++  }
++  void SetFnVarArchitecturesCsv(std::string fnvar_architectures_csv) {
++    fnvar_architectures_csv_ = fnvar_architectures_csv;
++  }
++
++  bool GetHasFnVarCapabilities() const { return has_fnvar_capabilities_; }
++  void SetHasFnVarCapabilities(bool fnvar_capabilities) {
++    has_fnvar_capabilities_ = fnvar_capabilities;
++  }
++
++  std::vector<std::string> GetInFiles() const { return in_files_; }
++  void SetInFiles(std::vector<std::string> in_files) { in_files_ = in_files; }
++
 + private:
 +  bool create_library_{false};
 +  bool verify_ids_{false};
 +  bool allow_partial_linkage_{false};
 +  bool use_highest_version_{false};
 +  bool allow_ptr_type_mismatch_{false};
++  std::string fnvar_targets_csv_{""};
++  std::string fnvar_architectures_csv_{""};
++  bool has_fnvar_capabilities_ = false;
++  std::vector<std::string> in_files_{{}};
 +};
 +
 +// Links one or more SPIR-V modules into a new SPIR-V module. That is, combine
@@ -8916,10 +8940,10 @@ index 00000000000..ccbcf0c1794
 +#endif  // INCLUDE_SPIRV_TOOLS_LINTER_HPP_
 diff --git a/src/vulkan/wrapper/include/spirv-tools/spirv-tools/optimizer.hpp b/src/vulkan/wrapper/include/spirv-tools/spirv-tools/optimizer.hpp
 new file mode 100644
-index 00000000000..b3059957a42
+index 00000000000..2ac5ec37ba5
 --- /dev/null
 +++ b/src/vulkan/wrapper/include/spirv-tools/spirv-tools/optimizer.hpp
-@@ -0,0 +1,1040 @@
+@@ -0,0 +1,1044 @@
 +// Copyright (c) 2016 Google Inc.
 +//
 +// Licensed under the Apache License, Version 2.0 (the "License");
@@ -9957,6 +9981,10 @@ index 00000000000..b3059957a42
 +
 +// MALI-specific pass
 +Optimizer::PassToken CreateRemoveClipCullDistPass();
++
++Optimizer::PassToken CreateFixMaliSpecConstantCompositePass();
++
++Optimizer::PassToken CreateMaliOptimizationBarrierPass();
 +}  // namespace spvtools
 +
 +#endif  // INCLUDE_SPIRV_TOOLS_OPTIMIZER_HPP_
@@ -11215,11 +11243,13 @@ index 00000000000..52226fec013
 +}
 diff --git a/src/vulkan/wrapper/spirv_edit.cpp b/src/vulkan/wrapper/spirv_edit.cpp
 new file mode 100644
-index 00000000000..cbef91486c0
+index 00000000000..7d4311abe84
 --- /dev/null
 +++ b/src/vulkan/wrapper/spirv_edit.cpp
-@@ -0,0 +1,162 @@
+@@ -0,0 +1,228 @@
 +#include "spirv_edit.h"
++
++#include <cstring>
 +#include <iostream>
 +#include <vector>
 +#include <string>
@@ -11282,13 +11312,16 @@ index 00000000000..cbef91486c0
 +    case SPV_MSG_FATAL:
 +    case SPV_MSG_INTERNAL_ERROR:
 +    case SPV_MSG_ERROR:
-+        WLOGE("SPIRV Error: " MSG)
++        WLOGE(".spv E: " MSG)
 +        break;
 +    case SPV_MSG_WARNING:
-+        WLOGE("SPIRV Warning: " MSG)
++        WLOGE(".spv W: " MSG)
 +        break;
 +    case SPV_MSG_INFO:
-+        WLOG("SPIRV Info: " MSG)
++        WLOG(".spv I: " MSG)
++        break;
++    case SPV_MSG_DEBUG:
++        WLOGD(".spv D: " MSG)
 +        break;
 +    default:
 +        break;
@@ -11296,7 +11329,7 @@ index 00000000000..cbef91486c0
 +}
 +
 +extern "C"
-+int optimize_spirv_for_size(const uint32_t* spirv_binary, size_t spirv_word_count, struct SpirvCode* out) {
++int optimize_spirv_for_size(const uint32_t* spirv_binary, size_t spirv_word_count, SpirvCode* out) {
 +    spvtools::Optimizer optimizer(SPV_ENV_VULKAN_1_1_SPIRV_1_4);
 +
 +    optimizer.SetMessageConsumer([&](spv_message_level_t level, const char* source, const spv_position_t& position, const char* message) {
@@ -11335,9 +11368,8 @@ index 00000000000..cbef91486c0
 +    return 0;
 +}
 +
-+
 +extern "C"
-+int lower_eliminate_clip_distance(const uint32_t* spirv_binary, size_t spirv_word_count, struct SpirvCode* out) {
++int lower_eliminate_clip_distance(const uint32_t* spirv_binary, size_t spirv_word_count, SpirvCode* out) {
 +    _Atomic static int counter = 0;
 +    int id = counter++;
 +    spvtools::Optimizer optimizer(SPV_ENV_VULKAN_1_1_SPIRV_1_4);
@@ -11353,17 +11385,11 @@ index 00000000000..cbef91486c0
 +        optimizer.RegisterPass(spvtools::CreateAggressiveDCEPass());
 +    }
 +
-+    WLOGD("Original SPIR-V Word Count %d (id=%d)", spirv_word_count, id);
-+
 +    std::vector<uint32_t> optimized_binary;
-+    bool success = optimizer.Run(spirv_binary, spirv_word_count, &optimized_binary);
-+
-+    if (!success) {
-+        WLOGE("SPIRV editing failed");
++    if (!optimizer.Run(spirv_binary, spirv_word_count, &optimized_binary)) {
++        WLOGE("RemoveClipDistancePass failed");
 +        return 1;
 +    }
-+
-+    WLOGD("Lowered SPIR-V Word Count %d (id=%d)", optimized_binary.size(), id);
 +
 +    if (optimized_binary.size() != spirv_word_count) {
 +        if (CHECK_FLAG("LOG_DISASSEMBLY"))
@@ -11381,12 +11407,81 @@ index 00000000000..cbef91486c0
 +
 +    return 0;
 +}
++
++// TODO: redesign the spirv passes to avoid calling two separate passes
++extern "C"
++int fix_mali_spec_composite_constants(const uint32_t* spirv_binary, size_t spirv_word_count, SpirvCode* out) {
++   _Atomic static int counter = 0;
++   int id = counter++;
++   spvtools::Optimizer optimizer(SPV_ENV_VULKAN_1_1_SPIRV_1_4);
++
++   optimizer.SetMessageConsumer([&](spv_message_level_t level, const char* source, const spv_position_t& position, const char* message) {
++       OptimizerMessageConsumer(level, source, position, message, id);
++   });
++
++   // Mali specific pass
++   optimizer.RegisterPass(spvtools::CreateFixMaliSpecConstantCompositePass());
++
++   std::vector<uint32_t> optimized_binary;
++   if (!optimizer.Run(spirv_binary, spirv_word_count, &optimized_binary)) {
++      WLOGE("FixMaliSpecConstantCompositePass failed");
++      return 1;
++   }
++
++   if (optimized_binary.size() != spirv_word_count) {
++      LogDisassembly("Lowered", optimized_binary, id);
++   }
++
++   out->spirv_word_count = optimized_binary.size();
++   out->spirv_code = static_cast<uint32_t*>(malloc(optimized_binary.size() * 4));
++   if (!out->spirv_code) {
++      WLOGE("Failed to allocate memory for optimized SPIR-V (id=%d)", id);
++      return 1;
++   }
++   std::memcpy(out->spirv_code, optimized_binary.data(), optimized_binary.size() * 4);
++
++   return 0;
++}
++
++extern "C"
++int add_optimization_barriers(const uint32_t* spirv_binary, size_t spirv_word_count, SpirvCode* out) {
++   _Atomic static int counter = 0;
++   int id = counter++;
++   spvtools::Optimizer optimizer(SPV_ENV_VULKAN_1_1_SPIRV_1_4);
++
++   optimizer.SetMessageConsumer([&](spv_message_level_t level, const char* source, const spv_position_t& position, const char* message) {
++       OptimizerMessageConsumer(level, source, position, message, id);
++   });
++
++   optimizer.RegisterPass(spvtools::CreateMaliOptimizationBarrierPass());
++
++   std::vector<uint32_t> optimized_binary;
++   if (!optimizer.Run(spirv_binary, spirv_word_count, &optimized_binary)) {
++      WLOGE("AddOptimizationBarrierPass failed");
++      return 1;
++   }
++
++   if (optimized_binary.size() != spirv_word_count) {
++      LogDisassembly("Lowered", optimized_binary, id);
++   }
++
++   out->spirv_word_count = optimized_binary.size();
++   out->spirv_code = static_cast<uint32_t*>(malloc(optimized_binary.size() * 4));
++   if (!out->spirv_code) {
++      WLOGE("Failed to allocate memory for optimized SPIR-V (id=%d)", id);
++      return 1;
++   }
++   std::memcpy(out->spirv_code, optimized_binary.data(), optimized_binary.size() * 4);
++
++   return 0;
++}
+\ No newline at end of file
 diff --git a/src/vulkan/wrapper/spirv_edit.h b/src/vulkan/wrapper/spirv_edit.h
 new file mode 100644
-index 00000000000..5895a3cfcae
+index 00000000000..76cf57ae251
 --- /dev/null
 +++ b/src/vulkan/wrapper/spirv_edit.h
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,27 @@
 +#pragma once
 +
 +#include <stdbool.h>
@@ -11396,14 +11491,18 @@ index 00000000000..5895a3cfcae
 +extern "C" {
 +#endif
 +
-+struct SpirvCode {
++typedef struct SpirvCode {
 +    uint32_t* spirv_code;
 +    size_t spirv_word_count;
-+};
++} SpirvCode;
 +
-+int optimize_spirv_for_size(const uint32_t* spirv_binary, size_t spirv_word_count, struct SpirvCode* out);
++int optimize_spirv_for_size(const uint32_t* spirv_binary, size_t spirv_word_count, SpirvCode* out);
 +
-+int lower_eliminate_clip_distance(const uint32_t* spirv_binary, size_t spirv_word_count, struct SpirvCode* out);
++int lower_eliminate_clip_distance(const uint32_t* spirv_binary, size_t spirv_word_count, SpirvCode* out);
++
++int fix_mali_spec_composite_constants(const uint32_t* spirv_binary, size_t spirv_word_count, SpirvCode* out);
++
++int add_optimization_barriers(const uint32_t* spirv_binary, size_t spirv_word_count, SpirvCode* out);
 +
 +void log_disassembly_to_cmd_log(const uint32_t* spirv_binary, size_t spirv_word_count);
 +
@@ -13240,10 +13339,10 @@ index 00000000000..ed63df960ad
 \ No newline at end of file
 diff --git a/src/vulkan/wrapper/wrapper_checks.h b/src/vulkan/wrapper/wrapper_checks.h
 new file mode 100644
-index 00000000000..997ff2bad39
+index 00000000000..e73d9310568
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_checks.h
-@@ -0,0 +1,33 @@
+@@ -0,0 +1,61 @@
 +#pragma once
 +
 +#define WDEVICE wrapper_device_trampolines
@@ -13277,12 +13376,41 @@ index 00000000000..997ff2bad39
 +#define __WRAP(call) return call
 +
 +#define __WRAPV(call) call
++
++#define TEMP_ALLOC(wdev, temp, type, size) ({ \
++   type* __output = wdev ? \
++      ((type *) vk_zalloc(&wdev->vk.alloc, size, alignof(type), VK_SYSTEM_ALLOCATION_SCOPE_OBJECT)) : \
++      ((type *) malloc(size)); \
++   if (__output) { \
++      struct temp_object_node *node = wdev ? \
++         vk_alloc(&wdev->vk.alloc, sizeof(struct temp_object_node), 8, VK_SYSTEM_ALLOCATION_SCOPE_OBJECT) : \
++         malloc(sizeof(struct temp_object_node)); \
++      node->ptr = __output; \
++      node->device = wdev; \
++      list_addtail(&node->link, &(temp)->objects); \
++   } \
++   __output; })
++
++#define TEMP_ARRAY(wdev, temp, type, len, orig) ({ \
++      type* __output2 = TEMP_ALLOC(wdev, temp, type, (sizeof(type) * len)); \
++      for (int _i = 0; _i < len; _i++) { \
++         __output2[_i] = (orig)[_i]; \
++      } \
++      __output2; \
++   })
++
++#define TEMP_OBJECT(wdev, temp, type, orig) ({ \
++      type* __output2 = TEMP_ALLOC(wdev, temp, type, sizeof(type)); \
++      *__output2 = *orig; \
++      __output2; \
++   })
+\ No newline at end of file
 diff --git a/src/vulkan/wrapper/wrapper_debug.c b/src/vulkan/wrapper/wrapper_debug.c
 new file mode 100644
-index 00000000000..830612272a7
+index 00000000000..cc8237b44b3
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_debug.c
-@@ -0,0 +1,398 @@
+@@ -0,0 +1,420 @@
 +#include "wrapper_private.h"
 +#include "wrapper_log.h"
 +#include "wrapper_trampolines.h"
@@ -13681,13 +13809,39 @@ index 00000000000..830612272a7
 +bool should_log_memory_debug() {
 +    return CHECK_FLAG("DEBUG_MEMORY");
 +}
++
++enum DepthFormatOverrideMode get_depth_format_override_mode(void) {
++    static enum DepthFormatOverrideMode mode = OVERRIDE_NONE;
++    static bool initialized = false;
++    if (initialized) return mode;
++    initialized = true;
++
++    const char* value = getenv("WRAPPER_REDUCE_DEPTH_FORMAT");
++    if (!value) return mode;
++
++    if (strcmp(value, "safe") == 0 || strcmp(value, "SAFE") == 0) {
++        mode = OVERRIDE_SAFE;
++        WLOG("Depth Override: reducing to D16_UNORM/D16_UNORM_S8_UINT");
++    } else if (strcmp(value, "aggressive") == 0 || strcmp(value, "AGGRESSIVE") == 0) {
++        mode = OVERRIDE_AGGRESSIVE;
++        WLOG("Depth Override: reducing to D16_UNORM (discarding stencil)");
++    } else if (strcmp(value, "disabled") == 0 || strcmp(value, "DISABLED") == 0) {
++        mode = OVERRIDE_DISABLED;
++        WLOGE("Depth Override: Disabling depth/stencil images for debugging, expect errors");
++    }
++    return mode;
++}
 diff --git a/src/vulkan/wrapper/wrapper_debug.h b/src/vulkan/wrapper/wrapper_debug.h
 new file mode 100644
-index 00000000000..c2b6220547b
+index 00000000000..9cff4efe573
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_debug.h
-@@ -0,0 +1,39 @@
+@@ -0,0 +1,56 @@
 +#pragma once
++
++#ifdef __cplusplus
++extern "C" {
++#endif
 +
 +bool check_flag(const char* env, bool default_value);
 +
@@ -13726,12 +13880,24 @@ index 00000000000..c2b6220547b
 +bool use_wrapper_trace(void);
 +
 +bool should_log_memory_debug(void);
-\ No newline at end of file
++
++enum DepthFormatOverrideMode {
++   OVERRIDE_NONE,
++   OVERRIDE_SAFE, /* Force Drop DXX_SY to D16_UNORM_S8_UINT, DXX to D16_UNORM */
++   OVERRIDE_AGGRESSIVE, /* Force D16_UNORM, discard stencil */
++   OVERRIDE_DISABLED, /* Disable depth/stencil creation */
++};
++
++enum DepthFormatOverrideMode get_depth_format_override_mode(void);
++
++#ifdef __cplusplus
++}
++#endif
 diff --git a/src/vulkan/wrapper/wrapper_device.c b/src/vulkan/wrapper/wrapper_device.c
-index 2ea37d1b392..b8d2557a844 100644
+index 2ea37d1b392..15ab3b447a0 100644
 --- a/src/vulkan/wrapper/wrapper_device.c
 +++ b/src/vulkan/wrapper/wrapper_device.c
-@@ -8,8 +8,49 @@
+@@ -8,8 +8,50 @@
  #include "vk_extensions.h"
  #include "vk_queue.h"
  #include "vk_util.h"
@@ -13746,6 +13912,7 @@ index 2ea37d1b392..b8d2557a844 100644
 +#include "vk_printers.h"
 +#include "spirv_edit.h"
 +#include "artifacts.h"
++#include "wrapper_checks.h"
 +
 +static const uint32_t s3tc_spv[] = {
 +#include "s3tc.spv.h"
@@ -13781,7 +13948,16 @@ index 2ea37d1b392..b8d2557a844 100644
  
  const struct vk_device_extension_table wrapper_device_extensions =
  {
-@@ -65,8 +106,7 @@ wrapper_append_required_extensions(const struct vk_device *device,
+@@ -32,7 +74,7 @@ const struct vk_device_extension_table wrapper_filter_extensions =
+ {
+    .EXT_hdr_metadata = true,
+    .GOOGLE_display_timing = true,
+-   .KHR_shader_float_controls = true,
++   // .KHR_shader_float_controls = true, // per @bylaws, this only affects Qualcomm
+    .KHR_shared_presentable_image = true,
+    .EXT_image_compression_control_swapchain = true,
+ };
+@@ -65,8 +107,7 @@ wrapper_append_required_extensions(const struct vk_device *device,
                                    uint32_t *count,
                                    const char **exts) {
  #define REQUIRED_EXTENSION(name) \
@@ -13791,7 +13967,7 @@ index 2ea37d1b392..b8d2557a844 100644
        exts[(*count)++] = "VK_" #name; \
     }
     REQUIRED_EXTENSION(KHR_external_fence);
-@@ -85,6 +125,8 @@ wrapper_append_required_extensions(const struct vk_device *device,
+@@ -85,6 +126,8 @@ wrapper_append_required_extensions(const struct vk_device *device,
     REQUIRED_EXTENSION(EXT_external_memory_dma_buf);
     REQUIRED_EXTENSION(EXT_image_drm_format_modifier);
     REQUIRED_EXTENSION(ANDROID_external_memory_android_hardware_buffer);
@@ -13800,7 +13976,7 @@ index 2ea37d1b392..b8d2557a844 100644
  #undef REQUIRED_EXTENSION
  }
  
-@@ -96,6 +138,10 @@ wrapper_create_device_queue(struct wrapper_device *device,
+@@ -96,6 +139,10 @@ wrapper_create_device_queue(struct wrapper_device *device,
     struct wrapper_queue *queue;
     VkResult result;
  
@@ -13811,7 +13987,7 @@ index 2ea37d1b392..b8d2557a844 100644
     for (int i = 0; i < pCreateInfo->queueCreateInfoCount; i++) {
        create_info = &pCreateInfo->pQueueCreateInfos[i];
        for (int j = 0; j < create_info->queueCount; j++) {
-@@ -120,20 +166,25 @@ wrapper_create_device_queue(struct wrapper_device *device,
+@@ -120,20 +167,25 @@ wrapper_create_device_queue(struct wrapper_device *device,
                 j, &queue->dispatch_handle);
           }
           queue->device = device;
@@ -13839,7 +14015,7 @@ index 2ea37d1b392..b8d2557a844 100644
                       const VkDeviceCreateInfo* pCreateInfo,
                       const VkAllocationCallbacks* pAllocator,
                       VkDevice* pDevice)
-@@ -148,6 +199,9 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -148,6 +200,9 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     VkPhysicalDeviceFeatures *pdf;
     VkResult result;
  
@@ -13849,20 +14025,32 @@ index 2ea37d1b392..b8d2557a844 100644
     device = vk_zalloc2(&physical_device->instance->vk.alloc, pAllocator,
                         sizeof(*device), 8, VK_SYSTEM_ALLOCATION_SCOPE_DEVICE);
     if (!device)
-@@ -155,6 +209,12 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -155,6 +210,24 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
  
     list_inithead(&device->command_buffer_list);
     list_inithead(&device->device_memory_list);
 +
++   // Depth Stencil overrid
++   device->depth_override_mode = get_depth_format_override_mode();
++   if (device->depth_override_mode != OVERRIDE_NONE) {
++      VkFormatProperties props;
++      WPCHECKV(GetPhysicalDeviceFormatProperties(physicalDevice, VK_FORMAT_D16_UNORM_S8_UINT, &props));
++      device->supports_d16_unorm_s8_uint =
++         (props.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) != 0;
++      WPCHECKV(GetPhysicalDeviceFormatProperties(physicalDevice, VK_FORMAT_D16_UNORM, &props));
++      device->supports_d16_unorm =
++         (props.optimalTilingFeatures & VK_FORMAT_FEATURE_DEPTH_STENCIL_ATTACHMENT_BIT) != 0;
++      WLOGD("Depth Override Support: D16_S8=%d, D16=%d", device->supports_d16_unorm_s8_uint, device->supports_d16_unorm);
++   }
++
 +   device->image_map = _mesa_hash_table_u64_create(NULL);
 +   device->buffer_map = _mesa_hash_table_u64_create(NULL);
 +   device->command_pool_map = _mesa_hash_table_u64_create(NULL);
-+   
 +
     simple_mtx_init(&device->resource_mutex, mtx_plain);
     device->physical = physical_device;
  
-@@ -165,10 +225,43 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -165,10 +238,43 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     vk_device_dispatch_table_from_entrypoints(
        &dispatch_table, &wrapper_device_trampolines, false);
  
@@ -13906,7 +14094,7 @@ index 2ea37d1b392..b8d2557a844 100644
        vk_free2(&physical_device->instance->vk.alloc, pAllocator,
                 device);
        return vk_error(physical_device, result);
-@@ -186,66 +279,47 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -186,66 +292,48 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     pdf = (void *)pCreateInfo->pEnabledFeatures;
     pdf2 = __vk_find_struct((void *)pCreateInfo->pNext,
              VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_FEATURES_2);
@@ -13975,9 +14163,8 @@ index 2ea37d1b392..b8d2557a844 100644
 +   if (pdf2 && pdf2->features.feature) { \
 +      pdf2->features.feature &= physical_device->base_supported_features.feature; \
     }
-    
--   result = physical_device->dispatch_table.CreateDevice(
--      physical_device->dispatch_handle, &wrapper_create_info,
++
++   DISABLE_FEATURE(geometryShader);
 +   DISABLE_FEATURE(textureCompressionBC);
 +   DISABLE_FEATURE(multiViewport);
 +   DISABLE_FEATURE(depthClamp);
@@ -13990,7 +14177,9 @@ index 2ea37d1b392..b8d2557a844 100644
 +   DISABLE_FEATURE(vertexPipelineStoresAndAtomics); // Missing on G57 r32p1
 +   // DISABLE_FEATURE(logicOp); // Missing on G57 r32p1
 +   // DISABLE_FEATURE(variableMultisampleRate); // Missing on G57 r32p1
-+   
+    
+-   result = physical_device->dispatch_table.CreateDevice(
+-      physical_device->dispatch_handle, &wrapper_create_info,
 +   // DEBUG: Disable ClipDistance
 +   if (CHECK_FLAG("FORCE_CLIP_DISTANCE")) {
 +      if (pdf && pdf->shaderClipDistance) {
@@ -14012,7 +14201,7 @@ index 2ea37d1b392..b8d2557a844 100644
           pAllocator, &device->dispatch_handle);
  
     if (result != VK_SUCCESS) {
-@@ -259,26 +333,73 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
+@@ -259,26 +347,73 @@ wrapper_CreateDevice(VkPhysicalDevice physicalDevice,
     vk_device_dispatch_table_load(&device->dispatch_table, gdpa,
                                   device->dispatch_handle);
  
@@ -14090,7 +14279,7 @@ index 2ea37d1b392..b8d2557a844 100644
                          VkQueue* pQueue) {
     VK_FROM_HANDLE(vk_device, device, _device);
  
-@@ -295,78 +416,24 @@ wrapper_GetDeviceQueue2(VkDevice _device, const VkDeviceQueueInfo2* pQueueInfo,
+@@ -295,78 +430,24 @@ wrapper_GetDeviceQueue2(VkDevice _device, const VkDeviceQueueInfo2* pQueueInfo,
     *pQueue = queue ? vk_queue_to_handle(queue) : VK_NULL_HANDLE;
  }
  
@@ -14175,7 +14364,7 @@ index 2ea37d1b392..b8d2557a844 100644
                             uint32_t commandBufferCount,
                             const VkCommandBuffer* pCommandBuffers)
  {
-@@ -377,41 +444,12 @@ wrapper_CmdExecuteCommands(VkCommandBuffer commandBuffer,
+@@ -377,41 +458,12 @@ wrapper_CmdExecuteCommands(VkCommandBuffer commandBuffer,
        command_buffers[i] =
           wrapper_command_buffer_from_handle(pCommandBuffers[i])->dispatch_handle;
     }
@@ -14219,7 +14408,7 @@ index 2ea37d1b392..b8d2557a844 100644
                                 const VkCommandBufferAllocateInfo* pAllocateInfo,
                                 VkCommandBuffer* pCommandBuffers)
  {
-@@ -420,9 +458,7 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
+@@ -420,9 +472,7 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
     VkResult result;
     uint32_t i;
     
@@ -14230,7 +14419,7 @@ index 2ea37d1b392..b8d2557a844 100644
     if (result != VK_SUCCESS)
        return result;
  
-@@ -435,13 +471,16 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
+@@ -435,13 +485,16 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
                                               &pCommandBuffers[i]);
        if (result != VK_SUCCESS)
           break;
@@ -14251,7 +14440,7 @@ index 2ea37d1b392..b8d2557a844 100644
        for (int q = 0; q < i; q++) {
           VK_FROM_HANDLE(wrapper_command_buffer, wcb, pCommandBuffers[q]);
           wrapper_command_buffer_destroy(device, wcb);
-@@ -457,33 +496,45 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
+@@ -457,33 +510,45 @@ wrapper_AllocateCommandBuffers(VkDevice _device,
     return result;
  }
  
@@ -14305,7 +14494,7 @@ index 2ea37d1b392..b8d2557a844 100644
                             const VkAllocationCallbacks* pAllocator)
  {
     VK_FROM_HANDLE(wrapper_device, device, _device);
-@@ -499,12 +550,15 @@ wrapper_DestroyCommandPool(VkDevice _device, VkCommandPool commandPool,
+@@ -499,12 +564,15 @@ wrapper_DestroyCommandPool(VkDevice _device, VkCommandPool commandPool,
  
     simple_mtx_unlock(&device->resource_mutex);
  
@@ -14325,7 +14514,7 @@ index 2ea37d1b392..b8d2557a844 100644
  {
     VK_FROM_HANDLE(wrapper_device, device, _device);
  
-@@ -521,6 +575,24 @@ wrapper_DestroyDevice(VkDevice _device, const VkAllocationCallbacks* pAllocator)
+@@ -521,6 +589,24 @@ wrapper_DestroyDevice(VkDevice _device, const VkAllocationCallbacks* pAllocator)
  
     simple_mtx_unlock(&device->resource_mutex);
  
@@ -14350,7 +14539,7 @@ index 2ea37d1b392..b8d2557a844 100644
     list_for_each_entry_safe(struct vk_queue, queue, &device->vk.queues, link) {
        vk_queue_finish(queue);
        vk_free2(&device->vk.alloc, pAllocator, queue);
-@@ -550,26 +622,1165 @@ unwrap_device_object(VkObjectType objectType,
+@@ -550,26 +636,1285 @@ unwrap_device_object(VkObjectType objectType,
     }
  }
  
@@ -14421,7 +14610,7 @@ index 2ea37d1b392..b8d2557a844 100644
 +      WLOG("Total of %d temp descriptor pools created for buffer %d (%p)", list_length(&wbuf->temp_descriptor_pools), wbuf->obj_id, wbuf->dispatch_handle);
 +   }
 +   return result;
- }
++}
 +
 +static void free_temp_pool_from_buffer(VkDevice device, struct wrapper_buffer* wbuf) {
 +   // // Clean up temporary descriptor pools associated with this command buffer
@@ -15477,28 +15666,67 @@ index 2ea37d1b392..b8d2557a844 100644
 +    const VkAllocationCallbacks* pAllocator,
 +    VkShaderModule* pShaderModule) {
 +   VK_FROM_HANDLE(wrapper_device, wdev, device);
-+   bool needs_emulation = !wdev->physical->base_supported_features.shaderClipDistance && !CHECK_FLAG("DISABLE_CLIP_DISTANCE");
-+
++   bool needs_clip_distance_emulation = !wdev->physical->base_supported_features.shaderClipDistance
++                                        && !CHECK_FLAG("DISABLE_CLIP_DISTANCE");
++   bool needs_spec_composite_constants_emulation = wdev->physical->driver_properties.driverID == VK_DRIVER_ID_ARM_PROPRIETARY
++                                                   && !CHECK_FLAG("DISABLE_SPEC_COMPOSITE_CONSTANTS");
++   bool needs_optimization_barriers = (wdev->physical->driver_properties.driverID == VK_DRIVER_ID_ARM_PROPRIETARY
++                                       || wdev->physical->driver_properties.driverID == VK_DRIVER_ID_QUALCOMM_PROPRIETARY)
++                                          && !CHECK_FLAG("DISABLE_OPTIMIZATION_BARRIERS");
 +   if (CHECK_FLAG("FORCE_CLIP_DISTANCE")) {
-+      needs_emulation = true;
++      needs_clip_distance_emulation = true;
++   }
++   if (CHECK_FLAG("FORCE_SPEC_COMPOSITE_CONSTANTS")) {
++      needs_spec_composite_constants_emulation = true;
++   }
++   if (CHECK_FLAG("FORCE_OPTIMIZATION_BARRIERS")) {
++      needs_optimization_barriers = true;
 +   }
 +
-+   if (!needs_emulation) {
-+      return CHECK(CreateShaderModule(device, pCreateInfo, pAllocator, pShaderModule));
++   VkShaderModuleCreateInfo ci = *pCreateInfo;
++   void* spirv1 = NULL;
++   if (needs_spec_composite_constants_emulation) {
++      SpirvCode lowered_spirv = { 0 };
++      if (fix_mali_spec_composite_constants(ci.pCode, ci.codeSize / 4, &lowered_spirv)) {
++         WLOGE("fix_mali_spec_composite_constants failed");
++      } else {
++         ci.codeSize = lowered_spirv.spirv_word_count * 4;
++         ci.pCode = lowered_spirv.spirv_code;
++         spirv1 = lowered_spirv.spirv_code;
++      }
 +   }
 +
-+   size_t orig_size = pCreateInfo->codeSize;
-+   const uint32_t* orig_code = pCreateInfo->pCode;
-+   struct SpirvCode lowered = { 0 };
-+   if (lower_eliminate_clip_distance(orig_code, orig_size / 4, &lowered)) {
-+      WLOGE("lower_eliminate_clip_distance failed");
-+      return CHECK(CreateShaderModule(device, pCreateInfo, pAllocator, pShaderModule));
++   void* spirv2 = NULL;
++   if (needs_optimization_barriers) {
++      SpirvCode lowered_spirv = { 0 };
++      if (add_optimization_barriers(ci.pCode, ci.codeSize / 4, &lowered_spirv)) {
++         WLOGE("add_optimization_barriers failed");
++      } else {
++         ci.codeSize = lowered_spirv.spirv_word_count * 4;
++         ci.pCode = lowered_spirv.spirv_code;
++         spirv2 = lowered_spirv.spirv_code;
++      }
 +   }
 +
-+   VkShaderModuleCreateInfo newCreateInfo = *pCreateInfo;
-+   newCreateInfo.codeSize = lowered.spirv_word_count * 4;
-+   newCreateInfo.pCode = lowered.spirv_code;
-+   return CHECK(CreateShaderModule(device, &newCreateInfo, pAllocator, pShaderModule));
++   void* spirv3 = NULL;
++   if (needs_clip_distance_emulation) {
++      SpirvCode lowered_spirv = { 0 };
++      if (lower_eliminate_clip_distance(ci.pCode, ci.codeSize / 4, &lowered_spirv)) {
++         WLOGE("lower_eliminate_clip_distance failed");
++      } else {
++         ci.codeSize = lowered_spirv.spirv_word_count * 4;
++         ci.pCode = lowered_spirv.spirv_code;
++         spirv3 = lowered_spirv.spirv_code;
++      }
++   }
++
++   const VkResult result = CHECK(CreateShaderModule(device, &ci, pAllocator, pShaderModule));
++
++   if (spirv1) free(spirv1);
++   if (spirv2) free(spirv2);
++   if (spirv3) free(spirv3);
++
++   return result;
 +}
 +
 +WRAPPER_CreateGraphicsPipelines(
@@ -15509,26 +15737,106 @@ index 2ea37d1b392..b8d2557a844 100644
 +    const VkAllocationCallbacks* pAllocator,
 +    VkPipeline* pPipelines) {
 +   VK_FROM_HANDLE(wrapper_device, wdev, device);
++   struct temporary_objects temp;
++   list_inithead(&temp.objects);
++   VkGraphicsPipelineCreateInfo* create_infos = TEMP_ARRAY(wdev, &temp, VkGraphicsPipelineCreateInfo, createInfoCount, pCreateInfos);
++
 +   // Check for fillModeNonSolid support
 +   if (!wdev->physical->base_supported_features.fillModeNonSolid) {
-+      _Atomic static int counter = 0;
 +      for (int i = 0; i < createInfoCount; i++) {
-+         if (!pCreateInfos[i].pRasterizationState || pCreateInfos[i].pRasterizationState->polygonMode != VK_POLYGON_MODE_LINE) {
++         if (!create_infos[i].pRasterizationState || create_infos[i].pRasterizationState->polygonMode != VK_POLYGON_MODE_LINE) {
 +            continue;
 +         }
-+         int id = counter++;
-+         if (id < 10) {
-+            WLOGE("VK_POLYGON_MODE_LINE requested, but fillModeNonSolid is not supported on this device");
-+         } else if (id == 10) {
-+            WLOGE("VK_POLYGON_MODE_LINE requested, but fillModeNonSolid is not supported on this device");
-+            WLOGE("(this message has been shown 10 times, not reporting again)")
++         WLOG("VK_POLYGON_MODE_LINE requested, but fillModeNonSolid is not supported on this device, using VK_POLYGON_MODE_FILL instead");
++         ((VkPipelineRasterizationStateCreateInfo*) create_infos[i].pRasterizationState)->polygonMode = VK_POLYGON_MODE_FILL;
++      }
++   }
++
++   // Check for geometryShader support, needed for PVR GPUs
++   // See https://gist.github.com/leegao/e24afbb5f55fe678139197d703d7f600#file-gistfile1-txt-L69
++   if (!wdev->physical->base_supported_features.geometryShader) {
++      for (int i = 0; i < createInfoCount; i++) {
++         VkGraphicsPipelineCreateInfo* ci = &create_infos[i];
++         // Get the number of non-geometryShader stages
++         int stageCount = 0;
++         for (int j = 0; j < ci->stageCount; j++) {
++            if ((ci->pStages[j].stage & VK_SHADER_STAGE_GEOMETRY_BIT) == 0) {
++               stageCount++;
++            }
++         }
++         if (stageCount != ci->stageCount) {
++            continue;
++         }
++         int idx = 0;
++         VkPipelineShaderStageCreateInfo* stages = TEMP_ALLOC(
++            wdev, &temp, VkPipelineShaderStageCreateInfo, sizeof(VkPipelineShaderStageCreateInfo) * stageCount);
++         for (int j = 0; j < ci->stageCount; j++) {
++            if ((ci->pStages[j].stage & VK_SHADER_STAGE_GEOMETRY_BIT) == 0) {
++               stages[idx++] = ci->pStages[j];
++            }
++         }
++         WLOG("A VK_SHADER_STAGE_GEOMETRY stage requested, but geometryShader not supported, disabling it instead.");
++         ci->stageCount = stageCount;
++         ci->pStages = stages;
++      }
++   }
++
++   VkResult result = CHECK(CreateGraphicsPipelines(device, pipelineCache, createInfoCount, pCreateInfos, pAllocator, pPipelines));
++   free_temp_objects(&temp);
++   return result;
++}
++
++WRAPPER_CreateRenderPass(VkDevice device,
++                         const VkRenderPassCreateInfo* pCreateInfo,
++                         const VkAllocationCallbacks* pAllocator,
++                         VkRenderPass* pRenderPass)
++{
++   VK_FROM_HANDLE(wrapper_device, wdev, device);
++   if (wdev->depth_override_mode == OVERRIDE_NONE) {
++      return CHECK(CreateRenderPass(device, pCreateInfo, pAllocator, pRenderPass));
++   }
++
++   struct temporary_objects temp;
++   list_inithead(&temp.objects);
++
++   VkRenderPassCreateInfo *ci = TEMP_OBJECT(wdev, &temp, VkRenderPassCreateInfo, pCreateInfo);
++   VkAttachmentDescription *attachments = TEMP_ARRAY(wdev, &temp, VkAttachmentDescription,
++                                                     pCreateInfo->attachmentCount, pCreateInfo->pAttachments);
++   ci->pAttachments = attachments;
++
++   for (uint32_t i = 0; i < pCreateInfo->attachmentCount; i++) {
++      VkFormat original_format = attachments[i].format;
++      VkFormat new_format = get_depth_stencil_vk_format(wdev, original_format);
++      if (new_format != original_format) {
++         WLOGD("Patching RenderPass attachment[%d] from %d to %d", i, original_format, new_format);
++         attachments[i].format = new_format;
++
++         // Remove the stencil layout for OVERRIDE_D16
++         bool had_stencil = (original_format == VK_FORMAT_D24_UNORM_S8_UINT ||
++                             original_format == VK_FORMAT_D32_SFLOAT_S8_UINT ||
++                             original_format == VK_FORMAT_D16_UNORM_S8_UINT);
++         bool has_stencil = (new_format == VK_FORMAT_D24_UNORM_S8_UINT ||
++                             new_format == VK_FORMAT_D32_SFLOAT_S8_UINT ||
++                             new_format == VK_FORMAT_D16_UNORM_S8_UINT);
++
++         if (had_stencil && !has_stencil) {
++            WLOGD(" + Patching RenderPass attachment[%d] layout due to stencil removal", i);
++            if (attachments[i].initialLayout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL)
++               attachments[i].initialLayout = VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL;
++            if (attachments[i].finalLayout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_ATTACHMENT_OPTIMAL)
++               attachments[i].finalLayout = VK_IMAGE_LAYOUT_DEPTH_ATTACHMENT_OPTIMAL;
++            if (attachments[i].initialLayout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL)
++               attachments[i].initialLayout = VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_OPTIMAL;
++            if (attachments[i].finalLayout == VK_IMAGE_LAYOUT_DEPTH_STENCIL_READ_ONLY_OPTIMAL)
++               attachments[i].finalLayout = VK_IMAGE_LAYOUT_DEPTH_READ_ONLY_OPTIMAL;
 +         }
 +      }
 +   }
 +
-+   return CHECK(CreateGraphicsPipelines(device, pipelineCache, createInfoCount, pCreateInfos, pAllocator, pPipelines));
-+}
-\ No newline at end of file
++   VkResult result = CHECK(CreateRenderPass(device, ci, pAllocator, pRenderPass));
++   free_temp_objects(&temp);
++   return result;
+ }
 diff --git a/src/vulkan/wrapper/wrapper_device_memory.c b/src/vulkan/wrapper/wrapper_device_memory.c
 index 6d47a52fd18..bfc46f05633 100644
 --- a/src/vulkan/wrapper/wrapper_device_memory.c
@@ -15804,10 +16112,10 @@ index 6d47a52fd18..bfc46f05633 100644
 -
 diff --git a/src/vulkan/wrapper/wrapper_image.c b/src/vulkan/wrapper/wrapper_image.c
 new file mode 100644
-index 00000000000..619069e420d
+index 00000000000..089e4f62718
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_image.c
-@@ -0,0 +1,101 @@
+@@ -0,0 +1,136 @@
 +#include "wrapper_private.h"
 +#include "wrapper_entrypoints.h"
 +#include "vk_unwrappers.h"
@@ -15818,6 +16126,7 @@ index 00000000000..619069e420d
 +#include "vk_util.h"
 +#include "vk_printers.h"
 +#include "wrapper_trampolines.h"
++#include "wrapper_checks.h"
 +
 +#if DETECT_OS_LINUX || DETECT_OS_BSD
 +#include <drm-uapi/drm_fourcc.h>
@@ -15837,24 +16146,45 @@ index 00000000000..619069e420d
 +      emulate_bcn = false;
 +   }
 +
-+   VkImageCreateInfo create_info = *pCreateInfo;
++   struct temporary_objects temp;
++   list_inithead(&temp.objects);
++
++   VkImageCreateInfo *create_info = TEMP_OBJECT(device, &temp, VkImageCreateInfo, pCreateInfo);
++   bool is_depth_stencil_reduced = false;
++   VkFormat original_format = pCreateInfo->format;
++   VkFormat new_format = pCreateInfo->format;
 +   VkResult result;
 +
-+   if (emulate_bcn) {
-+      WLOGD("Calling CreateImage (%dx%d) with bcn texture: %d", pCreateInfo->extent.width, pCreateInfo->extent.height, pCreateInfo->format);
-+      create_info.format = unwrap_vk_format(device, pCreateInfo->format); // Done within the next layer
-+      create_info.usage |=  VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_STORAGE_BIT;
-+      create_info.flags &= 0xffffff7f;
-+      create_info.flags |= VK_IMAGE_CREATE_MUTABLE_FORMAT_BIT;
++   if (device->depth_override_mode != OVERRIDE_NONE &&
++       (create_info->usage & VK_IMAGE_USAGE_DEPTH_STENCIL_ATTACHMENT_BIT)) {
 +
-+      vk_foreach_struct_const(pnext, create_info.pNext) {
++      if (device->depth_override_mode == OVERRIDE_DISABLED) {
++         WLOGE("Depth override: Blocking creation of depth image.");
++         free_temp_objects(&temp);
++         return VK_ERROR_FORMAT_NOT_SUPPORTED;
++      }
++      new_format = get_depth_stencil_vk_format(device, original_format);
++      if (new_format != original_format) {
++         WLOGD("Depth override: Changing image format from %d to %d", original_format, new_format);
++         create_info->format = new_format;
++         is_depth_stencil_reduced = true;
++      }
++   } else if (emulate_bcn) {
++      create_info->format = (new_format = unwrap_vk_format(device, original_format)); // Done within the next layer
++      WLOGD("Emulate BCn: Changing image (%dx%d) format from bcn texture: %d to %d", 
++         pCreateInfo->extent.width, pCreateInfo->extent.height, original_format, new_format);
++      create_info->usage |=  VK_IMAGE_USAGE_COLOR_ATTACHMENT_BIT | VK_IMAGE_USAGE_TRANSFER_DST_BIT | VK_IMAGE_USAGE_STORAGE_BIT;
++      create_info->flags &= 0xffffff7f;
++      create_info->flags |= VK_IMAGE_CREATE_MUTABLE_FORMAT_BIT;
++
++      vk_foreach_struct_const(pnext, create_info->pNext) {
 +         switch ((int32_t)pnext->sType) {
 +         case VK_STRUCTURE_TYPE_IMAGE_FORMAT_LIST_CREATE_INFO:
 +            {            
 +               VkImageFormatListCreateInfo *ext = (VkImageFormatListCreateInfo *) pnext;
 +               if (ext->pViewFormats) {
 +                  ext->viewFormatCount = 1;
-+                  ((VkFormat*)ext->pViewFormats)[0] = unwrap_vk_format(device, pCreateInfo->format);
++                  ((VkFormat*)ext->pViewFormats)[0] = new_format;
 +               }
 +            }
 +            break;
@@ -15864,20 +16194,28 @@ index 00000000000..619069e420d
 +      }
 +   }
 +
-+   result = CHECK(CreateImage(_device, &create_info, pAllocator, pImage));
++   result = CHECK(CreateImage(_device, create_info, pAllocator, pImage));
 +   if (result != VK_SUCCESS) {
++      if (is_depth_stencil_reduced) {
++         WLOGE("CreateImage failed with modified depth format (%d -> %d), try unsetting WRAPPER_REDUCE_DEPTH_FORMAT", original_format, new_format);
++      }
++      free_temp_objects(&temp);
 +      return result;
 +   }
 +
-+   struct wrapper_image *wimg = wrapper_image_create(device, &create_info, *pImage);
++   struct wrapper_image *wimg = wrapper_image_create(device, create_info, *pImage);
 +   if (!wimg) {
++      free_temp_objects(&temp);
 +      return vk_error(&device->vk, VK_ERROR_OUT_OF_HOST_MEMORY);
 +   }
 +
 +   // Track data about this image
-+   wimg->original_format = pCreateInfo->format;
++   wimg->original_format = original_format;
++   wimg->format = new_format;
 +   wimg->is_bcn_emulated = emulate_bcn;
++   wimg->is_depth_stencil_reduced = is_depth_stencil_reduced;
 +
++   free_temp_objects(&temp);
 +   return result;
 +}
 +
@@ -15886,7 +16224,7 @@ index 00000000000..619069e420d
 +                     const VkAllocationCallbacks* pAllocator)
 +{
 +   VK_FROM_HANDLE(wrapper_device, device, _device);
-+   wrapper_device_trampolines.DestroyImage(_device, _image, pAllocator);
++   CHECKV(DestroyImage(_device, _image, pAllocator));
 +
 +   struct wrapper_image* wimg = get_wrapper_image(device, _image);
 +   if (!wimg) {
@@ -15897,7 +16235,6 @@ index 00000000000..619069e420d
 +   wrapper_image_destroy(device, wimg);
 +}
 +
-+
 +WRAPPER_CreateImageView(
 +    VkDevice device,
 +    const VkImageViewCreateInfo* pCreateInfo,
@@ -15905,9 +16242,15 @@ index 00000000000..619069e420d
 +    VkImageView* pView)
 +{
 +    VK_FROM_HANDLE(wrapper_device, base, device);
-+    VkImageViewCreateInfo _pCreateInfo = *pCreateInfo;
-+    _pCreateInfo.format = unwrap_vk_format(base, pCreateInfo->format);
-+    return wrapper_device_trampolines.CreateImageView(device, &_pCreateInfo, pAllocator, pView);
++    VkImageViewCreateInfo ci = *pCreateInfo;
++    struct wrapper_image* wimg = get_wrapper_image(base, pCreateInfo->image);
++    if (wimg) {
++      if ((wimg->is_bcn_emulated || wimg->is_depth_stencil_reduced) && (wimg->format != wimg->original_format)) {
++         WLOGD("Patching ImageView format for tracked image from %d to %d (original img format: %d)", ci.format, wimg->format, wimg->original_format);
++         ci.format = wimg->format;
++      }
++    }
++    return CHECK(CreateImageView(device, &ci, pAllocator, pView));
 +}
 diff --git a/src/vulkan/wrapper/wrapper_instance.c b/src/vulkan/wrapper/wrapper_instance.c
 index 237108ca6eb..8a18a7f87dc 100644
@@ -16838,10 +17181,10 @@ index 00000000000..f53d7371bd3
 +}
 diff --git a/src/vulkan/wrapper/wrapper_objects.h b/src/vulkan/wrapper/wrapper_objects.h
 new file mode 100644
-index 00000000000..b26c7564b2f
+index 00000000000..20e4eb62342
 --- /dev/null
 +++ b/src/vulkan/wrapper/wrapper_objects.h
-@@ -0,0 +1,250 @@
+@@ -0,0 +1,259 @@
 +#pragma once
 +
 +
@@ -16861,6 +17204,7 @@ index 00000000000..b26c7564b2f
 +#include "vulkan/wsi/wsi_common.h"
 +
 +#include "wrapper_trampolines.h"
++#include "wrapper_debug.h"
 +
 +#ifdef __cplusplus
 +extern "C" {
@@ -16948,9 +17292,15 @@ index 00000000000..b26c7564b2f
 +
 +   VkCommandPool computePool;
 +
++   // BCn decoding
 +   InterceptorState s3tc;
 +   InterceptorState bc6;
 +   InterceptorState bc7;
++
++   // depth-stencil resolution reduction
++   enum DepthFormatOverrideMode depth_override_mode;
++   bool supports_d16_unorm_s8_uint;
++   bool supports_d16_unorm;
 +};
 +
 +VK_DEFINE_HANDLE_CASTS(wrapper_device, vk.base, VkDevice,
@@ -17057,7 +17407,9 @@ index 00000000000..b26c7564b2f
 +   COMMON_FIELDS(VkImage);
 +
 +   bool is_bcn_emulated;
++   bool is_depth_stencil_reduced;
 +   VkFormat original_format;
++   VkFormat format;
 +};
 +
 +MAKE_PROTOTYPES(wrapper_image, VkImage);
@@ -17093,7 +17445,7 @@ index 00000000000..b26c7564b2f
 +}
 +#endif
 diff --git a/src/vulkan/wrapper/wrapper_physical_device.c b/src/vulkan/wrapper/wrapper_physical_device.c
-index 384c45483c6..b53c5e28ed7 100644
+index 384c45483c6..e1365946122 100644
 --- a/src/vulkan/wrapper/wrapper_physical_device.c
 +++ b/src/vulkan/wrapper/wrapper_physical_device.c
 @@ -11,6 +11,7 @@
@@ -17140,7 +17492,16 @@ index 384c45483c6..b53c5e28ed7 100644
  
     return VK_SUCCESS;
  }
-@@ -139,6 +162,18 @@ VkResult enumerate_physical_device(struct vk_instance *_instance)
+@@ -126,6 +149,8 @@ VkResult enumerate_physical_device(struct vk_instance *_instance)
+ 
+       struct vk_features *supported_features = &pdevice->vk.supported_features;
+       pdevice->base_supported_features = *supported_features;
++
++      supported_features->geometryShader = true;
+       supported_features->presentId = true;
+       supported_features->multiViewport = true;
+       supported_features->depthClamp = true;
+@@ -139,6 +164,18 @@ VkResult enumerate_physical_device(struct vk_instance *_instance)
        supported_features->presentWait = supported_features->timelineSemaphore;
        supported_features->swapchainMaintenance1 = true;
        supported_features->imageCompressionControlSwapchain = false;
@@ -17159,7 +17520,7 @@ index 384c45483c6..b53c5e28ed7 100644
        
        result = wsi_device_init(&pdevice->wsi_device,
                                 wrapper_physical_device_to_handle(pdevice),
-@@ -162,12 +197,18 @@ VkResult enumerate_physical_device(struct vk_instance *_instance)
+@@ -162,15 +199,37 @@ VkResult enumerate_physical_device(struct vk_instance *_instance)
           .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PROPERTIES_2,
           .pNext = &pdevice->driver_properties,
        };
@@ -17184,7 +17545,44 @@ index 384c45483c6..b53c5e28ed7 100644
        const char *app_name = instance->vk.app_info.app_name
           ? instance->vk.app_info.app_name : "wrapper";
  
-@@ -182,6 +223,37 @@ VkResult enumerate_physical_device(struct vk_instance *_instance)
++      bool is_dxvk = (instance->vk.app_info.engine_name != NULL) && (strcmp(instance->vk.app_info.engine_name, "DXVK") == 0);
++      if (!is_dxvk) WLOGE("WARNING: this wrapper may not be compatible for non-dxvk game engines, use at your own risks");
++
++#define DXVK(a, b, c) (a * 0x400000 + b * 0x1000 + c);
++      bool is_dxvk_2_plus = is_dxvk && instance->vk.app_info.engine_version >= DXVK(2, 0, 0);
++      bool is_dxvk_1_10_3 = is_dxvk && instance->vk.app_info.engine_version == DXVK(1, 10, 3);
++
++      WLOGD("AppInfo: app_name = %s, engine_name = %s, engine_version = %x",
++         instance->vk.app_info.app_name ? instance->vk.app_info.app_name : "(unknown)",
++         instance->vk.app_info.engine_name ? instance->vk.app_info.engine_name : "(unknown)",
++         instance->vk.app_info.engine_version);
++      WLOGD("DriverInfo: driver_id = %d, driver_name = %s, driver_info = %s",
++         pdevice->driver_properties.driverID,
++         pdevice->driver_properties.driverName,
++         pdevice->driver_properties.driverInfo);
++
+       if (pdevice->driver_properties.driverID == VK_DRIVER_ID_QUALCOMM_PROPRIETARY &&
+           pdevice->properties2.properties.driverVersion > VK_MAKE_VERSION(512, 744, 0) &&
+           strstr(app_name, "clvk")) {
+@@ -178,10 +237,55 @@ VkResult enumerate_physical_device(struct vk_instance *_instance)
+          supported_features->globalPriorityQuery = false;
+       }
+ 
++      if (pdevice->driver_properties.driverID == VK_DRIVER_ID_ARM_PROPRIETARY
++            && pdevice->vk.supported_extensions.EXT_extended_dynamic_state
++            && !is_dxvk_2_plus) {
++         WLOG("Disabling VK_EXT_extended_dynamic_state on Mali proprietary drivers");
++         pdevice->vk.supported_extensions.EXT_extended_dynamic_state = false;
++         pdevice->vk.supported_extensions.EXT_extended_dynamic_state2 = false;
++         pdevice->vk.supported_extensions.EXT_extended_dynamic_state3 = false;
++      }
++
++      if (pdevice->driver_properties.driverID == VK_DRIVER_ID_QUALCOMM_PROPRIETARY) {
++         WLOG("Disabling VK_KHR_shader_float_controls on Qualcom proprietary drivers");
++         pdevice->vk.supported_extensions.KHR_shader_float_controls = false;
++      }
++
+       pdevice->dma_heap_fd = open("/dev/dma_heap/system", O_RDONLY);
        if (pdevice->dma_heap_fd < 0)
           pdevice->dma_heap_fd = open("/dev/ion", O_RDONLY);
  
@@ -17222,7 +17620,7 @@ index 384c45483c6..b53c5e28ed7 100644
        list_addtail(&pdevice->vk.link, &_instance->physical_devices.list);
     }
  
-@@ -198,33 +270,66 @@ void destroy_physical_device(struct vk_physical_device *pdevice) {
+@@ -198,33 +302,66 @@ void destroy_physical_device(struct vk_physical_device *pdevice) {
     vk_free(&pdevice->instance->alloc, pdevice);
  }
  
@@ -17298,7 +17696,7 @@ index 384c45483c6..b53c5e28ed7 100644
                                       VkPhysicalDeviceProperties2* pProperties)
  {
     VK_FROM_HANDLE(wrapper_physical_device, pdevice, physicalDevice);
-@@ -264,6 +369,22 @@ wrapper_GetPhysicalDeviceProperties2(VkPhysicalDevice physicalDevice,
+@@ -264,6 +401,22 @@ wrapper_GetPhysicalDeviceProperties2(VkPhysicalDevice physicalDevice,
           float_prop->shaderSignedZeroInfNanPreserveFloat32 = false;
           break;
        }
@@ -17321,7 +17719,7 @@ index 384c45483c6..b53c5e28ed7 100644
        case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_PROPERTIES:
        {
           VkPhysicalDeviceVulkan11Properties *vk11_prop =
-@@ -308,8 +429,7 @@ wrapper_GetPhysicalDeviceProperties2(VkPhysicalDevice physicalDevice,
+@@ -308,8 +461,7 @@ wrapper_GetPhysicalDeviceProperties2(VkPhysicalDevice physicalDevice,
     }
  }
  
@@ -17331,7 +17729,7 @@ index 384c45483c6..b53c5e28ed7 100644
  	                                           VkFormat format,
  	                                           VkImageType type,
  	                                           VkImageTiling tiling,
-@@ -320,25 +440,10 @@ wrapper_GetPhysicalDeviceImageFormatProperties(VkPhysicalDevice physicalDevice,
+@@ -320,25 +472,10 @@ wrapper_GetPhysicalDeviceImageFormatProperties(VkPhysicalDevice physicalDevice,
     VkResult result;
     VK_FROM_HANDLE(wrapper_physical_device, pdevice, physicalDevice);
  
@@ -17360,7 +17758,7 @@ index 384c45483c6..b53c5e28ed7 100644
        if (type & VK_IMAGE_TYPE_1D) {
           pImageFormatProperties->maxExtent.width = pdevice->properties2.properties.limits.maxImageDimension1D;
           pImageFormatProperties->maxExtent.height = 1;
-@@ -378,40 +483,20 @@ wrapper_GetPhysicalDeviceImageFormatProperties(VkPhysicalDevice physicalDevice,
+@@ -378,40 +515,20 @@ wrapper_GetPhysicalDeviceImageFormatProperties(VkPhysicalDevice physicalDevice,
        pImageFormatProperties->sampleCounts = VK_SAMPLE_COUNT_1_BIT;      
        pImageFormatProperties->maxResourceSize = 562949953421312;
        return VK_SUCCESS;
@@ -17405,7 +17803,7 @@ index 384c45483c6..b53c5e28ed7 100644
        if (pImageFormatInfo->type & VK_IMAGE_TYPE_1D) {
           pImageFormatProperties->imageFormatProperties.maxExtent.width = pdevice->properties2.properties.limits.maxImageDimension1D;
           pImageFormatProperties->imageFormatProperties.maxExtent.height = 1;
-@@ -453,42 +538,69 @@ wrapper_GetPhysicalDeviceImageFormatProperties2(VkPhysicalDevice physicalDevice,
+@@ -453,42 +570,69 @@ wrapper_GetPhysicalDeviceImageFormatProperties2(VkPhysicalDevice physicalDevice,
        pImageFormatProperties->imageFormatProperties.sampleCounts = VK_SAMPLE_COUNT_1_BIT;      
        pImageFormatProperties->imageFormatProperties.maxResourceSize = 562949953421312;
        return VK_SUCCESS;
@@ -17505,10 +17903,10 @@ index 384c45483c6..b53c5e28ed7 100644
 +}
 +
 diff --git a/src/vulkan/wrapper/wrapper_private.h b/src/vulkan/wrapper/wrapper_private.h
-index 7f8cc6e8c84..a94ec82d711 100644
+index 7f8cc6e8c84..041738f17a8 100644
 --- a/src/vulkan/wrapper/wrapper_private.h
 +++ b/src/vulkan/wrapper/wrapper_private.h
-@@ -1,110 +1,462 @@
+@@ -1,110 +1,490 @@
 +#pragma once
 +
  #include <sys/stat.h>
@@ -17641,9 +18039,7 @@ index 7f8cc6e8c84..a94ec82d711 100644
 +      return false;
 +   }
 +}
- 
--   VkInstance dispatch_handle;
--   struct vk_instance_dispatch_table dispatch_table;
++
 +static bool is_bc4567_image_format(VkFormat format) {
 +   switch (format) {
 +   case VK_FORMAT_BC4_UNORM_BLOCK:
@@ -17659,7 +18055,9 @@ index 7f8cc6e8c84..a94ec82d711 100644
 +      return false;
 +   }
 +}
-+
+ 
+-   VkInstance dispatch_handle;
+-   struct vk_instance_dispatch_table dispatch_table;
 +
 +static inline uint32_t get_bc_block_size(VkFormat format) {
 +   if (!is_bc_image_format(format)) return 4;
@@ -17729,6 +18127,34 @@ index 7f8cc6e8c84..a94ec82d711 100644
 +   }
 +   // Replace BCn formats with R8G8B8A8_UNORM if they are emulated
 +   return unwrap_vk_format_physical_device(device->physical, in_format);
++}
++
++static VkFormat get_depth_stencil_vk_format(struct wrapper_device* device, VkFormat original_format) {
++    switch (device->depth_override_mode) {
++    case OVERRIDE_SAFE:
++        if (device->supports_d16_unorm_s8_uint &&
++            (original_format == VK_FORMAT_D24_UNORM_S8_UINT ||
++                original_format == VK_FORMAT_D32_SFLOAT_S8_UINT)) {
++            return VK_FORMAT_D16_UNORM_S8_UINT;
++        } else if (device->supports_d16_unorm && original_format == VK_FORMAT_D32_SFLOAT) {
++            return VK_FORMAT_D16_UNORM;
++        }
++        break;
++    case OVERRIDE_AGGRESSIVE:
++        if (device->supports_d16_unorm &&
++            (original_format == VK_FORMAT_D32_SFLOAT ||
++                original_format == VK_FORMAT_D24_UNORM_S8_UINT ||
++                original_format == VK_FORMAT_D32_SFLOAT_S8_UINT ||
++                original_format == VK_FORMAT_D16_UNORM_S8_UINT)) {
++            return VK_FORMAT_D16_UNORM;
++        }
++        break;
++    case OVERRIDE_DISABLED:
++    case OVERRIDE_NONE:
++        break;
++    }
++
++    return original_format;
 +}
 +
 +static inline uint32_t get_bc_target_size(struct wrapper_physical_device* pdevice, VkFormat in_format) {
